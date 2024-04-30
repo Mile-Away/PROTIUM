@@ -1,0 +1,25 @@
+mark {
+    background: none;
+    color: rgb(129 140 248 / var(--tw-text-opacity))
+}
+
+
+.blinking-cursor::after {
+    content: " _";
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+
+@tailwind base;

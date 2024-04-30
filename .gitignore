@@ -1,0 +1,21 @@
+**/*/__pycache__
+**/.DS_Store
+*/.env
+db.sqlite3
+.vscode/
+.hintrc
+*/uwsgi.ini
+*/static/
+VFronted/
+Backend/media/
+Practice/
+my-app/
+tool.ipynb
+
+# 暂时先注释掉 deepmd-kit 的 doc
+DocFront/src/app/doc/
+
+# Ignore all .pyc files
+*.pyc
+
+elasticsearch/

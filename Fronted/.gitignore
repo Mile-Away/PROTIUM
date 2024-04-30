@@ -1,0 +1,56 @@
+# .gitignore template for Next.js projects using TypeScript and React
+
+# Dependency directories
+node_modules/
+
+# Build and runtime directories
+.next/
+out/
+
+# Environment files
+.env
+.env.local
+.env..local
+.env.build
+.env..build
+
+
+# IDE generated files
+
+.idea/
+
+# Ignore TypeScript build output
+dist/
+
+# Ignore macOS generated files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore Windows generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore Jest cache
+.cache/
+coverage/
+
+# Ignore Storybook build output
+storybook-static/
+
+# Ignore Prettier config
+.prettierignore
+.prettierrc
+prettier.config.js
+
+package-lock.json
+src/config.ts
+next-env.d.ts
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+@brand/

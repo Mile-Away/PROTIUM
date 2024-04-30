@@ -1,0 +1,44 @@
+{% extends 'mails/Mail_TEMPLATE.html' %}
+{% load static %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  Thank you for registering with us. You can click the below button to copy your captcha 
+{% endblock %}
+
+{% block button %}
+  {{ button }}
+{% endblock %}
+
+{% block footer %}
+  <div style="margin:0 auto; max-width:620px; background:#f9f9f9">
+    <table style="padding:0; border-spacing:0px; border-collapse:collapse; border:0; font-size:0; width:100%; background:#f9f9f9; text-align:center; margin-left:auto; margin-right:auto">
+      <tbody>
+        <tr>
+          <td style="text-align:center; margin-left:auto; margin-right:auto; vertical-align:top; font-size:0; padding:0 10px">
+            <div class="x_table-full-width" style="vertical-align:top; display:inline-block; font-size:13px; text-align:left; width:100%">
+              <table style="padding:0; border-spacing:0px; border-collapse:collapse; border:0; width:100%">
+                <tbody>
+                  <tr>
+                    <td style="font-size:0; padding:40px 0 20px 0; text-align:center; margin-left:auto; margin-right:auto">
+                      <div style="color: rgb(109, 109, 109); font-family: Arial, serif, EmojiFont; font-size: 10px; font-weight: 600; line-height: 13px;">You are receiving this email because a user registered on deepmodeling.com with this email address.</div>
+                      <div style="color: rgb(109, 109, 109); font-family: Arial, serif, EmojiFont; font-size: 10px; font-weight: 600; line-height: 13px;">If you believe that you received this email in error, please notify us at support@deepmodeling.com</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:0; padding:0 0 40px 0; text-align:center; margin-left:auto; margin-right:auto">
+                      <div style="color: rgb(109, 109, 109); font-family: Arial, serif, EmojiFont; font-size: 10px; font-weight: 600; line-height: 13px;">© 2024 DeepModeling. All Rights Reserved.</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

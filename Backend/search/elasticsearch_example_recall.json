@@ -1,0 +1,101 @@
+[
+    {
+        "took": 4,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 2,
+                "relation": "eq"
+            },
+            "max_score": 10.368651,
+            "hits": [
+                {
+                    "_index": "document",
+                    "_id": "58",
+                    "_score": 10.368651,
+                    "_source": {
+                        "author": {
+                            "username": "MileAway",
+                            "avatar": "/media/accounts/1/avatar/IMG_6208.jpeg"
+                        },
+                        "tags": [],
+                        "title": "DeePMD-PyTorch",
+                        "content": "..."
+                    }
+                },
+                {
+                    "_index": "document",
+                    "_id": "54",
+                    "_score": 2.64321,
+                    "_source": {
+                        "author": {
+                            "username": "MileAway",
+                            "avatar": "/media/accounts/1/avatar/IMG_6208.jpeg"
+                        },
+                        "tags": [],
+                        "title": "社区未来计划",
+                        "content": "..."
+                    }
+                }
+            ]
+        },
+        "status": 200
+    },
+    {
+        "took": 2,
+        "timed_out": false,
+        "_shards": {
+            "total": 1,
+            "successful": 1,
+            "skipped": 0,
+            "failed": 0
+        },
+        "hits": {
+            "total": {
+                "value": 1,
+                "relation": "eq"
+            },
+            "max_score": 2.197741,
+            "hits": [
+                {
+                    "_index": "channel",
+                    "_id": "3",
+                    "_score": 2.197741,
+                    "_source": {
+                        "uuid": "68fa391c-90ab-47e6-9520-908d56394637",
+                        "owner": {
+                            "username": "MileAway",
+                            "avatar": "/media/accounts/1/avatar/IMG_6208.jpeg"
+                        },
+                        "admins": [],
+                        "server": {
+                            "name": "DeePMD-kit",
+                            "uuid": "d0d046bc-dddd-4ee3-abd2-ad775836e8a2",
+                            "description": "..."
+                        },
+                        "latest_message": {
+                            "content": "cs",
+                            "timestamp": "2024-04-01T04:18:02.637847+00:00",
+                            "sender": {
+                                "username": "MileAway",
+                                "avatar": "/media/accounts/1/avatar/IMG_6208.jpeg"
+                            }
+                        },
+                        "name": "DeePMD-kit Install",
+                        "description": "这个频道讨论关于如何在本地安装 DeePMD-kit 以及遇到的问题。",
+                        "created_at": "2024-03-24T14:21:28.982667+00:00",
+                        "privacy": "public",
+                        "progress": "inProgress"
+                    }
+                }
+            ]
+        },
+        "status": 200
+    }
+]

@@ -1,0 +1,40 @@
+@import './typography.css';
+
+.scrollbar-w-2::-webkit-scrollbar {
+    width: 2px;
+
+}
+
+.scrollbar-w-0::-webkit-scrollbar {
+    width: 0px;
+}
+
+.inert::-webkit-scrollbar {
+    display: none;
+}
+
+.inert::-webkit-scrollbar-thumb {
+    display: none;
+}
+
+.scrollbar-w-2::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.gradient-bg {
+    position: relative;
+    background-color: white;
+}
+
+.gradient-bg::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50%;
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+@tailwind components;
