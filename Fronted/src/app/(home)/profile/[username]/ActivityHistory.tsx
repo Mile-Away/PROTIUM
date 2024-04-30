@@ -1,11 +1,11 @@
 'use client';
 import Image, { type ImageProps } from 'next/image';
 
+import logoAirbnb from '@/@brand/images/logos/airbnb.svg';
+import logoFacebook from '@/@brand/images/logos/facebook.svg';
+import logoPlanetaria from '@/@brand/images/logos/planetaria.svg';
+import logoStarbucks from '@/@brand/images/logos/starbucks.svg';
 import { Button } from '@/components/Button';
-import logoAirbnb from '@/images/logos/airbnb.svg';
-import logoFacebook from '@/images/logos/facebook.svg';
-import logoPlanetaria from '@/images/logos/planetaria.svg';
-import logoStarbucks from '@/images/logos/starbucks.svg';
 import { FiActivity } from 'react-icons/fi';
 
 function MailIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
@@ -148,7 +148,7 @@ export default function ActivityHistory() {
   ];
   return (
     <div className=" relative">
-      <div className="forced-colors:outline pointer-events-none relative w-full select-none rounded-xl bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset]">
+      <div className="pointer-events-none relative w-full select-none rounded-xl bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
         <div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
           <h2 className="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
             <FiActivity className="h-5 w-5 flex-none" />

@@ -3,7 +3,7 @@ import { SpaceProps } from '@/@types/space';
 import { BASE_URL, PrimarySite } from '@/config';
 
 import axios from 'axios';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import SpaceHero from './SpaceHero';
 import SpaceNavigation from './SpaceNavigation';
 
@@ -16,10 +16,9 @@ interface LayoutProps {
 //   title: "DeePMD-kit",
 // };
 
-export async function generateMetadata(
-  { params }: LayoutProps,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: LayoutProps): Promise<Metadata> {
   // read route params
   const name = params.name;
 
@@ -35,9 +34,9 @@ export async function generateMetadata(
     metadataBase: new URL(PrimarySite),
     title: posts.name,
     description: posts.description,
-    openGraph: {
-      images: [posts.banner],
-    },
+    // openGraph: {
+    //   images: [posts.banner],
+    // },
   };
 }
 

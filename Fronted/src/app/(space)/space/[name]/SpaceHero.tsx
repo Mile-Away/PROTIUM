@@ -20,6 +20,7 @@ const SpaceHero = ({ name }: { name: string }) => {
   const articles = dataCRUD[0]?.pinned_manuscript;
 
   if (isLoading) return <Loading />;
+  
   return (
     <div className="relative z-10 flex flex-col items-center justify-between gap-x-8 gap-y-4 rounded-xl bg-neutral-50/40  p-8 shadow dark:bg-black/40 md:flex-row">
       {/* Background */}
@@ -39,7 +40,7 @@ const SpaceHero = ({ name }: { name: string }) => {
       <div className="lg:w-1/2">
         {/* icon 和 标题 */}
         <div className="flex items-center space-x-4">
-          {dataCRUD[0].icon && (
+          {dataCRUD[0]?.icon && (
             <img
               alt="icon"
               src={MEDIA_URL + dataCRUD[0]?.icon}
