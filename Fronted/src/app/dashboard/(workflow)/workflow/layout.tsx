@@ -64,7 +64,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         name: 'Untitled',
       });
       setWorkflows([...workflows, res.data]);
-      setShowRecently(false);
       router.push(`/dashboard/workflow/${res.data.uuid}`);
     } catch (error) {
       console.error(error);
@@ -121,9 +120,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div
         className={clsx(
           'absolute left-4 top-4 z-[30] rounded bg-transparent px-2 py-1 shadow backdrop-blur-2xl ',
-          'max-w-96 overflow-hidden transition-all duration-300 ease-in-out',
+          'overflow-hidden transition-all duration-500 ease-in-out',
           ' bg-neutral-100/30 dark:bg-black/10 ',
-
+          showInput ? '' : 'max-w-96 ',
           showRecently ? 'h-[calc(100%-2rem)] min-w-80' : 'h-10 w-auto',
         )}
       >
@@ -157,12 +156,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               value={name}
               onChange={handleChangeName}
               onBlur={() => setShowInput(false)}
-              className="ml-6 max-w-72 bg-transparent font-display text-sm font-semibold focus:outline-none"
+              className="ml-6 bg-transparent font-display text-sm font-semibold focus:outline-none"
               style={{ width: inputWidth.current + 'px' }}
             />
           ) : (
             <span
-              onClick={() => setShowInput(true)}
+              onClick={() => {
+                setShowInput(true);
+                if (inputRef.current) {
+                  updateInputWidth(inputRef.current);
+                }
+              }}
               className="ml-6 line-clamp-1 w-auto cursor-pointer bg-transparent font-display text-sm font-semibold"
             >
               {name}
@@ -214,7 +218,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   key={i}
                   onClick={() => {
                     router.push(`/dashboard/workflow/${workflow.uuid}`);
-                    setShowRecently(false);
                   }}
                   className={clsx(
                     'group relative mb-2 flex h-fit w-full flex-shrink-0 cursor-pointer select-none items-center justify-between rounded shadow-sm ring-1 ring-neutral-50 hover:ring-0 dark:ring-neutral-800/40',

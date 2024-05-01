@@ -32,20 +32,18 @@ export const formatTime = (
     const leave3 = leave2 % (60 * 1000);
     const seconds = Math.round(leave3 / 1000);
     if (days > 30) {
-      return (
-        dt.toLocaleDateString([], {
-          month: '2-digit',
-          day: '2-digit',
-          year: 'numeric',
-        }) +
-        ' ' +
-        dt.toLocaleTimeString([], {
-          hour12: false,
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })
-      );
+      return dt.toLocaleDateString([], {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+      });
+      // ' ' +
+      // dt.toLocaleTimeString([], {
+      //   hour12: false,
+      //   hour: '2-digit',
+      //   minute: '2-digit',
+      //   second: '2-digit',
+      // })
     } else if (days > 0) {
       return `${days} days ago`;
     } else if (hours > 0) {

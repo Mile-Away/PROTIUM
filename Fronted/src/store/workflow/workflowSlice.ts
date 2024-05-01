@@ -73,6 +73,7 @@ export interface WorkflowStateProps {
   nodes: WorkflowNodeProps[];
   edges: Edge[];
   workflow: WorkflowProps;
+  consoleInfo: { time: Date; message: string }[];
 }
 
 const initialStateWorkflow: WorkflowStateProps = {
@@ -100,6 +101,7 @@ const initialStateWorkflow: WorkflowStateProps = {
     nodes: [],
     edges: [],
   },
+  consoleInfo: [],
 
   // CASE 2: Redux 不存储 workflows，只存储当前 workflow 的 nodes 和 edges，只存储单个 workflow 对象
   // 需要切换 Workflow 时，重新请求数据
@@ -163,6 +165,11 @@ const workflowSlice = createSlice({
           ...action.payload,
           position: { x: state.contextMenuX, y: state.contextMenuY },
         });
+
+        state.consoleInfo.push({
+          time: new Date(),
+          message: `Added: ${action.payload.data.header}`,
+        });
       },
     },
 
@@ -177,6 +184,10 @@ const workflowSlice = createSlice({
     // 控制线条拖拽
     setEdges: (state, action) => {
       state.edges = applyEdgeChanges(action.payload, state.edges) as Edge[];
+    },
+
+    addConsole: (state, action) => {
+      state.consoleInfo.push(action.payload);
     },
 
     // 控制线条连接
@@ -208,6 +219,16 @@ const workflowSlice = createSlice({
           targetHandle.hasConnected = true;
         }
       }
+
+      state.consoleInfo.push({
+        time: new Date(),
+        message: `Connected: ${sourceNode?.data
+          .header}(${action.payload.sourceHandle
+          ?.split('_')
+          .pop()}) -> ${targetNode?.data.header}(${action.payload.targetHandle
+          ?.split('_')
+          .pop()})`,
+      });
     },
 
     // 记录节点的 Body 的输入

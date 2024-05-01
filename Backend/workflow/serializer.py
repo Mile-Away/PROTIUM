@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from accounts.publicSerializer import BasicUserSerializer
 from rest_framework import serializers
 
@@ -24,7 +22,6 @@ class WorkflowNodeBodySerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         if "id" in data:
             data["uuid"] = data.pop("id")
-            print("data >>>>>>>>", data)
         return super().to_internal_value(data)
 
     def to_representation(self, instance):
@@ -44,7 +41,7 @@ class WorkflowNodeDataSerializer(serializers.ModelSerializer):
 
 class WorkflowNodeSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
-    data = WorkflowNodeDataSerializer(many=False)
+    node_data = WorkflowNodeDataSerializer(many=False)  # 换成 node_data，data 和 serializer 的内置变量冲突了
 
     class Meta:
         model = WorkflowNode
@@ -53,11 +50,13 @@ class WorkflowNodeSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         if "id" in data:
             data["uuid"] = data.pop("id")
+            data["node_data"] = data.pop("data")
         return super().to_internal_value(data)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret["id"] = ret.pop("uuid")
+        ret["data"] = ret.pop("node_data")
         return ret
 
 
@@ -71,13 +70,15 @@ class WorkflowEdgeSerializer(serializers.ModelSerializer):
         model = WorkflowEdge
         exclude = ["id", "workflow"]
 
-    def to_internal_value(self, data):
+    def to_internal_value(self, data) -> dict:
         if "id" in data:
             data["connection_id"] = data.pop("id")
             if not WorkflowEdge.objects.filter(connection_id=data["connection_id"]).exists():
                 return super().to_internal_value(data)
             else:
                 return super().to_internal_value({"connection_id": "Exists"})
+        else:
+            raise serializers.ValidationError("Connection ID is required")
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -113,7 +114,7 @@ class WorkflowSerializer(serializers.ModelSerializer):
 
         # 创建或更新节点
         for node in nodes:
-            node_data = node.pop("data", {})
+            node_data = node.pop("node_data", {})
             node_handles = node_data.pop("handles", [])
             node_body = node_data.pop("body", [])
 
@@ -155,10 +156,10 @@ class WorkflowSerializer(serializers.ModelSerializer):
 
             if not edge["connection_id"] == "Exists":
                 key = edge["connection_id"].split("_").pop()
-                source = WorkflowNode.objects.get(uuid=edge["source"])
-                target = WorkflowNode.objects.get(uuid=edge["target"])
-                sourceHandle = WorkflowNodeHandle.objects.get(node=source.data, key=key)
-                targetHandle = WorkflowNodeHandle.objects.get(node=target.data, key=key)
+                source: WorkflowNode = WorkflowNode.objects.get(uuid=edge["source"])
+                target: WorkflowNode = WorkflowNode.objects.get(uuid=edge["target"])
+                sourceHandle = WorkflowNodeHandle.objects.get(node=source.node_data, key=key)
+                targetHandle = WorkflowNodeHandle.objects.get(node=target.node_data, key=key)
                 WorkflowEdge.objects.create(
                     workflow=instance,
                     connection_id=edge["connection_id"],

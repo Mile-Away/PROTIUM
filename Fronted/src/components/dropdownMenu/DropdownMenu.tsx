@@ -1,6 +1,7 @@
 import { useAuthServiceContext } from '@/context/AuthContext';
 import { Menu, Transition } from '@headlessui/react';
 import {
+  AdjustmentsHorizontalIcon,
   Cog6ToothIcon,
   CubeTransparentIcon,
 } from '@heroicons/react/24/outline';
@@ -62,7 +63,12 @@ export function DropdownMenu({
       class: 'primary',
       icon: <DocumentTextIcon />,
     },
-
+    {
+      name: 'Workflow',
+      href: '/dashboard/workflow',
+      class: 'primary',
+      icon: <AdjustmentsHorizontalIcon />,
+    },
     {
       name: 'Edit Profile',
       href: '/dashboard/settings',

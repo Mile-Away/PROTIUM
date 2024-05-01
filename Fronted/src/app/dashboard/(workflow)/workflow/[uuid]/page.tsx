@@ -6,6 +6,7 @@ import { RootReducerProps } from '@/app/store';
 import HoverMessage from '@/components/overlays/hover_message';
 import { BASE_URL } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import { formatTime } from '@/lib/formatDate';
 import {
   setContextMenuVisible,
   setContextMenuX,
@@ -49,7 +50,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
     fetchWorkflowDetail();
   }, []);
 
-  const { workflow, nodes, edges } = useSelector(
+  const { workflow, nodes, edges, consoleInfo } = useSelector(
     (state: RootReducerProps) => state.workflow,
   );
 
@@ -218,10 +219,15 @@ export default function Page({ params }: { params: { uuid: string } }) {
           </div>
         </div>
         {/* Body */}
-        <div className="mt-10 px-4 py-4 text-2xs">
-          <p>
-            <span>$</span> Create VASP...
-          </p>
+        <div className="mt-10 px-4 py-4 text-2xs inert overflow-scroll">
+          {consoleInfo.map((item, idx) => (
+            <p>
+              <span className=" max-w-32 mr-2 dark:text-neutral-500">
+                {formatTime(item.time)}
+              </span>
+              {item.message}
+            </p>
+          ))}
         </div>
       </div>
     </div>

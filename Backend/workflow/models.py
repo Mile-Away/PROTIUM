@@ -22,6 +22,22 @@ class Workflow(models.Model):
     status = models.CharField(max_length=50, choices=status_choices, default="draft")
     public = models.BooleanField(default=False)
 
+    """
+    EXPLAIN:
+    通过在 Workflow 模型中定义 nodes: models.QuerySet["WorkflowNode"]，
+    你可以表示 Workflow 模型与 WorkflowNode 模型之间存在一种关系，即一个工作流可以包含多个节点。
+    这种关系通常通过在 WorkflowNode 模型中定义一个 ForeignKey 字段来建立。
+
+    在定义 WorkflowNode 模型时，WorkflowNodeData 模型可能还没有被定义。
+    通过使用字符串引用 "WorkflowNodeData"，你可以告诉 Django 在创建模型关系时，先使用一个字符串作为占位符，稍后再解析为实际的模型类。
+    这样可以解决模型之间的循环依赖问题。
+
+    nodes: models.QuerySet["WorkflowNode"] 只是一个类型注释，用于提示 nodes 字段与 WorkflowNode 模型相关联。
+    它本身并不会创建实际的数据库字段或关系。实际的关系是通过在 WorkflowNode 模型中定义 ForeignKey 字段来建立的。
+    """
+    nodes: models.QuerySet["WorkflowNode"]
+    edges: models.QuerySet["WorkflowEdge"]
+
     def __str__(self):
         return self.name
 
@@ -31,20 +47,27 @@ class WorkflowNode(models.Model):
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name="nodes")
     type = models.CharField(max_length=50)
     position = models.JSONField(default=dict)
-    positionAbsolute = models.JSONField(default=dict)
+    positionAbsolute = models.JSONField(default={"x": 0, "y": 0})
     width = models.IntegerField(default=200)
     height = models.IntegerField(default=250)
     dragHandle = models.CharField(max_length=50, blank=True, null=True)
     isRunning = models.BooleanField(default=False)
+
+    # 一个节点对应一个节点数据
+    node_data: models.OneToOneField["WorkflowNodeData"]
 
     def __str__(self):
         return f"{self.uuid}"
 
 
 class WorkflowNodeData(models.Model):
-    node = models.OneToOneField(WorkflowNode, on_delete=models.CASCADE, related_name="data")
+    node = models.OneToOneField(WorkflowNode, on_delete=models.CASCADE, related_name="node_data")
     header = models.CharField(max_length=100)
     footer = models.TextField(blank=True, null=True)
+
+    handles: models.QuerySet["WorkflowNodeHandle"]
+    results: models.QuerySet["WorkflowResult"]
+    body: models.QuerySet["WorkflowNodeBody"]
 
     def __str__(self):
         return f"{self.node}"

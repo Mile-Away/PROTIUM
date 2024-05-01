@@ -53,10 +53,10 @@ const SpaceNavigation = ({ name }: { name: string }) => {
       icon: UsersIcon,
     },
     {
-      name: 'Publication',
-      href: 'publication',
+      name: 'Releases',
+      href: 'releases',
       icon: NewspaperIcon,
-      current: url === 'publication',
+      current: url === 'releases',
     },
     {
       name: 'Docs',
