@@ -12,8 +12,6 @@ import '@/styles/markdown.quote.css';
 import { TagIcon } from '@heroicons/react/20/solid';
 import { CubeIcon } from '@heroicons/react/24/outline';
 
-
-
 export default function Page() {
   //   const [releases, setReleases] = useState<ReleaseProps[]>([]);
   const fetchReleases = async () => {
@@ -32,12 +30,12 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-y-16 p-4 py-8">
       {releases.map((release, idx) => (
-        <div className="flex items-start ">
+        <div key={idx} className="flex items-start ">
           <div className="flex w-56 flex-col justify-start gap-4 py-6 text-neutral-400">
             <div className=" text-xl font-semibold dark:text-neutral-200">
               {formatTime(release.created_at, '', true)}
             </div>
-            <div className=' border-b dark:border-neutral-700/50 w-40 pb-2'>
+            <div className=" w-40 border-b pb-2 dark:border-neutral-700/50">
               <a href={release.html_url} target="_blank" className="">
                 <GitHubIcon className="h-6 w-6 hover:text-neutral-50" />
               </a>
@@ -60,7 +58,7 @@ export default function Page() {
               <a
                 href={release.html_url}
                 target="_blank"
-                className="flex gap-x-2 items-center hover:text-neutral-100 dark:hover:text-white"
+                className="flex items-center gap-x-2 hover:text-neutral-100 dark:hover:text-white"
               >
                 <TagIcon className=" h-5 w-5" />
                 {release.tag_name}

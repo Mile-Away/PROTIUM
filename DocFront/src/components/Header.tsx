@@ -19,6 +19,17 @@ import Link from 'next/link'
 import { forwardRef, useEffect } from 'react'
 import LangSwitch from './LangSwitch'
 
+const navItems = [
+  {
+    name: 'Tutorials',
+    href: `${DocumentSite}`,
+  },
+  {
+    name: 'Docs',
+    href: '#',
+  },
+]
+
 function TopLevelNavItem({
   href,
   children,
@@ -92,10 +103,11 @@ export const Header = forwardRef<
       <div className="flex items-center gap-5">
         <nav className="hidden md:block">
           <ul role="list" className="flex items-center gap-8">
-            <TopLevelNavItem href={`${DocumentSite}`}>
-              Tutorials
-            </TopLevelNavItem>
-            <TopLevelNavItem href="#">Docs</TopLevelNavItem>
+            {navItems.map((item) => (
+              <TopLevelNavItem key={item.name} href={item.href}>
+                {item.name}
+              </TopLevelNavItem>
+            ))}
           </ul>
         </nav>
         <div className="hidden md:block md:h-5 md:w-px md:bg-zinc-900/10 md:dark:bg-white/15" />
