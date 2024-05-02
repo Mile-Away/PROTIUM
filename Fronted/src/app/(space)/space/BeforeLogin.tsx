@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Banner from './Banner';
+import Carousel from './Carousel';
 import renderStarRating from './StarIcons';
 import TopPicker from './TopPicker';
 interface Course {
@@ -149,7 +149,7 @@ const BeforeLogin: React.FC = () => {
   return (
     <div className="container mx-auto my-32 dark:bg-neutral-900">
       <div className="my-24">
-        <Banner onPrevClick={handlePrevClick} onNextClick={handleNextClick} />
+        <Carousel images={[]} />
       </div>
 
       {/* Personal Recommand */}
@@ -162,7 +162,7 @@ const BeforeLogin: React.FC = () => {
         <h2 className="mb-4 text-2xl font-bold text-neutral-800 dark:text-neutral-200">
           Our top pick for you
         </h2>
-        <TopPicker {...courseData} />
+      
       </div>
       <div>
         <h2 className="mb-4 text-2xl font-bold text-neutral-800 dark:text-neutral-200">

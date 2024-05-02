@@ -1,13 +1,9 @@
 from django.db.models import Count
-from django.shortcuts import render
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Channel, Server
-from .schema import server_list_schema
 from .serializer import ChannelSerializer, ServerSerializer
 
 
@@ -66,7 +62,7 @@ class ChannelListViewSet(viewsets.ViewSet):
                 if not self.queryset.exists():
                     raise ValidationError(detail=f"Channel with ID {by_channeluuid} does not exist.")
             except ValueError:
-                return ValidationError({"error": "Channel ID is invalid."}, status=400)
+                raise ValidationError({"error": "Channel ID is invalid."})
 
         serializer = ChannelSerializer(self.queryset, many=True, context={"num_members": with_num_members})
         return Response(serializer.data)
@@ -113,7 +109,7 @@ class ChannelListViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=400)
 
     # Create 要求用户登陆
-    create.permission_classes = [IsAuthenticated]
+    # create.permission_classes = [IsAuthenticated]
 
 
 class ServerListViewSet(viewsets.ViewSet):
@@ -135,58 +131,59 @@ class ServerListViewSet(viewsets.ViewSet):
     Returns a list of servers based on the specified filters.
     """
 
-    queryset = Server.objects.all()
+    # FIXME: queryset = Server.objects.all()  # 不要直接修改 self.queryset, 会带来缓存问题
     serializer_class = ServerSerializer
 
-    @server_list_schema
+    def get_queryset(self):
+        queryset = Server.objects.all()
+
+        return queryset
+
     def list(self, request):
+
+        queryset = self.get_queryset()
+        named = request.query_params.get("named") == "true"
         category = request.query_params.get("category")
         qty = request.query_params.get("qty")
         by_user = request.query_params.get("by_user") == "true"
         by_serverid = request.query_params.get("by_serverid")
         by_server_name = request.query_params.get("by_server_name")
         with_num_members = request.query_params.get("with_num_members") == "true"
-        named = request.query_params.get("named") == "true"
 
         if category:
-            self.queryset = self.queryset.filter(
-                category__name__iexact=category
-            )  # 根据名称，iexact 表示不区分大小写的精确查找
+            queryset = queryset.filter(category__name__iexact=category)  # 根据名称，iexact 表示不区分大小写的精确查找
             # self.queryset = Server.objects.filter(category=category)  # 根据序号
 
         if by_user:
             user_id = request.user.id
             # 取出当前用户所在的所有 server
-            self.queryset = self.queryset.filter(members__id=user_id)
+            queryset = queryset.filter(members__id=user_id)
 
         if with_num_members:
-            self.queryset = self.queryset.annotate(num_members=Count("members"))
+            queryset = queryset.annotate(num_members=Count("members"))
 
         if qty:
-            self.queryset = self.queryset[: int(qty)]
+            queryset = queryset[: int(qty)]
 
         if by_serverid:
             try:
-                self.queryset = Server.objects.filter(uuid=by_serverid)
-                if not self.queryset.exists():
+                queryset = queryset.filter(uuid=by_serverid)
+                if not queryset.exists():
                     raise ValidationError(detail=f"Server with ID {by_serverid} does not exist.")
             except ValueError:
-                return ValidationError({"error": "Server ID is invalid."}, status=400)
-            
+                raise ValidationError({"error": "Server ID is invalid."})
+
         if by_server_name:
             try:
-                self.queryset = Server.objects.filter(name=by_server_name)
-                if not self.queryset.exists():
+                queryset = queryset.filter(name=by_server_name)
+                if not queryset.exists():
                     raise ValidationError(detail=f"Server with name {by_server_name} does not exist.")
             except ValueError:
-                return ValidationError({"error": "Server name is invalid."}, status=400)
-
+                raise ValidationError({"error": "Server name is invalid."})
         if named:
-            serializer = ServerSerializer(
-                self.queryset, named=True, many=True, context={"num_members": with_num_members}
-            )
+            serializer = ServerSerializer(queryset, named=True, many=True, context={"num_members": with_num_members})
             return Response(serializer.data)
 
-        serializer = ServerSerializer(self.queryset, many=True, context={"num_members": with_num_members})
+        serializer = ServerSerializer(queryset, many=True, context={"num_members": with_num_members})
 
         return Response(serializer.data)

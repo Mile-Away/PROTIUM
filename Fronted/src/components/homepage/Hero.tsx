@@ -122,7 +122,7 @@ export default function Hero() {
                           name="Learn more"
                           title="Learn more"
                           onClick={() => {
-                            router.push('/login');
+                            router.push('/about');
                           }}
                           className="text-sm font-semibold leading-6 text-neutral-900 duration-300 hover:translate-x-1 hover:scale-110  dark:text-neutral-100"
                         >

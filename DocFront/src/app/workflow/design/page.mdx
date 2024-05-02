@@ -1,7 +1,7 @@
 export const metadata = {
-  title: 'Design',
-  description:
-    'In this guide, we will talk about how to design a workflow and what are the best practices to follow.',
+    title: 'Design',
+    description:
+        'In this guide, we will talk about how to design a workflow and what are the best practices to follow.',
 }
 
 # 设计思路
@@ -71,8 +71,10 @@ for i in workflowNode.handles
 1. 根据 workflow 的 edges 获取 workflow node 关系的 JSON 对象
 2. 在这个 JSON 对象中，异步且递归地运行 nodes 的运行逻辑，运行完毕后发出运行完毕状态。（或者 error 状态，整个流程中止）
 3. 当某个节点的子节点的所有状态都变成运行完毕，运行该节点，依次递归，最后运行根节点。
+
 ---
-## 接下来的核心是处理怎么运行的问题：
+
+## 2. 接下来的核心是处理怎么运行的问题:
 
 例如对于 VASP 提交，它的运行逻辑应该是：
 
@@ -105,6 +107,9 @@ class WorkflowNodeBody(models.Model):
 
 如果是来自 handleKey，重复上一过程，如果是来自于 bodyUUID，从其 Source 中获取信息！
 ```
+
+
+## Python 代码
 
 ```python
 class WorkflowNodeHandle(models.Model):

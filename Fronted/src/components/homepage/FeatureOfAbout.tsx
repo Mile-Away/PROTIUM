@@ -1,6 +1,6 @@
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import Image from 'next/image';
 
 export default function FeatureOfAbout() {
   const { t } = useTranslation();
@@ -22,8 +22,8 @@ export default function FeatureOfAbout() {
        lg:gap-x-16 lg:gap-y-6 xl:grid-cols-1 xl:grid-rows-1 xl:gap-x-8"
         >
           <h1
-            className="sm:leading-16 max-w-2xl text-4xl font-bold tracking-tight
-         text-gray-900 dark:text-white sm:text-6xl lg:col-span-2 xl:col-auto"
+            className="max-w-2xl text-4xl font-bold tracking-tight text-gray-900
+         dark:text-white sm:text-6xl sm:leading-16 lg:col-span-2 xl:col-auto"
           >
             {t('about.title')}
           </h1>
@@ -38,9 +38,9 @@ export default function FeatureOfAbout() {
                   name="Learn more"
                   title="Learn more"
                   onClick={() => {
-                    router.push('/about');
+                    router.push('/manifesto');
                   }}
-                  className="relative text-sm font-semibold leading-6 text-neutral-900 dark:group-hover:text-white group-hover:text-indigo-600 dark:text-neutral-100"
+                  className="relative text-sm font-semibold leading-6 text-neutral-900 group-hover:text-indigo-600 dark:text-neutral-100 dark:group-hover:text-white"
                 >
                   {t('about.button.primary')} →
                 </button>

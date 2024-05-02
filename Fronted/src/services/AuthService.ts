@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 export const useAuthService = (): AuthServiceProps => {
+  
   const router = useRouter();
   const [isLogged, setIsLogged] = useState<boolean>(false);
 

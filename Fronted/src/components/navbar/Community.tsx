@@ -3,6 +3,7 @@ import { GitHubIcon } from '@/components/SocialIcons';
 import {
   AdjustmentsHorizontalIcon,
   CubeIcon,
+  DocumentTextIcon,
   EnvelopeIcon,
   RocketLaunchIcon,
   ShieldCheckIcon,
@@ -13,34 +14,34 @@ import {
   CubeTransparentIcon,
   NewspaperIcon,
 } from '@heroicons/react/24/outline';
+import { DocumentSite } from '@/config';
 const resources = [
+  {
+    name: 'Spaces',
+    description: 'Discussion to find the right',
+    href: '/space',
+    icon: CubeTransparentIcon,
+  },
   {
     name: 'Ariticles',
     description: 'Dive into informative insights.',
     href: '/articles',
     icon: NewspaperIcon,
   },
-  {
-    name: 'Spaces',
-    description: 'Discussion to find the right',
-    href: '#',
-    icon: CubeTransparentIcon,
-  },
+
   {
     name: 'Workflows',
     description: 'Automate your work',
-    href: '#',
+    href: '/workflows',
     icon: AdjustmentsHorizontalIcon,
   },
   {
-    name: 'Sandboxes',
-    description: 'Deploy online',
-    href: '#',
-    icon: CubeIcon,
+    name: 'Tutorials',
+    description: 'Learn here',
+    href: DocumentSite,
+    icon: DocumentTextIcon,
   },
 ];
-
-
 
 const engagement = [{ name: 'Privacy', href: '#', icon: ShieldCheckIcon }];
 
