@@ -32,6 +32,11 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+# next-env.d.ts
 
-config.ts
+# User Auth
+auth/
+
+# Brand
+@brand/
+

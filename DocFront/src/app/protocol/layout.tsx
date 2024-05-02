@@ -1,8 +1,8 @@
 import { Layout } from '@/components/Layout'
 import glob from 'fast-glob'
-import path from 'path'
 
 import { type Section } from '@/components/SectionProvider'
+import path from 'path'
 import { type Metadata } from 'next'
 import { navigation } from './Navi'
 
@@ -18,14 +18,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // 获取当前文件的路径
-  const filePath = import.meta.url
-
-  // 将文件 URL 转换为系统路径
-  const systemPath = new URL(filePath).pathname
-
   // 获取父文件夹名称
-  const currentFilePath = path.basename(path.dirname(systemPath))
+  const currentFilePath = path.basename(__dirname)
 
   // glob 函数是一个异步函数，它接受一个 glob 模式和一个选项对象，返回一个 Promise，
   // 这个 Promise 在解析完所有匹配的文件后会被 resolve 为一个字符串数组。

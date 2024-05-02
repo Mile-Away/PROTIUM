@@ -1,39 +1,36 @@
-import { useAuthServiceContext } from '@/context/AuthContext';
-import { Menu, Transition } from '@headlessui/react';
-import {
-  Cog6ToothIcon,
-  CubeTransparentIcon,
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { Fragment, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { PrimarySite } from '@/config';
+import { useAuthServiceContext } from '@/auth/AuthContext'
+import { PrimarySite } from '@/config'
+import { Menu, Transition } from '@headlessui/react'
+import { AdjustmentsHorizontalIcon, Cog6ToothIcon, CubeTransparentIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { Fragment, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   DocumentTextIcon,
   HomeIcon,
   PowerIcon,
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/outline'
 
 function classNames(...classes: string[]) {
   if (classes === undefined) {
-    return '';
+    return ''
   }
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }
 
 interface DropdownMenuProps<T> {
-  customNavi?: T[];
-  children: React.ReactNode;
-  itemClassName?: string;
+  customNavi?: T[]
+  children: React.ReactNode
+  itemClassName?: string
 }
 
 interface NavigationProps {
-  name: string;
-  href?: string;
-  onClick?: () => void;
-  class?: 'primary' | 'secondary' | 'third';
-  icon?: React.ReactNode;
+  name: string
+  href?: string
+  onClick?: () => void
+  class?: 'primary' | 'secondary' | 'third'
+  icon?: React.ReactNode
 }
 
 export function DropdownMenu({
@@ -41,13 +38,13 @@ export function DropdownMenu({
   children,
   itemClassName,
 }: DropdownMenuProps<NavigationProps>) {
-  const { logout } = useAuthServiceContext();
-  const { t } = useTranslation('userPanel');
-  const MEDIA_URL = 'your_media_url_here'; // replace with your actual media URL
+  const { logout } = useAuthServiceContext()
+  const { t } = useTranslation('userPanel')
+  const MEDIA_URL = 'your_media_url_here' // replace with your actual media URL
   const userInfo = {
     avatar: 'default_avatar', // replace with your actual default avatar
     username: 'default_username', // replace with your actual default username
-  };
+  }
   const navigations: NavigationProps[] = [
     {
       name: 'Dashboard',
@@ -67,6 +64,12 @@ export function DropdownMenu({
       class: 'primary',
       icon: <DocumentTextIcon />,
     },
+    {
+      name: 'Workflow',
+      href: '/dashboard/workflow',
+      class: 'primary',
+      icon: <AdjustmentsHorizontalIcon />,
+    },
 
     {
       name: 'Edit Profile',
@@ -80,11 +83,11 @@ export function DropdownMenu({
       class: 'third',
       icon: <PowerIcon />,
     },
-  ];
+  ]
 
   const [navigation, setNavigation] = useState<NavigationProps[]>(
     customNavi ? customNavi : navigations,
-  );
+  )
 
   return (
     <Menu as="div" className={'flex justify-end'}>
@@ -171,6 +174,6 @@ export function DropdownMenu({
         </Menu.Items>
       </Transition>
     </Menu>
-  );
+  )
 }
-export default DropdownMenu;
+export default DropdownMenu

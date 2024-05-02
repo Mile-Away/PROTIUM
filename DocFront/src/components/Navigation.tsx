@@ -1,6 +1,6 @@
 'use client'
 import { NavGroup } from '@/@types/navigation'
-import { useAuthServiceContext } from '@/context/AuthContext'
+import { useAuthServiceContext } from '@/auth/AuthContext'
 import clsx from 'clsx'
 import { AnimatePresence, motion, useIsPresent } from 'framer-motion'
 import Link from 'next/link'
@@ -12,7 +12,7 @@ import { useIsInsideMobileNavigation } from '@/components/MobileNavigation'
 import { useSectionStore } from '@/components/SectionProvider'
 import { Tag } from '@/components/Tag'
 import { remToPx } from '@/lib/remToPx'
-import { PrimarySite } from '../../../Fronted/src/config'
+import { PrimarySite } from '@/config'
 
 function useInitialValue<T>(value: T, condition = true) {
   let initialValue = useRef(value).current
@@ -248,7 +248,11 @@ export function Navigation({ navigation, ...props }: NavigationProps) {
           ''
         ) : (
           <li className="sticky bottom-0 z-10 mt-6 min-[416px]:hidden">
-            <Button href={`${PrimarySite}/login`} variant="filled" className="w-full">
+            <Button
+              href={`${PrimarySite}/login`}
+              variant="filled"
+              className="w-full"
+            >
               Sign in
             </Button>
           </li>

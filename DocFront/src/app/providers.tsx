@@ -3,7 +3,7 @@
 import '@/i18n/i18n'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { useEffect } from 'react'
-import { AuthServiceProvider } from '../context/AuthContext'
+import { AuthServiceProvider } from '../auth/AuthContext'
 
 function ThemeWatcher() {
   let { resolvedTheme, setTheme } = useTheme()

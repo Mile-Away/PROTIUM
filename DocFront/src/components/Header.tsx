@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { type NavGroup } from '@/@types/navigation'
+import { useAuthServiceContext } from '@/auth/AuthContext'
 import { Button } from '@/components/Button'
 import DropdownMenu from '@/components/DropdownMenu'
 import { Logo } from '@/components/Logo'
@@ -10,8 +11,7 @@ import {
 } from '@/components/MobileNavigation'
 import { MobileSearch, Search } from '@/components/Search'
 import { ThemeToggle } from '@/components/ThemeToggle'
-import { MEDIA_URL, PrimarySite } from '@/config'
-import { useAuthServiceContext } from '@/context/AuthContext'
+import { DocumentSite, MEDIA_URL, PrimarySite } from '@/config'
 import { Menu } from '@headlessui/react'
 import clsx from 'clsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -85,14 +85,16 @@ export const Header = forwardRef<
       <Search navigation={navigation} />
       <div className="flex items-center gap-5 lg:hidden">
         <MobileNavigation navigation={navigation} />
-        <Link href={`${PrimarySite}`} target='_blank' aria-label="Home">
+        <Link href={`${PrimarySite}`} target="_blank" aria-label="Home">
           <Logo className="h-6" />
         </Link>
       </div>
       <div className="flex items-center gap-5">
         <nav className="hidden md:block">
           <ul role="list" className="flex items-center gap-8">
-            <TopLevelNavItem href="#">Tutorials</TopLevelNavItem>
+            <TopLevelNavItem href={`${DocumentSite}`}>
+              Tutorials
+            </TopLevelNavItem>
             <TopLevelNavItem href="#">Docs</TopLevelNavItem>
           </ul>
         </nav>

@@ -44,7 +44,6 @@ storybook-static/
 .prettierrc
 prettier.config.js
 
-package-lock.json
 src/config.ts
 next-env.d.ts
 

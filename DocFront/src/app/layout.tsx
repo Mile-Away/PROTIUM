@@ -1,12 +1,29 @@
+
+import { DocumentSite } from '@/config'
 import '@/styles/tailwind.css'
 import { type Metadata } from 'next'
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(DocumentSite),
   title: {
-    template: '%s - DeepModeling Doc',
+    template: '%s - Doc',
     default: 'DeepModeling Documentation',
   },
+  icons: [
+    { rel: 'icon', url: '/@brand/logo/Logo-BgWhite.svg' },
+    {
+      rel: 'icon',
+      media: '(prefers-color-scheme: dark)',
+      url: '/@brand/logo/Logo-White.svg',
+    },
+    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo-BgWhite.png' },
+    {
+      rel: 'apple-touch-icon',
+      media: '(prefers-color-scheme: dark)',
+      url: '/@brand/logo/Logo-White.png',
+    },
+  ],
 }
 
 export default async function RootLayout({
