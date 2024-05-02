@@ -47,7 +47,7 @@ class WorkflowNode(models.Model):
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name="nodes")
     type = models.CharField(max_length=50)
     position = models.JSONField(default=dict)
-    positionAbsolute = models.JSONField(default={"x": 0, "y": 0})
+    positionAbsolute = models.JSONField(default=dict)
     width = models.IntegerField(default=200)
     height = models.IntegerField(default=250)
     dragHandle = models.CharField(max_length=50, blank=True, null=True)

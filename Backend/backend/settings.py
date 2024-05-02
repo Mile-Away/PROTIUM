@@ -23,9 +23,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ast.literal_eval(os.environ.get("DEBUG", "False"))
 
-ALLOWED_HOSTS = ast.literal_eval(os.environ.get("ALLOWED_HOSTS"))
+ALLOWED_HOSTS = ast.literal_eval(os.environ.get("ALLOWED_HOSTS", "[]"))
 
-CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS"))
+CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
 
 # # For Allauth
 # SITE_ID = 1
@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "search.apps.SearchConfig",
     "webchat.apps.WebchatConfig",
     "workflow.apps.WorkflowConfig",
+    "useGithub.apps.UsegithubConfig",
 ]
 
 MIDDLEWARE = [
@@ -242,16 +243,16 @@ EMAIL_FROM = "DeepModeling"  # os.environ.get("EMAIL_HOST_USER")
 
 
 # CORS_ALLOW_ALL_ORIGINS = True
-CORS_ORIGIN_WHITELIST = ast.literal_eval(os.environ.get("CORS_ORIGIN_WHITELIST"))
+CORS_ORIGIN_WHITELIST = ast.literal_eval(os.environ.get("CORS_ORIGIN_WHITELIST", "[]"))
 CORS_ALLOW_CREDENTIALS = True  # 允许携带 cookie
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=ast.literal_eval(os.environ.get("ACCESS_TOKEN_LIFETIME")) or 3),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=ast.literal_eval(os.environ.get("REFRESH_TOKEN_LIFETIME")) or 14),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=ast.literal_eval(os.environ.get("ACCESS_TOKEN_LIFETIME", "3"))),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=ast.literal_eval(os.environ.get("REFRESH_TOKEN_LIFETIME", "14"))),
     "REFRESH_TOKEN_COOKIE_NAME": "refresh_token",
     "ACCESS_TOKEN_COOKIE_NAME": "access_token",
     "JWT_COOKIE_SAMESITE": os.environ.get("JWT_COOKIE_SAMESITE", "Lax"),
-    "JWT_COOKIE_SECURE": ast.literal_eval(os.environ.get("JWT_COOKIE_SECURE", True)),
+    "JWT_COOKIE_SECURE": ast.literal_eval(os.environ.get("JWT_COOKIE_SECURE", "True")),
     "JWT_COOKIE_DOMAIN": os.environ.get("JWT_COOKIE_DOMAIN", None),
 }
 
