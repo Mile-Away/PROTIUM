@@ -60,7 +60,9 @@ export default function Layout({ children, params }: LayoutProps) {
           <SpaceHero name={name} />
         </div>
 
-        <SpaceNavigation name={name} />
+        <div className=" rounded-xl">
+          <SpaceNavigation name={name} />
+        </div>
 
         {children}
       </div>

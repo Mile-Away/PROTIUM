@@ -10,6 +10,7 @@ import '@/styles/markdown.css';
 import '@/styles/markdown.dark.css';
 import '@/styles/markdown.quote.css';
 import { TagIcon } from '@heroicons/react/20/solid';
+import { CubeIcon } from '@heroicons/react/24/outline';
 
 interface ReleaseProps {
   url: string;
@@ -165,7 +166,7 @@ export default function Page() {
               <Markdown content={release.body} />
             </div>
             <div className=" mt-8">
-              <div className=" mb-4 flex items-end gap-x-16 text-xl font-semibold">
+              <div className=" mb-4 flex items-center gap-x-4 text-xl font-semibold">
                 <span>Assets</span>
                 <div className=" w-fit items-center justify-center rounded-full px-2 py-1 text-xs dark:bg-neutral-700">
                   {release.assets.length + 2}
@@ -178,8 +179,9 @@ export default function Page() {
                       href={asset.browser_download_url}
                       target="_blank"
                       // 悬浮添加下划线
-                      className="dark:text-blue-500"
+                      className="flex gap-x-2 hover:underline dark:text-blue-500"
                     >
+                      <CubeIcon className="h-5 w-5" />
                       {asset.name}
                     </a>
                     <div className="flex gap-x-12">
@@ -193,23 +195,25 @@ export default function Page() {
                   </div>
                 ))}
                 {release.zipball_url && (
-                  <div className="flex items-center gap-x-4">
+                  <div className="flex items-center justify-between gap-x-4 pt-2 text-sm">
                     <a
                       href={release.zipball_url}
                       target="_blank"
-                      className="dark:text-blue-500"
+                      className="flex gap-x-2 hover:underline dark:text-blue-500"
                     >
+                      <CubeIcon className="h-5 w-5" />
                       Source code (zip)
                     </a>
                   </div>
                 )}
                 {release.tarball_url && (
-                  <div className="flex items-center gap-x-4">
+                  <div className="flex items-center justify-between gap-x-4 pt-2 text-sm">
                     <a
                       href={release.tarball_url}
                       target="_blank"
-                      className="dark:text-blue-500"
+                      className="flex gap-x-2 hover:underline dark:text-blue-500"
                     >
+                      <CubeIcon className="h-5 w-5" />
                       Source code (tar.gz)
                     </a>
                   </div>

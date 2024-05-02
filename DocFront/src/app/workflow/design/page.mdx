@@ -1,3 +1,9 @@
+export const metadata = {
+  title: 'Design',
+  description:
+    'In this guide, we will talk about how to design a workflow and what are the best practices to follow.',
+}
+
 # 设计思路
 
 问：如何处理哪个节点应该怎么运行
@@ -13,7 +19,7 @@
    1. 输入有两个来源，一个是 body，一个是 source handle
    2. 输出只有 handle
    3. 每个节点中应写清楚自身逻辑，指定每个输出 handle 的输入来源，这需要一个字典，记录在 handle 中
-      1. handle 标记 { source: body|handle, }
+      1. handle 标记 `{ source: body|handle, }`
          1. 如果是 handle，继续取它的输出 handle，依次取下去
          2. 如果是 body, 取到它的 source
       2. handle 只记录目标的键，不记录目标的值，直到达到一个节点，它的逻辑中需要某个数据，就去取到那个数据
