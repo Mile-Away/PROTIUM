@@ -1,6 +1,6 @@
 import { BasicNodeProps } from '@/@types/workflow';
 import WithStickyFooter from '@/components/overlays/with_sticky_footer';
-import { setNodeDataBodyInput } from '@/store/workflow/workflowSlice';
+import { setNodeDataBodyContent } from '@/store/workflow/workflowSlice';
 import { useDispatch } from 'react-redux';
 
 export default function PoscarIO(
@@ -16,7 +16,7 @@ export default function PoscarIO(
 
   const onContentSave = (content: string) => {
     dispatch(
-      setNodeDataBodyInput({
+      setNodeDataBodyContent({
         nodeId: id,
         bodyId: data.body[idx].id,
         source: content,

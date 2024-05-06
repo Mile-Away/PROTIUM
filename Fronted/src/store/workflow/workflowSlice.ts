@@ -76,6 +76,7 @@ export interface WorkflowStateProps {
   consoleInfo: { time: Date; message: string }[];
 }
 
+
 const initialStateWorkflow: WorkflowStateProps = {
   contextMenuVisible: false,
   contextMenuX: 0,
@@ -232,7 +233,7 @@ const workflowSlice = createSlice({
     },
 
     // 记录节点的 Body 的输入
-    setNodeDataBodyInput: {
+    setNodeDataBodyContent: {
       prepare(props: { nodeId: string; bodyId: string; source: string }) {
         return {
           payload: props,
@@ -291,7 +292,7 @@ export const {
   setNodes,
   setEdges,
   connectEdges,
-  setNodeDataBodyInput,
+  setNodeDataBodyContent,
   setSliderOverlayVisible,
   setSliderOverlay,
   setWorkflow,

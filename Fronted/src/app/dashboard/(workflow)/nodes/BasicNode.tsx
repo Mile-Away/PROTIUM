@@ -60,7 +60,7 @@ export default function BasicNode(props: BasicNodeProps) {
             <CustomHandle handles={data.handles} />
 
             {/* Card Body */}
-            {children}
+            <div className="my-4">{children}</div>
 
             {/* Card Footer */}
             <div className="mt-4 flex items-center justify-end text-xs">

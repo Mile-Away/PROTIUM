@@ -14,6 +14,7 @@ import { ChatBubbleIcon } from '@/components/icons/ChatBubbleIcon'
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon'
 import { UserIcon } from '@/components/icons/UserIcon'
 import { UsersIcon } from '@/components/icons/UsersIcon'
+import { PrimarySite } from '../../../Fronted/src/config'
 
 interface Resource {
   href: string
@@ -28,8 +29,8 @@ interface Resource {
 
 const resources: Array<Resource> = [
   {
-    href: '/contacts',
-    name: 'Contacts',
+    href: '/workflow',
+    name: 'Workflow',
     description:
       'Learn about the contact model and how to create, retrieve, update, delete, and list contacts.',
     icon: UserIcon,
@@ -42,8 +43,8 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/conversations',
-    name: 'Conversations',
+    href: '/manuscript',
+    name: 'Manuscript',
     description:
       'Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.',
     icon: ChatBubbleIcon,
@@ -56,8 +57,8 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/messages',
-    name: 'Messages',
+    href: `${PrimarySite}/space`,
+    name: 'Space',
     description:
       'Learn about the message model and how to create, retrieve, update, delete, and list messages.',
     icon: EnvelopeIcon,
