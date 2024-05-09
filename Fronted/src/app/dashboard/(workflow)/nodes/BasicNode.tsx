@@ -5,6 +5,7 @@ import CustomHandle from '../handles/CustomHandle';
 
 export default function BasicNode(props: BasicNodeProps) {
   const { id, type, dragging, data, children } = props;
+
   return (
     <>
       <div
@@ -12,7 +13,13 @@ export default function BasicNode(props: BasicNodeProps) {
           // 'h-fit w-64 select-none rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-800 ',
           'relative w-64',
           'shadow-lg dark:shadow-black',
-          'cursor-auto',
+          'cursor-auto rounded',
+          'transition-all duration-300 ease-in-out',
+          dragging && 'opacity-75',
+          '',
+          data.status === 'running' && 'ring-1 dark:ring-yellow-500',
+          data.status === 'failed' && 'ring-1 dark:ring-red-500 ',
+          data.status === 'success' && 'ring-1 dark:ring-teal-500 ',
         )}
       >
         {/* <div className="absolute inset-0 rounded-md bg-gradient-to-tr from-sky-600 via-sky-600/70 to-blue-600 opacity-10 blur-lg"></div> */}

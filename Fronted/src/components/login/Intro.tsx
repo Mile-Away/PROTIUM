@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Logo from '@/@brand/Logo';
 import Loading from '@/app/loading';
 import { BookIcon, FeedIcon } from '@/components/Icons';
 import { GitHubIcon } from '@/components/SocialIcons';
@@ -9,7 +10,8 @@ import { useAuthServiceContext } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Logo from '../../@brand/Logo';
+
+import BRAND from '@/@brand/brand';
 import LoggedForm from './LoggedForm';
 
 const ButtonGroup = () => {
@@ -69,7 +71,7 @@ export function Intro() {
             {/* <LogoBanner className="h-10 w-auto fill-indigo-800 dark:fill-indigo-500" /> */}
             <Logo className="h-10 fill-indigo-800 dark:fill-white" />
             <span className="ms-2 flex text-3xl font-bold leading-8 text-indigo-800 dark:text-gray-100">
-              DeepModeling
+              {BRAND}
             </span>
           </Link>
         </div>

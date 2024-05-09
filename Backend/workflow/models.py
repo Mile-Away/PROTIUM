@@ -13,6 +13,7 @@ class Workflow(models.Model):
         ("canceled", "Canceled"),
         ("failed", "Failed"),
     )
+    id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
@@ -37,12 +38,21 @@ class Workflow(models.Model):
     """
     nodes: models.QuerySet["WorkflowNode"]
     edges: models.QuerySet["WorkflowEdge"]
+    tasks: models.QuerySet["WorkflowTask"]
 
     def __str__(self):
         return self.name
 
 
 class WorkflowNode(models.Model):
+    status_choices = (
+        ("draft", "Draft"),
+        ("success", "Success"),
+        ("failed", "Failed"),
+        ("running", "Running"),
+        ("pending", "Pending"),
+    )
+    id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name="nodes")
     type = models.CharField(max_length=50)
@@ -51,7 +61,7 @@ class WorkflowNode(models.Model):
     width = models.IntegerField(default=200)
     height = models.IntegerField(default=250)
     dragHandle = models.CharField(max_length=50, blank=True, null=True)
-    isRunning = models.BooleanField(default=False)
+    status = models.CharField(max_length=10, choices=status_choices, default="draft")
 
     # 一个节点对应一个节点数据
     node_data: models.OneToOneField["WorkflowNodeData"]
@@ -64,9 +74,8 @@ class WorkflowNodeData(models.Model):
     node = models.OneToOneField(WorkflowNode, on_delete=models.CASCADE, related_name="node_data")
     header = models.CharField(max_length=100)
     footer = models.TextField(blank=True, null=True)
-
     handles: models.QuerySet["WorkflowNodeHandle"]
-    results: models.QuerySet["WorkflowResult"]
+    results: models.QuerySet["WorkflowNodeResult"]
     body: models.QuerySet["WorkflowNodeBody"]
 
     def __str__(self):
@@ -78,6 +87,12 @@ class WorkflowNodeHandle(models.Model):
         ("target", "Target"),
         ("source", "Source"),
     )
+
+    data_source_choices = (
+        ("handle", "Handle"),
+        ("body", "Body"),
+        ("result", "Result"),
+    )
     # 只有不同的节点才能有相同的key，同一个节点相同 type 的key不能相同，不同 type 的key可以相同
     # 所以 unique_together 是 ("node", "type", "key")
     # key 用来判断节点之间是否可以连接
@@ -86,6 +101,12 @@ class WorkflowNodeHandle(models.Model):
     type = models.CharField(max_length=10, choices=AS_CHOICES)
     hasConnected = models.BooleanField(default=False)
     required = models.BooleanField(default=False)
+    # source 储存这个作为 source handle，输出的数据的来源，只有三个选项，handle, body, result
+    # source 的格式为 {"source": "handle", "key": "poscar"}
+    # 或者 {"source": "body", "key": "input"}  # 一般来说，不会使用 body 作为 source
+    # 或者 {"source": "result", "key": "poscar"}
+    data_source = models.CharField(max_length=10, blank=True, null=True, choices=data_source_choices)
+    data_key = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         unique_together = ("node", "type", "key")
@@ -95,7 +116,7 @@ class WorkflowNodeHandle(models.Model):
 
 
 class WorkflowNodeBody(models.Model):
-
+    # body 和 result 应该是多对多关系
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="body")
     key = models.CharField(max_length=100)
@@ -104,6 +125,8 @@ class WorkflowNodeBody(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
 
+    results: models.QuerySet["WorkflowNodeResult"]
+
     class Meta:
         unique_together = ("node", "key")
 
@@ -111,14 +134,19 @@ class WorkflowNodeBody(models.Model):
         return f"{self.node.node}-{self.key}"
 
 
-class WorkflowResult(models.Model):
+class WorkflowNodeResult(models.Model):
+    # 使用 key 来和 source handle 对齐
+    # 使用 script 来确定执行的脚本
+    # 使用 source 存储执行结果
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="results")
     key = models.CharField(max_length=100)
+    script = models.TextField(blank=True, null=True)
     source = models.TextField(blank=True, null=True)
+    type = models.CharField(max_length=50, blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
-    script = models.TextField(blank=True, null=True)
+    bodies = models.ManyToManyField(WorkflowNodeBody, related_name="results", blank=True)
 
     class Meta:
         unique_together = ("node", "key")
@@ -142,3 +170,18 @@ class WorkflowEdge(models.Model):
     #     if not self.connection_id:
     #         self.connection_id = f"reactflow__edge-{self.source.uuid}-{self.target.uuid}"
     #     return super().save(*args, **kwargs)
+
+
+class WorkflowTask(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name="tasks")
+    created_at = models.DateTimeField(auto_now_add=True)
+    platform = models.CharField(max_length=50)
+    task_id = models.CharField(max_length=100)
+    finished_at = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(max_length=50)
+    output = models.TextField(blank=True, null=True)
+    error = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.workflow}-{self.task_id}"

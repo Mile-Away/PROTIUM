@@ -1,63 +1,59 @@
-import asyncio
-import json
-import time
-from asyncio import Task
-
-import requests
-from requests import Response
+# 对于一个 node，它的输入应该是body 中的 source，
+# 函数体应该是 result 中的 script，
+# 输出应该是 result 中的 source
 
 
-async def fetch_releases(url: str) -> dict:
-    print(f"Start fetch {url}")
-    response: Response = await asyncio.to_thread(requests.get, url)
+import os
+from typing import Callable
+from uuid import UUID
 
-    print("Start sleep")
-    await asyncio.sleep(3)
+from django.conf import settings
 
-    data = json.loads(response.text)[0]  # 获取最近的 Release
-    print(f"Finish fetch {url}")
-
-    return data
+from .models import WorkflowNode
 
 
-async def main() -> None:
-    start_time = time.time()
-    PyTorchTask: Task[dict] = asyncio.create_task(
-        fetch_releases("https://api.github.com/repos/pytorch/pytorch/releases")
-    )
-    TensorflowTask: Task[dict] = asyncio.create_task(
-        fetch_releases("https://api.github.com/repos/tensorflow/tensorflow/releases")
-    )
+def node_execution(node_type: str | None = None):
+    """
+    接受一个 node_type 返回一个装饰器函数
+    """
 
-    print("Start Task PyTorch")
-    PyTorchResponse = await PyTorchTask
+    def decorator(func: Callable):
+        def wrapper(node_uuid: UUID):
+            node = WorkflowNode.objects.get(uuid=node_uuid)
 
-    print("Start Task Tensorflow? Totally Not!")
-    TensorflowResponse = await TensorflowTask
+            if node.type != node_type:
+                raise ValueError(f"Node type must be {node_type}")
 
-    print("-" * 50)
-    print(f"最新的 PyTorch 发布信息: {PyTorchResponse['name']}")
-    print("发布标签: ", PyTorchResponse["tag_name"])
-    print("发布时间: ", PyTorchResponse["published_at"])
-    PyTorchReleaseContent = PyTorchResponse["body"]
-    with open("PyTorch_Latest_Release.md", "w") as f:
-        f.write(PyTorchReleaseContent)
+            # 获取节点的输入数据
+            input_data = node.node_data.body.get(key="input").source
 
-    print("-" * 50)
-    print(f"最新的 TensorFlow 发布信息: {TensorflowResponse['name']}")
-    print("发布标签: ", TensorflowResponse["tag_name"])
-    print("发布时间: ", TensorflowResponse["published_at"])
-    TensorflowReleaseContent = TensorflowResponse["body"]
+            # 执行节点的函数体
+            result_path = func(input_data)
 
-    with open("Tensorflow_Latest_Release.md", "w") as f:
-        f.write(TensorflowReleaseContent)
+            # 将结果保存到节点的输出中
+            node.node_data.results.create(key="output", source=result_path)
 
-    print("-" * 50)
-    finish_time = time.time()
-    print(f"Running Time: {finish_time - start_time}")
+            # 更新节点状态为 "success"
+            node.status = "success"
+            node.save()
+
+            return result_path
+
+        return wrapper
+
+    return decorator
 
 
-if __name__ == "__main__":
-    asyncio.run(main=main())
+@node_execution(node_type="POSCAR")
+def execute_poscar_node(input_data: str) -> str:
+    # 从输入数据中提取 POSCAR 内容
+    poscar_content = input_data
 
+    # 生成 POSCAR 文件的路径
+    poscar_path = os.path.join(settings.MEDIA_ROOT, "poscar_files")
 
+    # 将 POSCAR 内容写入文件
+    with open(poscar_path, "w") as f:
+        f.write(poscar_content)
+
+    return poscar_path

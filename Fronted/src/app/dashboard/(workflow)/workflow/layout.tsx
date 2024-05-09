@@ -155,8 +155,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               ref={inputRef}
               value={name}
               onChange={handleChangeName}
-              onBlur={() => setShowInput(false)}
-              className="ml-6 bg-transparent font-display text-sm font-semibold focus:outline-none"
+              onBlur={() => {
+                if (!name) {
+                  dispatch(setWorkflowName('Untitled'));
+                }
+                setShowInput(false);
+              }}
+              className="ml-6 min-w-24 bg-transparent font-display text-sm font-semibold focus:outline-none"
               style={{ width: inputWidth.current + 'px' }}
             />
           ) : (
@@ -169,7 +174,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               }}
               className="ml-6 line-clamp-1 w-auto cursor-pointer bg-transparent font-display text-sm font-semibold"
             >
-              {name}
+              {name || 'Untitled'}
             </span>
           )}
         </div>
@@ -229,7 +234,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <div className="flex h-full w-full flex-col items-start justify-between gap-y-2 px-3 py-4 text-sm">
                     <div className="flex w-full items-center justify-between">
                       <span className="line-clamp-1 font-semibold">
-                        {workflow.name}
+                        {workflow.name || 'Untitled'}
                       </span>
 
                       <img

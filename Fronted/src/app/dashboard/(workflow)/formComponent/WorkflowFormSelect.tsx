@@ -13,6 +13,10 @@ const WorkflowFormSelect = ({
   items: WorkflowFormSelectItemProps[];
   onSelectedIndexChange: (index: number) => void;
 }) => {
+  /* 这个组件用于创建所有 Node 中使用的常规选择
+  
+  */
+  
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handlePrevious = () => {

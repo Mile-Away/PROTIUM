@@ -86,6 +86,7 @@ export function MessageInterface({
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // 当 message 更新时，自动调整 textarea 的高度
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';

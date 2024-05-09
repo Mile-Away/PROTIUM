@@ -1,7 +1,8 @@
 import { BasicNodeProps } from '@/@types/workflow';
+import { setNodeDataBodyContent } from '@/store/workflow/workflowSlice';
+import { useDispatch } from 'react-redux';
 import WorkflowFormSelect from '../formComponent/WorkflowFormSelect';
 import BasicNode from './BasicNode';
-
 const items = [
   {
     name: 'POSCAR Single',
@@ -17,8 +18,15 @@ const items = [
 export default function SolverNode(props: BasicNodeProps) {
   const { id, type, dragging, data } = props;
 
+  const dispathch = useDispatch();
   const onSelectedIndexChange = (index: number) => {
-    console.log(index);
+    dispathch(
+      setNodeDataBodyContent({
+        nodeId: id,
+        bodyId: data.body[0].id,
+        source: items[index].name,
+      }),
+    );
   };
 
   return (

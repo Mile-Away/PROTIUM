@@ -1,86 +1,75 @@
+# from channels.generic.websocket import JsonWebsocketConsumer
+import asyncio
 import json
 
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import JsonWebsocketConsumer, WebsocketConsumer
+from asgiref.sync import sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
 
-from .models import Workflow, WorkflowEdge, WorkflowNode, WorkflowNodeBody, WorkflowNodeData, WorkflowNodeHandle
+from .executers import WorkflowExecuter
+from .models import Workflow
 
 
-class WorkflowConsumer(JsonWebsocketConsumer):
-    pass
+class WorkflowConsumer(AsyncWebsocketConsumer):
 
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.workflow = None
-#         self.running = False
-#         self.node = None
-#         self.running_node = None
-#         self.user = None
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.workflow = None
+        self.workflow_id = None
+        self.workflow_uuid = None
+        self.running = False
+        self.node = None
+        self.running_node = None
+        self.user = None
 
-#     def connect(self):
-#         # 获取当前用户
-#         user = self.scope["user"]
-#         print("User >>>>>>>>>", user)
+    async def connect(self):
+        # 获取当前用户
+        user = self.scope["user"]
+        print("User >>>>>>>>>", user)
 
-#         # 判断用户是否登录, 如果登录则接受连接, 否则关闭连接
-#         if user.is_authenticated:
-#             self.accept()
-#             self.user = user
-#             # print("User >>>>>>>>>", user)
+        # 判断用户是否登录, 如果登录则接受连接, 否则关闭连接
+        if user.is_authenticated:
+            await self.accept()
+            self.user = user
+            # print("User >>>>>>>>>", user)
 
-#             self.workflow = self.scope["url_route"]["kwargs"]["workflowUUID"]
+            self.workflow_uuid = self.scope["url_route"]["kwargs"]["workflowUUID"]
 
-#             # 获取工作流
-#             workflow = Workflow.objects.get(uuid=self.workflow)
-#             self.workflow = workflow
-#             self.channel_id = channel.id.to_bytes(16, byteorder="big").hex()
+            # 获取工作流
+            self.workflow = await sync_to_async(Workflow.objects.get)(uuid=self.workflow_uuid)
 
-#             async_to_sync(self.channel_layer.group_add)(
-#                 self.channel_id,
-#                 self.channel_name,
-#             )
-#         else:
-#             self.accept()
-#             self.send_json({"error": "Authentication failed"})
-#             self.close(code=4001)
+            print("Workflow >>>>>>>>>", self.workflow)
 
-#     def receive_json(self, content=None, bytes_data=None):
+            self.workflow_id = self.workflow.id.to_bytes(16, byteorder="big").hex()
 
-#         # channel_id = int(self.channel_id, 16)
+            if self.channel_layer is not None:
+                print("Adding to group >>>>>>>>", self.workflow_id)
+                print("Channel Name >>>>>>>>", self.channel_name)
+                await self.channel_layer.group_add(
+                    self.workflow_id,
+                    self.channel_name,
+                )
+        else:
+            await self.accept()
+            await self.send(text_data=json.dumps({"error": "Authentication failed"}))
+            await self.close(code=4001)
 
-#         sender = self.user
+    async def receive(self, text_data=None, bytes_data=None, **kwargs):
 
-#         message = content["message"]
+        print("Received JSON >>>>>>>>", text_data)
+        if text_data == "start":
+            self.running = True
+            if self.workflow is not None:
+                workflow_executer = WorkflowExecuter(self.workflow)
+                asyncio.ensure_future(workflow_executer.execute())
 
-#         conversation, created = Conversation.objects.get_or_create(channel=self.channel)
+    async def node_result(self, event):
+        print("Node Result >>>>>>>>", event)
+        await self.send(text_data=json.dumps(event))
 
-#         new_message = Message.objects.create(Conversation=conversation, sender=sender, content=message)
-#         self.channel.latest_message = new_message
-#         self.channel.save()
-
-#         # 返回给客户端的数据
-#         async_to_sync(self.channel_layer.group_send)(
-#             self.channel_id,
-#             {
-#                 "type": "chat.message",
-#                 "new_message": {
-#                     "id": new_message.id,
-#                     "sender": new_message.sender.username,
-#                     "content": new_message.content,
-#                     "timestamp": new_message.timestamp.isoformat(),
-#                     "avatar": new_message.sender.avatar.url,
-#                 },
-#             },
-#         )
-
-#     def chat_message(self, event):
-#         # message = event["new_message"]
-#         # self.send_json(text_data=json.dumps({"message": message}))
-#         self.send_json(event)
-
-#     def disconnect(self, close_code):
-#         async_to_sync(self.channel_layer.group_discard)(
-#             self.channel_id,
-#             self.channel_name,
-#         )
-#         super().disconnect(close_code)
+    async def disconnect(self, code):
+        if self.channel_layer is not None:
+            await self.channel_layer.group_discard(
+                self.workflow_id,
+                self.channel_name,
+            )
+            await super().disconnect(code)

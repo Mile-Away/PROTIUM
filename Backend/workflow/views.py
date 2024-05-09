@@ -4,6 +4,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .executers import WorkflowExecuter
 from .models import Workflow
 from .serializer import WorkflowSerializer
 
@@ -48,3 +49,28 @@ class WorkflowDetailAPIView(APIView):
 
         print("Errors : >>>>>>>>", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StartWorkflowAPIView(APIView):
+
+    def get_workflow(self, user, uuid: str) -> Workflow:
+        try:
+            return Workflow.objects.get(uuid=uuid, creator=user)
+        except Workflow.DoesNotExist:
+            raise Http404("Workflow does not exist")
+
+    # 使用 POST 请求用来明确表达这是创建一个新资源的操作
+    # 只有创建者可以运行的工作流 API
+    def post(self, request: Request, uuid: str):
+        user = request.user
+        if not user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        workflow = self.get_workflow(user, uuid)
+
+        print("Running Workflow >>>>>>>>", workflow)
+
+        executer = WorkflowExecuter(workflow)
+        results = executer.execute()
+
+        return Response({"results": results}, status=status.HTTP_200_OK)

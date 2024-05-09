@@ -26,7 +26,15 @@ export interface WorkflowNodeDataBodyProps {
   attachment?: string;
 }
 
-// export type WorkflowNodeDataHandlesKeys = 'poscar' | 'potcar' | 'incar';
+export interface WorkflowNodeResultProps {
+  id: string;
+  key: string; // 记录 Result 的实际的 key
+  source: string; // 记录 Result 的结果
+  script: string; // 记录用户输入的脚本
+  type: string;
+  title: string; // 前端展示的标题
+  attachment?: string;
+}
 
 export interface WorkflowNodeDataProps {
   header: string;
@@ -35,6 +43,8 @@ export interface WorkflowNodeDataProps {
   // 不同节点中有相同的 key，这个 key 用来判断 handle 之间是否可以连接
   handles: WorkflowNodeDataHandlesProps[];
   body: WorkflowNodeDataBodyProps[]; // body 属性决定 Node 上展示的与用户交互的表单，表单提交的行为回调到 Redux
+  results: WorkflowNodeResultProps[];
+  status: 'draft' | 'pending' | 'running' | 'success' | 'failed';
   footer?: string;
 }
 export interface WorkflowNodeProps
@@ -44,7 +54,6 @@ export interface WorkflowNodeProps
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';
   position: { x: number; y: number };
-  isRunning?: boolean;
 }
 
 export interface WorkflowProps {
@@ -75,7 +84,6 @@ export interface WorkflowStateProps {
   workflow: WorkflowProps;
   consoleInfo: { time: Date; message: string }[];
 }
-
 
 const initialStateWorkflow: WorkflowStateProps = {
   contextMenuVisible: false,
@@ -280,6 +288,14 @@ const workflowSlice = createSlice({
     setWorkflowName: (state, action) => {
       state.workflow.name = action.payload;
     },
+
+    setNodeStatus: (state, action) => {
+      const node = state.nodes.find((node) => node.id === action.payload.id);
+      if (node) {
+        node.data.status = action.payload.status;
+        console.log('Node Status:', node.data.status);
+      }
+    },
   },
 });
 
@@ -297,6 +313,7 @@ export const {
   setSliderOverlay,
   setWorkflow,
   setWorkflowName,
+  setNodeStatus,
 } = workflowSlice.actions;
 
 export default workflowSlice.reducer;

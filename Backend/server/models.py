@@ -29,6 +29,7 @@ def server_icon_path(instance, filename):
 
 
 class Category(models.Model):
+    id: int
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     icon = models.FileField(
@@ -59,6 +60,7 @@ class Category(models.Model):
 
 
 class Server(models.Model):
+    id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=1024, blank=True, null=True)
@@ -74,9 +76,7 @@ class Server(models.Model):
         upload_to=server_banner_path, blank=True, null=True, help_text="创建服务器时，展示在首页的图片"
     )
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="server_owner")
-    admins = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, blank=True, related_name="server_admins"
-    )
+    admins = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="server_admins")
     readme = models.ForeignKey(
         Document, blank=True, null=True, on_delete=models.SET_NULL, related_name="server_readme"
     )
@@ -157,6 +157,8 @@ class Channel(models.Model):
 
     privacy = models.CharField(choices=privacy_choices, default="public", max_length=20)
     progress = models.CharField(choices=progress_choices, default="inProgress", max_length=20)
+
+    id: int
 
     def save(self, *args, **kwargs):
         # if self.server.owner not in self.server.members.all():

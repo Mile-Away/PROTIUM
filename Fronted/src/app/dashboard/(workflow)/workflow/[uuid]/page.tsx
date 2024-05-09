@@ -4,13 +4,15 @@ import RootContextMenu from '@/app/dashboard/(workflow)/ContextMenu/RootContextM
 import Loading from '@/app/loading';
 import { RootReducerProps } from '@/app/store';
 import HoverMessage from '@/components/overlays/hover_message';
-import { BASE_URL } from '@/config';
+import { BASE_URL, WS_URL } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
+import { useAuthService } from '@/services/AuthService';
 import {
   setContextMenuVisible,
   setContextMenuX,
   setContextMenuY,
+  setNodeStatus,
   setWorkflow,
 } from '@/store/workflow/workflowSlice';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
@@ -22,10 +24,13 @@ import {
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useWebSocket from 'react-use-websocket';
 import RootReactFlow from './RootReactFlow';
 
 export default function Page({ params }: { params: { uuid: string } }) {
   const jwtAxios = useAxiosWithInterceptors();
+  const { logout, userInfo, refreshAccessToken } = useAuthService();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isConsoleExpand, setIsConsoleExpand] = useState(true);
   const [isConsoleVisible, setIsConsoleVisible] = useState(true);
@@ -44,6 +49,43 @@ export default function Page({ params }: { params: { uuid: string } }) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const socketUrl = params.uuid
+    ? WS_URL + `/ws/workflow/${params.uuid}/`
+    : null;
+
+  const { sendJsonMessage, sendMessage } = useWebSocket(socketUrl, {
+    onOpen: async () => {
+      console.log('Connected to: ' + socketUrl);
+    },
+    onClose: (event: CloseEvent) => {
+      console.log('Close Event', event);
+      if (event.code == 4001) {
+        console.log('Authentication Error');
+        refreshAccessToken().catch((error) => {
+          if (error.response && error.response.status === 401) {
+            logout();
+          }
+        });
+      }
+      console.log('Close');
+    },
+    onError: () => console.log('error'),
+    onMessage: (event) => {
+      const data = JSON.parse(event.data);
+      console.log('Message:', data.execute_status.status);
+      dispatch(
+        setNodeStatus({
+          id: data.execute_status.uuid,
+          status: data.execute_status.status,
+        }),
+      );
+    },
+  });
+
+  const startWorkflow = () => {
+    sendMessage('start');
   };
 
   useEffect(() => {
@@ -191,10 +233,13 @@ export default function Page({ params }: { params: { uuid: string } }) {
             </button>
             {
               <>
-                <div className="group relative -m-1.5 cursor-pointer rounded  p-1.5 text-teal-500 hover:bg-neutral-100 hover:text-teal-600  dark:text-transparent dark:hover:bg-teal-600 dark:hover:text-white ">
+                <button
+                  onClick={startWorkflow}
+                  className="group relative -m-1.5 cursor-pointer rounded  p-1.5 text-teal-500 hover:bg-neutral-100 hover:text-teal-600  dark:text-transparent dark:hover:bg-teal-600 dark:hover:text-white "
+                >
                   <PlayIcon className="h-6 w-6 stroke-teal-500 dark:stroke-teal-400" />
                   <HoverMessage position="top">Run</HoverMessage>
-                </div>
+                </button>
 
                 <div className="group relative -m-1.5 cursor-pointer rounded  p-1.5 text-amber-600 hover:bg-neutral-100 dark:text-amber-600 dark:hover:bg-amber-600 dark:hover:text-white  ">
                   <PauseIcon className="h-6 w-6  " />
@@ -219,10 +264,10 @@ export default function Page({ params }: { params: { uuid: string } }) {
           </div>
         </div>
         {/* Body */}
-        <div className="mt-10 px-4 py-4 text-2xs inert overflow-scroll">
+        <div className="inert mt-10 overflow-scroll px-4 py-4 text-2xs">
           {consoleInfo.map((item, idx) => (
             <p>
-              <span className=" max-w-32 mr-2 dark:text-neutral-500">
+              <span className=" mr-2 max-w-32 dark:text-neutral-500">
                 {formatTime(item.time)}
               </span>
               {item.message}

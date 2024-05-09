@@ -11,6 +11,7 @@ const handleMenuItemClick = (action: string) => {
             data: {
               header: 'POSCAR',
               body: [{ id: '', source: '', type: 'textarea', key: 'poscar' }],
+              results: [],
               footer: 'VASP/POSCAR',
               handles: [{ type: 'source', key: 'poscar' }],
             },
@@ -25,6 +26,7 @@ const handleMenuItemClick = (action: string) => {
             data: {
               header: 'POTCAR',
               body: [{ id: '', source: '', type: 'select', key: 'potcar' }],
+              results: [],
               footer: 'VASP/POTCAR',
               handles: [{ type: 'source', key: 'potcar' }],
             },
@@ -38,9 +40,10 @@ const handleMenuItemClick = (action: string) => {
             type: 'structureInput',
             data: {
               header: 'INCAR',
-              body: [{ id: '', source: '', type: 'textarea', key: 'incar' }],
-              footer: 'VASP/INCAR',
               handles: [{ type: 'source', key: 'incar' }],
+              body: [{ id: '', source: '', type: 'textarea', key: 'incar' }],
+              results: [],
+              footer: 'VASP/INCAR',
             },
             dragHandle: '.drag-handle',
           }),
@@ -59,6 +62,7 @@ const handleMenuItemClick = (action: string) => {
                 },
               ],
               body: [{ id: '', source: '', type: 'textarea', key: 'kpoints' }],
+              results: [],
               footer: 'VASP/KPOINTS',
             },
             dragHandle: '.drag-handle',
@@ -69,8 +73,9 @@ const handleMenuItemClick = (action: string) => {
           addNode({
             type: 'solver',
             data: {
-              body: [{ id: '', source: '', type: 'textarea', key: 'vasp' }],
               header: 'VASP',
+              body: [{ id: '', source: '', type: 'textarea', key: 'vasp' }],
+              results: [],
               footer: 'VASP 5.4.4',
               handles: [
                 { key: 'poscar', type: 'target' },

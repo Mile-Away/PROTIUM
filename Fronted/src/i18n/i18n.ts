@@ -2,17 +2,21 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import { enHomepageJson, zhHomepageJson } from '@/@brand/brand';
+import {
+  enAboutJson,
+  enHomepageJson,
+  enManifestoJson,
+  zhAboutJson,
+  zhHomepageJson,
+  zhManifestoJson,
+} from '@/@brand/brand';
 
-import enAboutJson from './en-us/about.json';
 import enDashboardJson from './en-us/dashboard.json';
 import enLoginJson from './en-us/login.json';
-import enManifestoJson from './en-us/manifesto.json';
 
-import zhAboutJson from './zh-cn/about.json';
 import zhDashboardJson from './zh-cn/dashboard.json';
 import zhLoginJson from './zh-cn/login.json';
-import zhManifestoJson from './zh-cn/manifesto.json';
+
 import zhUserPanelJson from './zh-cn/userPanel/userPanel.json';
 
 const resources = {
