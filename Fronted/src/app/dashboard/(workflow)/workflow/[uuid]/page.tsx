@@ -85,6 +85,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
   });
 
   const startWorkflow = () => {
+    saveWorkflow();
     sendMessage('start');
   };
 
