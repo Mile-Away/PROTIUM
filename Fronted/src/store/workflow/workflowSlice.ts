@@ -15,6 +15,8 @@ export interface WorkflowNodeDataHandlesProps {
   type: 'source' | 'target';
   hasConnected?: boolean;
   required?: boolean;
+  data_source?: 'result' | 'body' | 'handle';
+  data_key?: string;
 }
 
 export interface WorkflowNodeDataBodyProps {
@@ -22,6 +24,7 @@ export interface WorkflowNodeDataBodyProps {
   type: 'input' | 'select' | 'textarea' | 'file';
   key: string;
   source: string;
+  results?: string[];  // 记录这个 Body 运行的 Result 的 key
   title?: string;
   attachment?: string;
 }
@@ -30,7 +33,8 @@ export interface WorkflowNodeResultProps {
   id: string;
   key: string; // 记录 Result 的实际的 key
   source: string; // 记录 Result 的结果
-  script: string; // 记录用户输入的脚本
+  script: string; // 运行用户输入的脚本
+  bodies: string[]; // 记录这个 Result 运行所需要的 Body 的 key
   type: string;
   title: string; // 前端展示的标题
   attachment?: string;
