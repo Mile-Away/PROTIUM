@@ -8,8 +8,7 @@ from typing import Callable
 from uuid import UUID
 
 from django.conf import settings
-
-from .models import WorkflowNode
+from workflow.models import WorkflowNode
 
 
 def node_execution(node_type: str | None = None):
@@ -57,3 +56,5 @@ def execute_poscar_node(input_data: str) -> str:
         f.write(poscar_content)
 
     return poscar_path
+
+

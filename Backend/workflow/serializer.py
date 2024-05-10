@@ -1,7 +1,15 @@
 from accounts.publicSerializer import BasicUserSerializer
 from rest_framework import serializers
 
-from .models import Workflow, WorkflowEdge, WorkflowNode, WorkflowNodeBody, WorkflowNodeData, WorkflowNodeHandle
+from .models import (
+    Workflow,
+    WorkflowEdge,
+    WorkflowNode,
+    WorkflowNodeBody,
+    WorkflowNodeData,
+    WorkflowNodeHandle,
+    WorkflowNodeResult,
+)
 
 
 class WorkflowNodeHandleSerializer(serializers.ModelSerializer):
@@ -30,9 +38,40 @@ class WorkflowNodeBodySerializer(serializers.ModelSerializer):
         return ret
 
 
+class WorkflowNodeResultSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField()
+    bodies = serializers.ListField(child=serializers.CharField())
+    script = serializers.CharField(required=False)
+
+    class Meta:
+        model = WorkflowNodeBody
+        exclude = ["id", "node"]
+
+    def is_valid(self, *, raise_exception=False):
+        return super().is_valid(raise_exception=raise_exception)
+
+    def to_internal_value(self, data):
+        if "id" in data:
+            data["uuid"] = data.pop("id")
+        return super().to_internal_value(data)
+
+    def to_representation(self, instance):
+        ret = {
+            key: value
+            for key, value in instance.__dict__.items()
+            if key != "bodies" and key != "node_id" and not key.startswith("_")
+        }
+
+        ret["bodies"] = [body.key for body in instance.bodies.all()]
+        ret["id"] = ret.pop("uuid")
+
+        return ret
+
+
 class WorkflowNodeDataSerializer(serializers.ModelSerializer):
     handles = WorkflowNodeHandleSerializer(many=True)
     body = WorkflowNodeBodySerializer(many=True)
+    results = WorkflowNodeResultSerializer(many=True)
 
     class Meta:
         model = WorkflowNodeData
@@ -117,6 +156,7 @@ class WorkflowSerializer(serializers.ModelSerializer):
             node_data = node.pop("node_data", {})
             node_handles = node_data.pop("handles", [])
             node_body = node_data.pop("body", [])
+            node_results = node_data.pop("results", [])
 
             # 更新 WorkflowNode 实例
             Node, created = WorkflowNode.objects.update_or_create(
@@ -150,6 +190,21 @@ class WorkflowSerializer(serializers.ModelSerializer):
                     node=Node_Data,
                     defaults=body,
                 )
+
+            for result in node_results:
+                result_bodies = result.pop("bodies", [])
+
+                Result, _ = WorkflowNodeResult.objects.update_or_create(
+                    uuid=result["uuid"],
+                    node=Node_Data,
+                    defaults=result,
+                )
+                for body_key in result_bodies:
+                    try:
+                        body = WorkflowNodeBody.objects.get(node=Node_Data, key=body_key)
+                        Result.bodies.add(body)
+                    except WorkflowNodeBody.DoesNotExist:
+                        raise Warning("Can't find body with key: ", body_key)
 
         # 更新 WorkflowEdge 实例
         for edge in edges:

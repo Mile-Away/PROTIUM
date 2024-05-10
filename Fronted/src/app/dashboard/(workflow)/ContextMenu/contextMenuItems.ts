@@ -134,6 +134,11 @@ const contextMenuItems: ContextMenuItemProps[] = [
         },
       ],
     },
+    { action: "outputs",
+      label: "输出",
+      icon: CubeIcon,
+      onClick: () => handleMenuItemClick('VASP/outputs'),
+    },
     {
       action: 'hidden',
       label: '隐藏',

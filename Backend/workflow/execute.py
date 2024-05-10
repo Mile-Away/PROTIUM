@@ -54,6 +54,10 @@ class WorkflowExecuter:
     def build_node_dependencies_async(self, node):
         self.build_node_dependencies(node)
 
+    @sync_to_async
+    def get_node_results(self, node: WorkflowNode, key: str):
+        return node.node_data.results.get(key=key)
+
     def build_node_dependencies(self, node: WorkflowNode):
         if node not in self.node_dependencies:
             self.node_dependencies[node] = set()
@@ -88,7 +92,7 @@ class WorkflowExecuter:
             node.status = "running"
 
             if self.channel_layer is not None:
-                print(f"Sending start {node} result >>>>>>>>")
+
                 await self.channel_layer.group_send(
                     self.workflow_instance.id.to_bytes(16, byteorder="big").hex(),
                     {
@@ -102,29 +106,43 @@ class WorkflowExecuter:
                 )
 
             # 执行节点的 script
-            # 由 source handle 的连接信息决定需要执行什么
-            # TODO: 转成异步执行
+            # 由 source handle 的连接信息决定需要执行什么 ? 不可以，最后的节点没有 source handle 但也需要运行
+            # 那如果是最后的节点应该怎么办呢？
 
             # 获取节点已连接的 source handle
-            # source_handles = await self.filter_source_handles(node)
-            # for source_handle in source_handles:
-            #     if source_handle.hasConnected:
-            #         data_source = source_handle.data_source
-            #         data_key = source_handle.data_key
-            #         if data_source == "result":
-            #             # 如果 source 是 result，则执行 result 中的 script
-            #             result = await node.node_data.results.get()
-            #             script = result.script
-            #             executor = self.node_executor_registry.get_executor(script)
-            #             if executor is not None:
-            #                 await executor.execute()
+            source_handles = await self.filter_source_handles(node)
+            target_handles = await self.filter_target_handles(node)
 
-            node.status = "success"
+            if source_handles is None:
+                for target_handle in target_handles:
+                    if self.handle_has_connected(target_handle):
+                        print(target_handle)
+                    else:
+                        continue
+            else:
+                for source_handle in source_handles:
+                    if source_handle.hasConnected:
+                        data_source = source_handle.data_source
+                        data_key = source_handle.data_key
+                        if data_source == "result":
+                            # 如果 source 是 result，则执行 result 中的 script
+                            result = await self.get_node_results(node, data_key)
+                            script = result.script
+                            node_executor = await self.node_executor_registry.get_executor(script)
+
+                            if node_executor is not None:
+                                status = await node_executor(node).execute(result)
+                                node.status = status or "success"
+                            else:
+                                print(f"Executor for script {script} not found")
+                                node.status = "failed"
+
+            # 如果没有 source handle，且所有的 target handle 都已经连接，说明它是最终结果
 
             print(f"Node {node} executed successfully")
 
             if self.channel_layer is not None:
-                print(f"Sending finish {node} result >>>>>>>>")
+                # print(f"Sending finish {node} result >>>>>>>>")
                 await self.channel_layer.group_send(
                     self.workflow_instance.id.to_bytes(16, byteorder="big").hex(),
                     {

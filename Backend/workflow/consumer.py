@@ -5,7 +5,7 @@ import json
 from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from .executers import WorkflowExecuter
+from .execute import WorkflowExecuter
 from .models import Workflow
 
 
@@ -61,9 +61,14 @@ class WorkflowConsumer(AsyncWebsocketConsumer):
             if self.workflow is not None:
                 workflow_executer = WorkflowExecuter(self.workflow)
                 asyncio.ensure_future(workflow_executer.execute())
+                # BUG:像下面这样用 JavaScript 的方式使用异步是行不通的。
+                # EXPLAIN: 在 JS 中，不使用 await 关键字，程序不会等待这个函数运行完毕，这个函数不会阻塞程序的运行。整个主程序是异步的。
+                # EXPLAIN: 在 Python 中，不使用 await 调用 coroutine 对象，就报错了，要想让他不阻塞，就要用 asyncio.ensure_future()。
+                # result = workflow_executer.execute()
+                # print("Result >>>>>>>>", result)
 
     async def node_result(self, event):
-        print("Node Result >>>>>>>>", event)
+        # print("Node Result >>>>>>>>", event)
         await self.send(text_data=json.dumps(event))
 
     async def disconnect(self, code):

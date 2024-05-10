@@ -97,6 +97,7 @@ class WorkflowNodeHandle(models.Model):
     # 所以 unique_together 是 ("node", "type", "key")
     # key 用来判断节点之间是否可以连接
     key = models.CharField(max_length=100)
+    label = models.CharField(max_length=100, blank=True, null=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="handles")
     type = models.CharField(max_length=10, choices=AS_CHOICES)
     hasConnected = models.BooleanField(default=False)
@@ -141,7 +142,7 @@ class WorkflowNodeResult(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="results")
     key = models.CharField(max_length=100)
-    script = models.TextField(blank=True, null=True)
+    script = models.CharField(blank=True, null=True)
     source = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=50, blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)

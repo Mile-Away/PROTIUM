@@ -32,7 +32,14 @@ const handleMenuItemClick = (action: string) => {
                 },
               ],
               footer: 'VASP/POSCAR',
-              handles: [{ type: 'source', key: 'poscar' }],
+              handles: [
+                {
+                  type: 'source',
+                  key: 'poscar',
+                  data_source: 'result',
+                  data_key: 'poscar',
+                },
+              ],
             },
             dragHandle: '.drag-handle',
           }),
@@ -58,7 +65,14 @@ const handleMenuItemClick = (action: string) => {
                 },
               ],
               footer: 'VASP/POTCAR',
-              handles: [{ type: 'source', key: 'potcar' }],
+              handles: [
+                {
+                  type: 'source',
+                  key: 'potcar',
+                  data_source: 'result',
+                  data_key: 'potcar',
+                },
+              ],
             },
             dragHandle: '.drag-handle',
           }),
@@ -71,7 +85,14 @@ const handleMenuItemClick = (action: string) => {
             data: {
               header: 'INCAR',
               status: 'draft',
-              handles: [{ type: 'source', key: 'incar' }],
+              handles: [
+                {
+                  type: 'source',
+                  key: 'incar',
+                  data_source: 'result',
+                  data_key: 'incar',
+                },
+              ],
               body: [{ id: '', source: '', type: 'textarea', key: 'incar' }],
               results: [
                 {
@@ -101,6 +122,8 @@ const handleMenuItemClick = (action: string) => {
                 {
                   key: 'kpoints',
                   type: 'source',
+                  data_source: 'result',
+                  data_key: 'kpoints',
                 },
               ],
               body: [{ id: '', source: '', type: 'textarea', key: 'kpoints' }],
@@ -127,7 +150,14 @@ const handleMenuItemClick = (action: string) => {
             data: {
               header: 'VASP',
               status: 'draft',
-              body: [{ id: '', source: '', type: 'textarea', key: 'vasp' }],
+              body: [
+                {
+                  id: '',
+                  source: 'default',
+                  type: 'select',
+                  key: 'potcarSelect',
+                },
+              ],
               results: [
                 {
                   id: '',
@@ -136,16 +166,52 @@ const handleMenuItemClick = (action: string) => {
                   script: 'vasp',
                   title: 'VASP',
                   key: 'vasp',
-                  bodies: ['vasp'],
+                  bodies: [],
                 },
               ],
               footer: 'VASP 5.4.4',
               handles: [
                 { key: 'poscar', type: 'target' },
-                { key: 'potcar', type: 'target' },
+                // { key: 'potcar', type: 'target' },
                 { key: 'incar', type: 'target' },
                 { key: 'kpoints', type: 'target' },
-                { key: 'structure', type: 'source' },
+                { key: 'VASP/outputs', type: 'source' },
+              ],
+            },
+            dragHandle: '.drag-handle',
+          }),
+        );
+
+      case 'VASP/outputs':
+        return dispatch(
+          addNode({
+            type: 'fileSelect',
+            data: {
+              header: 'OUTPUTS',
+              status: 'draft',
+              body: [
+                { id: '', source: '', type: 'select', key: 'VASP/outputs' },
+              ],
+              results: [
+                {
+                  id: '',
+                  source: '',
+                  type: 'file',
+                  script: 'VASP/outputs',
+                  title: 'VASP/outputs',
+                  key: 'VASP/outputs',
+                  bodies: ['VASP/outputs'],
+                },
+              ],
+              footer: 'VASP/outputs',
+              handles: [
+                {
+                  type: 'target',
+                  key: 'VASP/outputs',
+                  label: 'OUTPUTS',
+                  data_source: 'result',
+                  data_key: 'VASP/outputs',
+                },
               ],
             },
             dragHandle: '.drag-handle',

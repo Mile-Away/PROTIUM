@@ -84,9 +84,13 @@ export default function Page({ params }: { params: { uuid: string } }) {
     },
   });
 
-  const startWorkflow = () => {
-    saveWorkflow();
-    sendMessage('start');
+  const startWorkflow = async () => {
+    try {
+      await saveWorkflow();
+      sendMessage('start');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -99,8 +103,6 @@ export default function Page({ params }: { params: { uuid: string } }) {
 
   const saveWorkflow = async () => {
     try {
-      console.log(workflow);
-
       const res = await jwtAxios.put(
         `${BASE_URL}/workflow/workflow/${params.uuid}/`,
         {
@@ -194,7 +196,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
       {/* <Command Pannel /> */}
       <div
         className={clsx(
-          ' absolute bottom-4  right-56 min-w-fit rounded-xl border bg-white  shadow-lg dark:border-none dark:bg-black',
+          ' absolute bottom-4 isolate z-10 right-56 min-w-fit rounded-xl border bg-white  shadow-lg dark:border-none dark:bg-black',
           'transition-all duration-500 ease-in-out',
           isConsoleExpand ? 'h-[9.4rem]' : 'h-10',
           isConsoleVisible ? 'left-2' : 'left-1/2',
@@ -265,15 +267,17 @@ export default function Page({ params }: { params: { uuid: string } }) {
           </div>
         </div>
         {/* Body */}
-        <div className="inert mt-10 overflow-scroll px-4 py-4 text-2xs">
-          {consoleInfo.map((item, idx) => (
-            <p>
-              <span className=" mr-2 max-w-32 dark:text-neutral-500">
-                {formatTime(item.time)}
-              </span>
-              {item.message}
-            </p>
-          ))}
+        <div className="inert mt-10 h-[calc(100%-2.5rem)] px-4 py-4 text-2xs">
+          <div className="h-full overflow-scroll">
+            {consoleInfo.map((item, idx) => (
+              <p key={idx}>
+                <span className=" mr-2 max-w-32 dark:text-neutral-500">
+                  {formatTime(item.time)}
+                </span>
+                {item.message}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </div>

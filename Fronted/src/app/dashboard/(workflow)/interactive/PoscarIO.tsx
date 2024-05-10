@@ -18,7 +18,7 @@ export default function PoscarIO(
     dispatch(
       setNodeDataBodyContent({
         nodeId: id,
-        bodyId: data.body[idx].id,
+        bodyKey: data.body[idx].key,
         source: content,
       }),
     );

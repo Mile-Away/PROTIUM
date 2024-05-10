@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 export interface WorkflowNodeDataHandlesProps {
   key: string;
   type: 'source' | 'target';
+  label?: string;
   hasConnected?: boolean;
   required?: boolean;
   data_source?: 'result' | 'body' | 'handle';
@@ -24,7 +25,7 @@ export interface WorkflowNodeDataBodyProps {
   type: 'input' | 'select' | 'textarea' | 'file';
   key: string;
   source: string;
-  results?: string[];  // 记录这个 Body 运行的 Result 的 key
+  results?: string[]; // 记录这个 Body 运行的 Result 的 key
   title?: string;
   attachment?: string;
 }
@@ -86,7 +87,7 @@ export interface WorkflowStateProps {
   nodes: WorkflowNodeProps[];
   edges: Edge[];
   workflow: WorkflowProps;
-  consoleInfo: { time: Date; message: string }[];
+  consoleInfo: { time: string; message: string }[];
 }
 
 const initialStateWorkflow: WorkflowStateProps = {
@@ -104,7 +105,7 @@ const initialStateWorkflow: WorkflowStateProps = {
   workflow: {
     id: '',
     uuid: '',
-    name: '',
+    name: 'Untitled',
     description: '',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -167,6 +168,10 @@ const workflowSlice = createSlice({
                 ...item,
                 id: uuidv4(),
               })),
+              results: props.data.results.map((item) => ({
+                ...item,
+                id: uuidv4(),
+              })),
             },
           } as WorkflowNodeProps,
           meta: undefined,
@@ -180,7 +185,7 @@ const workflowSlice = createSlice({
         });
 
         state.consoleInfo.push({
-          time: new Date(),
+          time: new Date().toISOString(),
           message: `Added: ${action.payload.data.header}`,
         });
       },
@@ -234,7 +239,7 @@ const workflowSlice = createSlice({
       }
 
       state.consoleInfo.push({
-        time: new Date(),
+        time: new Date().toISOString(),
         message: `Connected: ${sourceNode?.data
           .header}(${action.payload.sourceHandle
           ?.split('_')
@@ -246,7 +251,7 @@ const workflowSlice = createSlice({
 
     // 记录节点的 Body 的输入
     setNodeDataBodyContent: {
-      prepare(props: { nodeId: string; bodyId: string; source: string }) {
+      prepare(props: { nodeId: string; bodyKey: string; source: string }) {
         return {
           payload: props,
           meta: undefined,
@@ -257,7 +262,7 @@ const workflowSlice = createSlice({
         state,
         action: PayloadAction<{
           nodeId: string;
-          bodyId: string;
+          bodyKey: string;
           source: string;
         }>,
       ) {
@@ -266,13 +271,65 @@ const workflowSlice = createSlice({
         );
         if (node) {
           const body = node.data.body.find(
-            (body) => body.id === action.payload.bodyId,
+            (body) => body.key === action.payload.bodyKey,
           );
           if (body) {
             body.source = action.payload.source;
           }
         }
       },
+    },
+
+    setHandle: (
+      state,
+      action: PayloadAction<{
+        nodeId: string;
+        handleKey: string;
+        data_source: 'result' | 'body' | 'handle';
+        data_key: string;
+      }>,
+    ) => {
+      const node = state.nodes.find(
+        (node) => node.id === action.payload.nodeId,
+      );
+      if (node) {
+        const handle = node.data.handles.find(
+          (handle) => handle.key === action.payload.handleKey,
+        );
+        if (handle) {
+          handle.data_source = action.payload.data_source;
+          handle.data_key = action.payload.data_key;
+        }
+      }
+    },
+
+    addHandle: (
+      state,
+      action: PayloadAction<{
+        nodeId: string;
+        handle: WorkflowNodeDataHandlesProps;
+      }>,
+    ) => {
+      const node = state.nodes.find(
+        (node) => node.id === action.payload.nodeId,
+      );
+      if (node) {
+        node.data.handles.push(action.payload.handle);
+      }
+    },
+
+    deleteHandle: (
+      state,
+      action: PayloadAction<{ nodeId: string; handleKey: string }>,
+    ) => {
+      const node = state.nodes.find(
+        (node) => node.id === action.payload.nodeId,
+      );
+      if (node) {
+        node.data.handles = node.data.handles.filter(
+          (handle) => handle.key !== action.payload.handleKey,
+        );
+      }
     },
 
     setSliderOverlayVisible: (state, action) => {
@@ -318,6 +375,9 @@ export const {
   setWorkflow,
   setWorkflowName,
   setNodeStatus,
+  setHandle,
+  addHandle,
+  deleteHandle,
 } = workflowSlice.actions;
 
 export default workflowSlice.reducer;

@@ -24,7 +24,7 @@ export default function SelectNode(props: BasicNodeProps) {
     dispathch(
       setNodeDataBodyContent({
         nodeId: id,
-        bodyId: data.body[0].id,
+        bodyKey: data.body[0].key,
         source: items[index].name,
       }),
     );
