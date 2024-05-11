@@ -47,6 +47,7 @@ class Workflow(models.Model):
 class WorkflowNode(models.Model):
     status_choices = (
         ("draft", "Draft"),
+        ("skipped", "Skipped"),
         ("success", "Success"),
         ("failed", "Failed"),
         ("running", "Running"),

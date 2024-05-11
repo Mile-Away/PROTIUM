@@ -1,24 +1,21 @@
 import os
 from abc import ABC
-
-from workflow.models import WorkflowNode
+import asyncio
 
 from ..utils.IOExecutor import IOExecutor
 
 
 class KpointsNodeExecutor(IOExecutor, ABC):
 
-    def __init__(self, node: WorkflowNode):
-        super().__init__(node)
-
     async def execute(self, result) -> str:
 
         body_source = await self.get_body_source(result, "kpoints")
 
-        dir_path = await self.dir_path
+        dir_path = await self.create_dir_path()
 
         file_path = os.path.join(dir_path, "KPOINTS")
 
+        await asyncio.sleep(1)
         await self.write(file_path, body_source)
 
         result.source = file_path

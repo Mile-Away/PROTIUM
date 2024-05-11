@@ -1,0 +1,60 @@
+UPDATES since 20Apr07 release (not complete!)
+============================================
+
+26.3.2009 Ag replaced by Ag_new
+26.3.2009 At created
+26.3.2009 At_d created
+26.3.2009 Au replaced by Au_new
+26.3.2009 Bi_pv created
+26.3.2009 C_d generated
+26.3.2009 Ce_h generated
+26.3.2009 Cl_h replaced Cl_h_new 
+26.3.2009 Fr_sv generated
+26.3.2009 Ge_d updated
+26.3.2009 H_AE generated
+26.3.2009 Hf_sv generated
+26.3.2009 In_pv generated
+26.3.2009 Li_sv updated
+26.3.2009 Mo_pv replaced by Mo_pv_new (f local)
+26.3.2009 Mo_sv updated
+26.3.2009 Pd replaced by Pd_new
+26.3.2009 Pd_pv replaced by Pd_pv_new
+26.3.2009 Po updated (d projector and f projector)
+26.3.2009 Pt_new
+26.3.2009 Ra_sv generated
+26.3.2009 Rh replaced by Rh_new
+26.3.2009 Rh_pv replaced by Rh_pv_new (f local)
+26.3.2009 Rn updated
+26.3.2009 Ru replaced by Ru_new
+26.3.2009 Ru_pv replaced by Ru_pv_new
+26.3.2009 Tc replaced by Tc_new
+26.3.2009 Tc_pv replaced by Tc_pv_new
+26.3.2009 Ti_sv replaced by Ti_sv_new
+26.3.2009 Zn_pv generated
+26.3.2009 Zn_sv replaced by Zr_sv_new
+26.3.2009 Fe_pv updated (compatible to PBE)
+26.3.2009 Fe_sv updated (compatible to PBE)
+26.3.2009 Cr_pv updated
+26.3.2009 Mg updated (compatible to PBE)
+26.3.2009 Mn_pv updated (compatible to PBE)
+26.3.2009 Nb_sv updated
+26.3.2009 Ni updated (compatible to PBE)
+26.3.2009 V_sv updated (compatible to PBE, f local)
+26.3.2009 W_pv updated (compatible to PBE, f local)
+26.3.2009 Y_sv updated (compatible to PBE, f local)
+26.3.2009 Co updated (smaller RCLOC compatible to PBE)
+26.3.2009 Cl softer d potential
+26.3.2009 S softer d potential (compatible to PBE)
+26.3.2009 P softer d potential (compatible to PBE)
+26.3.2009 Ce potential updated (compatibale to PBE)
+15.3.2012 As compatible to PBE: 2nd p moved to 2 Ry
+15.3.2012 Cl_h compatible to PBE: ICORE = 2
+15.3.2012 Co_pv compatible to PBE: larger core radii
+15.3.2012 Li compatible to PBE: d ultrasoft
+15.3.2012 Mg_sv compatible to PBE: RDEPT=1.3
+
+various GW potentials generated
+
+UPDATES since 19Apr12 release
+=============================
+04.5.2012 Si_GW core radius for first s projector increased back to 1.9 

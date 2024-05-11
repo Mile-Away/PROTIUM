@@ -49,7 +49,7 @@ export interface WorkflowNodeDataProps {
   handles: WorkflowNodeDataHandlesProps[];
   body: WorkflowNodeDataBodyProps[]; // body 属性决定 Node 上展示的与用户交互的表单，表单提交的行为回调到 Redux
   results: WorkflowNodeResultProps[];
-  status: 'draft' | 'pending' | 'running' | 'success' | 'failed';
+  status: 'draft' | 'skipped' | 'pending' | 'running' | 'success' | 'failed';
   footer?: string;
 }
 export interface WorkflowNodeProps
