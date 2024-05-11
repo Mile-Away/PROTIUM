@@ -158,6 +158,15 @@ const handleMenuItemClick = (action: string) => {
                   key: 'potcarSelect',
                 },
               ],
+
+              footer: 'VASP 5.4.4',
+              handles: [
+                { key: 'poscar', type: 'target' },
+                // { key: 'potcar', type: 'target' },
+                { key: 'incar', type: 'target' },
+                { key: 'kpoints', type: 'target' },
+                { key: 'VASP/outputs', type: 'source' },
+              ],
               results: [
                 {
                   id: '',
@@ -168,14 +177,6 @@ const handleMenuItemClick = (action: string) => {
                   key: 'vasp',
                   bodies: [],
                 },
-              ],
-              footer: 'VASP 5.4.4',
-              handles: [
-                { key: 'poscar', type: 'target' },
-                // { key: 'potcar', type: 'target' },
-                { key: 'incar', type: 'target' },
-                { key: 'kpoints', type: 'target' },
-                { key: 'VASP/outputs', type: 'source' },
               ],
             },
             dragHandle: '.drag-handle',

@@ -24,6 +24,16 @@ class WorkflowNodeAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
+class WorkflowNodeBodyAdmin(admin.ModelAdmin):
+    def node_header(self, obj: WorkflowNodeBody) -> str:
+        return obj.node.header
+
+    node_header.short_description = "Node Header"  # type: ignore
+    list_display = ("node", "key", "node_header")
+    ordering = ("id",)
+    search_fields = ("node", "key")
+
+
 class WorkflowNodeHandleAdmin(admin.ModelAdmin):
     list_display = ("node", "key", "hasConnected", "data_source")
     ordering = ("id",)
@@ -42,7 +52,7 @@ class WorkflowNodeResultAdmin(admin.ModelAdmin):
 admin.site.register(Workflow)
 admin.site.register(WorkflowNode, WorkflowNodeAdmin)
 admin.site.register(WorkflowNodeHandle, WorkflowNodeHandleAdmin)
-admin.site.register(WorkflowNodeBody)
+admin.site.register(WorkflowNodeBody, WorkflowNodeBodyAdmin)
 admin.site.register(WorkflowEdge)
 admin.site.register(WorkflowNodeResult, WorkflowNodeResultAdmin)
 admin.site.register(WorkflowTask)

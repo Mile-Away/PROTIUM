@@ -313,9 +313,6 @@ const workflowSlice = createSlice({
       const node = state.nodes.find(
         (node) => node.id === action.payload.nodeId,
       );
-      if (node) {
-        node.data.handles.push(action.payload.handle);
-      }
     },
 
     deleteHandle: (
@@ -329,6 +326,27 @@ const workflowSlice = createSlice({
         node.data.handles = node.data.handles.filter(
           (handle) => handle.key !== action.payload.handleKey,
         );
+      }
+    },
+
+    addResultBodies: (
+      state,
+      action: PayloadAction<{
+        nodeId: string;
+        resultKey: string;
+        bodyKey: string;
+      }>,
+    ) => {
+      const node = state.nodes.find(
+        (node) => node.id === action.payload.nodeId,
+      );
+      if (node) {
+        const result = node.data.results.find(
+          (result) => result.key === action.payload.resultKey,
+        );
+        if (result) {
+          result.bodies.push(action.payload.bodyKey);
+        }
       }
     },
 

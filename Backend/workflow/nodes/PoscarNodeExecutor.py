@@ -13,7 +13,7 @@ class PoscarNodeExecutor(IOExecutor, ABC):
 
     async def execute(self, result: WorkflowNodeResult) -> str:
 
-        body_source = await self.get_body_source(result, "poscar")
+        body_source = await self.get_body_source_from_results(result, "poscar")
 
         dir_path = await self.create_dir_path()
 
@@ -24,5 +24,7 @@ class PoscarNodeExecutor(IOExecutor, ABC):
         await self.write(file_path, body_source)
 
         result.source = file_path
+
+        await self.save_result(result)
 
         return "success"

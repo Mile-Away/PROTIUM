@@ -212,7 +212,7 @@ class WorkflowExecuter:
             raise Exception(error_message)
 
         finally:
-            pass
+            await sync_to_async(node.save)()
             # 可以在这里添加其他的处理逻辑，如记录日志、发送通知等
             # node.status = "draft"
 
@@ -243,3 +243,6 @@ class WorkflowExecuter:
             print(f"Workflow execution stopped due to an error: {str(e)}")
             # 可以在这里添加其他的错误处理逻辑，如记录日志、发送通知等
             return False
+
+        finally:
+            await sync_to_async(self.workflow_instance.save)()
