@@ -1,9 +1,12 @@
 import os
 from abc import ABC, abstractmethod
 
+from accounts.models import User
 from asgiref.sync import sync_to_async
 from django.conf import settings
-from workflow.models import WorkflowNode, WorkflowNodeResult
+from workflow.models import Workflow, WorkflowNode, WorkflowNodeResult
+
+from ..utils.utils import filter_bohrium_access_token
 
 
 class NodeExecutor(ABC):
@@ -11,6 +14,21 @@ class NodeExecutor(ABC):
     def __init__(self, node: WorkflowNode):
         self.node = node
         self.node_uuid = str(node.uuid)
+
+    @sync_to_async
+    def get_creator(self) -> User:
+        return self.node.workflow.creator
+
+    async def get_bohrium_access_key(self) -> str:
+        creator = await self.get_creator()
+        access_token = await filter_bohrium_access_token(creator)
+        if access_token is None:
+            raise ValueError("Bohrium access token is None")
+        return access_token
+
+    @sync_to_async
+    def get_workflow(self, node: WorkflowNode) -> Workflow:
+        return node.workflow
 
     @sync_to_async  # 必须使用 sync_to_async 装饰器，不能直接使用 async def
     def get_workflow_uuid(self, node: WorkflowNode) -> str:

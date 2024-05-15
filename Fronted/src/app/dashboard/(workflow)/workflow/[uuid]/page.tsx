@@ -12,7 +12,7 @@ import {
   setContextMenuVisible,
   setContextMenuX,
   setContextMenuY,
-  setNodeStatus,
+  setNodeExecutedResults,
   setWorkflow,
 } from '@/store/workflow/workflowSlice';
 import { SquaresPlusIcon } from '@heroicons/react/24/outline';
@@ -34,6 +34,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isConsoleExpand, setIsConsoleExpand] = useState(true);
   const [isConsoleVisible, setIsConsoleVisible] = useState(true);
+
   let level = 0;
 
   const dispatch = useDispatch();
@@ -51,43 +52,66 @@ export default function Page({ params }: { params: { uuid: string } }) {
     }
   };
 
-  const socketUrl = params.uuid
-    ? WS_URL + `/ws/workflow/${params.uuid}/`
-    : null;
+  const [socketUrl, setSocketUrl] = useState(
+    params.uuid ? WS_URL + `/ws/workflow/${params.uuid}/` : null,
+  );
 
-  const { sendJsonMessage, sendMessage } = useWebSocket(socketUrl, {
-    onOpen: async () => {
-      console.log('Connected to: ' + socketUrl);
-    },
-    onClose: (event: CloseEvent) => {
-      console.log('Close Event', event);
-      if (event.code == 4001) {
-        console.log('Authentication Error');
-        refreshAccessToken().catch((error) => {
-          if (error.response && error.response.status === 401) {
-            logout();
-          }
-        });
-      }
-      console.log('Close');
-    },
-    onError: () => console.log('error'),
-    onMessage: (event) => {
-      const data = JSON.parse(event.data);
-      console.log('Message:', data.execute_status.status);
-      dispatch(
-        setNodeStatus({
-          id: data.execute_status.uuid,
-          status: data.execute_status.status,
-        }),
-      );
-    },
-  });
+  const { sendJsonMessage, sendMessage, getWebSocket, readyState } =
+    useWebSocket(socketUrl, {
+      onOpen: async () => {
+        console.log('Connected to: ' + socketUrl);
+      },
+      onClose: (event: CloseEvent) => {
+        console.log('Close Event', event);
+        if (event.code == 4001) {
+          console.log('Authentication Error');
+          refreshAccessToken().catch((error) => {
+            if (error.response && error.response.status === 401) {
+              logout();
+            }
+          });
+        }
+        console.log('Close');
+      },
+      onError: () => console.log('error'),
+      onMessage: (event) => {
+        const data = JSON.parse(event.data);
+        console.log('Message:', data.execute_status);
+        dispatch(
+          setNodeExecutedResults({
+            id: data.execute_status.uuid,
+            header: data.execute_status.header,
+            status: data.execute_status.status,
+            results: data.execute_status.results,
+            std_out: data.execute_status.std_out,
+            std_err: data.execute_status.std_err,
+          }),
+        );
+      },
+      shouldReconnect: (closeEvent) => {
+        /*
+      useWebSocket will handle unmounting for you, but this is an example of a 
+      case in which you would not want it to automatically reconnect
+    */
+        return true;
+      },
+      reconnectAttempts: 10,
+      reconnectInterval: 3000,
+    });
 
   const startWorkflow = async () => {
     try {
       await saveWorkflow();
-      sendMessage('start');
+
+      if (readyState === 1) {
+        sendMessage('start');
+      } else {
+        console.error('WebSocket not ready');
+        setSocketUrl(
+          params.uuid ? WS_URL + `/ws/workflow/${params.uuid}/` : null,
+        );
+        sendMessage('start');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -196,7 +220,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
       {/* <Command Pannel /> */}
       <div
         className={clsx(
-          ' absolute bottom-4 isolate z-10 right-56 min-w-fit rounded-xl border bg-white  shadow-lg dark:border-none dark:bg-black',
+          ' absolute bottom-4 right-56 isolate z-10 min-w-fit rounded-xl border bg-white  shadow-lg dark:border-none dark:bg-black',
           'transition-all duration-500 ease-in-out',
           isConsoleExpand ? 'h-[9.4rem]' : 'h-10',
           isConsoleVisible ? 'left-2' : 'left-1/2',

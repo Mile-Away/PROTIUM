@@ -5,7 +5,7 @@ import {
   setSliderOverlayVisible,
 } from '@/store/workflow/workflowSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import PoscarIO from '../interactive/PoscarIO';
+import TextArea from '../interactive/TextArea';
 import BasicNode from './BasicNode';
 
 export default function InputNode(props: BasicNodeProps) {
@@ -49,7 +49,7 @@ export default function InputNode(props: BasicNodeProps) {
                 }}
               />
             </div>
-            <PoscarIO
+            <TextArea
               {...{ idx, open: shoudleOpen(item.id), setOpen, ...props }}
             />
           </div>

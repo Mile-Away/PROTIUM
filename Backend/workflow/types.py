@@ -1,4 +1,18 @@
 # from typing import Literal, Optional, TypedDict
+from typing import Literal, Required, TypeAlias, TypedDict
+
+NodeStatus: TypeAlias = Literal["draft", "skipped", "failed", "success", "running", "pending"]
+
+
+class WorkflowNodeMessageProps(TypedDict, total=False):
+    uuid: Required[str]
+    header: Required[str]
+    status: Required[NodeStatus]
+    error: list[str]
+    results: list[dict[str, str | dict]]  # 返回的 Results 字典 key 是 Node 中的 ResultsKey, value 是执行结果
+    std_out: str
+    std_err: str
+
 
 # # export interface WorkflowNodeDataBodyProps {
 # #   id: string;

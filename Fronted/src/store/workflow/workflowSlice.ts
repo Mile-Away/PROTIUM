@@ -1,3 +1,4 @@
+import { ExecutedNodeMessageProps } from '@/@types/workflow';
 import nodeTypes from '@/app/dashboard/(workflow)/workflow/[uuid]/nodeTypes';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
@@ -368,11 +369,26 @@ const workflowSlice = createSlice({
       state.workflow.name = action.payload;
     },
 
-    setNodeStatus: (state, action) => {
+    setNodeExecutedResults: (
+      state,
+      action: PayloadAction<ExecutedNodeMessageProps>,
+    ) => {
       const node = state.nodes.find((node) => node.id === action.payload.id);
       if (node) {
         node.data.status = action.payload.status;
-        console.log('Node Status:', node.data.status);
+        action.payload.results?.map(
+          (result: { key: string; source: string }) => {
+            console.log('>>>>>>>>>>', result);
+            const resultItem = node.data.results.find(
+              (item) => item.key === result.key,
+            );
+            if (resultItem) {
+              console.log(resultItem);
+              console.log(result.source);
+              resultItem.source = result.source;
+            }
+          },
+        );
       }
     },
   },
@@ -388,11 +404,11 @@ export const {
   setEdges,
   connectEdges,
   setNodeDataBodyContent,
+  setNodeExecutedResults,
   setSliderOverlayVisible,
   setSliderOverlay,
   setWorkflow,
   setWorkflowName,
-  setNodeStatus,
   setHandle,
   addHandle,
   deleteHandle,

@@ -5,8 +5,8 @@ from .nodes.KpointsNodeExecutor import KpointsNodeExecutor
 from .nodes.PoscarNodeExecutor import PoscarNodeExecutor
 from .nodes.PotcarNodeExecutor import PotcarNodeExecutor
 from .nodes.VaspNodeExecutor import VaspNodeExecutor
-from .utils.IOExecutor import IOExecutor
-from .utils.SolverExecutor import SolverExecutor
+from .contemplates.IOExecutor import IOExecutor
+from .contemplates.SolverExecutor import SolverExecutor
 
 NodeExecutorsTypes: TypeAlias = Union[
     IOExecutor,

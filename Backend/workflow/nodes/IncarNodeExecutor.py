@@ -2,7 +2,7 @@ import asyncio
 import os
 from abc import ABC
 
-from ..utils.IOExecutor import IOExecutor
+from ..contemplates.IOExecutor import IOExecutor
 
 
 class IncarNodeExecutor(IOExecutor, ABC):
@@ -13,7 +13,7 @@ class IncarNodeExecutor(IOExecutor, ABC):
         dir_path = await self.create_dir_path()
 
         file_path = os.path.join(dir_path, "INCAR")
-        await asyncio.sleep(10)
+        # await asyncio.sleep(10)
         await self.write(file_path, body_source)
 
         result.source = file_path

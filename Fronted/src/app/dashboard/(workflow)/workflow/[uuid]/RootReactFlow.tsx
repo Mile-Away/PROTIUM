@@ -44,6 +44,7 @@ export default function RootReactFlow() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        // fitView
         className=""
       >
         <MiniMap

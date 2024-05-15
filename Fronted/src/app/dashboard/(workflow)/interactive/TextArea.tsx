@@ -3,7 +3,7 @@ import WithStickyFooter from '@/components/overlays/with_sticky_footer';
 import { setNodeDataBodyContent } from '@/store/workflow/workflowSlice';
 import { useDispatch } from 'react-redux';
 
-export default function PoscarIO(
+export default function TextArea(
   props: BasicNodeProps & {
     open: boolean;
     setOpen: (value: boolean) => void;
@@ -26,8 +26,8 @@ export default function PoscarIO(
 
   return (
     <WithStickyFooter
-      title={data.body[idx].title || data.header}
-      initialContent={data.body[idx].source}
+      title={data.body[idx]?.title || data?.header}
+      initialContent={data.body[idx]?.source}
       onContentSave={onContentSave}
       open={open}
       setOpen={setOpen}

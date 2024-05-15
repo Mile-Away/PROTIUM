@@ -100,6 +100,7 @@ class WorkflowNodeSerializer(serializers.ModelSerializer):
 
 
 class WorkflowEdgeSerializer(serializers.ModelSerializer):
+    connection_id = serializers.CharField()
     source = serializers.UUIDField()
     target = serializers.UUIDField()
     sourceHandle = serializers.StringRelatedField()
@@ -110,12 +111,12 @@ class WorkflowEdgeSerializer(serializers.ModelSerializer):
         exclude = ["id", "workflow"]
 
     def to_internal_value(self, data) -> dict:
+        print("data >>>>>>>>", data)
         if "id" in data:
             data["connection_id"] = data.pop("id")
-            if not WorkflowEdge.objects.filter(connection_id=data["connection_id"]).exists():
-                return super().to_internal_value(data)
-            else:
-                return super().to_internal_value({"connection_id": "Exists"})
+
+            return super().to_internal_value(data)
+
         else:
             raise serializers.ValidationError("Connection ID is required")
 
@@ -151,6 +152,12 @@ class WorkflowSerializer(serializers.ModelSerializer):
         # 更新 Workflow 实例的基本字段
         instance = super().update(instance, validated_data)
 
+        # 删除节点
+        node_to_delete = WorkflowNode.objects.filter(workflow=instance).exclude(
+            uuid__in=[node["uuid"] for node in nodes]
+        )
+        node_to_delete.delete()
+
         # 创建或更新节点
         for node in nodes:
             node_data = node.pop("node_data", {})
@@ -182,6 +189,12 @@ class WorkflowSerializer(serializers.ModelSerializer):
                     defaults=handle,
                 )
 
+            # 如果在 Node_Data 中的某个 body，在这边的 body 中不存在，那么就删除这个 body
+            body_to_delete = WorkflowNodeBody.objects.filter(node=Node_Data).exclude(
+                key__in=[b["key"] for b in node_body]
+            )
+            body_to_delete.delete()
+
             # 更新 WorkflowNodeBody 实例
             for body in node_body:
 
@@ -205,6 +218,9 @@ class WorkflowSerializer(serializers.ModelSerializer):
                         Result.bodies.add(body)
                     except WorkflowNodeBody.DoesNotExist:
                         raise Warning("Can't find body with key: ", body_key)
+
+        # 先删除所有连接线，再重新建立连接线
+        instance.edges.all().delete()
 
         # 更新 WorkflowEdge 实例
         for edge in edges:

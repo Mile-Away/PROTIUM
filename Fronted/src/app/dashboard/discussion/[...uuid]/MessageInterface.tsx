@@ -77,7 +77,6 @@ export function MessageInterface({
     },
     reconnectInterval: 1000,
   });
-  //   const { lastJsonMessage, sendMessage } = useWebSocket(socketUrl);
 
   // 当 newMessage 更新时，自动滚动到底部
   useEffect(() => {

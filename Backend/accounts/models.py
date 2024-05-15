@@ -14,6 +14,7 @@ def user_avatar_path(instance, filename):
 
 # Create your models here.
 class User(AbstractUser):
+    id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(max_length=50, null=False, blank=False, unique=True)
     username = models.CharField(max_length=20, null=False, blank=False, unique=True, validators=[validate_username])
@@ -24,6 +25,8 @@ class User(AbstractUser):
         validators=(validate_icon_image_size, validate_image_file_extension),
     )
     about = models.TextField(max_length=500, blank=True, null=True)
+
+    arithmetic_access: models.OneToOneField["ArithmeticAccess"]
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -67,7 +70,7 @@ class EmailVerifyCode(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.email + " " + self.captcha
+        return f"{self.email}-{self.captcha}"
 
 
 class UserSettings(models.Model):
@@ -89,3 +92,27 @@ class UserSettings(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class UserResource(models.Model):
+    """
+    用户资源
+    """
+
+    pass
+
+
+# 超算平台 access 信息模型
+class ArithmeticAccess(models.Model):
+    """
+    超算平台 access 信息
+    """
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="arithmetic_access")
+    bohrium_access_token = models.CharField(max_length=100, blank=True, null=True)
+    bohrium_username = models.CharField(max_length=50, blank=True, null=True)
+    bohrium_password = models.CharField(max_length=50, blank=True, null=True)
+    bohrium_default_project = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.username} Arithmetic Access"

@@ -10,7 +10,8 @@ VFronted/
 Backend/media/
 Practice/
 my-app/
-tool.ipynb
+
+
 
 # 暂时先注释掉 deepmd-kit 的 doc
 DocFront/src/app/doc/
@@ -19,3 +20,7 @@ DocFront/src/app/doc/
 *.pyc
 
 elasticsearch/
+
+DFlow/
+
+@SandBox/

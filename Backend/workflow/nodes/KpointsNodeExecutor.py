@@ -2,7 +2,7 @@ import os
 from abc import ABC
 import asyncio
 
-from ..utils.IOExecutor import IOExecutor
+from ..contemplates.IOExecutor import IOExecutor
 
 
 class KpointsNodeExecutor(IOExecutor, ABC):
@@ -15,7 +15,7 @@ class KpointsNodeExecutor(IOExecutor, ABC):
 
         file_path = os.path.join(dir_path, "KPOINTS")
 
-        await asyncio.sleep(1)
+        # await asyncio.sleep(1)
         await self.write(file_path, body_source)
 
         result.source = file_path

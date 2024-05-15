@@ -179,7 +179,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "media/"
 WORKFLOW_ROOT = os.path.join(MEDIA_ROOT, "workflow")
 WORKFLOW_URL = "workflow/"
-LIBRARY_ROOT = os.path.join(MEDIA_ROOT, "library")
+LIBRARY_ROOT = os.path.join(BASE_DIR, "library")
 LIBRARY_URL = "library/"
 
 # Default primary key field type

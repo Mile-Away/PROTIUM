@@ -1,6 +1,8 @@
 # DeepModeling Web
 
-## Backend
+## 启动项目
+
+### 后端
 
 0. 依赖：
 
@@ -9,7 +11,7 @@
 1. 安装
 
 ```bash
-pip install
+pip install -r requirements.txt
 ```
 
 2. 启动
@@ -18,7 +20,13 @@ pip install
 uvicorn backend.asgi:application --port 8000 --log-level debug --reload
 ```
 
-## Fronted
+#### 后端需要依赖的环境变量（不包含在仓库中）
+
+```bash
+- .env
+```
+
+### 前端
 
 0. 依赖
 
@@ -37,3 +45,16 @@ npm install
 npm run dev
 ```
 
+#### 前端需要依赖的环境变量（不包含在仓库中）
+
+```bash
+- .env
+- next-env.d.ts
+- src/config.ts
+- @brand
+- public/@brand
+```
+
+## 笔记
+
+一个 Handle 同一时间只能连接一条 Edge，当一个已连接的 handle 需要连接第二个 Edge 时，之前的连接会被取消。

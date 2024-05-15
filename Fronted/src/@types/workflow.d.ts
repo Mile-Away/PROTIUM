@@ -17,3 +17,13 @@ export interface BasicNodeProps extends NodeProps {
   data: WorkflowNodeDataProps;
   children?: React.ReactNode;
 }
+
+export interface ExecutedNodeMessageProps {
+  id: string;
+  header: string;
+  status: 'success' | 'failed' | 'running' | 'draft' | 'skipped' | 'pending';
+  error?: string[];
+  results?: [];
+  std_out?: str;
+  std_err?: str;
+}

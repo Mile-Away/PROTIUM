@@ -1,5 +1,6 @@
 import uuid
 
+from accounts.models import User
 from django.conf import settings
 from django.db import models
 
@@ -19,7 +20,9 @@ class Workflow(models.Model):
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="workflows")
+    creator: User = models.ForeignKey(  # type: ignore
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="workflows"
+    )
     status = models.CharField(max_length=50, choices=status_choices, default="draft")
     public = models.BooleanField(default=False)
 
@@ -109,6 +112,8 @@ class WorkflowNodeHandle(models.Model):
     # 或者 {"source": "result", "key": "poscar"}
     data_source = models.CharField(max_length=10, blank=True, null=True, choices=data_source_choices)
     data_key = models.CharField(max_length=100, blank=True, null=True)
+    edges_sourceHandle: models.QuerySet["WorkflowEdge"]
+    edges_targetHandle: models.QuerySet["WorkflowEdge"]
 
     class Meta:
         unique_together = ("node", "type", "key")

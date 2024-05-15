@@ -157,6 +157,19 @@ const handleMenuItemClick = (action: string) => {
                   type: 'select',
                   key: 'potcarSelect',
                 },
+                {
+                  id: '',
+                  source: 'bohrium',
+                  type: 'select',
+                  key: 'machineSelect',
+                },
+                {
+                  id: '',
+                  source: '',
+                  title: 'Machine Config',
+                  type: 'textarea',
+                  key: 'config',
+                },
               ],
 
               footer: 'VASP 5.4.4',

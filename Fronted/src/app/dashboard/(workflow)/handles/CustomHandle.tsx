@@ -44,6 +44,10 @@ const CustomHandle = ({
         return true;
       }
 
+      if (isConnected) {
+        return false;
+      }
+
       // 当且仅当 handleID 中的 key 与 结束组件的 handle 的 key 相等时，才可以连接
       if (connectionStartHandle?.handleId?.split('_').pop() === key) {
         return true;

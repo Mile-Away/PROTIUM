@@ -1,36 +1,147 @@
 import asyncio
+import json
 import os
 from abc import ABC
+from typing import TypedDict
 
-from ..utils.SolverExecutor import SolverExecutor
+from asgiref.sync import sync_to_async
+from django.conf import settings
+from workflow.models import WorkflowNodeResult
+from workflow.types import NodeStatus
+
+from ..contemplates.SolverExecutor import SolverExecutor
+from ..utils.bohriumSDK.client import Client
+from ..utils.bohriumSDK.job import Job
+from ..utils.handles import (
+    check_handle_connected,
+    filter_target_handles,
+    get_bound_handle_from_target,
+    get_handle_data_source_content,
+)
+from ..utils.nodes import get_node_header
+from ..utils.utils import channel_send_node_result, move_file
+
+
+class BohriumJobCallbackTyped(TypedDict):
+    pass
 
 
 class VaspNodeExecutor(SolverExecutor, ABC):
 
-    async def get_default_potcar(self):
+    @sync_to_async
+    def submit_bohrium_job(self, dir_path: str, config: dict) -> dict:
+        access_token = self.node.workflow.creator.arithmetic_access.bohrium_access_token
+        if access_token is None:
+            raise ValueError("Bohrium access token is None")
+
+        client = Client(access_key=access_token)
+        job = Job(client=client)
+        details = job.submit(
+            work_dir=dir_path,
+            project_id=config["project_id"],
+            job_name=config["job_name"],
+            machine_type=config["machine_type"],
+            cmd=config["command"],
+            dataset_path=[],
+            image_address=config["image_address"],
+            log_files=[],
+            out_files=[],
+        )
+
+        return details
+
+    @sync_to_async
+    def generate_potcar(
+        self,
+        poscar_file,
+        potcar_file="POTCAR",
+        potcar_src_folder=f"{settings.LIBRARY_ROOT}/PseudoPotential/PBE/potpaw_PBE",
+    ):
+        with open(poscar_file, "r") as file:
+            lines = file.readlines()
+
+        # 获取元素信息
+        elements = lines[5].strip().split()
+
+        # 生成 POTCAR 文件
+        with open(potcar_file, "w") as potcar:
+            for element in elements:
+                potcar_src_path = os.path.join(potcar_src_folder, element, "POTCAR")
+                potcar_sv_path = os.path.join(potcar_src_folder, f"{element}_sv", "POTCAR")
+                if os.path.exists(potcar_src_path):
+                    with open(potcar_src_path, "r") as src:
+                        potcar.write(src.read())
+                elif os.path.exists(potcar_sv_path):
+                    with open(potcar_sv_path, "r") as sv:
+                        potcar.write(sv.read())
+                else:
+                    raise Exception(f"无法找到 {element} 的源 POTCAR 文件：{potcar_src_path}")
+
+        return elements
+
+    async def get_default_potcar(self) -> str:
         return "default POTCAR"
 
-    async def execute(self, result) -> str:
+    async def execute(self, result: WorkflowNodeResult) -> NodeStatus:
 
         # 从 target handle 获取 POSCAR, INCAR, KPOINTS 的文件路径
-        if not await self.check_handle_connected(self.node, "target"):
+        if not await check_handle_connected(self.node, "target"):
             return "failed"
-        
-        # target_handles = await self.filter_target_handles(self.node)
+
+        # 从 Edge 获取 Source handle
+        connected_target_handles = await filter_target_handles(self.node, connected=True)
+        source_handles = [await get_bound_handle_from_target(handle) for handle in connected_target_handles]
+
+        sources = [get_handle_data_source_content(source_handle) for source_handle in source_handles]
+        sub_file_path = await asyncio.gather(*sources)
+
+        # 创建文件夹
+        dir_path = await self.create_dir_path()
+
+        # 将 POSCAR, INCAR, KPOINTS 移动到文件夹
+        for sub_file in sub_file_path:
+            if sub_file is None:
+                return "failed"
+            await move_file(sub_file, dir_path)
 
         # 从 body 判断 POTCAR 来自于哪里
-        body_source = await self.get_body_source("potcarSelect")
+        potcar_body_source = await self.get_body_source("potcarSelect")
 
-        if body_source == "default":
-            potcar_content = await self.get_default_potcar()
-            potcat_dir_path = await self.create_dir_path()
-
-            potcar_file_path = os.path.join(potcat_dir_path, "POTCAR")
-            await self.write(potcar_file_path, potcar_content)
-
+        if potcar_body_source == "default":
+            potcar_file_path = os.path.join(dir_path, "POTCAR")
+            element = await self.generate_potcar(os.path.join(dir_path, "POSCAR"), potcar_file=potcar_file_path)
+            if element is None:
+                return "failed"
         else:
             raise Exception("POTCAR not found")
 
-        await asyncio.sleep(20)
+        # Get Resource Cinfig from body
+        # resource_config = await self.get_body_source("resourceConfig")
+
+        machine_body_source = await self.get_body_source("machineSelect")
+
+        if machine_body_source == "bohrium":
+            machine_config = await self.get_body_source("config")
+            if machine_config is None:
+                return "failed"
+            await self.write(os.path.join(dir_path, "job.json"), machine_config)
+            machine_config = json.loads(machine_config)
+
+            details = await self.submit_bohrium_job(dir_path, machine_config)
+            print(details, type(details))
+            # {'jobGroupId': 12121871, 'jobId': 12532070, 'bohrJobId': 9983760} <class 'dict'>
+            workflow = await self.get_workflow(self.node)
+
+            await channel_send_node_result(
+                workflow=workflow,
+                execute_status={
+                    "uuid": str(self.node.uuid),
+                    "header": await get_node_header(self.node),
+                    "status": "success",
+                    "results": [{"key": result.key, "source": details["jobId"]}],
+                },
+            )
+
+        # await asyncio.sleep(20)
 
         return "success"
