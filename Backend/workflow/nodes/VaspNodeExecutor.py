@@ -106,7 +106,9 @@ class VaspNodeExecutor(SolverExecutor, ABC):
 
         # 从 body 判断 POTCAR 来自于哪里
         potcar_body_source = await self.get_body_source("potcarSelect")
-
+        
+        print(potcar_body_source)
+        
         if potcar_body_source == "default":
             potcar_file_path = os.path.join(dir_path, "POTCAR")
             element = await self.generate_potcar(os.path.join(dir_path, "POSCAR"), potcar_file=potcar_file_path)
@@ -121,14 +123,20 @@ class VaspNodeExecutor(SolverExecutor, ABC):
         machine_body_source = await self.get_body_source("machineSelect")
 
         if machine_body_source == "bohrium":
+
             machine_config = await self.get_body_source("config")
             if machine_config is None:
                 return "failed"
             await self.write(os.path.join(dir_path, "job.json"), machine_config)
-            machine_config = json.loads(machine_config)
+            
+            try:
+                machine_config = json.loads(machine_config)
+            except json.JSONDecodeError:
+                print("json decode error")
+                return "failed"
 
             details = await self.submit_bohrium_job(dir_path, machine_config)
-            print(details, type(details))
+            # print(details, type(details))
             # {'jobGroupId': 12121871, 'jobId': 12532070, 'bohrJobId': 9983760} <class 'dict'>
             workflow = await self.get_workflow(self.node)
 

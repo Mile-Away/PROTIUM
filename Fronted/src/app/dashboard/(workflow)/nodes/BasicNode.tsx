@@ -15,7 +15,7 @@ export default function BasicNode(props: BasicNodeProps) {
           'shadow-lg dark:shadow-black',
           'cursor-auto rounded',
           'transition-all duration-300 ease-in-out',
-          dragging && 'opacity-75',
+          dragging && ' opacity-60',
           '',
           data.status === 'running' && 'ring-1 dark:ring-yellow-500',
           data.status === 'failed' && 'ring-1 dark:ring-red-500 ',
