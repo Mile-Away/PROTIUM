@@ -35,11 +35,11 @@ export default function InputNode(props: BasicNodeProps) {
                 className="h-8 w-full rounded-r border-l-2 bg-transparent pl-2 placeholder:text-xs focus:outline-none dark:border-indigo-600"
                 type="text"
                 placeholder={`${
-                  data.body[idx].source.split('\n')[0].slice(0, 20) ||
+                  data.body[idx]?.source.split('\n')[0].slice(0, 20) ||
                   data.header
                 } ${
-                  data.body[idx].source.split('\n').length > 1 ||
-                  data.body[idx].source.split('\n')[0].length > 20
+                  data.body[idx]?.source.split('\n').length > 1 ||
+                  data.body[idx]?.source.split('\n')[0].length > 20
                     ? '...'
                     : ''
                 }`}
