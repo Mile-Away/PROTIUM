@@ -15,12 +15,12 @@ export default function BasicNode(props: BasicNodeProps) {
           'shadow-lg dark:shadow-black',
           'cursor-auto rounded',
           'transition-all duration-300 ease-in-out',
-          dragging && ' opacity-60',
+          dragging && ' opacity-75',
           '',
           data.status === 'running' && 'ring-1 dark:ring-yellow-500',
           data.status === 'failed' && 'ring-1 dark:ring-red-500 ',
           data.status === 'success' && 'ring-1 dark:ring-teal-500 ',
-          data.status === 'skipped' && 'opacity-75 ',
+          data.status === 'skipped' && 'opacity-60',
         )}
       >
         {/* <div className="absolute inset-0 rounded-md bg-gradient-to-tr from-sky-600 via-sky-600/70 to-blue-600 opacity-10 blur-lg"></div> */}

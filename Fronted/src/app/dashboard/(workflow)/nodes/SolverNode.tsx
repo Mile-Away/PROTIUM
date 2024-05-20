@@ -120,7 +120,7 @@ export default function SolverNode(props: BasicNodeProps) {
               }`}
               onClick={() => {
                 dispatch(
-                  setSliderOverlay({ nodeId: id, bodyId: data.body[2].id }),
+                  setSliderOverlay({ nodeId: id, bodyId: data.body[2]?.id }),
                 );
                 setOpen(true);
               }}
@@ -129,7 +129,7 @@ export default function SolverNode(props: BasicNodeProps) {
           <TextArea
             {...{
               idx: 2,
-              open: shoudleOpen(data.body[2].id),
+              open: shoudleOpen(data.body[2]?.id),
               setOpen,
               ...props,
             }}

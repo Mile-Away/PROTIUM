@@ -57,27 +57,31 @@ class VaspNodeExecutor(SolverExecutor, ABC):
         potcar_file="POTCAR",
         potcar_src_folder=f"{settings.LIBRARY_ROOT}/PseudoPotential/PBE/potpaw_PBE",
     ):
-        with open(poscar_file, "r") as file:
-            lines = file.readlines()
+        try:
+            with open(poscar_file, "r") as file:
+                lines = file.readlines()
 
-        # 获取元素信息
-        elements = lines[5].strip().split()
+            # 获取元素信息
+            elements = lines[5].strip().split()
 
-        # 生成 POTCAR 文件
-        with open(potcar_file, "w") as potcar:
-            for element in elements:
-                potcar_src_path = os.path.join(potcar_src_folder, element, "POTCAR")
-                potcar_sv_path = os.path.join(potcar_src_folder, f"{element}_sv", "POTCAR")
-                if os.path.exists(potcar_src_path):
-                    with open(potcar_src_path, "r") as src:
-                        potcar.write(src.read())
-                elif os.path.exists(potcar_sv_path):
-                    with open(potcar_sv_path, "r") as sv:
-                        potcar.write(sv.read())
-                else:
-                    raise Exception(f"无法找到 {element} 的源 POTCAR 文件：{potcar_src_path}")
+            # 生成 POTCAR 文件
+            with open(potcar_file, "w") as potcar:
+                for element in elements:
+                    potcar_src_path = os.path.join(potcar_src_folder, element, "POTCAR")
+                    potcar_sv_path = os.path.join(potcar_src_folder, f"{element}_sv", "POTCAR")
+                    if os.path.exists(potcar_src_path):
+                        with open(potcar_src_path, "r") as src:
+                            potcar.write(src.read())
+                    elif os.path.exists(potcar_sv_path):
+                        with open(potcar_sv_path, "r") as sv:
+                            potcar.write(sv.read())
+                    else:
+                        raise Exception(f"无法找到 {element} 的源 POTCAR 文件：{potcar_src_path}")
 
-        return elements
+            return elements
+        except Exception as e:
+            print(">>>>> Error General POTCAR", e)
+            return None
 
     async def get_default_potcar(self) -> str:
         return "default POTCAR"
@@ -106,13 +110,14 @@ class VaspNodeExecutor(SolverExecutor, ABC):
 
         # 从 body 判断 POTCAR 来自于哪里
         potcar_body_source = await self.get_body_source("potcarSelect")
-        
+
         print(potcar_body_source)
-        
+
         if potcar_body_source == "default":
             potcar_file_path = os.path.join(dir_path, "POTCAR")
             element = await self.generate_potcar(os.path.join(dir_path, "POSCAR"), potcar_file=potcar_file_path)
             if element is None:
+                print("generate potcar failed")
                 return "failed"
         else:
             raise Exception("POTCAR not found")
@@ -128,7 +133,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
             if machine_config is None:
                 return "failed"
             await self.write(os.path.join(dir_path, "job.json"), machine_config)
-            
+
             try:
                 machine_config = json.loads(machine_config)
             except json.JSONDecodeError:

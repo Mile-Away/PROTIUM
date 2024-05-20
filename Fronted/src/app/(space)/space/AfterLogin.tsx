@@ -17,12 +17,8 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
   searchedSpaces,
 }) => {
   return (
-    <div className="container mx-auto my-32 dark:bg-neutral-900">
-      <div className="my-12">
-        <Carousel
-          images={['/banner.jpg', '/hero4-horizen.png', '/banner.jpg']}
-        />
-      </div>
+    <>
+
 
       {/* Personal Recommand */}
 
@@ -53,7 +49,7 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
         <h2 className="mb-8 text-2xl font-bold text-neutral-800 dark:text-neutral-200">
           Recommended for you
         </h2>
-        <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
           {recommendedSpaces.map((space, index) => (
             <Link
               key={index}
@@ -68,32 +64,40 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
                 <img
                   src={`${MEDIA_URL}${space.banner}`}
                   alt={space.name}
-                  className="h-auto w-full rounded-t-lg object-fill"
+                  className="md:h-36 w-full rounded-t-lg object-cover object-center"
                 />
               )}
-              <div className="p-4">
-                <div className="mb-2 flex items-center gap-x-2">
-                  {space.icon && (
-                    <img
-                      src={`${MEDIA_URL}${space.icon}`}
-                      className="h-5 w-5 rounded-full "
-                      alt={space.name}
-                    />
-                  )}
-                  <h3 className="line-clamp-3 text-lg font-semibold text-neutral-800 dark:text-white">
-                    {space.name}
-                  </h3>
-                </div>
+
+              <div className="flex flex-col gap-2 p-4">
                 <div>
-                  <p className=" line-clamp-3 text-xs dark:text-neutral-400">{space.description}</p>
+                  <div className="mb-2 flex items-center gap-x-2">
+                    {space.icon && (
+                      <img
+                        src={`${MEDIA_URL}${space.icon}`}
+                        className="h-5 w-5 rounded-full "
+                        alt={space.name}
+                      />
+                    )}
+                    <h3 className="line-clamp-3 text-lg font-semibold text-neutral-800 dark:text-white">
+                      {space.name}
+                    </h3>
+                  </div>
+
+                  <div>
+                    <p className=" line-clamp-3 text-xs dark:text-neutral-400">
+                      {space.description}
+                    </p>
+                  </div>
                 </div>
-                <UserInfoButton username={space.owner} star />
+
+                <UserInfoButton username={space.owner} star className="pl-0" />
                 {/* <div className="mb-2 flex items-center">
                   {renderStarRating(space.rating)}
                   <span className="ml-1 text-sm text-neutral-600 dark:text-neutral-400">
                     ({space.ratingCount})
                   </span>
                 </div> */}
+
                 <div className="flex items-center">
                   {
                     <span className="mr-2 rounded-full bg-indigo-600 px-2 py-1 text-xs font-semibold text-white dark:bg-indigo-400 dark:text-neutral-800">
@@ -112,13 +116,13 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
           ))}
         </div>
 
-        <h2 className="mb-8 text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+        {/* <h2 className="mb-8 text-2xl font-bold text-neutral-800 dark:text-neutral-200">
           Because you searched for{' '}
           <span className=" text-indigo-500 underline">"DeePMD"</span>
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></div> */}
       </div>
-    </div>
+    </>
   );
 };
 

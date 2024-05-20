@@ -21,6 +21,44 @@ mark {
     }
 }
 
+.sliderbtn {
+    display: inline-flex;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.25rem;
+}
+
+.sliderbtn::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(79 70 229 / 0.8);
+    /* background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    top: 0%;
+    left: -100%;
+    opacity: 0;
+}
+
+.sliderbtn:hover::before {
+    animation: slidebtn 0.3s 1 forwards;
+    top: 0%;
+}
+
+@keyframes slidebtn {
+    0% {
+        left: -100%;
+        top: 0%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 0%;
+        top: 0%;
+        opacity: 1;
+    }
+}
+
 
 
 

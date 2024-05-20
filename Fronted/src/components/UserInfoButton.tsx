@@ -29,6 +29,7 @@ export const UserInfoButton = ({
     `/accounts/get_basic_info/?username=${username}`,
   );
   const router = useRouter();
+  
   useEffect(() => {
     if (username) {
       fetchData();
