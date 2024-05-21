@@ -1940,7 +1940,16 @@
  }
 
  .vditor-ir__node:not(.vditor-ir__node--expand)[data-type="a"] {
+   display: inline-flex;
+   align-items: center;
+   text-decoration: none;
+   background-color: transparent;
+   font-weight: 600;
    cursor: pointer;
+   position: relative;
+   overflow: hidden;
+   word-wrap: break-word;
+   word-break: break-all;
  }
 
  .vditor-ir__node[data-type="link-ref"],
@@ -2042,12 +2051,16 @@
 
  .vditor-ir__link {
    color: rgb(113, 141, 255);
+   display: inline-flex;
+   align-items: center;
    text-decoration: none;
    background-color: transparent;
    font-weight: 600;
    cursor: pointer;
    position: relative;
    overflow: hidden;
+   word-wrap: break-word;
+   word-break: break-all;
  }
 
  .vditor-ir__link::before {
@@ -2063,7 +2076,16 @@
    transition: transform 0.3s;
  }
 
+ .vditor-ir__link img {
+   margin: 0;
+   vertical-align: middle;
+ }
+
  .vditor-ir__link:hover::before {
+   transform: translateX(-50%) scaleX(1);
+ }
+
+ .vditor-ir__link:not(:has(img)):hover::before {
    transform: translateX(-50%) scaleX(1);
  }
 

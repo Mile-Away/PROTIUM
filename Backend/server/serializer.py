@@ -1,13 +1,12 @@
-import re
 from typing import Optional
 
-from backend.utils import HighlightedCharField
-from document.serializer import DocumentSerializer, PublicArticleSerializer
+from document.models import Document
+from document.serializer import PublicArticleSerializer
 from rest_framework import serializers
 from webchat.serializer import MessageSerializer
 
 from .models import Category, Channel, Server
-
+from document.serializer import DocumentSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,7 +49,7 @@ class ServerSerializer(serializers.ModelSerializer):
     num_members = serializers.SerializerMethodField()  # 自定义字段，需要加 SerializerMethodField
     # 返回 Server 对象的所有 Channel 对象
     channel_server = ChannelSerializer(many=True)  # 一对多关系，需要加 many=True
-    readme = serializers.SlugRelatedField(slug_field="uuid", read_only=True)
+    readme = DocumentSerializer()
     pinned_manuscript = PublicArticleSerializer(many=True, read_only=True)
     owner = serializers.StringRelatedField(read_only=True)
     admins = serializers.StringRelatedField(many=True, read_only=True)

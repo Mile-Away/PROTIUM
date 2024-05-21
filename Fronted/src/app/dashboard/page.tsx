@@ -1,14 +1,14 @@
 'use client';
-import { ArticleProps, PageProps } from '@/@types/article';
-import { Card } from '@/app/(home)/Card';
+import { PageProps } from '@/@types/article';
+
 import { Footer } from '@/app/(home)/articles/Footer';
 import Loading from '@/app/loading';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
-import Markdown from '@/components/docs/Markdwon';
+
 import { useDictCRUD } from '@/hooks/useCrud';
-import { formatTime } from '@/lib/formatDate';
-import '@/styles/markdown.abstract.css';
+
+import Article from '@/components/Article';
 import { ArrowUpRightIcon, HandThumbUpIcon } from '@heroicons/react/20/solid';
 import { type ImageProps } from 'next/image';
 import Link from 'next/link';
@@ -35,28 +35,6 @@ function MailIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
         className="stroke-zinc-400 dark:stroke-zinc-500"
       />
     </svg>
-  );
-}
-
-function Article({ article }: { article: ArticleProps }) {
-  const { t } = useTranslation('translation');
-  return (
-    <Card as="article">
-      <Card.Title href={`articles/detail/${article.uuid}/${article.title}`}>
-        {article.title}
-      </Card.Title>
-      <Card.Eyebrow as="time" dateTime={article.updated_at} decorate>
-        {formatTime(article.updated_at)}
-      </Card.Eyebrow>
-
-      <div className="markdown-abstract max-w-full">
-        <div className="relative mt-2 line-clamp-4 text-sm text-zinc-600 dark:text-zinc-400">
-          <Markdown content={article.content} />
-        </div>
-      </div>
-
-      <Card.Cta>{t('Read Article')}</Card.Cta>
-    </Card>
   );
 }
 
@@ -142,7 +120,7 @@ const Page = () => {
 
               <div className="space-y-10 lg:pl-16 xl:pl-24">
                 <div className=" relative">
-                  <div className="forced-colors:outline pointer-events-none relative w-full select-none rounded-xl bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset]">
+                  <div className="pointer-events-none relative w-full select-none rounded-xl bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
                     <Newsletter />
                   </div>
                   <div className="absolute left-3 top-3 rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-sm/6 font-semibold text-indigo-700 backdrop-blur-[12px] dark:text-indigo-400">
@@ -151,7 +129,7 @@ const Page = () => {
                 </div>
 
                 <div className="relative">
-                  <div className="forced-colors:outline pointer-events-none relative h-full w-full select-none rounded-xl bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset]">
+                  <div className="pointer-events-none relative h-full w-full select-none rounded-xl bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
                     <form
                       action="/thank-you"
                       className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40"

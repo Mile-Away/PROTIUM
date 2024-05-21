@@ -1,18 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Union
+from typing import Union
 
-from django.db.models import Count
 from django.http import Http404
-from django.shortcuts import render
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Channel, Server
-from .schema import server_list_schema
 from .serializer import ChannelSerializer, ServerSerializer
 
 
@@ -63,13 +58,16 @@ class ServerDetailAPIView(APIView, ABC):
 
     def put(self, request, name):
 
+        print(request.data)
+
         server = self.get_object(name)
         serializer = self.serializer_class(server, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
         print(serializer.errors)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

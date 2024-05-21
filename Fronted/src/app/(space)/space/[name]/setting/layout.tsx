@@ -44,17 +44,17 @@ export default function Layout({
         current: url === 'discussion',
       },
       {
-        name: 'Publication',
-        href: 'publication',
+        name: 'Releases',
+        href: 'releases',
         icon: NewspaperIcon,
-        current: url === 'publication',
+        current: url === 'releases',
       },
-      {
-        name: 'Docs',
-        href: 'docs',
-        icon: DocumentTextIcon,
-        current: url === 'docs',
-      },
+      // {
+      //   name: 'Docs',
+      //   href: 'docs',
+      //   icon: DocumentTextIcon,
+      //   current: url === 'docs',
+      // },
     ],
 
     Access: [

@@ -65,10 +65,6 @@
       margin-right: auto;
     }
 
-    a {
-      color: rgb(148, 169, 253);
-    }
-
     hr {
       background-color: #505050;
     }
@@ -151,13 +147,23 @@
 
   a {
     color: rgb(113, 141, 255);
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
     background-color: transparent;
     font-weight: 600;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
   }
+
+  a img {
+    margin: 0;
+    vertical-align: middle;
+  }
+
 
   a::before {
     content: '';
@@ -172,7 +178,7 @@
     transition: transform 0.3s;
   }
 
-  a:hover::before {
+  a:not(:has(img)):hover::before {
     transform: translateX(-50%) scaleX(1);
   }
 

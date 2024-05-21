@@ -9,7 +9,7 @@ export interface SpaceProps {
   icon: string;
   admins: string[];
   members: string[];
-  readme: string;
+  readme: ArticleProps;
   pinned_manuscript: ArticleProps[];
   groups: string[];
   banner: string;

@@ -229,7 +229,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
         {/* Header */}
         <div
           className={clsx(
-            ' absolute top-0 h-10  w-full select-none justify-between rounded-t-xl px-4 dark:bg-neutral-800/40',
+            'absolute top-0 h-10  w-full select-none justify-between rounded-t-xl px-4 dark:bg-neutral-800/40',
             'flex items-center',
           )}
         >
@@ -243,7 +243,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
               <ChevronDownIcon
                 className={clsx(
                   'h-4 w-4',
-                  ' transition-transform duration-300 ease-in-out',
+                  'transition-transform duration-300 ease-in-out',
                   isConsoleVisible ? ' -rotate-90' : 'rotate-90',
                 )}
               />
@@ -292,7 +292,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
         </div>
         {/* Body */}
         <div className="inert mt-10 h-[calc(100%-2.5rem)] px-4 py-4 text-2xs">
-          <div className="h-full overflow-scroll">
+          <div className="h-full overflow-scroll inert">
             {consoleInfo.map((item, idx) => (
               <p key={idx}>
                 <span className=" mr-2 max-w-32 dark:text-neutral-500">

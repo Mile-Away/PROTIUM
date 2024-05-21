@@ -21,7 +21,7 @@ const Page = ({ params }: { params: { name: string } }) => {
 
   const spaceUUID = dataCRUD[0]?.uuid;
   const articles = dataCRUD[0]?.pinned_manuscript;
-  const readmeUUID = dataCRUD[0]?.readme;
+  const readmeUUID = dataCRUD[0]?.readme.uuid;
 
   if (isLoading) return <Loading />;
 

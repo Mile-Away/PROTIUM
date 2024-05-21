@@ -22,7 +22,7 @@ export default function Page({ params }: { params: { name: string } }) {
   return (
     <form className="max-w-full py-4">
       <div className="space-y-12">
-        {/* General */}
+        {/* Readme */}
         <div className="border-b border-neutral-900/10  pb-12 dark:border-neutral-50/10">
           <div>
             <h2 className=" text-lg font-semibold leading-7 text-neutral-900 dark:text-white">
@@ -36,7 +36,7 @@ export default function Page({ params }: { params: { name: string } }) {
           <Readme spaceName={params.name} />
         </div>
 
-        {/* Shortcuts */}
+        {/* Pinned Articles */}
         <div className="border-b border-neutral-900/10 pb-12 dark:border-neutral-50/10">
           <h2 className="text-lg font-semibold leading-7 text-neutral-900 dark:text-white">
             Pinned Articles

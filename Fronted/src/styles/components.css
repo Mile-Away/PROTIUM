@@ -1,40 +1,40 @@
 @import './typography.css';
-
-.scrollbar-w-2::-webkit-scrollbar {
-    width: 2px;
-
-}
-
-.scrollbar-w-0::-webkit-scrollbar {
-    width: 0px;
-}
-
-.inert::-webkit-scrollbar {
-    display: none;
-}
-
-.inert::-webkit-scrollbar-thumb {
-    display: none;
-}
-
-.scrollbar-w-2::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.gradient-bg {
-    position: relative;
-    background-color: white;
-}
-
-.gradient-bg::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 50%;
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 100%);
-    pointer-events: none;
-}
-
 @tailwind components;
+
+.sliderbtn {
+    display: inline-flex;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.25rem;
+}
+
+.sliderbtn::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(79 70 229 / 0.8);
+    /* background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    top: 0%;
+    left: -100%;
+    opacity: 0;
+}
+
+.sliderbtn:hover::before {
+    animation: sliderbtn 0.3s 1 forwards;
+    top: 0%;
+}
+
+@keyframes sliderbtn {
+    0% {
+        left: -100%;
+        top: 0%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 0%;
+        top: 0%;
+        opacity: 1;
+    }
+}

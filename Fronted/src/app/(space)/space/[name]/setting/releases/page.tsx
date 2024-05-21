@@ -26,10 +26,11 @@ export default function Page() {
         <div className="border-b border-neutral-900/10  pb-12 dark:border-neutral-50/10">
           <div>
             <h2 className=" text-lg font-semibold leading-7 text-neutral-900 dark:text-white">
-              General
+              Releases
             </h2>
             <p className="mt-1 text-sm leading-6 text-neutral-600">
-              This information will be displayed publicly as space cover.
+              Specify a document to be displayed as the space's readme or bind
+              your github Readme.
             </p>
           </div>
           ? Choose who can create publication ? only admin or all members with

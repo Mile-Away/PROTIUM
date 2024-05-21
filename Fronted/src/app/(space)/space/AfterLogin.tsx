@@ -5,7 +5,6 @@ import { MEDIA_URL } from '@/config';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
-import Carousel from './Carousel';
 
 interface AfterLoginProps {
   recommendedSpaces: SpaceProps[];
@@ -18,8 +17,6 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
 }) => {
   return (
     <>
-
-
       {/* Personal Recommand */}
 
       {/* Social Recommand */}
@@ -58,23 +55,24 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
                 'rounded-lg bg-white shadow-md dark:bg-neutral-800',
                 'cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl',
                 'border dark:border-neutral-700/10',
+                'flex flex-col'
               )}
             >
               {space.banner && (
                 <img
                   src={`${MEDIA_URL}${space.banner}`}
                   alt={space.name}
-                  className="md:h-36 w-full rounded-t-lg object-cover object-center"
+                  className="w-full rounded-t-lg object-cover object-center md:h-36"
                 />
               )}
 
-              <div className="flex flex-col gap-2 p-4">
-                <div>
+              <div className="flex flex-col gap-2 justify-between flex-1 p-4">
+                <div className='mb-8'>
                   <div className="mb-2 flex items-center gap-x-2">
                     {space.icon && (
                       <img
                         src={`${MEDIA_URL}${space.icon}`}
-                        className="h-5 w-5 rounded-full "
+                        className="h-5 w-5 rounded-full"
                         alt={space.name}
                       />
                     )}
@@ -88,9 +86,14 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
                       {space.description}
                     </p>
                   </div>
+
+                  <UserInfoButton
+                    username={space.owner}
+                    star
+                    className="pl-0"
+                  />
                 </div>
 
-                <UserInfoButton username={space.owner} star className="pl-0" />
                 {/* <div className="mb-2 flex items-center">
                   {renderStarRating(space.rating)}
                   <span className="ml-1 text-sm text-neutral-600 dark:text-neutral-400">

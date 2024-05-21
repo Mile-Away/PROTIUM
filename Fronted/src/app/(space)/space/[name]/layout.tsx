@@ -23,8 +23,7 @@ export async function generateMetadata({
   const name = params.name;
 
   // fetch data
-  const posts: SpaceProps = await axios
-    .get(BASE_URL + `/server/vs/select/?by_server_name=${name}`)
+  const posts: SpaceProps = await axios.get(BASE_URL + `/server/vs/select/?by_server_name=${name}`)
     .then((res) => res.data.pop());
 
   // // optionally access and extend (rather than replace) parent metadata

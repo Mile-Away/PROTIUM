@@ -1,8 +1,5 @@
 from django.http import Http404
-from django.shortcuts import render
-from django.utils import timezone
-from django.views.decorators.cache import never_cache
-from rest_framework import generics, mixins, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser
@@ -18,7 +15,6 @@ from .serializer import (
     DocumentListSerializer,
     DocumentSerializer,
     PublicArticleSerializer,
-    TagSerializer,
 )
 
 

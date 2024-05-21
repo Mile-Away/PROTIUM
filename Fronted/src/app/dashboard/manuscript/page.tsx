@@ -23,7 +23,9 @@ function classNames(...classes: string[]) {
 
 export default function Page() {
   const jwtAxios = useAxiosWithInterceptors();
+  
   const router = useRouter();
+
   const createDoc = () => {
     jwtAxios
       .post(`${BASE_URL}/document/vs/document/`, { title: '' })
