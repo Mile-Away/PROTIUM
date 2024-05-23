@@ -4,6 +4,7 @@ export interface ReadmeProps {}
 // API Path: https://api.github.com/repos/USERNAME/REPO/releases/
 export interface ReleaseProps {
   url: string;
+  server: string;
   assets_url: string;
   upload_url: string;
   html_url: string;

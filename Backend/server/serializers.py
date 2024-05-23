@@ -1,12 +1,12 @@
 from typing import Optional
 
-from document.models import Document
-from document.serializer import PublicArticleSerializer
 from rest_framework import serializers
+
+from document.serializer import DocumentSerializer, PublicArticleSerializer
 from webchat.serializer import MessageSerializer
 
 from .models import Category, Channel, Server
-from document.serializer import DocumentSerializer
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,11 +27,6 @@ class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
         exclude = ["id"]
-
-    def is_valid(self, raise_exception=False):
-        valid = super().is_valid(raise_exception=raise_exception)
-
-        return valid
 
     def create(self, validated_data):
         return super().create(validated_data)

@@ -1,21 +1,14 @@
-from django.conf import settings
-from django.db.models import Count
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .authentication import JWTCookieTokenObtainPairSerializer, JWTCookieTokenRefreshSerializer
-from .models import EmailVerifyCode, User
-from .publicSerializer import PublicUserSerializer, BasicUserSerializer
+from .models import User
+from .publicSerializer import BasicUserSerializer, PublicUserSerializer
 from .schema import user_list_schema
-from .serializer import EmailVerifyCodeSerializer, RegisterSerializer, UserSerializer
-from .utils.mail_eval import mail_send
+from .serializer import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

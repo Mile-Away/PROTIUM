@@ -39,6 +39,7 @@ urlpatterns = [
     path("api/document/", include("document.urls")),
     path("api/search/", include("search.urls")),
     path("api/workflow/", include("workflow.urls")),
+    path("api/integration/", include("integration.urls"))
     # Social Login
     # path("accounts/", include("allauth.urls")),
 ] + router.urls

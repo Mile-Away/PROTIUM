@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from django.db import models
 from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
+
 from document.models import Document
 from webchat.models import Message
 
@@ -93,6 +94,10 @@ class Server(models.Model):
 
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="server_members")
     groups = models.ManyToManyField(Group, blank=True, related_name="server_groups")
+    enable_releases = models.BooleanField(default=False, help_text="是否展示 Github Release")
+    enable_discussion = models.BooleanField(default=False, help_text="是否开启讨论区")
+    github: models.OneToOneField["integration.GithubServerIntergration"]  # type: ignore  # noqa: F821
+    # github: models.OneToOneField["integration.GithubServerIntergration"]
 
     def save(self, *args, **kwargs):
         is_new = not self.id

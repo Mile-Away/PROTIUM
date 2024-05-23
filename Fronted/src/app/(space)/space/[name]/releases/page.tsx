@@ -1,9 +1,10 @@
 'use client';
 import Markdown from '@/components/docs/Markdwon';
 
-import releases from './releases';
-
+import { ReleaseProps } from '@/@types/github';
 import { GitHubIcon } from '@/components/SocialIcons';
+import { BASE_URL } from '@/config';
+import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
 import { formatFileSize } from '@/lib/formatFileSize';
 import '@/styles/markdown.css';
@@ -11,21 +12,23 @@ import '@/styles/markdown.dark.css';
 import '@/styles/markdown.quote.css';
 import { TagIcon } from '@heroicons/react/20/solid';
 import { CubeIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState } from 'react';
 
-export default function Page() {
-  //   const [releases, setReleases] = useState<ReleaseProps[]>([]);
-  const fetchReleases = async () => {
-    const res = await fetch(
-      'https://api.github.com/repos/deepmodeling/deepmd-kit/releases',
+export default function Page({ params }: { params: { name: string } }) {
+  const jwtAxios = useAxiosWithInterceptors();
+  const [releases, setReleases] = useState<ReleaseProps[]>([]);
+  const fetchLocalReleases = async () => {
+    const res = await jwtAxios.get(
+      `${BASE_URL}/integration/vs/github-releases/?server=${params.name}`,
     );
-    const data = await res.json();
-    // setReleases(data);
-    console.log(data);
+    const data = await res.data;
+
+    setReleases(data);
   };
 
-  //   useEffect(() => {
-  //     fetchReleases();
-  //   }, []);
+  useEffect(() => {
+    fetchLocalReleases();
+  }, []);
 
   return (
     <div className="flex flex-col gap-y-16 p-4 py-8">
@@ -69,7 +72,7 @@ export default function Page() {
             <div className="flex items-end gap-x-8 border-b py-4 dark:border-neutral-700/50">
               <h1 className=" text-4xl font-bold">{release.name}</h1>
               {idx === 0 && (
-                <div className="rounded-2xl px-2 py-1 text-xs font-semibold ring-1 dark:text-teal-500 dark:ring-teal-500 ">
+                <div className="rounded-2xl px-2 py-1 text-xs font-semibold ring-1 text-teal-600 ring-teal-600 dark:text-teal-500 dark:ring-teal-500 ">
                   Latest
                 </div>
               )}
@@ -79,7 +82,7 @@ export default function Page() {
                 </div>
               )}
               {release.prerelease && (
-                <div className=" rounded-2xl px-2 py-1 text-xs ring-1 dark:text-yellow-500 dark:ring-yellow-500 ">
+                <div className=" rounded-2xl px-2 py-1 text-xs ring-1 text-yellow-600 ring-yellow-600 dark:text-yellow-500 dark:ring-yellow-500 ">
                   <span className="">Pre-release</span>
                 </div>
               )}
@@ -90,18 +93,18 @@ export default function Page() {
             <div className=" mt-8">
               <div className=" mb-4 flex items-center gap-x-4 text-xl font-semibold">
                 <span>Assets</span>
-                <div className=" w-fit items-center justify-center rounded-full px-2 py-1 text-xs dark:bg-neutral-700">
+                <div className=" w-fit items-center justify-center rounded-full px-2 py-1 text-xs bg-neutral-100 dark:bg-neutral-700">
                   {release.assets.length + 2}
                 </div>
               </div>
-              <div className="flex flex-col gap-y-4 divide-y rounded border px-2 py-1  dark:divide-neutral-700/50 dark:border-neutral-800/80">
-                {release.assets.map((asset) => (
-                  <div className="flex items-center justify-between gap-x-4 pt-2 text-sm">
+              <div className="flex flex-col gap-y-2 divide-y rounded border px-2  dark:divide-neutral-700/50 dark:border-neutral-800/80">
+                {release.assets.map((asset, idx) => (
+                  <div key={idx} className="flex items-center justify-between gap-x-4 pt-2 text-sm">
                     <a
                       href={asset.browser_download_url}
                       target="_blank"
                       // 悬浮添加下划线
-                      className="flex gap-x-2 hover:underline dark:text-blue-500"
+                      className="flex gap-x-2 hover:underline text-indigo-600 dark:text-blue-500"
                     >
                       <CubeIcon className="h-5 w-5" />
                       {asset.name}
@@ -121,7 +124,7 @@ export default function Page() {
                     <a
                       href={release.zipball_url}
                       target="_blank"
-                      className="flex gap-x-2 hover:underline dark:text-blue-500"
+                      className="flex gap-x-2 hover:underline text-indigo-600 dark:text-blue-500"
                     >
                       <CubeIcon className="h-5 w-5" />
                       Source code (zip)
@@ -129,11 +132,11 @@ export default function Page() {
                   </div>
                 )}
                 {release.tarball_url && (
-                  <div className="flex items-center justify-between gap-x-4 pt-2 text-sm">
+                  <div className="flex items-center justify-between gap-x-4 py-2 text-sm">
                     <a
                       href={release.tarball_url}
                       target="_blank"
-                      className="flex gap-x-2 hover:underline dark:text-blue-500"
+                      className="flex gap-x-2 hover:underline text-indigo-600 dark:text-blue-500"
                     >
                       <CubeIcon className="h-5 w-5" />
                       Source code (tar.gz)

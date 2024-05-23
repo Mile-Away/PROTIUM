@@ -17,6 +17,8 @@ export interface SpaceProps {
   github_url: string; // 空间对应的 GitHub 仓库地址，由用户填写
   document_url: string; // 空间对应的 Github 文档地址，由用户填写
   created_at: string;
+  enable_releases: boolean;
+  enable_discussion: boolean;
 }
 
 export interface DiscussionProps {

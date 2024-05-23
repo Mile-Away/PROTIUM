@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class UsegithubConfig(AppConfig):
+class IntegrationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'useGithub'
+    name = 'integration'

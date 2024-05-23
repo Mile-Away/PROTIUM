@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from .models import Channel, Server
-from .serializer import ChannelSerializer, ServerSerializer
+from .serializers import ChannelSerializer, ServerSerializer
 
 
 # Create your views here.

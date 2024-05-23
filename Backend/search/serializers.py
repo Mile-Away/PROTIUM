@@ -3,7 +3,7 @@ from document.serializer import SearchPublicDocumentSerializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from server.models import Channel
-from server.serializer import SearchChannelSerializer
+from server.serializers import SearchChannelSerializer
 
 from .models import GlobalSearchHistory
 

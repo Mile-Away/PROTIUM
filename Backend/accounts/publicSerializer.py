@@ -2,7 +2,7 @@ from document.models import Document
 from document.serializer import PublicArticleSerializer
 from rest_framework import serializers
 from server.models import Server
-from server.serializer import ServerSerializer
+from server.serializers import ServerSerializer
 
 
 class PublicUserSerializer(serializers.Serializer):

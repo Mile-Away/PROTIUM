@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from server.documents import ChannelDocument
 from server.models import Channel
-from server.serializer import SearchChannelSerializer
+from server.serializers import SearchChannelSerializer
 
 from .serializers import GlobalSearchSerializer
 

@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     "search.apps.SearchConfig",
     "webchat.apps.WebchatConfig",
     "workflow.apps.WorkflowConfig",
-    "useGithub.apps.UsegithubConfig",
+    "integration.apps.IntegrationConfig",
 ]
 
 MIDDLEWARE = [

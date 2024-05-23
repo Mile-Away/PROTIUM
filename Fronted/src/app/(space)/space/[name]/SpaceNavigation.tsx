@@ -58,12 +58,6 @@ const SpaceNavigation = ({ name }: { name: string }) => {
       icon: NewspaperIcon,
       current: url === 'releases',
     },
-    {
-      name: 'Docs',
-      href: `${DocumentSite}/${name}`,
-      current: url === 'docs',
-      icon: DocumentTextIcon,
-    },
   ];
 
   const adminTabs: TabProps[] = [
