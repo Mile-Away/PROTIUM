@@ -42,7 +42,7 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
           />
         </div>
       </div> */}
-      <div className="my-12">
+      <div className="">
         <h2 className="mb-8 text-2xl font-bold text-neutral-800 dark:text-neutral-200">
           Recommended for you
         </h2>

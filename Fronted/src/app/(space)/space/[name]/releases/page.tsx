@@ -34,7 +34,7 @@ export default function Page({ params }: { params: { name: string } }) {
     <div className="flex flex-col gap-y-16 p-4 py-8">
       {releases.map((release, idx) => (
         <div key={idx} className="flex items-start ">
-          <div className="flex w-56 flex-col justify-start gap-4 py-6 text-neutral-400">
+          <div className="hidden flex-col justify-start gap-4 py-6 text-neutral-400 sm:flex sm:w-56">
             <div className=" text-xl font-semibold dark:text-neutral-200">
               {formatTime(release.created_at, '', true)}
             </div>
@@ -43,7 +43,7 @@ export default function Page({ params }: { params: { name: string } }) {
                 <GitHubIcon className="h-6 w-6 hover:text-neutral-50" />
               </a>
             </div>
-            <div className=" flex gap-2">
+            <div className="flex gap-2">
               <img
                 src={release.author.avatar_url}
                 alt=""
@@ -68,11 +68,11 @@ export default function Page({ params }: { params: { name: string } }) {
               </a>
             </div>
           </div>
-          <div className="flex-1">
+          <div className="ml-8 flex-1">
             <div className="flex items-end gap-x-8 border-b py-4 dark:border-neutral-700/50">
               <h1 className=" text-4xl font-bold">{release.name}</h1>
               {idx === 0 && (
-                <div className="rounded-2xl px-2 py-1 text-xs font-semibold ring-1 text-teal-600 ring-teal-600 dark:text-teal-500 dark:ring-teal-500 ">
+                <div className="rounded-2xl px-2 py-1 text-xs font-semibold text-teal-600 ring-1 ring-teal-600 dark:text-teal-500 dark:ring-teal-500 ">
                   Latest
                 </div>
               )}
@@ -82,35 +82,38 @@ export default function Page({ params }: { params: { name: string } }) {
                 </div>
               )}
               {release.prerelease && (
-                <div className=" rounded-2xl px-2 py-1 text-xs ring-1 text-yellow-600 ring-yellow-600 dark:text-yellow-500 dark:ring-yellow-500 ">
+                <div className=" rounded-2xl px-2 py-1 text-xs text-yellow-600 ring-1 ring-yellow-600 dark:text-yellow-500 dark:ring-yellow-500 ">
                   <span className="">Pre-release</span>
                 </div>
               )}
             </div>
-            <div className="markdown">
+            <div className="markdown w-[calc(100vw-36px)] sm:w-full overflow-hidden">
               <Markdown content={release.body} />
             </div>
             <div className=" mt-8">
               <div className=" mb-4 flex items-center gap-x-4 text-xl font-semibold">
                 <span>Assets</span>
-                <div className=" w-fit items-center justify-center rounded-full px-2 py-1 text-xs bg-neutral-100 dark:bg-neutral-700">
+                <div className=" w-fit items-center justify-center rounded-full bg-neutral-100 px-2 py-1 text-xs dark:bg-neutral-700">
                   {release.assets.length + 2}
                 </div>
               </div>
               <div className="flex flex-col gap-y-2 divide-y rounded border px-2  dark:divide-neutral-700/50 dark:border-neutral-800/80">
                 {release.assets.map((asset, idx) => (
-                  <div key={idx} className="flex items-center justify-between gap-x-4 pt-2 text-sm">
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between gap-x-4 pt-2 text-sm"
+                  >
                     <a
                       href={asset.browser_download_url}
                       target="_blank"
                       // 悬浮添加下划线
-                      className="flex gap-x-2 hover:underline text-indigo-600 dark:text-blue-500"
+                      className="flex gap-x-2  text-indigo-600 hover:underline dark:text-blue-500"
                     >
                       <CubeIcon className="h-5 w-5" />
-                      {asset.name}
+                      <span className="">{asset.name}</span>
                     </a>
                     <div className="flex gap-x-12">
-                      <span className=" text-neutral-400 dark:text-neutral-500">
+                      <span className=" whitespace-nowrap text-neutral-400 dark:text-neutral-500">
                         {formatFileSize(asset.size)}
                       </span>
                       <span className=" text-neutral-400 dark:text-neutral-500">
@@ -124,7 +127,7 @@ export default function Page({ params }: { params: { name: string } }) {
                     <a
                       href={release.zipball_url}
                       target="_blank"
-                      className="flex gap-x-2 hover:underline text-indigo-600 dark:text-blue-500"
+                      className="flex gap-x-2 text-indigo-600 hover:underline dark:text-blue-500"
                     >
                       <CubeIcon className="h-5 w-5" />
                       Source code (zip)
@@ -136,7 +139,7 @@ export default function Page({ params }: { params: { name: string } }) {
                     <a
                       href={release.tarball_url}
                       target="_blank"
-                      className="flex gap-x-2 hover:underline text-indigo-600 dark:text-blue-500"
+                      className="flex gap-x-2 text-indigo-600 hover:underline dark:text-blue-500"
                     >
                       <CubeIcon className="h-5 w-5" />
                       Source code (tar.gz)

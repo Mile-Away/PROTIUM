@@ -16,6 +16,23 @@ class GithubReleaseViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         by_server = request.query_params.get("server")
+        is_overview = request.query_params.get("overview", False)
+        if is_overview:
+            queryset = self.get_queryset().filter(server__server__name=by_server).order_by("-created_at")
+            latest_release = queryset.first()
+            name = latest_release.name
+            url = latest_release.url
+            published_at = latest_release.published_at
+            total_count = queryset.count()
+            return Response(
+                {
+                    "name": name,
+                    "url": url,
+                    "published_at": published_at,
+                    "total_count": total_count,
+                }
+            )
+
         if by_server:
             queryset = self.get_queryset().filter(server__server__name=by_server).order_by("-created_at")
 

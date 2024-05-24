@@ -1,10 +1,10 @@
 'use client';
 import { useCRUD } from '@/hooks/useCrud';
-import { CheckCircleIcon, CheckIcon, HashtagIcon } from '@heroicons/react/24/outline';
+import { ChevronDoubleRightIcon } from '@heroicons/react/20/solid';
+import { HashtagIcon } from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
 import AfterLogin from './AfterLogin';
 import Carousel from './Carousel';
-import { ChevronDoubleRightIcon } from '@heroicons/react/20/solid';
 
 export default function Page() {
   const { fetchData, dataCRUD, isLoading, error } = useCRUD(
@@ -32,16 +32,16 @@ export default function Page() {
   ];
 
   return (
-    <div className=" mx-16 my-24 flex flex-col items-center dark:bg-neutral-900">
+    <div className="my-16 sm:my-24 px-6 flex max-w-8xl mx-auto flex-col items-center dark:bg-neutral-900">
       <div className="my-8">
         <Carousel
           images={['/banner.jpg', '/hero4-horizen.png', '/banner.jpg']}
         />
       </div>
-      <div className="my-8 flex gap-8">
+      <div className="my-8 sm:my-20 flex sm:flex-row flex-col gap-8">
         <div
           rel="sidebar"
-          className="my-12 flex h-full flex-col items-start gap-2 p-2 sm:w-64"
+          className=" flex h-full flex-col items-start gap-2 p-2 sm:w-64"
         >
           <h2 className="text-md mb-4 font-bold text-neutral-800 dark:text-neutral-100">
             按标签浏览

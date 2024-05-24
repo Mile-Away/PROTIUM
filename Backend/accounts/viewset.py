@@ -59,7 +59,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({"error": "User ID is required"}, status=status.HTTP_400_BAD_REQUEST)
 
     @user_list_schema
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         user = request.user
 
         if user:

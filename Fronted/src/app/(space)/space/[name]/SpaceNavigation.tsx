@@ -1,12 +1,10 @@
 'use client';
 import { SpaceProps } from '@/@types/space';
-import { DocumentSite } from '@/config';
 import { useCRUD } from '@/hooks/useCrud';
 import { useAuthService } from '@/services/AuthService';
 import {
   BookOpenIcon,
   Cog6ToothIcon,
-  DocumentTextIcon,
   NewspaperIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline';
@@ -46,19 +44,25 @@ const SpaceNavigation = ({ name }: { name: string }) => {
       current: url === '' || url === name,
       icon: BookOpenIcon,
     },
-    {
+  ];
+
+  if (dataCRUD[0]?.enable_discussion) {
+    tabs.push({
       name: 'Discussion',
       href: 'discussion',
-      current: url === 'discussion',
       icon: UsersIcon,
-    },
-    {
+      current: url === 'discussion',
+    });
+  }
+
+  if (dataCRUD[0]?.enable_releases) {
+    tabs.push({
       name: 'Releases',
       href: 'releases',
       icon: NewspaperIcon,
       current: url === 'releases',
-    },
-  ];
+    });
+  }
 
   const adminTabs: TabProps[] = [
     ...tabs,
@@ -88,7 +92,7 @@ const SpaceNavigation = ({ name }: { name: string }) => {
         onScroll={handleScroll}
         className="inert relative w-full overflow-x-auto"
       >
-        <nav className=" flex w-fit min-w-full items-center space-x-4 lg:space-x-8 border-b dark:border-neutral-700">
+        <nav className=" flex w-fit min-w-full items-center space-x-4 border-b dark:border-neutral-700 lg:space-x-8">
           {(isAdmin ? adminTabs : tabs).map((tab) => (
             <Link
               key={tab.name}
@@ -103,7 +107,7 @@ const SpaceNavigation = ({ name }: { name: string }) => {
                 tab.current
                   ? 'border-indigo-500 text-indigo-600 dark:border-white dark:text-white'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-100',
-                'whitespace-nowrap border-b-2 px-1 pb-2 lg:pb-4 text-sm font-semibold',
+                'whitespace-nowrap border-b-2 px-1 pb-2 text-sm font-semibold lg:pb-4',
               )}
               aria-current={tab.current ? 'page' : undefined}
             >
@@ -116,7 +120,7 @@ const SpaceNavigation = ({ name }: { name: string }) => {
 
       {/* 横向遮挡 */}
       {!isAtEnd && (
-        <div className="absolute bottom-0 right-0 top-0 z-10 pointer-events-none w-24 bg-gradient-to-r from-transparent to-white dark:from-transparent dark:to-neutral-900" />
+        <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-24 bg-gradient-to-r from-transparent to-white dark:from-transparent dark:to-neutral-900" />
       )}
       {/* 纵向渐变 */}
       <div className="absolute bottom-0 left-0 right-0 top-1/2 -z-10 h-20 bg-gradient-to-t from-transparent to-white dark:from-transparent dark:to-neutral-900" />

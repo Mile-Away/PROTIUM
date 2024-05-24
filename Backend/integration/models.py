@@ -68,7 +68,7 @@ class GithubAsset(models.Model):
     url = models.URLField(blank=True, null=True)
     node_id = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255, blank=True, null=True)
-    label = models.CharField(max_length=25, blank=True, null=True)
+    label = models.CharField(max_length=255, blank=True, null=True)
     uploader = models.ForeignKey(GithubUser, on_delete=models.CASCADE)
     content_type = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(max_length=255, blank=True, null=True)

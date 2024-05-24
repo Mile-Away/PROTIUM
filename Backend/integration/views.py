@@ -13,6 +13,7 @@ class GithubReleaseDetail(APIView):
         return self.queryset.get(server__name=name)
 
     def get(self, request, name, format=None):
+
         release = self.get_object(name)
         serializer = self.serializer_class(release)
         return Response(serializer.data)

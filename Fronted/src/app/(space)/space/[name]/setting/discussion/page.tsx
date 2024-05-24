@@ -1,33 +1,54 @@
 'use client';
 import { SpaceProps } from '@/@types/space';
+import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import { useDictCRUD } from '@/hooks/useCrud';
 import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
-import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Page() {
+export default function Page({ params }: { params: { name: string } }) {
   const [enabled, setEnabled] = useState(false);
+  const jwtAxios = useAxiosWithInterceptors();
 
-  const initialFormValues = {
-    name: '',
-    description: '',
-    icon: '',
-    banner: '',
-  } as SpaceProps;
+  const { fetchData, dataCRUD, error } = useDictCRUD<SpaceProps>(
+    {} as SpaceProps,
+    `/server/server/${params.name}`,
+  );
 
-  const formik = useFormik({
-    initialValues: initialFormValues,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  useEffect(() => {
+    if (params.name) fetchData();
+  }, [params.name]);
+
+  useEffect(() => {
+    if (dataCRUD) {
+      setEnabled(dataCRUD.enable_discussion);
+    }
+  }, [dataCRUD]);
+
+  const putData = async (values: any) => {
+    try {
+      const res = await jwtAxios.put(`/server/server/${params.name}/`, values, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCheckSwitch = async () => {
+    setEnabled(!enabled);
+    putData({ enable_discussion: !enabled });
+  };
 
   return (
     <form className="max-w-full py-4">
       <div className="space-y-12">
         {/* General */}
         <div className="border-b border-neutral-900/10  pb-12 dark:border-neutral-50/10">
-          <div className='mb-8'>
+          <div className="mb-8">
             <h2 className=" text-lg font-semibold leading-7 text-neutral-900 dark:text-white">
               Discussion
             </h2>
@@ -54,7 +75,7 @@ export default function Page() {
             </span>
             <Switch
               checked={enabled}
-              onChange={setEnabled}
+              onChange={handleCheckSwitch}
               className={clsx(
                 enabled ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-neutral-700',
                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none',
@@ -125,20 +146,7 @@ export default function Page() {
         </div> */}
       </div>
 
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        {/* <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-neutral-900 dark:hover:text-indigo-400 dark:text-white"
-        >
-          Cancel
-        </button> */}
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Save
-        </button>
-      </div>
+
     </form>
   );
 }

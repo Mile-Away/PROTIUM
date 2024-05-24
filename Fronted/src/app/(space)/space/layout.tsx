@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="relative flex flex-col">
         <Navbar />
 
-        <main className="border-b-2 border-neutral-100 dark:border-neutral-800">{children}</main>
+        <main className="border-b-2 border-neutral-100 dark:border-neutral-800 ">{children}</main>
 
         <Footer />
       </div>
