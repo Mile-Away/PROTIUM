@@ -7,7 +7,6 @@ db.sqlite3
 */uwsgi.ini
 */static/
 VFronted/
-Backend/media/
 Practice/
 my-app/
 

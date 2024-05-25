@@ -127,7 +127,18 @@ export function SignUpForm() {
 
   return (
     <>
-      {successAlert && <Success isOpen={successAlert} />}
+      {successAlert && (
+        <Success isOpen={successAlert}>
+          <div className="ml-3 w-0 flex-1 pt-0.5">
+            <p className="text-sm font-medium text-gray-50">
+              Successfully Sent Email Captcha!
+            </p>
+            <p className="mt-1 text-sm text-gray-300">
+              Please check your email for the verification captcha.
+            </p>
+          </div>
+        </Success>
+      )}
       {/* {isLogged && <LoggedForm />} */}
       {!isLogged && !showLogin && (
         <form

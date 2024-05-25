@@ -1,5 +1,6 @@
 'use client';
 import { SpaceProps } from '@/@types/space';
+import { Success } from '@/components/notification/Success';
 import { GitHubIcon } from '@/components/SocialIcons';
 import { MEDIA_URL, PrimarySite } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
@@ -12,8 +13,10 @@ export default function Page({ params }: { params: { name: string } }) {
   const jwtAxios = useAxiosWithInterceptors();
 
   const [previewIcon, setPreviewIcon] = useState<string>('');
+  const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
   const [previewBanner, setPreviewBanner] = useState<string>('');
-  const { fetchData, dataCRUD, isLoading, error } = useDictCRUD<SpaceProps>(
+  const [loading, setLoading] = useState<boolean>(false);
+  const { fetchData, dataCRUD, error } = useDictCRUD<SpaceProps>(
     {} as SpaceProps,
     `/server/server/${params.name}`,
   );
@@ -25,7 +28,7 @@ export default function Page({ params }: { params: { name: string } }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(res);
+      return res;
     } catch (error) {
       console.error(error);
     }
@@ -42,7 +45,8 @@ export default function Page({ params }: { params: { name: string } }) {
 
   const formik = useFormik({
     initialValues: initialFormValues,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      setLoading(true);
       const { name, description, icon, banner, github_url, document_url } =
         values;
       const formData = new FormData();
@@ -59,9 +63,15 @@ export default function Page({ params }: { params: { name: string } }) {
       formData.append('document_url', document_url);
       formData.append('github_url', github_url);
 
-      console.log(formData);
+      const res = await putData(formData);
 
-      const res = putData(formData);
+      if (res?.status === 200) {
+        setShowSuccessAlert(true);
+        setTimeout(() => {
+          setShowSuccessAlert(false);
+        }, 5000);
+      }
+      setLoading(false);
     },
   });
 
@@ -87,6 +97,18 @@ export default function Page({ params }: { params: { name: string } }) {
 
   return (
     <form className="max-w-full py-4" onSubmit={formik.handleSubmit}>
+      {showSuccessAlert && (
+        <Success isOpen={showSuccessAlert}>
+          <div className="ml-3 w-0 flex-1 pt-0.5">
+            <p className="text-sm font-medium text-gray-50">
+              Save Successfully
+            </p>
+            <p className="mt-1 text-sm text-gray-300">
+              Please refresh to see the changes.
+            </p>
+          </div>
+        </Success>
+      )}
       <div className="space-y-12">
         {/* General */}
         <div className="border-b border-neutral-900/10  pb-12 dark:border-neutral-50/10">
@@ -303,18 +325,42 @@ export default function Page({ params }: { params: { name: string } }) {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        {/* <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-neutral-900 dark:hover:text-indigo-400 dark:text-white"
-        >
-          Cancel
-        </button> */}
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Save
-        </button>
+        {loading ? (
+          <button
+            type="button"
+            className="inline-flex cursor-not-allowed items-center rounded-md  bg-indigo-600 px-3 py-2 text-sm font-semibold text-white transition duration-150 ease-in-out hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            disabled
+          >
+            <svg
+              className="h-5 w-5 animate-spin text-gray-900 dark:text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            {/* Processing... */}
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Save
+          </button>
+        )}
       </div>
     </form>
   );

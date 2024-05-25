@@ -1,9 +1,9 @@
 import re
 
+from rest_framework import serializers
+
 from accounts.models import User
 from accounts.serializer import UserSerializer
-from backend.utils import HighlightedCharField
-from rest_framework import serializers
 
 from .models import Attachment, Document, DocumentActivity, Tag
 
@@ -72,11 +72,6 @@ class DocumentSerializer(serializers.ModelSerializer):
             "created_at",
         )
 
-    def is_valid(self, raise_exception=False):
-        valid = super().is_valid(raise_exception=raise_exception)
-
-        return valid
-
     def to_internal_value(self, data):
         # 调用父类的 to_internal_value 方法，以便它仍然执行正常的数据转换和验证
         validated_data = super().to_internal_value(data)
@@ -88,9 +83,7 @@ class DocumentSerializer(serializers.ModelSerializer):
         return validated_data
 
     def create(self, validated_data):
-        print(validated_data)
         tags = validated_data.pop("tags", [])
-        print(tags)
         document = Document.objects.create(**validated_data)
         document = self.create_and_bind_tags(document, tags)
         return document
@@ -124,11 +117,6 @@ class AttachmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attachment
         fields = "__all__"
-
-    def is_valid(self, raise_exception=False):
-        valid = super().is_valid(raise_exception=raise_exception)
-
-        return valid
 
     def create(self, validated_data):
         document = validated_data.pop("document")

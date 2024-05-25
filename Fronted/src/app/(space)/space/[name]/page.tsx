@@ -48,7 +48,7 @@ const Page = ({ params }: { params: { name: string } }) => {
 
   const spaceUUID = dataCRUD[0]?.uuid;
   const articles = dataCRUD[0]?.pinned_manuscript;
-  const readmeUUID = dataCRUD[0]?.readme.uuid;
+  const readmeUUID = dataCRUD[0]?.readme?.uuid;
 
   if (isLoading) return <Loading />;
 
@@ -59,20 +59,20 @@ const Page = ({ params }: { params: { name: string } }) => {
         <SpaceOverview uuid={readmeUUID} />
         <div
           className={clsx(
-            'flex w-full flex-col overflow-y-hidden bg-inherit py-6 pl-0.5 xl:sticky xl:right-0',
+            'flex w-full flex-row items-start gap-4 overflow-y-hidden bg-inherit py-6 pl-0.5 xl:sticky xl:right-0 xl:flex-col',
             'xl:top-20 xl:h-[calc(100vh-7rem)] xl:w-64 xl:min-w-[16rem] xl:overflow-y-auto 2xl:w-96 2xl:min-w-[24rem]',
           )}
         >
           {dataCRUD[0]?.enable_releases && releaseOverview && (
-            <div className="flex flex-col ">
-              <div className="mb-6 flex items-center gap-4">
-                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
-                  Releases
-                </h2>
+            <div className="hidden flex-col xl:flex ">
+              <div className=" z-10 flex w-full items-center  gap-4 bg-white pb-6 dark:bg-neutral-900">
+                <h1 className="text-xl font-bold text-neutral-900 dark:text-white">
+                  Pinned Articles
+                </h1>
                 <div>
                   <Link
                     href={release_url}
-                    className=" -m-1.5 rounded-full p-1.5 text-sm dark:bg-neutral-700"
+                    className=" -m-1.5 rounded-full p-1.5 text-xs font-semibold dark:bg-neutral-700"
                   >
                     {releaseOverview.total_count.toString()}
                   </Link>

@@ -47,11 +47,11 @@ const Readme = ({ spaceName }: { spaceName: string }) => {
     spaceName && fetchData();
   }, []);
 
-  const handlebindReadme = (ReadmeContent?: string) => {
+  const handlebindReadme = (readmeContent?: string) => {
     jwtAxios
       .post(`${BASE_URL}/document/vs/document/`, {
         title: `${spaceName} README.md`,
-        content: ReadmeContent || null,
+        content: readmeContent || null,
       })
       .then((res) => {
         if (res.data) {
@@ -90,7 +90,8 @@ const Readme = ({ spaceName }: { spaceName: string }) => {
     window.open(`${PrimarySite}/dashboard/manuscript/edit/${readmeUUid}/`);
   };
 
-  const hasMarkdown = dataCRUD?.readme === undefined ? false : true;
+  const hasMarkdown =
+    dataCRUD?.readme === undefined || dataCRUD?.readme === null ? false : true;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -131,13 +132,14 @@ const Readme = ({ spaceName }: { spaceName: string }) => {
                 onClick={handleFetchGithubReadme}
                 disabled={
                   dataCRUD.github_url === undefined ||
+                  dataCRUD.github_url === null ||
                   dataCRUD.github_url === ''
                     ? true
                     : false
                 }
               >
                 <GitHubIcon className="h-5 w-5" />
-                Fetch Github README.md {hasMarkdown && "｜Overwrite!"}
+                Fetch Github README.md {hasMarkdown && '｜Overwrite!'}
               </Button>
 
               {dataCRUD.github_url === '' && (

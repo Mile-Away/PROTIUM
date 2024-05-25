@@ -14,9 +14,7 @@ out/
 .env.build
 .env..build
 
-
 # IDE generated files
-
 .idea/
 
 # Ignore TypeScript build output
@@ -66,18 +64,9 @@ db.sqlite3
 */uwsgi.ini
 */static/
 VFronted/
-Backend/media/
+media/
 Practice/
 my-app/
 
-# 暂时先注释掉 deepmd-kit 的 doc
-DocFront/src/app/doc/
-
 # Ignore all .pyc files
 *.pyc
-
-elasticsearch/
-
-DFlow/
-
-@SandBox/

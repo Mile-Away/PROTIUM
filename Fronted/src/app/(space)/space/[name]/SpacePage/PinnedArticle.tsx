@@ -35,7 +35,7 @@ interface PinnedArticleProps {
 const PinnedArticle: React.FC<PinnedArticleProps> = ({ articles }) => {
   return (
     <div className="">
-      <div className=" z-10 flex h-16 w-full  items-center bg-white py-10 dark:bg-neutral-900">
+      <div className=" z-10 flex w-full  items-center bg-white py-6 dark:bg-neutral-900">
         <h1 className="text-xl font-bold text-neutral-900 dark:text-white">
           Pinned Articles
         </h1>

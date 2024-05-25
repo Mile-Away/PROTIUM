@@ -73,6 +73,10 @@ class ServerSerializer(serializers.ModelSerializer):
             return obj.num_members
         return None
 
+    def to_internal_value(self, data):
+
+        return super().to_internal_value(data)
+
     def to_representation(self, instance):
         # 这是原来会返回的数据，我先从其父类中获取 data
         data = super().to_representation(instance)
@@ -82,3 +86,7 @@ class ServerSerializer(serializers.ModelSerializer):
             data.pop("num_members")
 
         return data
+
+    def update(self, instance, validated_data):
+
+        return super().update(instance, validated_data)

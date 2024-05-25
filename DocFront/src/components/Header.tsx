@@ -22,29 +22,56 @@ import LangSwitch from './LangSwitch'
 const navItems = [
   {
     name: 'Tutorials',
-    href: `${DocumentSite}`,
+    href: `${DocumentSite}/tutorial/`,
+    sub: [
+      {
+        name: 'Getting Started',
+        href: `${DocumentSite}/tutorial/getting-started`,
+      },
+      {
+        name: 'Case Studies',
+        href: `${DocumentSite}/docs/case-studies`,
+      },
+    ],
   },
   {
     name: 'Docs',
     href: '#',
+    sub: [
+      {
+        name: 'API Reference',
+        href: `${DocumentSite}/docs/api-reference`,
+      },
+      {
+        name: 'Guides',
+        href: `${DocumentSite}/docs/guides`,
+      },
+    ],
   },
 ]
 
-function TopLevelNavItem({
-  href,
-  children,
-}: {
-  href: string
-  children: React.ReactNode
-}) {
+function TopLevelNavItem({ item }: { item: (typeof navItems)[0] }) {
   return (
-    <li>
+    <li className=" group relative">
       <Link
-        href={href}
-        className="text-sm leading-5 text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+        href={item.href}
+        className=" py-2  text-sm leading-5 text-zinc-600 transition group-hover:text-teal-900 dark:text-zinc-400 dark:group-hover:text-white"
       >
-        {children}
+        {item.name}
       </Link>
+      {/* Dropdown menu */}
+
+      <div className="absolute left-1/2 top-full hidden w-fit min-w-full -translate-x-1/2 translate-y-1 flex-col items-center gap-1 rounded bg-white/50 dark:bg-teal-400/10 p-2 shadow backdrop-blur-xl group-hover:flex">
+        {item.sub?.map((subItem, idx) => (
+          <Link
+            href={subItem.href}
+            key={idx}
+            className="whitespace-nowrap rounded px-2  py-1 text-xs transition hover:bg-green-300 dark:text-white dark:hover:bg-teal-300 dark:hover:text-black"
+          >
+            {subItem.name}
+          </Link>
+        ))}
+      </div>
     </li>
   )
 }
@@ -104,9 +131,7 @@ export const Header = forwardRef<
         <nav className="hidden md:block">
           <ul role="list" className="flex items-center gap-8">
             {navItems.map((item) => (
-              <TopLevelNavItem key={item.name} href={item.href}>
-                {item.name}
-              </TopLevelNavItem>
+              <TopLevelNavItem key={item.name} item={item}></TopLevelNavItem>
             ))}
           </ul>
         </nav>

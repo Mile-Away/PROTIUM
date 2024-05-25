@@ -65,6 +65,7 @@ class ChannelListViewSet(viewsets.ViewSet):
                 raise ValidationError({"error": "Channel ID is invalid."})
 
         serializer = ChannelSerializer(self.queryset, many=True, context={"num_members": with_num_members})
+
         return Response(serializer.data)
 
     def create(self, request):
@@ -131,7 +132,8 @@ class ServerListViewSet(viewsets.ViewSet):
     Returns a list of servers based on the specified filters.
     """
 
-    # FIXME: queryset = Server.objects.all()  # 不要直接修改 self.queryset, 会带来缓存问题，使用 get_queryset() 方法
+    # BUG: queryset = Server.objects.all()
+    # 不要直接修改 self.queryset, 会带来缓存问题，使用 get_queryset() 方法
     serializer_class = ServerSerializer
 
     def get_queryset(self):
@@ -180,6 +182,7 @@ class ServerListViewSet(viewsets.ViewSet):
                     raise ValidationError(detail=f"Server with name {by_server_name} does not exist.")
             except ValueError:
                 raise ValidationError({"error": "Server name is invalid."})
+
         if named:
             serializer = ServerSerializer(queryset, named=True, many=True, context={"num_members": with_num_members})
             return Response(serializer.data)

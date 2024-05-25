@@ -2,9 +2,10 @@ import os
 import uuid
 from datetime import datetime
 
-from accounts.models import User
 from django.db import models
 from django.dispatch import receiver
+
+from accounts.models import User
 
 
 def document_image_path(instance, filename):
@@ -81,7 +82,7 @@ class Attachment(models.Model):
     size = models.BigIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.image
+        return f"{self.image}"
 
     def save(self, *args, **kwargs):
         if self.image:

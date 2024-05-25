@@ -35,7 +35,6 @@ class DocumentListViewSet(viewsets.ModelViewSet):
     pagination_class = DocumentPagination
 
     def get_queryset(self):
-
         queryset = Document.objects.all().order_by("-updated_at")
         return queryset
 
@@ -53,7 +52,7 @@ class DocumentListViewSet(viewsets.ModelViewSet):
     """
 
     @doc_list_schema
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
 
         author = request.user
         by_documentid = request.query_params.get("by_documentid")
@@ -239,11 +238,11 @@ class DocumentDetailView(APIView):
     def put(self, request, uuid):
         document = self.get_object(uuid)
         serializer = DocumentSerializer(document, data=request.data, partial=True)
+
         if serializer.is_valid():
-
             serializer.save()
-
             return Response(serializer.data, status=status.HTTP_200_OK)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, uuid, format=None):
