@@ -63,7 +63,18 @@ const SignIn = ({ Email }: SignInProps) => {
 
   return (
     <>
-      {captchaSented && <Success isOpen={captchaSented} />}
+      {captchaSented && (
+        <Success isOpen={captchaSented}>
+          <div className="ml-3 w-0 flex-1 pt-0.5">
+            <p className="text-sm font-medium text-gray-50">
+              Successfully Sent Email Captcha!
+            </p>
+            <p className="mt-1 text-sm text-gray-300">
+              Please check your email for the verification captcha.
+            </p>
+          </div>
+        </Success>
+      )}
       <form
         onSubmit={formik.handleSubmit}
         className="relative isolate flex flex-col items-center pr-1"
@@ -147,7 +158,7 @@ const SignIn = ({ Email }: SignInProps) => {
                 </Button>
               </Input>
             </div>
-            <div className=" animate-in slide-in-from-top-3 duration-500 flex w-full justify-end">
+            <div className=" flex w-full justify-end duration-500 animate-in slide-in-from-top-3">
               <button
                 type="button"
                 onClick={async () => {
