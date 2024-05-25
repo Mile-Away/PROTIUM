@@ -131,7 +131,7 @@ class ServerListViewSet(viewsets.ViewSet):
     Returns a list of servers based on the specified filters.
     """
 
-    # FIXME: queryset = Server.objects.all()  # 不要直接修改 self.queryset, 会带来缓存问题
+    # FIXME: queryset = Server.objects.all()  # 不要直接修改 self.queryset, 会带来缓存问题，使用 get_queryset() 方法
     serializer_class = ServerSerializer
 
     def get_queryset(self):

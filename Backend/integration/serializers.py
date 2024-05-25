@@ -44,15 +44,12 @@ class GithubReleaseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
 
         id = validated_data.pop("id", None)
-        # print(">>>>>>>>>>>>", validated_data)
-        print(">>>>>>>>>>>>", id)
 
         author = validated_data.pop("author", None)
         author_id = author.pop("id")
         Author, created = GithubUser.objects.update_or_create(id=author_id, defaults=author)
 
         assets = validated_data.pop("assets", [])
-        print(">>>>>>>>>>>>", assets)
 
         instance, created = GithubRelease.objects.update_or_create(id=id, author=Author, defaults=validated_data)
 
