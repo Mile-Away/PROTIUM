@@ -9,9 +9,14 @@ from .models import Category, Channel, Server
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    server_num = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
         fields = "__all__"
+
+    def get_server_num(self, obj):
+        return obj.server_category.count()
 
 
 class ChannelSerializer(serializers.ModelSerializer):

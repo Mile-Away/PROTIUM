@@ -78,6 +78,7 @@ class WorkflowNodeData(models.Model):
     node = models.OneToOneField(WorkflowNode, on_delete=models.CASCADE, related_name="node_data")
     header = models.CharField(max_length=100)
     footer = models.TextField(blank=True, null=True)
+    
     handles: models.QuerySet["WorkflowNodeHandle"]
     results: models.QuerySet["WorkflowNodeResult"]
     body: models.QuerySet["WorkflowNodeBody"]
@@ -112,6 +113,7 @@ class WorkflowNodeHandle(models.Model):
     # 或者 {"source": "result", "key": "poscar"}
     data_source = models.CharField(max_length=10, blank=True, null=True, choices=data_source_choices)
     data_key = models.CharField(max_length=100, blank=True, null=True)
+    
     edges_sourceHandle: models.QuerySet["WorkflowEdge"]
     edges_targetHandle: models.QuerySet["WorkflowEdge"]
 

@@ -65,7 +65,7 @@ function TopLevelNavItem({ item }: { item: (typeof navItems)[0] }) {
         {item.sub?.map((subItem, idx) => (
           <Link
             href={subItem.href}
-            key={idx}
+            key={subItem.name}
             className="whitespace-nowrap rounded px-2  py-1 text-xs transition hover:bg-green-300 dark:text-white dark:hover:bg-teal-300 dark:hover:text-black"
           >
             {subItem.name}

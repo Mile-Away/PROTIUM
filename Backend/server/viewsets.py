@@ -3,8 +3,8 @@ from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .models import Channel, Server
-from .serializers import ChannelSerializer, ServerSerializer
+from .models import Category, Channel, Server
+from .serializers import CategorySerializer, ChannelSerializer, ServerSerializer
 
 
 # Create your views here.
@@ -189,4 +189,19 @@ class ServerListViewSet(viewsets.ViewSet):
 
         serializer = ServerSerializer(queryset, many=True, context={"num_members": with_num_members})
 
+        return Response(serializer.data)
+
+
+# 这个 API 提供所有 Server 的 Category 标签
+class CategoryListViewSet(viewsets.ViewSet):
+
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all().distinct()
+        return queryset
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)

@@ -39,6 +39,7 @@ class Category(models.Model):
         null=True,
         validators=(validate_icon_image_size, validate_image_file_extension),
     )
+    server_category: models.QuerySet["Server"]
 
     def save(self, *args, **kwargs):
         if self.id:
@@ -87,9 +88,7 @@ class Server(models.Model):
     github_url = models.URLField(blank=True, null=True, help_text="Space 对应的 Github 地址")
     document_url = models.URLField(blank=True, null=True, help_text="Space 对应的 Doc 文件夹的地址")
 
-    category = models.ForeignKey(
-        Category, blank=True, null=True, on_delete=models.DO_NOTHING, related_name="server_category"
-    )
+    category = models.ManyToManyField(Category, blank=True, related_name="server_category")
     created_at = models.DateTimeField(auto_now_add=True)
 
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="server_members")

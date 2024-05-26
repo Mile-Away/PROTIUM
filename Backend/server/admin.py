@@ -5,8 +5,7 @@ from .models import Category, Channel, Server
 
 
 class ServerAdmin(admin.ModelAdmin):
-    list_display = ("name", "owner", "category", "description")
-    list_filter = ("category",)
+    list_display = ("name", "owner", "description")
     search_fields = ("name", "description")
     ordering = ("name",)
 
