@@ -93,5 +93,4 @@ class ServerSerializer(serializers.ModelSerializer):
         return data
 
     def update(self, instance, validated_data):
-
         return super().update(instance, validated_data)

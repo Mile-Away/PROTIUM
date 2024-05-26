@@ -1,23 +1,13 @@
 'use client';
 import { SpaceProps } from '@/@types/space';
 import { useFormik } from 'formik';
-import Readme from './SetReadme';
+import SetReadme from './SetReadme';
 import SetPinnedArticles from './SetPinnedArticles';
+import { useDictCRUD } from '@/hooks/useCrud';
 
 export default function Page({ params }: { params: { name: string } }) {
-  const initialFormValues = {
-    name: '',
-    description: '',
-    icon: '',
-    banner: '',
-  } as SpaceProps;
 
-  const formik = useFormik({
-    initialValues: initialFormValues,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+
 
   return (
     <form className="max-w-full py-4">
@@ -33,7 +23,7 @@ export default function Page({ params }: { params: { name: string } }) {
               your github Readme.
             </p>
           </div>
-          <Readme spaceName={params.name} />
+          <SetReadme spaceName={params.name} />
         </div>
 
         {/* Pinned Articles */}

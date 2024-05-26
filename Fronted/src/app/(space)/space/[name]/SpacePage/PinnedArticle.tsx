@@ -1,33 +1,6 @@
 import { ArticleProps } from '@/@types/article';
 import { QuickLink } from '@/components/CardLinks';
 
-const CardLinks = [
-  {
-    title: 'How to use the new feature',
-    description: 'A quick guide to get started with the new feature',
-    href: '/dashboard',
-    icon: 'warning',
-  },
-  {
-    title: 'How to use the new feature',
-    description: 'A quick guide to get started with the new feature',
-    href: '/dashboard',
-    icon: 'warning',
-  },
-  {
-    title: 'How to use the new feature',
-    description: 'A quick guide to get started with the new feature',
-    href: '/dashboard',
-    icon: 'warning',
-  },
-  {
-    title: 'How to use the new feature',
-    description: 'A quick guide to get started with the new feature',
-    href: '/dashboard',
-    icon: 'warning',
-  },
-];
-
 interface PinnedArticleProps {
   articles: ArticleProps[];
 }

@@ -88,7 +88,7 @@ class ServerAdminsDetailAPIView(ServerDetailAPIView):
 
         data = request.data
         server = self.get_object(name)
-        if request.data.get("readme"):
+        if data.get("readme"):
             readme = data.pop("readme", None)
             Readme = Document.objects.get(uuid=readme)
 
@@ -97,6 +97,13 @@ class ServerAdminsDetailAPIView(ServerDetailAPIView):
             if serializer.is_valid():
                 serializer.save(readme=Readme)
                 return Response(serializer.data, status=status.HTTP_200_OK)
+        elif data.get("pinned_manuscript"):
+            pinned_manuscript = data.pop("pinned_manuscript", None)
+            server.pinned_manuscript.clear()
+            for manuscript in pinned_manuscript:
+                server.pinned_manuscript.add(manuscript)
+
+            return Response(status=status.HTTP_200_OK)
         else:
             serializer = self.serializer_class(server, data=data, partial=True)
 
@@ -107,5 +114,3 @@ class ServerAdminsDetailAPIView(ServerDetailAPIView):
         print(serializer.errors)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
