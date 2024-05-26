@@ -1,7 +1,7 @@
 'use client';
 import { BASE_URL } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
-import { CheckIcon, HashtagIcon } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import AfterLogin from './AfterLogin';
@@ -105,7 +105,14 @@ export default function Page() {
               <div className="-pl-1 z-10 inline-flex w-full items-center justify-between">
                 <div className="flex items-center justify-start gap-x-2">
                   {/* <HashtagIcon className="h-3 w-3" /> */}
-                  <span className=" rounded-full bg-black px-2 py-1 text-xs font-semibold text-white ">
+                  <span
+                    className={clsx(
+                      ' rounded-full  px-2 py-1 text-xs font-semibold ',
+                      selectedLabels.includes(label.name)
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-white/10 text-white',
+                    )}
+                  >
                     {label.server_num}
                   </span>
                   <span className=" line-clamp-1 text-start text-sm">

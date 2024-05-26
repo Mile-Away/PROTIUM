@@ -158,7 +158,7 @@ export default function NavbarFullWidthPreview({
                               <button
                                 type="button"
                                 className="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm transition-all
-                              duration-300 ease-in-out hover:bg-indigo-100 dark:bg-neutral-600
+                              duration-300 ease-in-out hover:bg-indigo-100 dark:bg-white/10
                               dark:text-indigo-100 dark:hover:bg-indigo-800 dark:hover:text-indigo-50
                               "
                               >
@@ -167,7 +167,7 @@ export default function NavbarFullWidthPreview({
                               <button
                                 type="button"
                                 className="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm transition-all
-                              duration-300 ease-in-out hover:bg-indigo-100 dark:bg-neutral-600
+                              duration-300 ease-in-out hover:bg-indigo-100 dark:bg-white/10
                               dark:text-indigo-100 dark:hover:bg-indigo-800 dark:hover:text-indigo-50
                               "
                               >

@@ -216,7 +216,10 @@ const TypeWriter: React.FC = () => {
                         </TabList>
                         <TabPanels className="mt-2">
                           {categories.map(({ name, posts }) => (
-                            <TabPanel key={name} className="rounded-xl flex flex-col gap-4 p-3">
+                            <TabPanel
+                              key={name}
+                              className="flex flex-col gap-4 rounded-xl p-3"
+                            >
                               {posts.map((post) => (
                                 <div
                                   key={post.id}
@@ -325,19 +328,22 @@ const TypeWriter: React.FC = () => {
             <a
               href={certification}
               download={certification}
-              className=" flex h-12 flex-1 items-center justify-center gap-2 rounded border border-neutral-900 bg-black/20 p-4 text-white shadow-lg shadow-neutral-600/20 hover:bg-neutral-800/80"
+              className=" flex h-12 flex-1 items-center justify-center gap-2 rounded border border-neutral-700/20 bg-neutral-800/30 p-4 text-white shadow shadow-neutral-900/20 hover:bg-neutral-700/80"
             >
               <span className="font-display font-semibold">Download</span>
               <ArrowDownTrayIcon className="h-4 w-4" />
             </a>
-            <button className=" flex h-12 flex-1 items-center justify-center gap-2 rounded border border-neutral-900 bg-black/20 p-4 text-white shadow-lg shadow-neutral-600/20 hover:bg-neutral-800">
+            <button
+              onClick={() => {}}
+              className=" flex h-12 flex-1 items-center justify-center gap-2 rounded border border-neutral-700/20 bg-neutral-800/30 p-4 text-white shadow shadow-neutral-900/20 hover:bg-neutral-700/80"
+            >
               <span className=" font-display font-semibold">Collect</span>
               <StarIcon className="h-4 w-4" />
             </button>
 
             <button
               onClick={() => setShowCertification(false)}
-              className=" flex h-12 items-center justify-center gap-2 rounded border border-neutral-900 bg-black/20 p-4 text-white/50 shadow-lg shadow-neutral-600/20 hover:bg-neutral-800"
+              className=" flex h-12 items-center justify-center gap-2 rounded border border-neutral-900 bg-neutral-800/30 p-4 text-white/50 shadow-lg shadow-neutral-900/20 hover:bg-neutral-800"
             >
               <ArrowUturnLeftIcon className="h-4 w-4" />
             </button>

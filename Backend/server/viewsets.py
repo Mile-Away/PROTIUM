@@ -1,4 +1,4 @@
-from django.db.models import Count, Q
+from django.db.models import Count
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -154,18 +154,9 @@ class ServerListViewSet(viewsets.ViewSet):
 
         if categories:
             category_list = [category.strip() for category in categories.split(",")]
-            print(category_list)
-            # queryset = queryset.filter(category__name__iexact__in=category_list)  # 使用 iexact__in 进行不区分大小写的精确查找
-            # 创建一个空的 Q 对象
-            query = Q()
 
-            # 遍历 category_list，将每个 category 名添加到 Q 对象中
             for category in category_list:
                 queryset = queryset.filter(category__name__iexact=category)
-
-            # print(query)
-            # # 使用 Q 对象进行过滤
-            # queryset = queryset.filter(query)
 
         if by_user:
             user_id = request.user.id
