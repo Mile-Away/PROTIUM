@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from rest_framework import status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -145,17 +145,27 @@ class ServerListViewSet(viewsets.ViewSet):
 
         queryset = self.get_queryset()
         named = request.query_params.get("named") == "true"
-        category = request.query_params.get("category")
+        categories = request.query_params.get("category")
         qty = request.query_params.get("qty")
         by_user = request.query_params.get("by_user") == "true"
         by_serverid = request.query_params.get("by_serverid")
         by_server_name = request.query_params.get("by_server_name")
         with_num_members = request.query_params.get("with_num_members") == "true"
 
-        if category:
-            print(category)
-            queryset = queryset.filter(category__name__iexact=category)  # 根据名称，iexact 表示不区分大小写的精确查找
-            # self.queryset = Server.objects.filter(category=category)  # 根据序号
+        if categories:
+            category_list = [category.strip() for category in categories.split(",")]
+            print(category_list)
+            # queryset = queryset.filter(category__name__iexact__in=category_list)  # 使用 iexact__in 进行不区分大小写的精确查找
+            # 创建一个空的 Q 对象
+            query = Q()
+
+            # 遍历 category_list，将每个 category 名添加到 Q 对象中
+            for category in category_list:
+                queryset = queryset.filter(category__name__iexact=category)
+
+            # print(query)
+            # # 使用 Q 对象进行过滤
+            # queryset = queryset.filter(query)
 
         if by_user:
             user_id = request.user.id
