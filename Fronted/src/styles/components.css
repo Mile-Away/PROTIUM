@@ -1,12 +1,7 @@
 @import './typography.css';
 @tailwind components;
 
-.sliderbtn {
-    display: inline-flex;
-    position: relative;
-    overflow: hidden;
-    border-radius: 0.25rem;
-}
+.sliderbtn {}
 
 .sliderbtn::before {
     content: "";

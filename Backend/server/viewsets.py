@@ -153,6 +153,7 @@ class ServerListViewSet(viewsets.ViewSet):
         with_num_members = request.query_params.get("with_num_members") == "true"
 
         if category:
+            print(category)
             queryset = queryset.filter(category__name__iexact=category)  # 根据名称，iexact 表示不区分大小写的精确查找
             # self.queryset = Server.objects.filter(category=category)  # 根据序号
 
