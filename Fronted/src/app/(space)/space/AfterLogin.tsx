@@ -72,7 +72,7 @@ const AfterLogin: React.FC<AfterLoginProps> = ({
                     {space.icon && (
                       <img
                         src={`${MEDIA_URL}${space.icon}`}
-                        className="h-5 w-5 rounded-full"
+                        className="h-5 w-5 rounded"
                         alt={space.name}
                       />
                     )}

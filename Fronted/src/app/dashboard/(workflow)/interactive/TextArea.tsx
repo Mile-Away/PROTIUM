@@ -18,7 +18,7 @@ export default function TextArea(
     dispatch(
       setNodeDataBodyContent({
         nodeId: id,
-        bodyKey: data.body[idx].key,
+        bodyKey: data.body[idx]?.key,
         source: content,
       }),
     );
