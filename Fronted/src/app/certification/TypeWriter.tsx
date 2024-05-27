@@ -19,52 +19,16 @@ const TypeWriter: React.FC = () => {
   const [text1, setText1] = useState('');
   const [text2, setText2] = useState('');
   const [text3, setText3] = useState('');
-
+  const [minimize, setMinimize] = useState(false);
   const [certificationId, setCertificationId] = useState('');
-  const [certificationName, setCertificationName] = useState('');
+  const [cardName, setCardName] = useState('');
   const [cardID, setCardID] = useState('');
   const [certification, setCertification] = useState<string | undefined>(
     undefined,
   );
   const [showCertification, setShowCertification] = useState(false);
 
-  const categories = [
-    {
-      name: 'By Certification ID',
-      posts: [
-        {
-          id: 1,
-          placeholder: 'Enter Certification ID...',
-          value: certificationId,
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            setCertificationId(e.target.value);
-          },
-        },
-      ],
-    },
-    {
-      name: 'By Name/Card ID',
-      posts: [
-        {
-          id: 1,
-          placeholder: 'Enter Name...',
-          value: certificationName,
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            setCertificationName(e.target.value);
-          },
-        },
-        {
-          id: 2,
-          placeholder: 'Enter Card ID...',
-          value: cardID,
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            setCardID(e.target.value);
-          },
-        },
-      ],
-    },
-  ];
-  const fetchCertification = async () => {
+  const fetchCertificationByCID = async () => {
     try {
       const response = await fetch(
         `https://deepmodeling.com/api/certificate/get/entity/byCID/display?cid=${certificationId}`,
@@ -79,6 +43,61 @@ const TypeWriter: React.FC = () => {
       console.error(error);
     }
   };
+
+  const fetchCertificationByName = async () => {
+    try {
+      const response = await fetch(
+        `https://deepmodeling.com/api/certificate/get/entity/byID/display?name=${cardName}&p_id=${cardID}`,
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch certification!');
+      }
+      const data = await response.json();
+      setCertification(data[0].type_template);
+      setShowCertification(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const categories = [
+    {
+      name: 'By Certification ID',
+      posts: [
+        {
+          id: 1,
+          placeholder: 'Enter Certification ID...',
+          value: certificationId,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            setCertificationId(e.target.value);
+          },
+        },
+      ],
+      onSubmit: fetchCertificationByCID,
+    },
+    {
+      name: 'By Name/Card ID',
+      posts: [
+        {
+          id: 1,
+          placeholder: 'Enter Name...',
+          value: cardName,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            setCardName(e.target.value);
+          },
+        },
+        {
+          id: 2,
+          placeholder: 'Enter Card ID...',
+          value: cardID,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            setCardID(e.target.value);
+          },
+        },
+      ],
+      onSubmit: fetchCertificationByName,
+    },
+  ];
 
   // 展示第一段文字，时间间隔为100ms
   useEffect(() => {
@@ -108,10 +127,6 @@ const TypeWriter: React.FC = () => {
     }
   }, [text2, text3]);
 
-  const handleDownload = () => {
-    // download the certification
-  };
-
   //  删除效果
   //   const textState = ['istyping', 'isdeleting'];
   //   const [typing, setTyping] = useState(textState[0]);
@@ -139,8 +154,6 @@ const TypeWriter: React.FC = () => {
   //     }, 100);
   //     return () => clearTimeout(timeout);
   //   }, [text1, typing]);
-
-  const [minimize, setMinimize] = useState(false);
 
   return (
     <div className="pointer-events-none flex h-screen w-screen select-none justify-center text-white">
@@ -215,7 +228,7 @@ const TypeWriter: React.FC = () => {
                           ))}
                         </TabList>
                         <TabPanels className="mt-2">
-                          {categories.map(({ name, posts }) => (
+                          {categories.map(({ name, posts, onSubmit }) => (
                             <TabPanel
                               key={name}
                               className="flex flex-col gap-4 rounded-xl p-3"
@@ -238,10 +251,10 @@ const TypeWriter: React.FC = () => {
                               <div className="mt-2 flex justify-end">
                                 <button
                                   type="button"
-                                  onClick={fetchCertification}
+                                  onClick={onSubmit}
                                   className="flex items-center rounded-md border border-neutral-800/80  px-2.5 py-1.5 text-base font-semibold text-white shadow-sm     hover:bg-indigo-600 "
                                 >
-                                  <span className=" ">Submit</span>
+                                  <span className="">Submit</span>
                                   <PaperAirplaneIcon className="ml-1 h-4 w-4" />
                                 </button>
                               </div>

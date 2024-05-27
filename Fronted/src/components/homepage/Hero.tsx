@@ -117,19 +117,22 @@ export default function Hero() {
                         >
                           {t('hero.button.primary')}
                         </button>
-                        <button
-                          type="button"
-                          name="Learn more"
-                          title="Learn more"
-                          onClick={() => {
-                            router.push('/about');
-                          }}
-                          className="text-sm font-semibold leading-6 text-neutral-900 duration-300 hover:translate-x-1 hover:scale-110  dark:text-neutral-100"
-                        >
-                          <span className="" aria-hidden="true">
-                            {t('hero.button.secondary')} →
-                          </span>
-                        </button>
+                        <div className="group inline-block">
+                          <button
+                            type="button"
+                            name="Learn more"
+                            title="Learn more"
+                            onClick={() => {
+                              router.push('/about');
+                            }}
+                            className="text-sm font-semibold leading-6 text-neutral-900 duration-300 dark:text-neutral-100"
+                          >
+                            <span className="" aria-hidden="true">
+                              {t('hero.button.secondary')} →
+                            </span>
+                          </button>
+                          <span className="mt-1 block h-[0.1rem] w-full origin-left scale-x-0 transform bg-indigo-600 transition-all duration-200 ease-in-out group-hover:scale-x-100 dark:bg-white"></span>
+                        </div>
                       </div>
                     </div>
                     <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">

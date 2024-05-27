@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import Document, DocumentActivity, Tag, DocumentActivityUser
+from .models import Document, DocumentActivity, DocumentActivityUser, Tag
 
 
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ("title", "author", "created_at", "publish")
+    list_display = ("id", "title", "author", "created_at", "publish")
     sortable_by = ("updated_at", "title")
 
 

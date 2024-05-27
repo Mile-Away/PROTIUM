@@ -98,10 +98,13 @@ class ServerAdminsDetailAPIView(ServerDetailAPIView):
                 serializer.save(readme=Readme)
                 return Response(serializer.data, status=status.HTTP_200_OK)
         elif data.get("pinned_manuscript"):
+
             pinned_manuscript = data.pop("pinned_manuscript", None)
             server.pinned_manuscript.clear()
+            order = 0
             for manuscript in pinned_manuscript:
-                server.pinned_manuscript.add(manuscript)
+                server.pinned_manuscript.add(manuscript, through_defaults={"order": order})
+                order += 1
 
             return Response(status=status.HTTP_200_OK)
         else:

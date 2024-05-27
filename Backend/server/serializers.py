@@ -5,7 +5,7 @@ from rest_framework import serializers
 from document.serializer import DocumentSerializer, PublicArticleSerializer
 from webchat.serializer import MessageSerializer
 
-from .models import Category, Channel, Server
+from .models import Category, Channel, PinnedDocument, Server
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -44,6 +44,15 @@ class SearchChannelSerializer(serializers.Serializer):
     server = serializers.SlugRelatedField(slug_field="uuid", required=False, read_only=True)
 
 
+class PinnedDocumentSerializer(serializers.ModelSerializer):
+    document = PublicArticleSerializer()
+    server = serializers.SlugRelatedField(slug_field="uuid", read_only=True)
+
+    class Meta:
+        model = PinnedDocument
+        fields = "__all__"
+
+
 class ServerSerializer(serializers.ModelSerializer):
 
     num_members = serializers.SerializerMethodField()  # 自定义字段，需要加 SerializerMethodField
@@ -51,6 +60,7 @@ class ServerSerializer(serializers.ModelSerializer):
     channel_server = ChannelSerializer(many=True)  # 一对多关系，需要加 many=True
     readme = DocumentSerializer()
     pinned_manuscript = PublicArticleSerializer(many=True, read_only=True)
+    # pinned_manuscript = PinnedDocumentSerializer(many=True, read_only=True)
     owner = serializers.StringRelatedField(read_only=True)
     admins = serializers.StringRelatedField(many=True, read_only=True)
     members = serializers.StringRelatedField(many=True, read_only=True)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Category, Channel, Server
+from .models import Category, Channel, PinnedDocument, Server
 
 
 class ServerAdmin(admin.ModelAdmin):
@@ -15,6 +15,13 @@ class ServerAdmin(admin.ModelAdmin):
         form.instance.save()
 
 
+class PinnedDocumentAdmin(admin.ModelAdmin):
+    list_display = ("document", "server", "order")
+    search_fields = ("document", "server")
+    ordering = ("order",)
+
+
 admin.site.register(Category)
+admin.site.register(PinnedDocument, PinnedDocumentAdmin)
 admin.site.register(Server, ServerAdmin)
 admin.site.register(Channel)

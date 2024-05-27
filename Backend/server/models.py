@@ -61,6 +61,17 @@ class Category(models.Model):
         return self.name
 
 
+class PinnedDocument(models.Model):
+    id: int
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    server = models.ForeignKey("Server", on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ["document", "server"]
+        ordering = ["order"]
+
+
 class Server(models.Model):
     id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -83,7 +94,7 @@ class Server(models.Model):
         Document, blank=True, null=True, on_delete=models.SET_NULL, related_name="server_readme"
     )
     pinned_manuscript = models.ManyToManyField(
-        Document, blank=True, help_text="管理员在创建 Space 时 pin 在首页的文档"
+        Document, blank=True, help_text="管理员在创建 Space 时 Pin 在首页的文档", through=PinnedDocument
     )
     github_url = models.URLField(blank=True, null=True, help_text="Space 对应的 Github 地址")
     document_url = models.URLField(blank=True, null=True, help_text="Space 对应的 Doc 文件夹的地址")
