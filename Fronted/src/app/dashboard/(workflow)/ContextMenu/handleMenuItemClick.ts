@@ -7,7 +7,7 @@ const handleMenuItemClick = (action: string) => {
       case 'poscar':
         return dispatch(
           addNode({
-            type: 'structureInput',
+            type: 'Input',
             data: {
               header: 'POSCAR',
               status: 'draft',
@@ -48,7 +48,7 @@ const handleMenuItemClick = (action: string) => {
       case 'potcar':
         return dispatch(
           addNode({
-            type: 'fileSelect',
+            type: 'Select',
             data: {
               header: 'POTCAR',
               status: 'draft',
@@ -81,7 +81,7 @@ const handleMenuItemClick = (action: string) => {
       case 'incar':
         return dispatch(
           addNode({
-            type: 'structureInput',
+            type: 'Input',
             data: {
               header: 'INCAR',
               status: 'draft',
@@ -114,7 +114,7 @@ const handleMenuItemClick = (action: string) => {
       case 'kpoints':
         return dispatch(
           addNode({
-            type: 'structureInput',
+            type: 'Input',
             data: {
               header: 'KPOINTS',
               status: 'draft',
@@ -146,7 +146,7 @@ const handleMenuItemClick = (action: string) => {
       case 'vasp':
         return dispatch(
           addNode({
-            type: 'solver',
+            type: 'Solver',
             data: {
               header: 'VASP',
               status: 'draft',
@@ -199,7 +199,7 @@ const handleMenuItemClick = (action: string) => {
       case 'VASP/outputs':
         return dispatch(
           addNode({
-            type: 'fileSelect',
+            type: 'Select',
             data: {
               header: 'OUTPUTS',
               status: 'draft',

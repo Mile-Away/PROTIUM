@@ -6,6 +6,7 @@ from typing import TypedDict
 
 from asgiref.sync import sync_to_async
 from django.conf import settings
+
 from workflow.models import WorkflowNodeResult
 from workflow.types import NodeStatus
 
@@ -64,6 +65,9 @@ class VaspNodeExecutor(SolverExecutor, ABC):
             # 获取元素信息
             elements = lines[5].strip().split()
 
+            if elements is None or len(elements) == 0:
+                raise Exception("未获取到元素信息，请检查 POSCAR 文件。")
+
             # 生成 POTCAR 文件
             with open(potcar_file, "w") as potcar:
                 for element in elements:
@@ -79,9 +83,9 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                         raise Exception(f"无法找到 {element} 的源 POTCAR 文件：{potcar_src_path}")
 
             return elements
+
         except Exception as e:
-            print(">>>>> Error General POTCAR", e)
-            return None
+            raise Exception(f"生成 POTCAR 文件失败：{e}")
 
     async def get_default_potcar(self) -> str:
         return "default POTCAR"
@@ -106,12 +110,10 @@ class VaspNodeExecutor(SolverExecutor, ABC):
         for sub_file in sub_file_path:
             if sub_file is None:
                 return "failed"
-            await move_file(sub_file, dir_path)
+            await move_file(src=sub_file, dst=dir_path)
 
         # 从 body 判断 POTCAR 来自于哪里
         potcar_body_source = await self.get_body_source("potcarSelect")
-
-        print(potcar_body_source)
 
         if potcar_body_source == "default":
             potcar_file_path = os.path.join(dir_path, "POTCAR")

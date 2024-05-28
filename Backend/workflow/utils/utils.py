@@ -1,14 +1,15 @@
 import subprocess
 
-from accounts.models import User
 from asgiref.sync import sync_to_async
 from channels.layers import get_channel_layer
+
+from accounts.models import User
 from workflow.models import Workflow
 from workflow.types import WorkflowNodeMessageProps
 
 
 @sync_to_async
-def move_file(src, dst):
+def move_file(*, src, dst):
     result = subprocess.run(["mv", "-f", src, dst], capture_output=True, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"移动文件失败: {result.stderr}")

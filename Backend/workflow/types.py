@@ -8,10 +8,8 @@ class WorkflowNodeMessageProps(TypedDict, total=False):
     uuid: Required[str]
     header: Required[str]
     status: Required[NodeStatus]
-    error: list[str]
     results: list[dict[str, str | dict]]  # 返回的 Results 字典 key 是 Node 中的 ResultsKey, value 是执行结果
-    std_out: str
-    std_err: str
+    messages: list[dict[str, str]]  # 返回的 Message，应该是一个 NodeMessage Model 对象的列表
 
 
 # # export interface WorkflowNodeDataBodyProps {

@@ -83,8 +83,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
             header: data.execute_status.header,
             status: data.execute_status.status,
             results: data.execute_status.results,
-            std_out: data.execute_status.std_out,
-            std_err: data.execute_status.std_err,
+            messages: data.execute_status.messages,
           }),
         );
       },

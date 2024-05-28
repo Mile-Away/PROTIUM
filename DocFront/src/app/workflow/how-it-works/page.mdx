@@ -31,14 +31,12 @@ class WorkflowExecuter:
                 if all(connected_results):
                     await self.build_node_dependencies_async(node)
 
-            # 从没有依赖的节点开始执行
-            no_dependency_nodes = [node for node, dependencies in self.node_dependencies.items() if not dependencies]
+            no_dependency_nodes = [node for node, dependencies in self.node_dependencies.items()]
             await asyncio.gather(*(self.execute_node(node) for node in no_dependency_nodes))
 
             return True
 
         except Exception as e:
-            print(f"Workflow execution stopped due to an error: {str(e)}")
             return False
 
         finally:
@@ -49,7 +47,7 @@ class WorkflowExecuter:
 
 ## Step 1: 建立节点运行依赖关系
 
-程序将进行反向搜索，首先获取所有 [target handle]("#") 已被连接的 Node，构建这类 Node 及其子 Node 的依赖关系字典。
+程序首先获取所有 [target handle]("#") 已被连接的 Node，构建这类 Node 及其子 Node 的依赖关系字典。
 
 例如对于一个一般 VASP 工作流，将有 INCAR, POSCAR, KPOINTS 及 VASP 求解器 4 个计算节点，VASP 求解器节点将接受其余三个节点的输入。
 则形成的依赖关系为：
@@ -84,21 +82,11 @@ class WorkflowExecuter:
     ...
 
     async def execute_node(self, node: WorkflowNode):
-        node_header = await get_node_header(node)
-        node.status = "running"
-
-        await channel_send_node_result(
-            workflow=self.workflow_instance,
-            execute_status={
-                "uuid": str(node.uuid),
-                "header": node_header,
-                "status": node.status,
-            },
-        )
+        
+        ...
 
         try:
-            connected_target_results = await check_handle_connected(node, "target")
-            connected_source_results = await check_handle_connected(node, "source")
+            ...
 
             if not any(connected_target_results) and not any(connected_source_results):
                 node.status = "skipped"
@@ -114,32 +102,8 @@ class WorkflowExecuter:
             else:
                 node.status = "failed"
 
-            await channel_send_node_result(
-                workflow=self.workflow_instance,
-                execute_status={
-                    "uuid": str(node.uuid),
-                    "header": node_header,
-                    "status": node.status,
-                },
-            )
-
         except Exception as e:
-            error_message = f"Error executing node {node}: {str(e)}"
-            node.status = "failed"
-            await channel_send_node_result(
-                workflow=self.workflow_instance,
-                execute_status={
-                    "uuid": str(node.uuid),
-                    "header": node_header,
-                    "status": node.status,
-                    "error": [error_message],
-                },
-            )
             raise Exception(error_message)
-
-        finally:
-            await sync_to_async(node.save)()
-            await self.execute_node_if_no_dependencies(node)
 
 ```
 
@@ -170,5 +134,3 @@ class WorkflowExecuter:
 </Warn>
 
 4. 当有错误发生时，execute_node 函数将捕获错误，并将错误信息返回给客户端。
-
-5. 执行成功时，从依赖字典中删除该依赖，并执行依赖该节点，且其所有依赖都已为空的节点。

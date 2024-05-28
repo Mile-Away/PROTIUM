@@ -374,19 +374,32 @@ const workflowSlice = createSlice({
       action: PayloadAction<ExecutedNodeMessageProps>,
     ) => {
       const node = state.nodes.find((node) => node.id === action.payload.id);
+
+      console.log('>>>>>>>', action.payload);
       if (node) {
         node.data.status = action.payload.status;
+
         action.payload.results?.map(
           (result: { key: string; source: string }) => {
-            console.log('>>>>>>>>>>', result);
             const resultItem = node.data.results.find(
               (item) => item.key === result.key,
             );
             if (resultItem) {
-              console.log(resultItem);
-              console.log(result.source);
               resultItem.source = result.source;
             }
+          },
+        );
+
+        action.payload.messages?.map(
+          (message: {
+            type: 'info' | 'warning' | 'error';
+            message: string;
+          }) => {
+            console.log('>>>>>>>', message.message);
+            state.consoleInfo.push({
+              time: new Date().toISOString(),
+              message: `${action.payload.header}: ${message.message}`,
+            });
           },
         );
       }

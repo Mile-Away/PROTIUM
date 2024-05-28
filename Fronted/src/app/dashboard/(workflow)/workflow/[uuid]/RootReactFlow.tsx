@@ -13,7 +13,7 @@ import ReactFlow, {
   NodeChange,
 } from 'reactflow';
 import nodeTypes from './nodeTypes';
-
+import { nodeColors } from './nodeTypes';
 export default function RootReactFlow() {
   const { nodes, edges } = useSelector(
     (state: RootReducerProps) => state.workflow,
@@ -50,15 +50,12 @@ export default function RootReactFlow() {
         <MiniMap
           maskColor="rgba(0,0,0,0)"
           nodeBorderRadius={5}
-          nodeColor={(n) => {
-            if (n.type === 'fileSelect') return '#FFCC0080';
-            if (n.type === 'structureInput') return '#FFCCFF80';
-            if (n.type === 'solver') return 'rgba(129,140, 248,0.5)';
-            return 'rgba(129,140, 248,0.2)';
-          }}
+          nodeColor={nodeColors}
           className=" rounded-xl border bg-white shadow-lg   dark:border-neutral-800/40 dark:bg-black "
         />
       </ReactFlow>
     </>
   );
 }
+
+

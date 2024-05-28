@@ -22,8 +22,15 @@ export interface ExecutedNodeMessageProps {
   id: string;
   header: string;
   status: 'success' | 'failed' | 'running' | 'draft' | 'skipped' | 'pending';
-  error?: string[];
   results?: [];
-  std_out?: str;
-  std_err?: str;
+  messages?: { type: 'info' | 'warning' | 'error'; message: string }[];
+}
+
+export interface ExecuteStatusProps {
+  uuid: string;
+  header: string;
+  status: 'success' | 'failed' | 'running' | 'draft' | 'skipped' | 'pending';
+  results: { [key: string]: string | object }[];
+  messages: { type: 'info' | 'warning' | 'error'; message: string }[];
+
 }

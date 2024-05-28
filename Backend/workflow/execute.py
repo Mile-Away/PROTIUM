@@ -6,7 +6,7 @@ from workflow.models import Workflow, WorkflowNode, WorkflowNodeResult
 
 from .registry import NodeExecutorRegistry
 from .types import NodeStatus
-from .utils.handles import check_handle_connected, filter_target_handles, handle_has_connected
+from .utils.handles import check_handle_connected, filter_target_handles
 from .utils.nodes import get_node_header
 from .utils.utils import channel_send_node_result
 
@@ -131,7 +131,7 @@ class WorkflowExecuter:
                 results = await self.get_all_results(node)
                 # 执行这个 Node 中的所有 Results
                 status = await self.execute_results_script(node, results)
-                # 只要有一个 failed，就烦会 failed
+                # 只要有一个 failed，就返回 failed
                 if "failed" in status:
                     node.status = "failed"
                 else:
@@ -140,7 +140,6 @@ class WorkflowExecuter:
             # 有连接，但是 target handle 没有全部连接
             else:
                 node.status = "failed"
-                # failed_message = "Not all target handles are connected"
 
             # 发送节点执行结果
             await channel_send_node_result(
@@ -154,15 +153,16 @@ class WorkflowExecuter:
 
         except Exception as e:
             # 执行失败，抛出错误并输出错误信息
-            error_message = f"Error executing node {node}: {str(e)}"
+            error_message = f"Error executing Node {node_header}: {str(e)}"
             node.status = "failed"
+            messages = [{"type": "error", "message": error_message}]
             await channel_send_node_result(
                 workflow=self.workflow_instance,
                 execute_status={
                     "uuid": str(node.uuid),
                     "header": node_header,
                     "status": node.status,
-                    "error": [error_message],
+                    "messages": messages,
                 },
             )
             raise Exception(error_message)
@@ -204,5 +204,3 @@ class WorkflowExecuter:
 
         finally:
             await sync_to_async(self.workflow_instance.save)()
-
-
