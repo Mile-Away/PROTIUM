@@ -10,7 +10,7 @@ def filter_handles(node: WorkflowNode):
 
 
 @sync_to_async
-def filter_target_handles(node: WorkflowNode, connected: bool = False):
+def filter_target_handles(node: WorkflowNode, *, connected: bool = False):
     if connected:
         return list(node.node_data.handles.filter(type="target", hasConnected=True))
     else:

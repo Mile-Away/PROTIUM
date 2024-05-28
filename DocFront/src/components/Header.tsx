@@ -55,18 +55,25 @@ function TopLevelNavItem({ item }: { item: (typeof navItems)[0] }) {
     <li className=" group relative">
       <Link
         href={item.href}
-        className=" py-2  text-sm leading-5 text-zinc-600 transition group-hover:text-teal-900 dark:text-zinc-400 dark:group-hover:text-white"
+        className=" py-2  text-sm leading-5 text-zinc-600 transition
+         group-hover:text-teal-900 dark:text-zinc-400 dark:group-hover:text-white"
       >
         {item.name}
       </Link>
       {/* Dropdown menu */}
 
-      <div className="absolute left-1/2 top-full hidden w-fit min-w-full -translate-x-1/2 translate-y-1 flex-col items-center gap-1 rounded bg-white/50 dark:bg-teal-400/10 p-2 shadow backdrop-blur-xl group-hover:flex">
+      <div
+        className={clsx(
+          'absolute left-1/2 top-full scale-0 w-fit min-w-full flex -translate-x-1/2 translate-y-1 flex-col items-center gap-1 rounded',
+          'bg-white/50 p-2 shadow backdrop-blur-xl group-hover:scale-100 dark:bg-white/10',
+        )}
+      >
         {item.sub?.map((subItem, idx) => (
           <Link
             href={subItem.href}
             key={subItem.name}
-            className="whitespace-nowrap rounded px-2  py-1 text-xs transition hover:bg-green-300 dark:text-white dark:hover:bg-teal-300 dark:hover:text-black"
+            className="whitespace-nowrap rounded px-2  py-1 text-xs w-full text-center
+             hover:bg-neutral-300 dark:text-white dark:hover:bg-white/10 dark:hover:text-white"
           >
             {subItem.name}
           </Link>

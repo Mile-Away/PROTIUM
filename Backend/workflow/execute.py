@@ -1,6 +1,7 @@
 import asyncio
 
 from asgiref.sync import sync_to_async
+
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeResult
 
 from .registry import NodeExecutorRegistry
@@ -180,9 +181,7 @@ class WorkflowExecuter:
             nodes = await self.get_nodes()
             for node in nodes:
                 # 如果存在 handles type 是 target 的节点，而且所有的 target handle 都已连接，构建这个节点及其所有子节点的依赖关系
-                handles = await filter_target_handles(node)
-                connected_checks = [handle_has_connected(handle) for handle in handles]
-                connected_results = await asyncio.gather(*connected_checks)
+                connected_results = await filter_target_handles(node, connected=True)
                 if all(connected_results):
                     await self.build_node_dependencies_async(node)
 
@@ -205,3 +204,5 @@ class WorkflowExecuter:
 
         finally:
             await sync_to_async(self.workflow_instance.save)()
+
+

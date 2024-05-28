@@ -72,9 +72,7 @@ for i in workflowNode.handles
 2. 在这个 JSON 对象中，异步且递归地运行 nodes 的运行逻辑，运行完毕后发出运行完毕状态。（或者 error 状态，整个流程中止）
 3. 当某个节点的子节点的所有状态都变成运行完毕，运行该节点，依次递归，最后运行根节点。
 
----
-
-## 2. 接下来的核心是处理怎么运行的问题:
+## Part 1. 接下来的核心是处理怎么运行的问题:
 
 例如对于 VASP 提交，它的运行逻辑应该是：
 
@@ -82,17 +80,18 @@ for i in workflowNode.handles
 
 需要顺畅的取到输入数据，如何从 handle 追溯到源？
 
-```js
+```ts
 instance.handles.find((handle)=> handle.key === "poscar") // 取到 handle 信息
+```
 
 根据 handle，找到 结束点是它的 edge，找到子 node，这时候我需要知道我从这个子 node 的哪里获取数据？
 
-子 node 的输出 handle 中应该记录这个信息，这个数据来自于 {source: handle/body/result, value: handleKey/bodyKey/resultKey}，
+子 node 的输出 handle 中应该记录这个信息，这个数据来自于 `{source: handle/body/result, value: handleKey/bodyKey/resultKey}`，
 TODO 计算结果的信息应该记录于 body 中，计算逻辑也应该记录于对应的 body 中，或者不叫 body? 叫 results? 感觉为了区分和 body 的区别，还是应该单独开一个。
 
 或者其实加一个 type = result，记录结果信息？感觉还是单独列一个 results 比较好。body 就用来存储与用户交互的部分，results 也可以有很多种类，需要单独一张表。
 
-
+```python
 class WorkflowNodeBody(models.Model):
 
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -104,12 +103,12 @@ class WorkflowNodeBody(models.Model):
 
     def __str__(self):
         return f"{self.node.header} - {self.type}"
-
-如果是来自 handleKey，重复上一过程，如果是来自于 bodyUUID，从其 Source 中获取信息！
 ```
+如果是来自 handleKey，重复上一过程，如果是来自于 bodyUUID，从其 Source 中获取信息！
 
 
-## Python 代码
+
+## Part 2. Python 代码
 
 ```python
 class WorkflowNodeHandle(models.Model):
