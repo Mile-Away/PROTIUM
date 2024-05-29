@@ -63,12 +63,12 @@ export function DropdownMenu({
       class: 'primary',
       icon: <DocumentTextIcon />,
     },
-    {
-      name: 'Workflow',
-      href: '/dashboard/workflow',
-      class: 'primary',
-      icon: <AdjustmentsHorizontalIcon />,
-    },
+    // {
+    //   name: 'Workflow',
+    //   href: '/workflow',
+    //   class: 'primary',
+    //   icon: <AdjustmentsHorizontalIcon />,
+    // },
     {
       name: 'Edit Profile',
       href: '/dashboard/settings',

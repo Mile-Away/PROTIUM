@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const dispatch = useDispatch();
-  const isHome = url === '/dashboard/workflow';
+  const isHome = url === '/workflow';
 
   const [showRecently, setShowRecently] = useState(isHome ? true : false);
   const [sort, setSort] = useState(options[0]);
@@ -64,7 +64,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         name: 'Untitled',
       });
       setWorkflows([...workflows, res.data]);
-      router.push(`/dashboard/workflow/${res.data.uuid}`);
+      router.push(`/workflow/${res.data.uuid}`);
     } catch (error) {
       console.error(error);
     }
@@ -222,7 +222,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div
                   key={i}
                   onClick={() => {
-                    router.push(`/dashboard/workflow/${workflow.uuid}`);
+                    router.push(`/workflow/${workflow.uuid}`);
                   }}
                   className={clsx(
                     'group relative mb-2 flex h-fit w-full flex-shrink-0 cursor-pointer select-none items-center justify-between rounded shadow-sm ring-1 ring-neutral-50 hover:ring-0 dark:ring-neutral-800/40',

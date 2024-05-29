@@ -63,7 +63,7 @@ export default function RootLayout({
       className={clsx('h-full antialiased', inter.variable, monaSans.variable)}
       suppressHydrationWarning
     >
-      <body className="bg-white dark:bg-neutral-900">
+      <body className="bg-white dark:bg-neutral-900 h-full">
         <Provider>{children}</Provider>
       </body>
     </html>

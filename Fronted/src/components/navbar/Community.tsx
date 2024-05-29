@@ -29,12 +29,12 @@ const resources = [
     icon: NewspaperIcon,
   },
 
-  {
-    name: 'Workflows',
-    description: 'Automate your work',
-    href: '/workflows',
-    icon: AdjustmentsHorizontalIcon,
-  },
+  // {
+  //   name: 'Workflows',
+  //   description: 'Automate your work',
+  //   href: '/workflows',
+  //   icon: AdjustmentsHorizontalIcon,
+  // },
   {
     name: 'Tutorials',
     description: 'Learn here',

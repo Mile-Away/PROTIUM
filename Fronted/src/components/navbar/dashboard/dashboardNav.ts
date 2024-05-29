@@ -31,12 +31,12 @@ export const dashboardNavi = [
     icon: DocumentTextIcon,
     current: false,
   },
-  {
-    name: 'sidebar.workflow',
-    href: '/dashboard/workflow',
-    icon: AdjustmentsHorizontalIcon,
-    current: false,
-  },
+  // {
+  //   name: 'sidebar.workflow',
+  //   href: '/workflow',
+  //   icon: AdjustmentsHorizontalIcon,
+  //   current: false,
+  // },
   // {
   //   name: 'Template',
   //   href: '#',

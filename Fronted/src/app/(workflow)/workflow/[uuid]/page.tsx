@@ -1,6 +1,6 @@
 'use client';
 
-import RootContextMenu from '@/app/dashboard/(workflow)/ContextMenu/RootContextMenu';
+import RootContextMenu from '@/app/(workflow)/ContextMenu/RootContextMenu';
 import Loading from '@/app/loading';
 import { RootReducerProps } from '@/app/store';
 import HoverMessage from '@/components/overlays/hover_message';

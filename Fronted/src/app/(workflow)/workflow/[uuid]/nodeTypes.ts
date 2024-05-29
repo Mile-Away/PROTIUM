@@ -1,4 +1,4 @@
-import BasicNode from '@/app/dashboard/(workflow)/nodes/BasicNode';
+import BasicNode from '@/app/(workflow)/nodes/BasicNode';
 import { type Node } from 'reactflow';
 import InputNode from '../../nodes/InputNode';
 import SelectNode from '../../nodes/SelectNode';
