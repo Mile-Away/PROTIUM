@@ -1,5 +1,5 @@
 import { ExecutedNodeMessageProps } from '@/@types/workflow';
-import nodeTypes from '@/app/dashboard/(workflow)/workflow/[uuid]/nodeTypes';
+import nodeTypes from '@/app/(workflow)/workflow/[uuid]/nodeTypes';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   addEdge,
