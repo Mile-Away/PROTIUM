@@ -1,4 +1,4 @@
-import SuccessAlert from '@/app/dashboard/manuscript/edit/[uuid]/SuccessAlert';
+import SuccessAlert from '@/components/notification/SuccessAlert';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useRef, useState } from 'react';
@@ -86,7 +86,7 @@ export default function WithStickyFooter({
                           <textarea
                             value={content}
                             onChange={handleChange}
-                            className="inert form-textarea dark:border-opacity-30 dark:focus:border-opacity-100 rounded focus:outline-none focus:ring-0 dark:border-neutral-400 h-full w-full overflow-scroll bg-transparent text-sm"
+                            className="inert form-textarea h-full w-full overflow-scroll rounded bg-transparent text-sm focus:outline-none focus:ring-0 dark:border-neutral-400 dark:border-opacity-30 dark:focus:border-opacity-100"
                           />
                           {savedTime && (
                             <SuccessAlert

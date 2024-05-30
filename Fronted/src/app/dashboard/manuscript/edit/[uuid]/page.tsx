@@ -7,7 +7,7 @@ import { useDictCRUD } from '@/hooks/useCrud';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import SuccessAlert from './SuccessAlert';
+import SuccessAlert from '../../../../../components/notification/SuccessAlert';
 import Loading from './loading';
 
 interface DocumentProps {
@@ -140,7 +140,10 @@ const Page = ({ params }: { params: { uuid: string } }) => {
       <div>
         <div className="sticky top-16 z-10 bg-white backdrop-blur-xl dark:bg-neutral-900/80">
           {formik.values.content && saveTime && (
-            <SuccessAlert className="z-10 rounded-md bg-green-50 p-4 duration-300 animate-in fade-in dark:bg-green-950" isLoading={loading} >
+            <SuccessAlert
+              className="z-10 rounded-md bg-green-50 p-4 duration-300 animate-in fade-in dark:bg-green-950"
+              isLoading={loading}
+            >
               <p className="text-sm font-medium text-green-800 dark:text-green-500">
                 Successfully autosaved at {saveTime.toLocaleTimeString()}
                 <span className="ml-4 text-xs">{'Content only'}</span>
