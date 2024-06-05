@@ -2,12 +2,14 @@
   "name": "DeepModeling",
   "version": "1.0.0",
   "private": true,
+  "main": "electron.js",
   "scripts": {
     "dev": "next dev -H 127.0.0.1 -p 3003",
     "build": "next build",
     "start": "next start -p 3003",
     "prod": "next build && next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "elec": "electron ."
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
@@ -91,6 +93,8 @@
     "@types/react-infinite-scroller": "^1.2.5",
     "@types/react-syntax-highlighter": "^15.5.11",
     "@types/uuid": "^9.0.8",
+    "electron": "^30.0.9",
+    "electron-is-dev": "^3.0.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.16",
     "prettier": "^3.0.1",

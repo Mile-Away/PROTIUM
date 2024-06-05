@@ -91,6 +91,7 @@
     "@types/react-infinite-scroller": "^1.2.5",
     "@types/react-syntax-highlighter": "^15.5.11",
     "@types/uuid": "^9.0.8",
+    "electron": "^30.0.9",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.16",
     "prettier": "^3.0.1",
