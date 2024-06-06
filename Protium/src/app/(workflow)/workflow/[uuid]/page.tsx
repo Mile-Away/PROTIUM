@@ -92,9 +92,9 @@ export default function Page({ params }: { params: { uuid: string } }) {
       useWebSocket will handle unmounting for you, but this is an example of a 
       case in which you would not want it to automatically reconnect
     */
-        return true;
+        return false;
       },
-      reconnectAttempts: 10,
+      reconnectAttempts: 1,
       reconnectInterval: 3000,
     });
 
@@ -291,7 +291,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
         </div>
         {/* Body */}
         <div className="inert mt-10 h-[calc(100%-2.5rem)] px-4 py-4 text-2xs">
-          <div className="h-full overflow-scroll inert">
+          <div className="inert h-full overflow-scroll">
             {consoleInfo.map((item, idx) => (
               <p key={idx}>
                 <span className=" mr-2 max-w-32 dark:text-neutral-500">

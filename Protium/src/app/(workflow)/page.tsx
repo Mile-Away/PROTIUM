@@ -1,10 +1,10 @@
 'use client';
-import Logo from '@/@brand/Logo';
+import Logo, { GrayLogo } from '@/@brand/Logo';
 
 const Page = () => {
   return (
     <div className="m-auto hidden h-full w-full flex-col items-center justify-center xl:flex">
-      <Logo className="mb-12 h-24 w-24 fill-gray-400 dark:fill-gray-400" />
+      <GrayLogo className="mb-12 h-24 w-24 fill-gray-400 dark:fill-gray-400" />
       <span className="select-none text-center text-gray-400 dark:text-gray-500">
         Choose a workflow to start or
         <br />

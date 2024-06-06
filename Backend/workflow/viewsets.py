@@ -26,6 +26,11 @@ class WorkflowViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
+
+        print("Print Cookiies >>>>>>>>")
+        for key, value in request.COOKIES.items():
+            print(key, value)
+
         serializer = WorkflowSerializer(data=request.data)
         if serializer.is_valid():
 
