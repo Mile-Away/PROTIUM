@@ -4,11 +4,11 @@ import { type Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import { PrimarySite } from '@/config';
+import { BASE_URL, PrimarySite } from '@/config';
 
-import '@/styles/tailwind.css';
 import getCookie from '@/helpers/useCookie';
-
+import '@/styles/tailwind.css';
+import axios from 'axios';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -57,9 +57,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
+  console.log(BASE_URL + '/account/register/');
   const access_token = getCookie('appAccessKey');
-  access_token.then((res) => console.log(res));
+  access_token.then((res) => {
+    axios.post(`${BASE_URL}/account/register/`, {
+      appAccessKey: res,
+    });
+  });
 
   return (
     <html
@@ -67,7 +71,7 @@ export default function RootLayout({
       className={clsx('h-full antialiased', inter.variable, monaSans.variable)}
       suppressHydrationWarning
     >
-      <body className="bg-white dark:bg-neutral-900 h-full">
+      <body className="h-full bg-white dark:bg-neutral-900">
         <Provider>{children}</Provider>
       </body>
     </html>

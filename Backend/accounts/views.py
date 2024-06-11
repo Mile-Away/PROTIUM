@@ -70,13 +70,6 @@ class UserDetailView(APIView):
             Response: JSON response containing the user's details.
         """
 
-        print("Cookies >>>>>>>>>>>")
-        for key, value in request.COOKIES.items():
-            print(key, value)
-        print("Headers >>>>>>>>>>>")
-        for key, value in request.headers.items():
-            print(key, value)
-
         user = request.user
 
         if user:
@@ -101,6 +94,7 @@ class UserDetailView(APIView):
         Returns:
             Response: JSON response containing the user's details.
         """
+
         user = request.user
         if user:
             user = self.queryset.get(id=user.id)
@@ -162,6 +156,9 @@ class RegisterView(APIView):
         Returns:
             Response: JSON response containing the user's ID, email, and username.
         """
+
+        print(">>>>>>>>>>>>>>>>>>>>>>", request.data)
+
         (email, username, password) = (
             request.data.get("email"),
             request.data.get("username"),

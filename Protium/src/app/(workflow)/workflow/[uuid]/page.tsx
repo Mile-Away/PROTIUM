@@ -173,8 +173,8 @@ export default function Page({ params }: { params: { uuid: string } }) {
 
   return (
     <div
-      onContextMenu={handleContextMenu}
-      onClick={handleContextMenuClose}
+      // onContextMenu={handleContextMenu}
+      // onClick={handleContextMenuClose}
       className="relative h-full w-full"
     >
       {/* Background */}
