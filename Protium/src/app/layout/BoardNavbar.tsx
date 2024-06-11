@@ -1,10 +1,7 @@
 'use client';
-import { UserProps } from '@/@types/auth-service';
-import LangSwitch from './LangSwitch';
-import DropdownMenu from './DropdownMenu';
-import SlideMenu from './SlideMenu';
 import { MEDIA_URL } from '@/config';
 import { useDictCRUD } from '@/hooks/useCrud';
+import SearchGlobal from '@/search/SearchGlobal';
 import { Menu } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, Cog6ToothIcon } from '@heroicons/react/24/outline';
@@ -13,14 +10,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ThemeSwitch } from './ThemeSwitch';
-import SearchGlobal from '@/search/SearchGlobal';
 import { dashboardNavi } from './dashboardNav';
+import DropdownMenu from './DropdownMenu';
+import LangSwitch from './LangSwitch';
+import SlideMenu from './SlideMenu';
+import { ThemeSwitch } from './ThemeSwitch';
+import { UserProps } from '@/@types/auth-service';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
-
 
 const BoardNavbar = () => {
   const { t } = useTranslation('translation');
@@ -242,25 +241,27 @@ const BoardNavbar = () => {
           </button> */}
 
           {/* Profile dropdown */}
-          <DropdownMenu itemClassName="-mt-1">
-            <Menu.Button className="-m-1.5 flex items-center rounded p-1.5 duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              <span className="sr-only">Open user menu</span>
-              <img
-                className="bg-neutral-5 h-6 w-6 rounded-full"
-                src={`${MEDIA_URL}${dataCRUD.avatar}`}
-                alt="avatar"
-              />
-              <span className="hidden lg:flex lg:items-center">
-                <span
-                  className="ml-4 text-sm font-semibold leading-6 text-gray-900 dark:text-white"
-                  aria-hidden="true"
-                >
-                  {dataCRUD.username}
+          {dataCRUD.username && (
+            <DropdownMenu itemClassName="-mt-1">
+              <Menu.Button className="-m-1.5 flex items-center rounded p-1.5 duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                <span className="sr-only">Open user menu</span>
+                <img
+                  className="bg-neutral-5 h-6 w-6 rounded-full"
+                  src={`${MEDIA_URL}${dataCRUD.avatar}`}
+                  alt="avatar"
+                />
+                <span className="hidden lg:flex lg:items-center">
+                  <span
+                    className="ml-4 text-sm font-semibold leading-6 text-gray-900 dark:text-white"
+                    aria-hidden="true"
+                  >
+                    {dataCRUD.username}
+                  </span>
+                  {/* <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
                 </span>
-                {/* <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
-              </span>
-            </Menu.Button>
-          </DropdownMenu>
+              </Menu.Button>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </motion.div>

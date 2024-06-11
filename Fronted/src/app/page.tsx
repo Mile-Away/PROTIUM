@@ -8,8 +8,9 @@ import Footer from '@/components/homepage/Footer';
 import Hero from '@/components/homepage/Hero';
 import Sponsor from '@/@brand/Sponsor';
 import Navbar from '@/components/navbar/Navbar';
-
+import { cookies } from 'next/headers';
 export default function Page() {
+
   return (
     <div className="flex flex-col">
       {/* <Header /> */}

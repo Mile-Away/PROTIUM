@@ -101,8 +101,8 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: '/groups',
-    name: 'Intergration',
+    href: '/workflow/integration',
+    name: 'Integration',
     description:
       '探索工作流与外部设施的集成方案，以及利用自然语言处理技术来简化工作流的构建过程等持续集成方案。',
     icon: PuzzlePieceIcon,

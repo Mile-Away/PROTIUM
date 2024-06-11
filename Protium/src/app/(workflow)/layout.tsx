@@ -1,21 +1,8 @@
 'use client';
-import { RootReducerProps } from '@/app/store';
-import MiniSortButton from '@/components/elements/buttons/MiniSortButton';
-import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import BoardNavbar from '@/app/layout/BoardNavbar';
 import SideNavBar from '@/app/layout/SideNavbar';
-
-import { BASE_URL, MEDIA_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
-import { formatTime } from '@/lib/formatDate';
-import { setWorkflowName, WorkflowProps } from '@/store/workflow/workflowSlice';
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { ChevronRightIcon, PlusIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useStickyContext } from '@/context/StickyContext';
+import clsx from 'clsx';
 
 const options = [
   {
@@ -36,8 +23,6 @@ const options = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const url = usePathname();
-
   const { isSticky, setIsSticky } = useStickyContext();
 
   return (
@@ -66,7 +51,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             )}
           >
             {children}
-
           </div>
         </main>
       </div>

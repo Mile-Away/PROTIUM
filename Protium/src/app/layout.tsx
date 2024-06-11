@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import { PrimarySite } from '@/config';
 
 import '@/styles/tailwind.css';
+import getCookie from '@/helpers/useCookie';
 
 
 const inter = Inter({
@@ -27,27 +28,26 @@ const monaSans = localFont({
  */
 export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
-  title: 'DeepModeling',
-  description: 'Define the future of scientific computing together',
+  title: 'Protium',
+  description: 'Workflow automation for scientific computing',
   openGraph: {
-    title: 'DeepModeling',
-    description: 'Define the future of scientific computing together',
+    title: 'Protium',
+    description: 'Workflow automation for scientific computing',
     type: 'website',
-    images: `/@brand/logo/og-image.png`,
     url: `/`,
   },
   icons: [
-    { rel: 'icon', url: '/@brand/logo/Logo-BgWhite.svg' },
+    { rel: 'icon', url: '/@brand/logo/Logo.svg' },
     {
       rel: 'icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-White.svg',
+      url: '/@brand/logo/Logo-Dark.svg',
     },
-    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo-BgWhite.png' },
+    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo.png' },
     {
       rel: 'apple-touch-icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-White.png',
+      url: '/@brand/logo/Logo-Dark.png',
     },
   ],
 };
@@ -57,6 +57,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const access_token = getCookie('appAccessKey');
+  access_token.then((res) => console.log(res));
+
   return (
     <html
       lang="en"

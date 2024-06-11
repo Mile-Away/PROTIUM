@@ -14,9 +14,9 @@ def user_avatar_path(instance, filename):
 
 # Create your models here.
 class User(AbstractUser):
+    # Required Fields
     id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    email = models.EmailField(max_length=50, null=False, blank=False, unique=True)
     username = models.CharField(max_length=20, null=False, blank=False, unique=True, validators=[validate_username])
     avatar = models.ImageField(
         upload_to=user_avatar_path,
@@ -24,12 +24,18 @@ class User(AbstractUser):
         default="accounts/default_avatar.png",
         validators=(validate_icon_image_size, validate_image_file_extension),
     )
+
+    # Social Account[Optional]
+    email = models.EmailField(max_length=50, null=True, blank=False, unique=True)
+    bohrium_account = models.CharField(max_length=50, blank=True, null=True)
+
+    # Optional Fields
     about = models.TextField(max_length=500, blank=True, null=True)
 
     arithmetic_access: models.OneToOneField["ArithmeticAccess"]
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    # USERNAME_FIELD = "email"
+    # REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.username
@@ -37,7 +43,8 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
 
         # 将 email 字段转换为小写
-        self.email = self.email.lower()
+        if self.email:
+            self.email = self.email.lower()
 
         # 如果用户已经存在，删除旧头像
         if self.id:
@@ -110,8 +117,6 @@ class ArithmeticAccess(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="arithmetic_access")
     bohrium_access_token = models.CharField(max_length=100, blank=True, null=True)
-    bohrium_username = models.CharField(max_length=50, blank=True, null=True)
-    bohrium_password = models.CharField(max_length=50, blank=True, null=True)
     bohrium_default_project = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self) -> str:

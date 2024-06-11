@@ -77,15 +77,17 @@ export default function Page({ params }: { params: { uuid: string } }) {
       onMessage: (event) => {
         const data = JSON.parse(event.data);
         console.log('Message:', data.execute_status);
-        dispatch(
-          setNodeExecutedResults({
-            id: data.execute_status.uuid,
-            header: data.execute_status.header,
-            status: data.execute_status.status,
-            results: data.execute_status.results,
-            messages: data.execute_status.messages,
-          }),
-        );
+        if (data.execute_status) {
+          dispatch(
+            setNodeExecutedResults({
+              id: data.execute_status.uuid,
+              header: data.execute_status.header,
+              status: data.execute_status.status,
+              results: data.execute_status.results,
+              messages: data.execute_status.messages,
+            }),
+          );
+        }
       },
       shouldReconnect: (closeEvent) => {
         /*

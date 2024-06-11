@@ -6,8 +6,8 @@ import localFont from 'next/font/local';
 
 import { PrimarySite } from '@/config';
 
+import getCookie from '@/helpers/cookieStore';
 import '@/styles/tailwind.css';
-
 
 const inter = Inter({
   subsets: ['latin'],
@@ -37,17 +37,17 @@ export const metadata: Metadata = {
     url: `/`,
   },
   icons: [
-    { rel: 'icon', url: '/@brand/logo/Logo-BgWhite.svg' },
+    { rel: 'icon', url: '/@brand/logo/Logo.svg' },
     {
       rel: 'icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-White.svg',
+      url: '/@brand/logo/Logo-Dark.png',
     },
-    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo-BgWhite.png' },
+    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo.png' },
     {
       rel: 'apple-touch-icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-White.png',
+      url: '/@brand/logo/Logo-Dark.png',
     },
   ],
 };
@@ -57,13 +57,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html
       lang="en"
       className={clsx('h-full antialiased', inter.variable, monaSans.variable)}
       suppressHydrationWarning
     >
-      <body className="bg-white dark:bg-neutral-900 h-full">
+      <body className="h-full bg-white dark:bg-neutral-900">
         <Provider>{children}</Provider>
       </body>
     </html>

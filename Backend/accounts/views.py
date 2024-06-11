@@ -1,18 +1,13 @@
 from django.conf import settings
-from django.db.models import Count
-from django.shortcuts import render
 from django.utils import timezone
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .authentication import JWTCookieTokenObtainPairSerializer, JWTCookieTokenRefreshSerializer
 from .models import EmailVerifyCode, User
-from .schema import user_list_schema
 from .serializer import EmailVerifyCodeSerializer, RegisterSerializer, ResetPasswordSerializer, UserSerializer
 from .utils.mail_eval import mail_send
 
@@ -28,7 +23,7 @@ class JWTSetCookieMixin:
                 domain=settings.SIMPLE_JWT["JWT_COOKIE_DOMAIN"],  # `domain`属性可以限制 cookie 只能发送到指定域名
                 samesite=settings.SIMPLE_JWT["JWT_COOKIE_SAMESITE"],  # `samesite`属性可以限制第三方站点发送的 cookie
                 secure=settings.SIMPLE_JWT["JWT_COOKIE_SECURE"],  # `secure`属性可以限制 cookie 只能通过 HTTPS 协议发送
-                httponly=True,
+                httponly=False,
             )
             del response.data["refresh"]
 
@@ -40,7 +35,7 @@ class JWTSetCookieMixin:
                 max_age=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
                 samesite=settings.SIMPLE_JWT["JWT_COOKIE_SAMESITE"],
                 secure=settings.SIMPLE_JWT["JWT_COOKIE_SECURE"],
-                httponly=True,
+                httponly=False,
             )
             del response.data["access"]
 
@@ -74,6 +69,14 @@ class UserDetailView(APIView):
         Returns:
             Response: JSON response containing the user's details.
         """
+
+        print("Cookies >>>>>>>>>>>")
+        for key, value in request.COOKIES.items():
+            print(key, value)
+        print("Headers >>>>>>>>>>>")
+        for key, value in request.headers.items():
+            print(key, value)
+
         user = request.user
 
         if user:
@@ -134,12 +137,10 @@ class LogoutView(APIView):
         response.delete_cookie(
             settings.SIMPLE_JWT["ACCESS_TOKEN_COOKIE_NAME"],
             domain=settings.SIMPLE_JWT["JWT_COOKIE_DOMAIN"],  # `domain`属性可以限制 cookie 只能发送到指定域名
-
         )
         response.delete_cookie(
             settings.SIMPLE_JWT["REFRESH_TOKEN_COOKIE_NAME"],
             domain=settings.SIMPLE_JWT["JWT_COOKIE_DOMAIN"],  # `domain`属性可以限制 cookie 只能发送到指定域名
-
         )
         return response
 
@@ -170,7 +171,7 @@ class RegisterView(APIView):
         (captcha, captcha_id) = (request.data.get("captcha"), request.data.get("captcha_id"))
 
         serializer = RegisterSerializer(data={"email": email, "username": username, "password": password})
-        print(serializer)
+
         if serializer.is_valid():
             username = serializer.validated_data["username"]
             forbidden_usernames = ["admin", "administrator", "moderator", "mod", "owner", "root", "superuser", "su"]
@@ -193,7 +194,7 @@ class RegisterView(APIView):
                     {"error": "Captcha is not correct"},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
-            user = serializer.save()
+            user: User = serializer.save()
 
             return Response(
                 {

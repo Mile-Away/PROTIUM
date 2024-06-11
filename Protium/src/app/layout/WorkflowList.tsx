@@ -77,7 +77,7 @@ export default function WorkflowList() {
           </PrimaryButton>
         </div>
       </div>
-      <div className='flex flex-col overflow-y-scroll inert'>
+      <div className='flex flex-col items-center gap-4 p-1 overflow-y-scroll inert'>
         {workflows
           .slice()
           .sort(
@@ -92,12 +92,12 @@ export default function WorkflowList() {
                 router.push(`/workflow/${workflow.uuid}`);
               }}
               className={clsx(
-                'group relative mb-2 flex h-fit w-full flex-shrink-0 cursor-pointer select-none items-center justify-between rounded shadow-sm ring-1 ring-neutral-50 hover:ring-0 dark:ring-neutral-800/40',
+                'group relative flex h-fit w-full flex-shrink-0 cursor-pointer select-none items-center justify-between rounded shadow-sm ring-1 ring-neutral-50 hover:ring-0 dark:ring-neutral-800/40',
                 workflow.uuid === uuid &&
                   ' bg-gradient-to-r  from-sky-100 to-teal-100 dark:from-sky-600  dark:to-indigo-600',
               )}
             >
-              <div className="absolute -inset-px -z-10 rounded border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
+              <div className="absolute -inset-px -z-10 rounded border border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
               <div className="flex h-full w-full flex-col items-start justify-between gap-y-2 px-3 py-4 text-sm">
                 <div className="flex w-full items-center justify-between">
                   <span className="line-clamp-1 font-semibold">
@@ -121,10 +121,11 @@ export default function WorkflowList() {
                   {/* <span>{formatTime(workflow.created_at)}</span> */}
                   <span
                     className={clsx(
+                      "text-nowrap",
                       workflow.uuid === uuid && 'dark:text-neutral-100',
                     )}
                   >
-                    Updated: {formatTime(workflow.updated_at)}
+                    {formatTime(workflow.updated_at)}
                   </span>
                 </div>
               </div>

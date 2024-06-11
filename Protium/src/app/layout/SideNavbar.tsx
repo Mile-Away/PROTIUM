@@ -1,3 +1,4 @@
+"use client";
 import Logo from '@/@brand/Logo';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -92,7 +93,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ isSticky, setIsSticky }) => {
           )}
         </div>
 
-        <div className="flex z-10 flex-1 flex-col overflow-hidden">
+        <div className="flex z-10 h-full flex-col">
           <WorkflowList />
         </div>
       </div>
