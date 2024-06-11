@@ -6,7 +6,6 @@ import localFont from 'next/font/local';
 
 import { PrimarySite } from '@/config';
 
-import getCookie from '@/helpers/cookieStore';
 import '@/styles/tailwind.css';
 
 const inter = Inter({
