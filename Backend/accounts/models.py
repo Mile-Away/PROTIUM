@@ -27,7 +27,7 @@ class User(AbstractUser):
 
     # Social Account[Optional]
     email = models.EmailField(max_length=50, null=True, blank=False, unique=True)
-    bohrium_account = models.CharField(max_length=50, blank=True, null=False)
+    bohrium_account = models.CharField(max_length=50, blank=True, null=True, unique=True)
 
     # Optional Fields
     about = models.TextField(max_length=500, blank=True, null=True)
