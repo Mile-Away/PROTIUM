@@ -26,9 +26,11 @@ class JWTCookieAuthentication(JWTAuthentication):
 
 
 class JWTCookieTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def get_token(cls, user: AuthUser) -> Token:
 
-        token = super().get_token(user)
+    @classmethod
+    def get_token(cls, user) -> Token:
+
+        token: Token = super().get_token(user)
 
         return token
 

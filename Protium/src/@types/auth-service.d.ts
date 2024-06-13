@@ -20,6 +20,7 @@ export interface AuthServiceProps {
   userInfo: UserProps | null;
   checkIsLogged: () => Promise<void>;
   refreshAccessToken: () => Promise<void>;
+  authBohrium: () => void
 }
 
 export interface UserProps {

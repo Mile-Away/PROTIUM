@@ -2,6 +2,7 @@
 import BoardNavbar from '@/app/layout/BoardNavbar';
 import SideNavBar from '@/app/layout/SideNavbar';
 import { useStickyContext } from '@/context/StickyContext';
+import ProtectedRoute from '@/services/ProtectdRoute';
 import clsx from 'clsx';
 
 const options = [
@@ -26,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { isSticky, setIsSticky } = useStickyContext();
 
   return (
-    <>
+    <ProtectedRoute>
       <div className="h-full w-full">
         <SideNavBar isSticky={isSticky} setIsSticky={setIsSticky} />
         <main
@@ -54,6 +55,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </main>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }

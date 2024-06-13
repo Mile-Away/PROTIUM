@@ -6,9 +6,9 @@ import localFont from 'next/font/local';
 
 import { BASE_URL, PrimarySite } from '@/config';
 
-import getCookie from '@/helpers/useCookie';
+
 import '@/styles/tailwind.css';
-import axios from 'axios';
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -57,13 +57,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log(BASE_URL + '/account/register/');
-  const access_token = getCookie('appAccessKey');
-  access_token.then((res) => {
-    axios.post(`${BASE_URL}/account/register/`, {
-      appAccessKey: res,
-    });
-  });
 
   return (
     <html

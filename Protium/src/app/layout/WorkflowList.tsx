@@ -28,7 +28,6 @@ export default function WorkflowList() {
     try {
       const res = await jwtAxios.get(`${BASE_URL}/workflow/vs/workflow/`);
       setWorkflows(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error(error);
     }

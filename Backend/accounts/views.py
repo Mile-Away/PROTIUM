@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -9,10 +10,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .authentication import JWTCookieTokenObtainPairSerializer, JWTCookieTokenRefreshSerializer
 from .models import EmailVerifyCode, User
 from .serializer import EmailVerifyCodeSerializer, RegisterSerializer, ResetPasswordSerializer, UserSerializer
+from .social_auth import BohriumAuthentication
 from .utils.mail_eval import mail_send
 
 
 class JWTSetCookieMixin:
+
     def finalize_response(self, request, response, *args, **kwargs):
 
         if response.data.get("refresh"):
@@ -39,11 +42,28 @@ class JWTSetCookieMixin:
             )
             del response.data["access"]
 
-        return super().finalize_response(request, response, *args, **kwargs)
+        return super().finalize_response(request, response, *args, **kwargs)  # type: ignore
 
 
 class JWTCookieTokenObtainPairView(JWTSetCookieMixin, TokenObtainPairView):
     serializer_class = JWTCookieTokenObtainPairSerializer
+
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        if (
+            isinstance(request.data, dict)
+            and request.data.get("bohrium_account")
+            and request.data.get("password") is None
+        ):
+            user = User.objects.get(bohrium_account=request.data["bohrium_account"])
+            token = self.serializer_class.get_token(user)
+            data = {}
+
+            data["refresh"] = str(token)
+            data["access"] = str(token.access_token)  # type: ignore
+
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            return super().post(request, *args, **kwargs)
 
 
 class JWTCookieTokenRefreshView(JWTSetCookieMixin, TokenRefreshView):
@@ -157,60 +177,87 @@ class RegisterView(APIView):
             Response: JSON response containing the user's ID, email, and username.
         """
 
-        print(">>>>>>>>>>>>>>>>>>>>>>", request.data)
+        # auth_header 用来判断第三方登陆的情况
+        auth_header = request.headers["Authorization"]
+        if auth_header:
+            scheme, _, credentials = auth_header.partition(" ")
 
-        (email, username, password) = (
-            request.data.get("email"),
-            request.data.get("username"),
-            request.data.get("password"),
-        )
+            if scheme == "Bohrium":
+                auth = BohriumAuthentication()
+                user: User = auth.authenticate(request)
 
-        (captcha, captcha_id) = (request.data.get("captcha"), request.data.get("captcha_id"))
-
-        serializer = RegisterSerializer(data={"email": email, "username": username, "password": password})
-
-        if serializer.is_valid():
-            username = serializer.validated_data["username"]
-            forbidden_usernames = ["admin", "administrator", "moderator", "mod", "owner", "root", "superuser", "su"]
-            if username.lower() in forbidden_usernames:
                 return Response(
-                    {"error": "Username is forbidden"},
+                    {
+                        "id": user.id,
+                        "username": user.username,
+                        "bohrium_account": user.bohrium_account,
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+
+        else:
+            (email, username, password, captcha, captcha_id) = (
+                request.data.get("email"),
+                request.data.get("username"),
+                request.data.get("password"),
+                request.data.get("captcha"),
+                request.data.get("captcha_id"),
+            )
+
+            serializer = RegisterSerializer(data={"email": email, "username": username, "password": password})
+
+            if serializer.is_valid():
+                username = serializer.validated_data["username"]  # type: ignore
+                forbidden_usernames = [
+                    "admin",
+                    "administrator",
+                    "moderator",
+                    "mod",
+                    "owner",
+                    "root",
+                    "superuser",
+                    "su",
+                ]
+                if username.lower() in forbidden_usernames:
+                    return Response(
+                        {"error": "Username is forbidden"},
+                        status=status.HTTP_409_CONFLICT,
+                    )
+
+                try:
+                    email_verify_code = EmailVerifyCode.objects.get(id=captcha_id)
+                    # print(email_verify_code.captcha)
+                except EmailVerifyCode.DoesNotExist:
+                    return Response(
+                        {"error": "Captcha is not correct"},
+                        status=status.HTTP_401_UNAUTHORIZED,
+                    )
+                if email_verify_code.captcha != captcha:
+                    return Response(
+                        {"error": "Captcha is not correct"},
+                        status=status.HTTP_401_UNAUTHORIZED,
+                    )
+
+                user: User = serializer.save()  # type: ignore
+
+                return Response(
+                    {
+                        "id": user.id,
+                        "email": user.email,
+                        "username": user.username,
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+
+            errors = serializer.errors
+            print(">>>>>", errors)
+            if "username" in errors and "non_field_errors" not in errors:
+                return Response(
+                    {"error": "Username already exists"},
                     status=status.HTTP_409_CONFLICT,
                 )
 
-            try:
-                email_verify_code = EmailVerifyCode.objects.get(id=captcha_id)
-                # print(email_verify_code.captcha)
-            except EmailVerifyCode.DoesNotExist:
-                return Response(
-                    {"error": "Captcha is not correct"},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-            if email_verify_code.captcha != captcha:
-                return Response(
-                    {"error": "Captcha is not correct"},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-            user: User = serializer.save()
-
-            return Response(
-                {
-                    "id": user.id,
-                    "email": user.email,
-                    "username": user.username,
-                },
-                status=status.HTTP_201_CREATED,
-            )
-
-        errors = serializer.errors
-        print(">>>>>", errors)
-        if "username" in errors and "non_field_errors" not in errors:
-            return Response(
-                {"error": "Username already exists"},
-                status=status.HTTP_409_CONFLICT,
-            )
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ResetPasswordView(APIView):
@@ -273,8 +320,8 @@ class EmailVerifyCodeView(APIView):
         serializer = EmailVerifyCodeSerializer(data=request.data)
 
         if serializer.is_valid():
-            email = serializer.validated_data["email"]
-            motive = serializer.validated_data["motive"]
+            email = serializer.validated_data["email"]  # type: ignore
+            motive = serializer.validated_data["motive"]  # type: ignore
             send_status, ID = mail_send(email, motive)
             if send_status:
                 return Response(

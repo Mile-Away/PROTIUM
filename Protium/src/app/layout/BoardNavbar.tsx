@@ -2,7 +2,7 @@
 import { MEDIA_URL } from '@/config';
 import { useDictCRUD } from '@/hooks/useCrud';
 import SearchGlobal from '@/search/SearchGlobal';
-import { Menu } from '@headlessui/react';
+import { Menu, MenuButton } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -243,7 +243,7 @@ const BoardNavbar = () => {
           {/* Profile dropdown */}
           {dataCRUD.username && (
             <DropdownMenu itemClassName="-mt-1">
-              <Menu.Button className="-m-1.5 flex items-center rounded p-1.5 duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-800">
+              <MenuButton className="-m-1.5 flex items-center rounded p-1.5 duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-800">
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="bg-neutral-5 h-6 w-6 rounded-full"
@@ -259,7 +259,7 @@ const BoardNavbar = () => {
                   </span>
                   {/* <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
                 </span>
-              </Menu.Button>
+              </MenuButton>
             </DropdownMenu>
           )}
         </div>

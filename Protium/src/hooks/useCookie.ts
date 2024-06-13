@@ -13,6 +13,6 @@ export default async function getCookie(name: string) {
     return null;
   } else {
     const cookie = cookieStore.get(name);
-    return cookie;
+    return JSON.stringify(cookie);
   }
 }

@@ -8,7 +8,7 @@ class EmailVerifyCodeSerializer(serializers.ModelSerializer):
         model = EmailVerifyCode
         fields = "__all__"
 
-    def is_valid(self, raise_exception=False):
+    def is_valid(self, raise_exception=False) -> bool:
         valid = super().is_valid(raise_exception=raise_exception)
 
         return valid

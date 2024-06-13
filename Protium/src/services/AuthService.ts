@@ -3,6 +3,10 @@ import { BASE_URL, IS_CLIENT } from '@/config';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import getCookie from '@/hooks/useCookie';
+
+
 export const useAuthService = (): AuthServiceProps => {
   
   const router = useRouter();
@@ -145,7 +149,6 @@ export const useAuthService = (): AuthServiceProps => {
       // await getUserDetails();
       return res;
     } catch (error: any) {
-      console.error(error);
       setIsLogged(false);
       return error;
     }
@@ -197,6 +200,50 @@ export const useAuthService = (): AuthServiceProps => {
     }
   };
 
+  const authBohrium = () => {
+    const access_token = getCookie('appAccessKey');
+
+    console.log(access_token)
+  
+    access_token.then((res) => {
+      if (res) {
+        axios
+          .post(
+            `${BASE_URL}/account/register/`,
+            {},
+            {
+              headers: {
+                Authorization: `Bohrium ${res}`,
+              },
+            },
+          )
+          .then((res) => {
+            if (res.status === 201) {
+              // 向`${BASE_URL}/token/` 发起请求，在 cookie 中创建 access_token 和 refresh_token。
+              axios
+                .post(`${BASE_URL}/token/`, {
+                  id: res.data.id,
+                  username: res.data.username,
+                  bohrium_account: res.data.bohrium_account,
+                })
+                .then((res) => {
+                  if (res.status === 200) {
+                    router.refresh()
+                  }
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    });
+  };
+  
+
   return {
     checkIsLogged,
     login,
@@ -208,5 +255,6 @@ export const useAuthService = (): AuthServiceProps => {
     setUserInfo,
     userInfo,
     refreshAccessToken,
+    authBohrium,
   };
 };

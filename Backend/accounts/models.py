@@ -27,15 +27,15 @@ class User(AbstractUser):
 
     # Social Account[Optional]
     email = models.EmailField(max_length=50, null=True, blank=False, unique=True)
-    bohrium_account = models.CharField(max_length=50, blank=True, null=True)
+    bohrium_account = models.CharField(max_length=50, blank=True, null=False)
 
     # Optional Fields
     about = models.TextField(max_length=500, blank=True, null=True)
-
     arithmetic_access: models.OneToOneField["ArithmeticAccess"]
 
-    # USERNAME_FIELD = "email"
-    # REQUIRED_FIELDS = ["username"]
+    # Django Fields
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.username
