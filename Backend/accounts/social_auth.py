@@ -26,6 +26,8 @@ class BohriumAuthentication(authentication.BaseAuthentication):
 
         appAccessKey = credentials["value"]
 
+        print(">>>>>>>>>>>>>>>>>> Bohrium Access Key: ", appAccessKey)
+
         client = OpenSDK(access_key=appAccessKey, app_key="protium")
 
         user_info: UserInfo = client.user.get_info()
