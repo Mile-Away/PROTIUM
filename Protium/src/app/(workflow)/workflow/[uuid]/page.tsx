@@ -1,6 +1,5 @@
 'use client';
 
-import RootContextMenu from '@/app/(workflow)/ContextMenu/RootContextMenu';
 import Loading from '@/app/loading';
 import { RootReducerProps } from '@/app/store';
 import HoverMessage from '@/components/overlays/hover_message';
@@ -9,9 +8,6 @@ import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
 import { useAuthService } from '@/services/AuthService';
 import {
-  setContextMenuVisible,
-  setContextMenuX,
-  setContextMenuY,
   setNodeExecutedResults,
   setWorkflow,
 } from '@/store/workflow/workflowSlice';
@@ -35,7 +31,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
   const [isConsoleExpand, setIsConsoleExpand] = useState(true);
   const [isConsoleVisible, setIsConsoleVisible] = useState(true);
 
-  let level = 0;
+  // let level = 0;
 
   const dispatch = useDispatch();
 
@@ -93,7 +89,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
         /*
       useWebSocket will handle unmounting for you, but this is an example of a 
       case in which you would not want it to automatically reconnect
-    */
+      */
         return false;
       },
       reconnectAttempts: 1,
@@ -142,27 +138,6 @@ export default function Page({ params }: { params: { uuid: string } }) {
     }
   };
 
-  const handleContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    // 获取容器元素
-    const container = e.currentTarget as HTMLElement;
-
-    // 计算相对于容器的 X，Y 坐标
-    const relativeX = e.clientX - container.getBoundingClientRect().left;
-    const relativeY = e.clientY - container.getBoundingClientRect().top;
-
-    // 更新坐标
-    dispatch(setContextMenuX(relativeX));
-    dispatch(setContextMenuY(relativeY));
-    dispatch(setContextMenuVisible(true));
-  };
-
-  const handleContextMenuClose = (e: React.MouseEvent) => {
-    e.preventDefault();
-    dispatch(setContextMenuVisible(false));
-    level = 0;
-  };
-
   const handleSaveWorkflow = () => {
     saveWorkflow();
   };
@@ -172,11 +147,7 @@ export default function Page({ params }: { params: { uuid: string } }) {
   }
 
   return (
-    <div
-      // onContextMenu={handleContextMenu}
-      // onClick={handleContextMenuClose}
-      className="relative h-full w-full"
-    >
+    <div className="relative h-full w-full">
       {/* Background */}
       <svg
         className="absolute inset-x-0 top-0 -z-10 h-[calc(100vh-4rem)] w-full stroke-neutral-100 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)] dark:stroke-neutral-800"
@@ -211,9 +182,6 @@ export default function Page({ params }: { params: { uuid: string } }) {
           fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)"
         />
       </svg>
-
-      {/* Context Menu */}
-      <RootContextMenu level={level} />
 
       {/* Canvas */}
       <RootReactFlow />

@@ -6,9 +6,16 @@ import { RootReducerProps } from '@/app/store';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import SubContextMenu from './SubContextMenu';
-import contextMenuItems from './contextMenuItems';
+import { paneContextMenuItems } from './contextMenuItems';
 
-export default function RootContextMenu({ level = 0 }: { level: number }) {
+export interface PaneContextMenuProps {
+  level: number;
+}
+
+export default function RootContextMenu({
+  level,
+  ...props
+}: PaneContextMenuProps & React.HTMLProps<HTMLDivElement>) {
   const { contextMenuVisible, contextMenuX, contextMenuY, activeMenuItems } =
     useSelector((state: RootReducerProps) => state.workflow);
 
@@ -27,19 +34,20 @@ export default function RootContextMenu({ level = 0 }: { level: number }) {
       {contextMenuVisible && (
         <div
           className={clsx(
-            'absolute p-1',
+            'absolute z-[9999] p-1 ',
             'rounded-md border border-neutral-200  dark:border-neutral-700 dark:bg-neutral-800',
             'shadow-lg dark:shadow-black',
-            'fixed z-[9999] h-fit w-28 min-w-fit',
+            'h-fit w-28 min-w-fit',
             'select-none',
           )}
           style={{
             top: `${contextMenuY}px`,
             left: `${contextMenuX}px`,
           }}
+          {...props}
         >
           <div className="flex flex-col items-start justify-around space-y-2 text-xs">
-            {contextMenuItems.map((item) => (
+            {paneContextMenuItems.map((item) => (
               <div
                 key={item.label}
                 className="relative w-full"

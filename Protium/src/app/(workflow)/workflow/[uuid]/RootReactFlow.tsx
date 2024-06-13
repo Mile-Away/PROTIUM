@@ -1,6 +1,9 @@
 import { RootReducerProps } from '@/app/store';
 import {
   connectEdges,
+  setContextMenuVisible,
+  setContextMenuX,
+  setContextMenuY,
   setEdges,
   setNodes,
 } from '@/store/workflow/workflowSlice';
@@ -16,17 +19,19 @@ import ReactFlow, {
 import NodeContextMenu, {
   NodeContextMenuProps,
 } from '../../ContextMenu/NodeContextMenu';
+import RootContextMenu, { PaneContextMenuProps } from '../../ContextMenu/RootContextMenu';
 import nodeTypes, { nodeColors } from './nodeTypes';
 
 export default function RootReactFlow() {
-  const { nodes, edges } = useSelector(
+  const { nodes, edges, contextMenuVisible } = useSelector(
     (state: RootReducerProps) => state.workflow,
   );
-  const [menu, setMenu] = useState<NodeContextMenuProps | null>(null);
+  const [nodeMenu, setNodeMenu] = useState<NodeContextMenuProps | null>(null);
+  const [paneMenu, setPaneMenu] = useState<PaneContextMenuProps | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
-
+  let level = 0;
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => dispatch(setNodes(changes)),
     [setNodes],
@@ -48,40 +53,54 @@ export default function RootReactFlow() {
 
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
-      console.log(event.clientX, event.clientY);
-
 
       if (ref.current) {
         const pane = ref.current.getBoundingClientRect();
 
-        console.log(pane.left, pane.top, pane.width, pane.height);
         // 计算相对于容器的 X，Y 坐标
         const relativeX = event.clientX - pane.left;
         const relativeY = event.clientY - pane.top;
 
-        setMenu({
+        setNodeMenu({
           id: node.id,
-          top: event.clientY < pane.height - 200 ? relativeX : undefined,
-          left: event.clientX < pane.width - 200 ? relativeY : undefined,
+          left: event.clientX < pane.width - 200 ? relativeX : undefined,
           right:
             event.clientX >= pane.width - 200
               ? pane.width - relativeX
               : undefined,
+          top: event.clientY < pane.height - 200 ? relativeY : undefined,
           bottom:
             event.clientY >= pane.height - 200
               ? pane.height - relativeY
               : undefined,
         });
       }
-      console.log("You've clicked on a node!");
     },
-    [setMenu],
+    [setNodeMenu],
   );
 
-  console.log(menu)
+  const onPaneContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    if (ref.current) {
+      const pane = ref.current.getBoundingClientRect();
+
+      // 计算相对于容器的 X，Y 坐标
+      const relativeX = e.clientX - pane.left;
+      const relativeY = e.clientY - pane.top;
+
+      // 更新坐标
+      dispatch(setContextMenuX(relativeX));
+      dispatch(setContextMenuY(relativeY));
+      dispatch(setContextMenuVisible(true));
+    }
+  }, [contextMenuVisible]);
 
   // Close the context menu if it's open whenever the window is clicked.
-  const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
+  const onPaneClick = useCallback(() => {
+    setNodeMenu(null);
+    dispatch(setContextMenuVisible(false));
+    level = 0;
+  }, [setNodeMenu]);
 
   return (
     <>
@@ -94,6 +113,8 @@ export default function RootReactFlow() {
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         onPaneClick={onPaneClick}
+        onNodeClick={onPaneClick}
+        onPaneContextMenu={onPaneContextMenu}
         onNodeContextMenu={onNodeContextMenu}
         // fitView
         className=""
@@ -104,7 +125,8 @@ export default function RootReactFlow() {
           nodeColor={nodeColors}
           className=" rounded-xl border bg-white shadow-lg   dark:border-neutral-800/40 dark:bg-black "
         />
-        {menu && <NodeContextMenu onClick={onPaneClick} {...menu} />}
+        {nodeMenu && <NodeContextMenu onClick={onPaneClick} {...nodeMenu} />}
+        <RootContextMenu onClick={onPaneClick} level={level} />
       </ReactFlow>
     </>
   );
