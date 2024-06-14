@@ -202,8 +202,6 @@ export const useAuthService = (): AuthServiceProps => {
 
   const authBohrium = () => {
     const access_token = getCookie('appAccessKey');
-
-    console.log(access_token)
   
     access_token.then((res) => {
       if (res) {
@@ -234,6 +232,9 @@ export const useAuthService = (): AuthServiceProps => {
                 .catch((error) => {
                   console.error(error);
                 });
+            }
+            else if (res.status === 401) {
+              alert("Bohrium 账号验证失败，请检查 AccessKey 是否过期！")
             }
           })
           .catch((error) => {

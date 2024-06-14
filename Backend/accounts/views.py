@@ -184,16 +184,22 @@ class RegisterView(APIView):
 
             if scheme == "Bohrium":
                 auth = BohriumAuthentication()
-                user: User = auth.authenticate(request)
+                try:
+                    user: User = auth.authenticate(request)
 
-                return Response(
-                    {
-                        "id": user.id,
-                        "username": user.username,
-                        "bohrium_account": user.bohrium_account,
-                    },
-                    status=status.HTTP_201_CREATED,
-                )
+                    return Response(
+                        {
+                            "id": user.id,
+                            "username": user.username,
+                            "bohrium_account": user.bohrium_account,
+                        },
+                        status=status.HTTP_201_CREATED,
+                    )
+                except Exception as e:
+                    return Response(
+                        {"error": str(e)},
+                        status=status.HTTP_401_UNAUTHORIZED,
+                    )
 
         else:
             (email, username, password, captcha, captcha_id) = (

@@ -47,22 +47,22 @@ class BohriumAuthentication(authentication.BaseAuthentication):
                     user=user,
                     bohrium_access_token=appAccessKey,
                 )
+
+                # 创建用户名，用户名无需自动更新。
+                try:
+                    user.username = username
+                    user.save()
+
+                except IntegrityError:
+                    print("Bohrium 用户名和已有用户名重复")
+                    user.username = f"bohr_{user_id}"
+                    user.save()
             else:
                 access = ArithmeticAccess.objects.get(user=user)
                 access.bohrium_access_token = appAccessKey
                 access.save()
 
-            # 创建或更新用户名
-            try:
-                user.username = username
-                user.save()
+            return user
 
-                return user
-
-            except IntegrityError:
-                print("Bohrium 用户名和已有用户名重复")
-                user.username = f"bohr_{str(uuid4())[:6]}"
-                user.save()
-                return user
         else:
             raise Exception("Bohrium Authentication Failed")

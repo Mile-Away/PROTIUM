@@ -1,26 +1,25 @@
-from django.shortcuts import render
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Workflow, WorkflowEdge, WorkflowNode, WorkflowNodeBody, WorkflowNodeHandle
-from .serializer import (
-    WorkflowEdgeSerializer,
-    WorkflowNodeBodySerializer,
-    WorkflowNodeHandleSerializer,
-    WorkflowNodeSerializer,
-    WorkflowSerializer,
-)
+from .models import Workflow
+from .serializer import WorkflowSerializer
 
 
 class WorkflowViewSet(viewsets.ViewSet):
     queryset = Workflow.objects.all()
     serializer_class = WorkflowSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
+
+        by_user = request.query_params.get("by_user")
+
+        if by_user:
+            workflows = Workflow.objects.filter(creator=request.user)
+            serializer = WorkflowSerializer(workflows, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
         workflows = Workflow.objects.all()
         serializer = WorkflowSerializer(workflows, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

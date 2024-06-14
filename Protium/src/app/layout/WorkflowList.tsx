@@ -26,7 +26,7 @@ export default function WorkflowList() {
 
   const fetchWorkflows = async () => {
     try {
-      const res = await jwtAxios.get(`${BASE_URL}/workflow/vs/workflow/`);
+      const res = await jwtAxios.get(`${BASE_URL}/workflow/vs/workflow/?by_user=true`);
       setWorkflows(res.data);
     } catch (error) {
       console.error(error);
