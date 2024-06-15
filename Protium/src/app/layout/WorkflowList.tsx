@@ -4,11 +4,11 @@ import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import { BASE_URL, MEDIA_URL } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
-import { WorkflowProps } from '@/store/workflow/workflowSlice';
+import { setWorkflowList } from '@/store/workflow/workflowSlice';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function WorkflowList() {
@@ -18,16 +18,21 @@ export default function WorkflowList() {
 
   const dispatch = useDispatch();
 
+  const { workflowList } = useSelector(
+    (state: RootReducerProps) => state.workflow,
+  );
+  
+
   const { name, uuid } = useSelector(
     (state: RootReducerProps) => state.workflow.workflow,
   );
 
-  const [workflows, setWorkflows] = useState<WorkflowProps[]>([]);
+  // const [workflows, setWorkflows] = useState<WorkflowProps[]>([]);
 
   const fetchWorkflows = async () => {
     try {
       const res = await jwtAxios.get(`${BASE_URL}/workflow/vs/workflow/?by_user=true`);
-      setWorkflows(res.data);
+      dispatch(setWorkflowList(res.data));
     } catch (error) {
       console.error(error);
     }
@@ -42,7 +47,7 @@ export default function WorkflowList() {
       const res = await jwtAxios.post(`${BASE_URL}/workflow/vs/workflow/`, {
         name: 'Untitled',
       });
-      setWorkflows([...workflows, res.data]);
+      dispatch(setWorkflowList([...workflowList, res.data]));
       router.push(`/workflow/${res.data.uuid}`);
     } catch (error) {
       console.error(error);
@@ -77,7 +82,7 @@ export default function WorkflowList() {
         </div>
       </div>
       <div className='flex flex-col items-center gap-4 p-1 overflow-y-scroll inert'>
-        {workflows
+        {workflowList
           .slice()
           .sort(
             (a, b) =>

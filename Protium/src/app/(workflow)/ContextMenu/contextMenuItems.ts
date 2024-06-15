@@ -7,13 +7,14 @@ import {
   EyeSlashIcon,
   PlusIcon,
   TrashIcon,
+  WrenchIcon,
 } from '@heroicons/react/24/outline';
 import handleMenuItemClick from './handleMenuItemClick';
 
 export const paneContextMenuItems: ContextMenuItemProps[] = [
   {
     action: 'components',
-    label: '基础件',
+    label: 'Basic',
     icon: PlusIcon,
     arrow: true,
     subContextMenuItems: [
@@ -73,7 +74,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
   },
   {
     action: 'convert',
-    label: '转换器',
+    label: 'Convert',
     icon: ArrowPathRoundedSquareIcon,
     arrow: true,
     onClick: () => handleMenuItemClick('edit'),
@@ -106,13 +107,13 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
   },
   {
     action: 'model',
-    label: '模型',
+    label: 'Model',
     icon: CubeIcon,
     onClick: () => handleMenuItemClick('edit'),
   },
   {
     action: 'solver',
-    label: '求解器',
+    label: 'Solver',
     icon: CodeBracketIcon,
     arrow: true,
     subContextMenuItems: [
@@ -144,8 +145,8 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
   },
   {
     action: 'outputs',
-    label: '输出',
-    icon: CubeIcon,
+    label: 'Post',
+    icon: WrenchIcon,
     onClick: () => handleMenuItemClick('VASP/outputs'),
   },
 ];
@@ -153,20 +154,20 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
 export const nodeContextMenuItems: ContextMenuItemProps[] = [
   {
     action: 'hidden',
-    label: '隐藏',
+    label: 'Hidden',
     icon: EyeSlashIcon,
     onClick: () => handleMenuItemClick('edit'),
   },
   {
-    action: 'copy',
-    label: '复制',
+    action: 'duplicate',
+    label: 'Duplicate',
     icon: DocumentDuplicateIcon,
     arrow: false,
     onClick: () => handleMenuItemClick('edit'),
   },
   {
     action: 'delete',
-    label: '删除',
+    label: 'Delete',
     icon: TrashIcon,
     arrow: false,
     onClick: () => handleMenuItemClick('edit'),

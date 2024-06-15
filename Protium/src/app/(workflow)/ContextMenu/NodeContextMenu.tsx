@@ -23,8 +23,11 @@ export default function NodeContextMenu({
   ...props
 }: NodeContextMenuProps & React.HTMLProps<HTMLDivElement>) {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
+
+  const node: Node<any> | undefined = getNode(id);
+
+  console.log('node', node?.data.header);
   const duplicateNode = useCallback(() => {
-    const node: Node<any> | undefined = getNode(id);
     if (!node) return;
     const position = {
       x: node.position.x + 50,
@@ -60,7 +63,7 @@ export default function NodeContextMenu({
       style={{ top, left, right, bottom }}
       className={clsx(
         'absolute z-[9999] p-1 ',
-        'rounded-md border border-neutral-200  dark:border-neutral-700 dark:bg-neutral-800',
+        'rounded-md border border-neutral-200  dark:border-neutral-700 dark:bg-neutral-800 bg-white',
         'shadow-lg dark:shadow-black',
         'h-fit w-28 min-w-fit',
         'select-none',
@@ -83,6 +86,13 @@ export default function NodeContextMenu({
             </ContextMenuButton>
           </div>
         ))}
+        {node?.data.header && (
+          <div className="w-full border-t px-2 pt-2 pb-1 flex justify-end dark:border-neutral-700">
+            <span className="text-[0.6rem] font-semibold line-clamp-1">
+              Node: {node.data.header}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

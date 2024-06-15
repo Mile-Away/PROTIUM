@@ -88,7 +88,12 @@ export interface WorkflowStateProps {
   nodes: WorkflowNodeProps[];
   edges: Edge[];
   workflow: WorkflowProps;
-  consoleInfo: { time: string; message: string }[];
+  workflowList: WorkflowProps[];
+  consoleInfo: {
+    time: string;
+    type?: 'info' | 'warning' | 'error';
+    message: string;
+  }[];
 }
 
 const initialStateWorkflow: WorkflowStateProps = {
@@ -116,6 +121,7 @@ const initialStateWorkflow: WorkflowStateProps = {
     nodes: [],
     edges: [],
   },
+  workflowList: [],
   consoleInfo: [],
 
   // CASE 2: Redux 不存储 workflows，只存储当前 workflow 的 nodes 和 edges，只存储单个 workflow 对象
@@ -156,6 +162,13 @@ const workflowSlice = createSlice({
     setActiveMenuItems: (state, action) => {
       state.activeMenuItems = action.payload;
     },
+
+    // 设置 workflowList
+    setWorkflowList: (state, action) => {
+      state.workflowList = action.payload;
+    },
+
+    // 添加节点
     addNode: {
       // 由中间件处理 id
       prepare(props: Omit<WorkflowNodeProps, 'id' | 'position'>) {
@@ -367,6 +380,12 @@ const workflowSlice = createSlice({
 
     setWorkflowName: (state, action) => {
       state.workflow.name = action.payload;
+      state.workflowList = state.workflowList.map((workflow) => {
+        if (workflow.uuid === state.workflow.uuid) {
+          workflow.name = action.payload;
+        }
+        return workflow;
+      });
     },
 
     setNodeExecutedResults: (
@@ -375,7 +394,6 @@ const workflowSlice = createSlice({
     ) => {
       const node = state.nodes.find((node) => node.id === action.payload.id);
 
-      console.log('>>>>>>>', action.payload);
       if (node) {
         node.data.status = action.payload.status;
 
@@ -395,9 +413,9 @@ const workflowSlice = createSlice({
             type: 'info' | 'warning' | 'error';
             message: string;
           }) => {
-            console.log('>>>>>>>', message.message);
             state.consoleInfo.push({
               time: new Date().toISOString(),
+              type: message.type,
               message: `${action.payload.header}: ${message.message}`,
             });
           },
@@ -412,6 +430,7 @@ export const {
   setContextMenuX,
   setContextMenuY,
   setActiveMenuItems,
+  setWorkflowList,
   addNode,
   setNodes,
   setEdges,

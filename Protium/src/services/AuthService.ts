@@ -6,9 +6,7 @@ import { useEffect, useState } from 'react';
 
 import getCookie from '@/hooks/useCookie';
 
-
 export const useAuthService = (): AuthServiceProps => {
-  
   const router = useRouter();
   const [isLogged, setIsLogged] = useState<boolean>(false);
 
@@ -202,7 +200,7 @@ export const useAuthService = (): AuthServiceProps => {
 
   const authBohrium = () => {
     const access_token = getCookie('appAccessKey');
-  
+
     access_token.then((res) => {
       if (res) {
         axios
@@ -226,24 +224,22 @@ export const useAuthService = (): AuthServiceProps => {
                 })
                 .then((res) => {
                   if (res.status === 200) {
-                    router.refresh()
+                    router.refresh();
                   }
                 })
                 .catch((error) => {
                   console.error(error);
                 });
             }
-            else if (res.status === 401) {
-              alert("Bohrium 账号验证失败，请检查 AccessKey 是否过期！")
-            }
           })
           .catch((error) => {
-            console.error(error);
+            if (error.response.status === 401) {
+              alert('Bohrium 账号验证失败，请检查 AccessKey 是否过期！');
+            }
           });
       }
     });
   };
-  
 
   return {
     checkIsLogged,
