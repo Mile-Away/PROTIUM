@@ -1,4 +1,4 @@
-import { WorkflowNodeDataHandlesProps } from '@/store/workflow/workflowSlice';
+import { WorkflowNodeDataHandlesProps } from '@/@types/workflow';
 import clsx from 'clsx';
 import { useCallback, useMemo } from 'react';
 import { Handle, Position, useNodeId, useStore } from 'reactflow';

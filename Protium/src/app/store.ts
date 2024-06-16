@@ -1,9 +1,7 @@
-import workflowReducer, {
-  WorkflowStateProps,
-} from '@/store/workflow/workflowSlice';
+import workflowReducer from '@/store/workflow/workflowSlice';
 
+import { WorkflowStateProps } from '@/@types/workflow';
 import { configureStore } from '@reduxjs/toolkit';
-
 export interface RootReducerProps {
   workflow: WorkflowStateProps;
 }

@@ -3,6 +3,19 @@ import { type Node } from 'reactflow';
 import InputNode from '../../nodes/InputNode';
 import SelectNode from '../../nodes/SelectNode';
 import SolverNode from '../../nodes/SolverNode';
+import { addNodeProps } from '@/@types/workflow';
+
+
+
+
+const nodeTypes = {
+  Solver: SolverNode,
+  Basic: BasicNode,
+  Select: SelectNode,
+  Input: InputNode,
+  // default: DefaultNode, // ReactFlow 中的默认节点类型，不能重复定义，否则发生未知错误且无提醒！！！
+  // input: InputNode,  // ReactFlow 中的默认节点类型，不能重复定义，否则发生未知错误且无提醒！！！
+};
 
 export const nodeColors = (node: Node<any>) => {
   switch (node.type) {
@@ -17,13 +30,192 @@ export const nodeColors = (node: Node<any>) => {
   }
 };
 
-const nodeTypes = {
-  Solver: SolverNode,
-  Basic: BasicNode,
-  Select: SelectNode,
-  Input: InputNode,
-  // default: DefaultNode, // ReactFlow 中的默认节点类型，不能重复定义，否则发生未知错误且无提醒！！！
-  // input: InputNode,  // ReactFlow 中的默认节点类型，不能重复定义，否则发生未知错误且无提醒！！！
+// Key 的值应等于 headers 的值
+export const NodeMapping: {
+  [key: string]: addNodeProps;
+} = {
+  POSCAR: {
+    type: 'Input',
+    data: {
+      header: 'POSCAR',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'poscar',
+          results: [],
+        },
+      ],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'poscar',
+          title: 'POSCAR',
+          key: 'poscar',
+          bodies: ['poscar'],
+        },
+      ],
+      footer: 'VASP/POSCAR',
+      handles: [
+        {
+          type: 'source',
+          key: 'poscar',
+          rope: 'VASP',
+          data_source: 'result',
+          data_key: 'poscar',
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  POTCAR: {
+    type: 'Select',
+    data: {
+      header: 'POTCAR',
+      status: 'draft',
+      body: [{ id: '', source: '', type: 'select', key: 'potcar' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'potcar',
+          title: 'POTCAR',
+          key: 'potcar',
+          bodies: ['potcar'],
+        },
+      ],
+      footer: 'VASP/POTCAR',
+      handles: [
+        {
+          type: 'source',
+          key: 'potcar',
+          rope: 'VASP',
+          data_source: 'result',
+          data_key: 'potcar',
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  INCAR: {
+    type: 'Input',
+    data: {
+      header: 'INCAR',
+      status: 'draft',
+      handles: [
+        {
+          type: 'source',
+          key: 'incar',
+          rope: 'VASP',
+          data_source: 'result',
+          data_key: 'incar',
+        },
+      ],
+      body: [{ id: '', source: '', type: 'textarea', key: 'incar' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'incar',
+          title: 'INCAR',
+          key: 'incar',
+          bodies: ['incar'],
+        },
+      ],
+      footer: 'VASP/INCAR',
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  KPOINTS: {
+    type: 'Input',
+    data: {
+      header: 'KPOINTS',
+      status: 'draft',
+      handles: [
+        {
+          key: 'kpoints',
+          type: 'source',
+          rope: 'VASP',
+          data_source: 'result',
+          data_key: 'kpoints',
+        },
+      ],
+      body: [{ id: '', source: '', type: 'textarea', key: 'kpoints' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'kpoints',
+          title: 'KPOINTS',
+          key: 'kpoints',
+          bodies: ['kpoints'],
+        },
+      ],
+      footer: 'VASP/KPOINTS',
+    },
+    dragHandle: '.drag-handle',
+  },
+  VASP: {
+    type: 'Solver',
+    data: {
+      header: 'VASP',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: 'default',
+          type: 'select',
+          key: 'potcarSelect',
+        },
+        {
+          id: '',
+          source: 'bohrium',
+          type: 'select',
+          key: 'machineSelect',
+        },
+        {
+          id: '',
+          source: '',
+          title: 'Machine Config',
+          type: 'textarea',
+          key: 'config',
+        },
+      ],
+
+      footer: 'VASP 5.4.4',
+      handles: [
+        { key: 'poscar', type: 'target', rope: 'POSCAR'},
+        // { key: 'potcar', type: 'target' },
+        { key: 'incar', type: 'target', rope: 'INCAR'},
+        { key: 'kpoints', type: 'target', rope: 'KPOINTS' },
+        { key: 'VASP/outputs', type: 'source', rope: 'VASP/outputs' },
+      ],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'vasp',
+          title: 'VASP',
+          key: 'vasp',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
 };
+
+
 
 export default nodeTypes;

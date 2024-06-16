@@ -123,6 +123,8 @@ class WorkflowNodeHandle(models.Model):
     # 或者 {"source": "result", "key": "poscar"}
     data_source = models.CharField(max_length=10, blank=True, null=True, choices=data_source_choices)
     data_key = models.CharField(max_length=100, blank=True, null=True)
+    # rope 记录从一端连线时自动连接的节点
+    rope = models.CharField(max_length=100, blank=True, null=True)
 
     edges_sourceHandle: models.QuerySet["WorkflowEdge"]
     edges_targetHandle: models.QuerySet["WorkflowEdge"]
