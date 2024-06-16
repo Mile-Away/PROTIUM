@@ -15,9 +15,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
       <AuthServiceProvider>
         <ThemeProvider attribute="class" disableTransitionOnChange={true}>
           <StickyProvider>
-            <ReactFlowProvider>
-              {children}
-              </ReactFlowProvider>
+            <ReactFlowProvider>{children}</ReactFlowProvider>
           </StickyProvider>
         </ThemeProvider>
       </AuthServiceProvider>

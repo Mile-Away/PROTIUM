@@ -4,11 +4,9 @@ import { type Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import localFont from 'next/font/local';
 
-import { BASE_URL, PrimarySite } from '@/config';
-
+import { PrimarySite } from '@/config';
 
 import '@/styles/tailwind.css';
-
 
 const inter = Inter({
   subsets: ['latin'],
@@ -57,7 +55,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html
       lang="en"

@@ -65,6 +65,7 @@ export default function SolverNode(props: BasicNodeProps) {
           handle: {
             type: 'target',
             key: 'potcar',
+            rope: 'potcar',
             data_source: 'result',
             data_key: 'potcar',
           },
