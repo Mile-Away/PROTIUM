@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import { PrimarySite } from '@/config';
 
 import '@/styles/tailwind.css';
+import BRAND from '@/@brand/brand';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,11 +27,11 @@ const monaSans = localFont({
  */
 export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
-  title: 'DeepModeling',
-  description: 'Define the future of scientific computing together',
+  title: BRAND.title,
+  description: BRAND.description,
   openGraph: {
-    title: 'DeepModeling',
-    description: 'Define the future of scientific computing together',
+    title: BRAND.title,
+    description: BRAND.description,
     type: 'website',
     images: `/@brand/logo/og-image.png`,
     url: `/`,
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     {
       rel: 'icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-Dark.png',
+      url: '/@brand/logo/Logo-Dark.svg',
     },
     { rel: 'apple-touch-icon', url: '/@brand/logo/Logo.png' },
     {
