@@ -1,4 +1,4 @@
-# DeepModeling Web
+# PROTIUM Web
 
 ## 启动项目
 
@@ -51,10 +51,4 @@ npm run dev
 - .env
 - next-env.d.ts
 - src/config.ts
-- @brand
-- public/@brand
 ```
-
-## 笔记
-
-一个 Handle 同一时间只能连接一条 Edge，当一个已连接的 handle 需要连接第二个 Edge 时，之前的连接会被取消。

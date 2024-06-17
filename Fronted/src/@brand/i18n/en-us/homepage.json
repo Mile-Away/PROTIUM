@@ -1,0 +1,43 @@
+{
+  "Find our latest feature update.": "Find our latest feature update. ",
+  "hero": {
+    "title": "Explore a Novel Science Computing Together",
+    "description": "Protium aims to enable scientific computing on personal devices, reducing dependence on supercomputing for immediate research.",
+    "button": {
+      "primary": "Get Started",
+      "secondary": "About us"
+    }
+  },
+  "about": {
+    "title": "Protium is a community of such a group of people.",
+    "button": {
+      "primary": "Community Manifesto"
+    },
+    "description": "The integration to machine learning and physical modeling is changing the paradigm of scientific research. This calls for a new infrastructure—new platforms for collaboration, new coding frameworks, new data processing schemes, and new ways of using the    computing power. It also calls for a new culture—the culture of    working together closely for the benefit of all, of free exchange    and sharing of knowledge and tools, of respect and appreciation of    each other's work, and of the pursuit of harmony among diversity."
+  },
+  "article": {
+    "intro": "Define the future of scientific computing together."
+  },
+  "sponsor": "Suported by",
+  "navbar": {
+    "community": "Community",
+    "project": "Project",
+    "publication": "Publication",
+    "tutorial": "Tutorial",
+    "docs": "Docs",
+    "certification": "Certification",
+    "about": {
+      "title": "About",
+      "Introduction": "Introduction",
+      "Manifesto": "Manifesto",
+      "Join us": "Join us",
+      "Follow in Github": "Follow in Github",
+      "Contact us": "Contact us"
+    }
+  },
+  "login": {
+    "description": {
+      "13": "Welcome to our online chatroom! Join us for an exciting discussion on space exploration. Explore topics like spacecraft technology and the search for extraterrestrial life with our panel of experts and enthusiasts."
+    }
+  }
+}

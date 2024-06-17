@@ -10,11 +10,6 @@ VFronted/
 Practice/
 my-app/
 
-
-
-# 暂时先注释掉 deepmd-kit 的 doc
-DocFront/src/app/doc/
-
 # Ignore all .pyc files
 *.pyc
 
