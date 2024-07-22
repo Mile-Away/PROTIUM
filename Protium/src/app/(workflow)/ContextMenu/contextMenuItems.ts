@@ -3,12 +3,8 @@ import { ABACUSIcon, VASPIcon } from '@/components/Icons';
 import {
   CodeBracketIcon,
   DocumentDuplicateIcon,
-  EllipsisHorizontalCircleIcon,
-  EllipsisHorizontalIcon,
   EllipsisVerticalIcon,
   PlusIcon,
-  RectangleGroupIcon,
-  SwatchIcon,
   TrashIcon,
   WrenchIcon,
 } from '@heroicons/react/24/outline';
@@ -80,6 +76,19 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
               {
                 action: 'abacus-kpt',
                 label: 'KPT',
+                icon: PlusIcon,
+                onClick: () => handleMenuItemClick('kpoints'),
+              },
+              {
+                action: 'abacus-pseudo',
+                label: 'Pseudo',
+                icon: PlusIcon,
+                onClick: () => handleMenuItemClick('kpoints'),
+              },
+
+              {
+                action: 'abacus-orbitals',
+                label: 'Orbitals',
                 icon: PlusIcon,
                 onClick: () => handleMenuItemClick('kpoints'),
               },
@@ -178,31 +187,49 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
       // },
     ],
   },
-  // {
-  //   action: 'outputs',
-  //   label: 'Post',
-  //   icon: WrenchIcon,
-  //   onClick: () => handleMenuItemClick('VASP/outputs'),
-  // },
+  {
+    action: 'outputs',
+    label: 'Outputs',
+    icon: WrenchIcon,
+    arrow: true,
+    subContextMenuItems: [
+      {
+        action: 'vasp-outputs',
+        label: 'VASP',
+        icon: VASPIcon,
+        onClick: () => handleMenuItemClick('vasp_outputs'),
+      },
+      {
+        action: 'abacus-outputs',
+        label: 'ABACUS',
+        icon: ABACUSIcon,
+        onClick: () => handleMenuItemClick('abacus_outputs'),
+      },
+    ],
+  },
   {
     action: 'pipeline',
     label: 'Pipeline',
     icon: EllipsisVerticalIcon,
     arrow: true,
-    onClick: () => handleMenuItemClick('VASP/outputs'),
     subContextMenuItems: [
       {
-        action: 'pipeline/abacus',
+        action: 'pipeline_abacus',
         label: 'ABACUS',
         icon: ABACUSIcon,
         arrow: true,
-        onClick: () => handleMenuItemClick('VASP/outputs'),
         subContextMenuItems: [
+          // {
+          //   action: 'abacus-unit-test',
+          //   label: 'UnitTest',
+          //   icon: EllipsisHorizontalIcon,
+          //   onClick: () => handleMenuItemClick('VASP/outputs'),
+          // },
           {
-            action: 'abacus-unit-test',
-            label: 'UnitTest',
-            icon: EllipsisHorizontalIcon,
-            onClick: () => handleMenuItemClick('VASP/outputs'),
+            action: 'pipeline_abacus_siab',
+            label: 'SIAB',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('pipeline_abacus_siab'),
           },
         ],
       },

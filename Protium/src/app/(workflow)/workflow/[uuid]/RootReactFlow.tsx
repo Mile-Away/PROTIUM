@@ -27,7 +27,7 @@ import NodeContextMenu, {
 import RootContextMenu, {
   PaneContextMenuProps,
 } from '../../ContextMenu/RootContextMenu';
-import nodeTypes, { nodeColors, NodeMapping } from './nodeTypes';
+import nodeTypes, { nodeColors, NodeMapping } from '../../nodes/nodeTypes';
 
 export default function RootReactFlow() {
   let level = 0;
@@ -112,7 +112,7 @@ export default function RootReactFlow() {
       if (targetIsPane) {
         if ('touches' in event) {
           // TODO: Support touch event
-          alert("Don't support touch event yet");
+          alert('Not support touch event yet');
         } else {
           let relativeX =
             event.clientX -
@@ -127,50 +127,12 @@ export default function RootReactFlow() {
 
           const endUuid = uuidv4();
 
-          switch (connectingHandleRope.current) {
-            case 'POSCAR':
-              dispatch(
-                addNode({
-                  id: endUuid,
-                  ...NodeMapping.POSCAR,
-                }),
-              );
-              break;
-            case 'POTCAR':
-              dispatch(
-                addNode({
-                  id: endUuid,
-                  ...NodeMapping.POTCAR,
-                }),
-              );
-              break;
-            case 'INCAR':
-              dispatch(
-                addNode({
-                  id: endUuid,
-                  ...NodeMapping.INCAR,
-                }),
-              );
-              break;
-            case 'KPOINTS':
-              dispatch(
-                addNode({
-                  id: endUuid,
-                  ...NodeMapping.KPOINTS,
-                }),
-              );
-              break;
-            case 'VASP':
-              dispatch(
-                addNode({
-                  id: endUuid,
-                  ...NodeMapping.VASP,
-                }),
-              );
-              break;
-            default:
-              console.log('Unknown handle key');
-              return;
+          const nodeKey = Object.keys(NodeMapping).find(
+            (key) => key === connectingHandleRope.current,
+          );
+
+          if (nodeKey) {
+            dispatch(addNode({ id: endUuid, ...NodeMapping[nodeKey] }));
           }
 
           // Add Edges;

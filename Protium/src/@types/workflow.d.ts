@@ -1,6 +1,6 @@
+import nodeTypes from '@/app/(workflow)/nodes/nodeTypes.ts';
 import { Dispatch } from '@reduxjs/toolkit';
 import { NodeProps } from 'reactflow';
-import nodeTypes from '@/app/(workflow)/workflow/[uuid]/nodeTypes';
 // Workflow
 // export type MenuItemAction = 'edit' | 'delete' | 'copy' | 'new' | 'hidden';
 
@@ -56,7 +56,9 @@ export interface WorkflowNodeProps
   position: { x: number; y: number };
 }
 
-export type addNodeProps = Omit<WorkflowNodeProps, 'id' | 'position'> & { id?: string }
+export type addNodeProps = Omit<WorkflowNodeProps, 'id' | 'position'> & {
+  id?: string;
+};
 
 export interface WorkflowProps {
   id: string;
@@ -120,4 +122,3 @@ export interface ExecuteStatusProps {
   results: { [key: string]: string | object }[];
   messages: { type: 'info' | 'warning' | 'error'; message: string }[];
 }
-

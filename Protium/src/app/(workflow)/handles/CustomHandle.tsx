@@ -29,12 +29,6 @@ const CustomHandle = ({
     ),
   );
 
-  // console.log('connectionNodeId', connectionNodeId);
-  // console.log('nodeInternals', nodeInternals);
-  // console.log('edges', edges);
-  // console.log('connectionStartHandle', connectionStartHandle);
-  // console.log('connectionEndHandle', connectionEndHandle);
-  // console.log('connectionHandleId', connectionHandleId);
   const parentId = useNodeId();
 
   // 是否可以连接
@@ -116,6 +110,7 @@ const CustomHandle = ({
               </div>
             ))}
       </div>
+
       {/* Right Container */}
       <div className="flex flex-col">
         {handles &&

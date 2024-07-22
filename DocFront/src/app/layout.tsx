@@ -8,20 +8,20 @@ export const metadata: Metadata = {
   metadataBase: new URL(DocumentSite),
   title: {
     template: '%s - Doc',
-    default: 'DeepModeling Documentation',
+    default: 'Protium Documentation',
   },
   icons: [
-    { rel: 'icon', url: '/@brand/logo/Logo-BgWhite.svg' },
+    { rel: 'icon', url: '/@brand/logo/Logo.svg' },
     {
       rel: 'icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-White.svg',
+      url: '/@brand/logo/Logo-Dark.svg',
     },
-    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo-BgWhite.png' },
+    { rel: 'apple-touch-icon', url: '/@brand/logo/Logo.png' },
     {
       rel: 'apple-touch-icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-White.png',
+      url: '/@brand/logo/Logo-Dark.png',
     },
   ],
 }

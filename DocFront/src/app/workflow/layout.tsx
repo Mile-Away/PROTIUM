@@ -8,8 +8,8 @@ import { navigation } from './Navi'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - DeepModeling Workflow Tutorial',
-    default: 'DeepModeling Tutorial',
+    template: '%s - Workflow Tutorial',
+    default: 'Protium Tutorial',
   },
 }
 

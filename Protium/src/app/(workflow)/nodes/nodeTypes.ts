@@ -1,12 +1,9 @@
+import { addNodeProps } from '@/@types/workflow';
 import BasicNode from '@/app/(workflow)/nodes/BasicNode';
 import { type Node } from 'reactflow';
-import InputNode from '../../nodes/InputNode';
-import SelectNode from '../../nodes/SelectNode';
-import SolverNode from '../../nodes/SolverNode';
-import { addNodeProps } from '@/@types/workflow';
-
-
-
+import InputNode from './InputNode';
+import SelectNode from './SelectNode';
+import SolverNode from './SolverNode';
 
 const nodeTypes = {
   Solver: SolverNode,
@@ -165,6 +162,7 @@ export const NodeMapping: {
     },
     dragHandle: '.drag-handle',
   },
+
   VASP: {
     type: 'Solver',
     data: {
@@ -194,11 +192,11 @@ export const NodeMapping: {
 
       footer: 'VASP 5.4.4',
       handles: [
-        { key: 'poscar', type: 'target', rope: 'POSCAR'},
+        { key: 'poscar', type: 'target', rope: 'POSCAR' },
         // { key: 'potcar', type: 'target' },
-        { key: 'incar', type: 'target', rope: 'INCAR'},
+        { key: 'incar', type: 'target', rope: 'INCAR' },
         { key: 'kpoints', type: 'target', rope: 'KPOINTS' },
-        { key: 'VASP/outputs', type: 'source', rope: 'VASP/outputs' },
+        { key: 'vasp/outputs', type: 'source', rope: 'VASP_OUTPUTS' },
       ],
       results: [
         {
@@ -214,6 +212,7 @@ export const NodeMapping: {
     },
     dragHandle: '.drag-handle',
   },
+
   ABACUS: {
     type: 'Solver',
     data: {
@@ -243,9 +242,9 @@ export const NodeMapping: {
 
       footer: 'ABACUS 3.7.1',
       handles: [
-        { key: 'input', type: 'target', rope: 'INPUT'},
+        { key: 'input', type: 'target', rope: 'INPUT' },
         // { key: 'potcar', type: 'target' },
-        { key: 'kpt', type: 'target', rope: 'KPT'},
+        { key: 'kpt', type: 'target', rope: 'KPT' },
         { key: 'stru', type: 'target', rope: 'STRU' },
       ],
       results: [
@@ -262,8 +261,111 @@ export const NodeMapping: {
     },
     dragHandle: '.drag-handle',
   },
+
+  VASP_OUTPUTS: {
+    type: 'Input',
+    data: {
+      header: 'VASP Outputs',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'vasp_outputs',
+          results: [],
+        },
+      ],
+
+      footer: 'VASP Outputs',
+      handles: [
+        { key: 'vasp/outputs', type: 'target', rope: 'VASP' },
+      ],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'vasp',
+          title: 'VASP',
+          key: 'vasp',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  ABACUS_SIAB_OUTPUTS: {
+    type: 'Input',
+    data: {
+      header: 'ABACUS SIAB Outputs',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'vasp_outputs',
+          results: [],
+        },
+      ],
+
+      footer: 'ABACUS SIAB Outputs',
+      handles: [
+        { key: 'siab/outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
+      ],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'vasp',
+          title: 'VASP',
+          key: 'vasp',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  PIPELINE_ABACUS_SIAB: {
+    type: 'Input',
+    data: {
+      header: 'ABACUS SIAB',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'abacus_siab',
+          results: [],
+        },
+      ],
+
+      footer: 'Pipeline ABACUS SIAB',
+      handles: [
+        { key: 'input', type: 'target', rope: 'INPUT' },
+        { key: 'system', type: 'target', rope: 'KPT' },
+        { key: 'orbitals', type: 'target', rope: 'STRU' },
+        { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
+      ],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'vasp',
+          title: 'VASP',
+          key: 'vasp',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
 };
-
-
 
 export default nodeTypes;

@@ -19,7 +19,7 @@ class PoscarNodeExecutor(IOExecutor, ABC):
 
         file_path = os.path.join(dir_path, "POSCAR")
 
-        await asyncio.sleep(3)
+        # await asyncio.sleep(3)
 
         await self.write(file_path, body_source)
 
