@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
-  title: 'About - Protium
+  title: 'About - Protium',
   description:
     'People attracted by Protium for its openness, inclusive, and dedication to advancing scientific computing worldwide.',
   openGraph: {
