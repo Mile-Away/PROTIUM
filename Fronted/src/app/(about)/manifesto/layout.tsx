@@ -5,9 +5,9 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
-  title: 'Manifesto - DeepModeling',
+  title: 'Manifesto - Protium',
   description:
-    'People attracted by DeepModeling for its openness, inclusive, and dedication to advancing scientific computing worldwide.',
+    'People attracted by Protium for its openness, inclusive, and dedication to advancing scientific computing worldwide.',
   openGraph: {
     images: `/logo/og-image.png`,
     url: `/manifesto`,

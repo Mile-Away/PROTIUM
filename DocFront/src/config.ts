@@ -11,27 +11,27 @@ export {
 export const BASE_URL =
   process.env.NODE_ENV === 'development'
     ? 'http://127.0.0.1:8000/api'
-    : 'https://service.deepmodeling.space/api';
+    : 'https://service.Protium.space/api';
 
 export const MEDIA_URL =
   process.env.NODE_ENV === 'development'
     ? 'http://127.0.0.1:8000'
-    : 'https://service.deepmodeling.space';
+    : 'https://service.Protium.space';
 
 export const WS_URL =
   process.env.NODE_ENV === 'development'
     ? 'ws://127.0.0.1:8000'
-    : 'ws://service.deepmodeling.space';
+    : 'ws://service.Protium.space';
 
 export const PrimarySite = 
   process.env.NODE_ENV === 'development'
     ? 'http://127.0.0.1:3000'
-    : 'https://deepmodeling.space';
+    : 'https://Protium.space';
 
 export const DocumentSite =
   process.env.NODE_ENV === 'development'
     ? 'http://127.0.0.1:3000'
-    : 'https://docs.deepmodeling.space';
+    : 'https://docs.Protium.space';
 
 export const IS_CLIENT = typeof window !== 'undefined'; 
 */

@@ -1,13 +1,13 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
-import { ContainerInner, ContainerOuter } from '@/components/Container'
+import { ContainerInner, ContainerOuter } from '@/components/Container';
 
 function NavLink({
   href,
   children,
 }: {
-  href: string
-  children: React.ReactNode
+  href: string;
+  children: React.ReactNode;
 }) {
   return (
     <Link
@@ -16,7 +16,7 @@ function NavLink({
     >
       {children}
     </Link>
-  )
+  );
 }
 
 export function Footer() {
@@ -33,13 +33,12 @@ export function Footer() {
                 <NavLink href="/uses">Servers</NavLink>
               </div>
               <p className="text-sm text-zinc-400 dark:text-zinc-500">
-                &copy; {new Date().getFullYear()} DeepModeling. All rights
-                reserved.
+                &copy; {new Date().getFullYear()} Protium. All rights reserved.
               </p>
             </div>
           </ContainerInner>
         </div>
       </ContainerOuter>
     </footer>
-  )
+  );
 }

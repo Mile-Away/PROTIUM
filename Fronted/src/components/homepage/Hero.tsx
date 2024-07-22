@@ -98,7 +98,7 @@ export default function Hero() {
                         </div>
                       </div>
                       <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-6xl">
-                        <LogoBanner className="sm:h-120 mb-8 h-16 w-auto max-w-[calc(100%-1rem)] fill-indigo-800 dark:fill-[#6f6be2] " />
+                        <LogoBanner className="sm:h-24 mb-8 h-16 w-auto max-w-[calc(100%-1rem)] fill-indigo-800 dark:fill-[#6f6be2] " />
                         {t('hero.title')}
                       </h1>
                       <p className="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-300 sm:max-w-md lg:max-w-none">

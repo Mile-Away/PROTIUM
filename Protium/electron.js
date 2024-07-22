@@ -13,20 +13,20 @@ function createWindow() {
     // frame: false,
     autoHideMenuBar: true,
     icon: 'public/@brand/logo/Logo-White.png',
-    tabbingIdentifier: 'deepmodeling',
+    tabbingIdentifier: 'Protium',
     webPreferences: {
       nodeIntegration: true,
     },
   });
 
-  const startURL = 'https://test.deepmodeling.com/';
+  const startURL = 'https://test.Protium.com/';
 
   mainWindow.loadURL(startURL);
 
   mainWindow.on('closed', () => (mainWindow = null));
 }
 
-app.on("new-window-for-tab", (event, url) => {
+app.on('new-window-for-tab', (event, url) => {
   event.preventDefault();
   mainWindow.loadURL(url);
 });
@@ -44,4 +44,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-

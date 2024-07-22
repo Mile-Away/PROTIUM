@@ -31,7 +31,7 @@ const solutions = [
 const callsToAction = [
   {
     name: 'Follow in Github',
-    href: 'https://github.com/deepmodeling',
+    href: 'https://github.com/Protium',
     icon: GitHubIcon,
   },
   { name: 'Contact us', href: '#', icon: EnvelopeIcon },

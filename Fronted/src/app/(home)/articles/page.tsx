@@ -37,7 +37,7 @@ export default function Page() {
   }, []);
 
   return (
-    <SimpleLayout title="DeepModeling" intro="article.intro">
+    <SimpleLayout title="Protium" intro="article.intro">
       <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
         <div
           className="card-index flex max-w-3xl flex-col overflow-x-hidden overflow-y-hidden"

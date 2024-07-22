@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import EmailVerifyCode, User, UserSettings, ArithmeticAccess
+from .models import ArithmeticAccess, EmailVerifyCode, User, UserSettings
 
 # Register your models here.
 
@@ -36,8 +36,8 @@ class UserSettingsAdmin(admin.ModelAdmin):
     ordering = ("user",)
 
 
-admin.site.site_header = "DeepModeling Administation"
-admin.site.site_title = "DeepModeling Administation"
+admin.site.site_header = "Protium Administation"
+admin.site.site_title = "Protium Administation"
 
 admin.site.register(ArithmeticAccess)
 admin.site.register(User, UserAdmin)

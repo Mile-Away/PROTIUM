@@ -1,8 +1,7 @@
-"use client";
+'use client';
 import Footer from '@/components/homepage/Footer';
 import Navbar from '@/components/navbar/Navbar';
 import { useTranslation } from 'react-i18next';
-
 
 const timeline = [
   {
@@ -46,7 +45,7 @@ export default function About() {
           />
           <div className="mx-auto max-w-8xl px-6 py-32 sm:py-40 lg:px-8 2xl:max-w-screen-2xl">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-x-16 lg:gap-y-6 xl:grid-cols-1 xl:grid-rows-1 xl:gap-x-8">
-              <h1 className="sm:leading-12 max-w-2xl text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl lg:col-span-2 xl:col-auto">
+              <h1 className="max-w-2xl text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl sm:leading-12 lg:col-span-2 xl:col-auto">
                 {t('hero.title')}
               </h1>
               <div className="mt-6 max-w-xl lg:mt-0 xl:col-end-1 xl:row-start-1">
@@ -172,7 +171,7 @@ export default function About() {
                 </p>
                 <p className="mt-2 text-base leading-7 text-gray-600">
                   Researchers and developers from all over the world are using
-                  DeepModeling to solve their problems.
+                  Protium to solve their problems.
                 </p>
               </div>
             </div>
@@ -182,11 +181,11 @@ export default function About() {
               </p>
               <div className="sm:w-80 sm:shrink lg:w-auto lg:flex-none">
                 <p className="text-lg font-semibold tracking-tight text-white">
-                  Commits on Deepmodeling
+                  Commits on Protium
                 </p>
                 <p className="mt-2 text-base leading-7 text-gray-400">
                   Researchers and developers from all over the world are using
-                  DeepModeling to solve their problems.
+                  Protium to solve their problems.
                 </p>
               </div>
             </div>
@@ -200,7 +199,7 @@ export default function About() {
                 </p>
                 <p className="mt-2 text-base leading-7 text-indigo-200">
                   Researchers and developers from all over the world are using
-                  DeepModeling to solve their problems.
+                  Protium to solve their problems.
                 </p>
               </div>
             </div>
@@ -231,7 +230,7 @@ export default function About() {
               <p className="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-300">
                 {t('joinUs.subtitle')}
                 <a
-                  href="mailto:contact@deepmodeling.org"
+                  href="mailto:contact@Protium.org"
                   className="text-indigo-600 dark:text-indigo-400"
                 >
                   {' '}
@@ -295,7 +294,7 @@ export default function About() {
               <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                 <a
                   target="_blank"
-                  href="https://github.com/deepmodeling"
+                  href="https://github.com/Protium"
                   className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {t('GithubAd.button.primary')}
@@ -313,7 +312,7 @@ export default function About() {
             <div className="relative mt-16 h-80 lg:mt-16">
               <img
                 className="absolute left-0 top-0 w-[57rem] max-w-none rounded-md bg-white/5 ring-1 ring-white/10"
-                src="/DeepModelingGithub.png"
+                src="/ProtiumGithub.png"
                 alt="App screenshot"
                 width={1824}
                 height={1080}

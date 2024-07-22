@@ -120,7 +120,7 @@ export const RightSideStatus: React.FC<RightSideStatusProps> = ({
             <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 ring-gray-900/10 dark:bg-neutral-900 dark:ring-gray-50/10 sm:max-w-sm sm:ring-1">
               <div className="flex items-center justify-between">
                 <Link href="/" className="-m-1.5 p-1.5">
-                  <span className="sr-only">DeepModeling</span>
+                  <span className="sr-only">Protium</span>
                   <Logo className="h-8 w-8 fill-indigo-800 dark:fill-white" />
                 </Link>
                 <div>

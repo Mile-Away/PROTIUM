@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: DeepModeling API
+  title: Protium API
   version: 1.0.0
-  description: API for DeepModeling
+  description: API for Protium
 paths: {}
 components: {}

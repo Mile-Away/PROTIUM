@@ -1,7 +1,7 @@
 import { NavbarFullWidthProps } from '@/@types/navbar';
 import { DocumentSite } from '@/config';
 import { BookmarkSquareIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
-import { DeePMDIcon, DPGenIcon, } from '../Icons';
+import { DeePMDIcon, DPGenIcon } from '../Icons';
 import { GitHubIcon } from '../SocialIcons';
 import NavbarFullWidth from './NavbarFullWidth';
 
@@ -29,7 +29,7 @@ const resources = [
 const callsToAction = [
   {
     name: 'Follow in Github',
-    href: 'https://github.com/deepmodeling',
+    href: 'https://github.com/Protium',
     icon: GitHubIcon,
   },
   { name: 'Contact us', href: '#', icon: EnvelopeIcon },

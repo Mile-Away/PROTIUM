@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   };
 
   let feed = new Feed({
-    title: 'DeepModeling',
+    title: 'Protium',
     description: 'Simple, secure and fast way to start your micro research',
     author,
     id: siteUrl,

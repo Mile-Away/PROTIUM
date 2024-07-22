@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 
 const TypeWriter: React.FC = () => {
-  const first_text = 'Hello, Welcome to DeepModeling!';
+  const first_text = 'Hello, Welcome to Protium!';
   const second_text = "We are so glad to see you're here! 😊";
   const third_text =
     'Please write your certification ID to access your certification.';
@@ -31,7 +31,7 @@ const TypeWriter: React.FC = () => {
   const fetchCertificationByCID = async () => {
     try {
       const response = await fetch(
-        `https://deepmodeling.com/api/certificate/get/entity/byCID/display?cid=${certificationId}`,
+        `https://Protium.com/api/certificate/get/entity/byCID/display?cid=${certificationId}`,
       );
       if (!response.ok) {
         throw new Error('Failed to fetch certification!');
@@ -47,7 +47,7 @@ const TypeWriter: React.FC = () => {
   const fetchCertificationByName = async () => {
     try {
       const response = await fetch(
-        `https://deepmodeling.com/api/certificate/get/entity/byID/display?name=${cardName}&p_id=${cardID}`,
+        `https://Protium.com/api/certificate/get/entity/byID/display?name=${cardName}&p_id=${cardID}`,
       );
       if (!response.ok) {
         throw new Error('Failed to fetch certification!');

@@ -18,7 +18,7 @@ const ButtonGroup = () => {
   return (
     <div className="mt-8 flex flex-wrap justify-center gap-x-1 gap-y-3 sm:gap-x-2 lg:justify-start">
       <IconLink
-        href="https://github.com/deepmodeling"
+        href="https://github.com/Protium"
         icon={GitHubIcon}
         title="Login with Github"
         className="flex-none"
@@ -105,7 +105,7 @@ export function Intro() {
 export function IntroFooter() {
   return (
     <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
-      &copy; {new Date().getFullYear()} DeepModeling. All rights reserved.
+      &copy; {new Date().getFullYear()} Protium. All rights reserved.
     </p>
     // <p className="flex items-baseline gap-x-2 text-[0.8125rem]/6 text-gray-500">
     //   Brought to you by{' '}

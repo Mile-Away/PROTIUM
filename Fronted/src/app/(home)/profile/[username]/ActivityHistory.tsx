@@ -125,7 +125,7 @@ export default function ActivityHistory() {
       },
     },
     {
-      company: 'DeepModeling',
+      company: 'Protium',
       title: 'Product',
       logo: logoAirbnb,
       start: '2014',

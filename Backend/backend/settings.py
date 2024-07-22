@@ -219,7 +219,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "backend API",
-    "DESCRIPTION": "API for DeepModeling",
+    "DESCRIPTION": "API for Protium",
     "VERSION": "1.0.0",
     # "SCHEMA_PATH_PREFIX": "/api/v1",
     "SERVE_INCLUDE_SCHEMA": True,
@@ -243,7 +243,7 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_SSL_CERTFILE = None
 EMAIL_SSL_KEYFILE = None
-EMAIL_FROM = "DeepModeling"  # os.environ.get("EMAIL_HOST_USER")
+EMAIL_FROM = "Protium"  # os.environ.get("EMAIL_HOST_USER")
 
 
 # CORS_ALLOW_ALL_ORIGINS = True

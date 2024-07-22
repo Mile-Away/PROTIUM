@@ -135,7 +135,7 @@ const SpacePage: React.FC<SpacePageProps> = ({ uuid }) => {
               </Link>
             </div>
             <p className="text-sm text-zinc-400 dark:text-zinc-500">
-              &copy; {new Date().getFullYear()} DeepModeling. All rights reserved.
+              &copy; {new Date().getFullYear()} Protium. All rights reserved.
             </p>
           </div>
         </div>

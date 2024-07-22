@@ -1,8 +1,6 @@
 import { NavbarFullWidthColumnsProps } from '@/@types/navbar';
 import { GitHubIcon } from '@/components/SocialIcons';
 import {
-  AdjustmentsHorizontalIcon,
-  CubeIcon,
   DocumentTextIcon,
   EnvelopeIcon,
   RocketLaunchIcon,
@@ -10,11 +8,11 @@ import {
 } from '@heroicons/react/24/outline';
 import NavbarFullWidthColumns from './NavbarFullWidthColumns';
 
+import { DocumentSite } from '@/config';
 import {
   CubeTransparentIcon,
   NewspaperIcon,
 } from '@heroicons/react/24/outline';
-import { DocumentSite } from '@/config';
 const resources = [
   {
     name: 'Spaces',
@@ -74,7 +72,7 @@ const callsToAction = [
   { name: 'See All Projects', href: '/space', icon: RocketLaunchIcon },
   {
     name: 'Follow in Github',
-    href: 'https://github.com/deepmodeling',
+    href: 'https://github.com/Protium',
     icon: GitHubIcon,
   },
   { name: 'Contact us', href: '#', icon: EnvelopeIcon },

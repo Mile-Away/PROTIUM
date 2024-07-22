@@ -46,10 +46,10 @@ function Newsletter() {
     >
       <h2 className="mt-8 flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         <MailIcon className="h-6 w-6 flex-none" />
-        <span className="ml-3">Join DeepModeling</span>
+        <span className="ml-3">Join Protium</span>
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Join DeepModeling to participate in building the tutorial and gain the
+        Join Protium to participate in building the tutorial and gain the
         rewards. <br />
         <span className="mt-2 block">
           Send your email address and we will contact you as soon as possible.

@@ -4,8 +4,8 @@ import Navbar from '@/components/navbar/Navbar';
 import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
-    template: '%s - DeepModeling Space',
-    default: 'DeepModeling Space',
+    template: '%s - Protium Space',
+    default: 'Protium Space',
   },
 };
 
@@ -15,7 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="relative flex flex-col">
         <Navbar />
 
-        <main className="border-b-2 border-neutral-100 dark:border-neutral-800 ">{children}</main>
+        <main className="border-b-2 border-neutral-100 dark:border-neutral-800 ">
+          {children}
+        </main>
 
         <Footer />
       </div>

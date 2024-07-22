@@ -1,7 +1,7 @@
 import smtplib
 from random import Random
 
-from accounts.models import EmailVerifyCode, User
+from accounts.models import EmailVerifyCode
 from backend.settings import EMAIL_FROM
 from django.core.mail import send_mail
 from django.template import loader
@@ -40,7 +40,7 @@ def mail_send(email, motive):
     forget_address = captcha
 
     if motive == "register":
-        email_title = "DeepModeling - 注册链接"
+        email_title = "Protium - 注册链接"
         email_body = loader.render_to_string(
             "mails/mail_register.html",  # 邮件里发送html(html模板)
             {
@@ -74,7 +74,7 @@ def mail_send(email, motive):
             return False, ID
 
     if motive == "forget":
-        email_title = "DeepModeling - 找回密码"
+        email_title = "Protium - 找回密码"
         email_body = loader.render_to_string(
             "mails/mail_forget.html",  # 邮件里发送html(html模板)
             {

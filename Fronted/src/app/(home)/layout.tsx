@@ -5,7 +5,7 @@ import { Footer } from './articles/Footer';
 export const metadata: Metadata = {
   title: 'Articles',
   description:
-    'DeepModeling Articles - a community for researchers and developers to share knowledge and insights.',
+    'Protium Articles - a community for researchers and developers to share knowledge and insights.',
   icons: [
     {
       url: '/favicon.ico',

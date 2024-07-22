@@ -68,7 +68,7 @@ const Navbar = () => {
               href="/"
               className="z-50 -m-1.5 rounded-md fill-indigo-800 p-1.5 transition-opacity duration-150 ease-in-out hover:bg-neutral-300/20 dark:fill-white dark:hover:bg-neutral-800"
             >
-              <span className="sr-only">DeepModeling</span>
+              <span className="sr-only">Protium</span>
               <Logo className="h-8 w-8" />
             </Link>
             <NavbarMenu />

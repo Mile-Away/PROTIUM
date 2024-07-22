@@ -82,7 +82,7 @@ export default function Page({ params }: { params: { name: string } }) {
   const fetchReleases = async () => {
     try {
       const res = await fetch(
-        'https://api.github.com/repos/deepmodeling/deepmd-kit/releases?per_page=100',
+        'https://api.github.com/repos/Protium/deepmd-kit/releases?per_page=100',
       );
       const data = await res.json();
       setReleases(data);

@@ -68,7 +68,7 @@ const options = {
   ],
   'Finite Element Method': [
     {
-      name: 'DeepModeling',
+      name: 'Protium',
       description: 'Get all of our website information',
       href: `${DocumentSite}`,
       icon: Logo,
@@ -82,7 +82,7 @@ const options = {
   ],
   'Community Platform': [
     {
-      name: 'DeepModeling',
+      name: 'Protium',
       description: 'Get all of our website information',
       href: `${DocumentSite}`,
       icon: Logo,
@@ -100,7 +100,7 @@ const callsToAction = [
   { name: 'See All Projects', href: '/space', icon: RocketLaunchIcon },
   {
     name: 'Follow in Github',
-    href: 'https://github.com/deepmodeling',
+    href: 'https://github.com/Protium',
     icon: GitHubIcon,
   },
   { name: 'Contact us', href: '#', icon: EnvelopeIcon },
