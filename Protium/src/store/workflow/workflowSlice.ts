@@ -124,6 +124,21 @@ const workflowSlice = createSlice({
       },
     },
 
+    // // 删除节点
+    // deleteNode: (state, action) => {
+    //   state.nodes = state.nodes.filter((node) => node.id !== action.payload);
+    //   state.edges = state.edges.filter(
+    //     (edge) => edge.source !== action.payload && edge.target !== action.payload,
+    //   );
+
+    //   state.consoleInfo.push({
+    //     time: new Date().toISOString(),
+    //     message: `Deleted: ${state.nodes.find(
+    //       (node) => node.id === action.payload,
+    //     )?.data.header}`,
+    //   });
+    // },
+
     // 控制节点拖拽
     setNodes: (state, action) => {
       state.nodes = applyNodeChanges(
@@ -137,7 +152,12 @@ const workflowSlice = createSlice({
       state.edges = applyEdgeChanges(action.payload, state.edges) as Edge[];
     },
 
-    addConsole: (state, action) => {
+    // 添加控制台信息
+    addConsole: (state, action: PayloadAction<{
+      time: string;
+      type: 'info' | 'warning' | 'error';
+      message: string;
+    }>) => {
       state.consoleInfo.push(action.payload);
     },
 

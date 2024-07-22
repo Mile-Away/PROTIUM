@@ -4,6 +4,12 @@ import { NodeMapping } from '../workflow/[uuid]/nodeTypes';
 const handleMenuItemClick = (action: string) => {
   return (dispatch: Dispatch) => {
     switch (action) {
+      case 'hidden':
+        return;
+      case 'delete':
+        return;
+      case 'duplicate':
+        return;
       case 'poscar':
         return dispatch(addNode(NodeMapping.POSCAR));
 
@@ -20,6 +26,9 @@ const handleMenuItemClick = (action: string) => {
 
       case 'VASP/outputs':
         return;
+
+      case 'abacus':
+        return dispatch(addNode(NodeMapping.ABACUS));
 
       default:
         return;

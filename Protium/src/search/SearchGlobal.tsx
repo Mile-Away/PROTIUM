@@ -1,7 +1,16 @@
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import usePost from '@/hooks/usePost';
-import { Combobox, Dialog, Transition } from '@headlessui/react';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import {
   CubeTransparentIcon,
@@ -25,7 +34,6 @@ function highlightKeyword(text: string, keyword: string) {
 }
 
 // 搜索内容
-
 const quickActions = [
   {
     name: 'in Articles...',
@@ -132,7 +140,7 @@ export default function SearchGlobal({
   }, [dataCRUD]);
 
   return (
-    <Transition.Root
+    <Transition
       show={open}
       as={Fragment}
       afterLeave={() => {
@@ -145,7 +153,7 @@ export default function SearchGlobal({
     >
       <Dialog as="div" className="relative z-[9999]" onClose={setOpen}>
         {/* 背景遮罩 */}
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -155,10 +163,10 @@ export default function SearchGlobal({
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 bg-neutral-500 bg-opacity-25 backdrop-blur-sm transition-opacity" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 z-[9999] w-screen overflow-y-auto p-4 sm:p-6 md:p-20">
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0 scale-95"
@@ -168,10 +176,10 @@ export default function SearchGlobal({
             leaveTo="opacity-0 scale-95"
           >
             {/* 搜索面板 */}
-            <Dialog.Panel className="mx-auto max-w-2xl transform divide-y divide-neutral-500 divide-opacity-20 overflow-hidden rounded-xl bg-neutral-900 shadow-2xl transition-all">
+            <DialogPanel className="mx-auto max-w-2xl transform divide-y divide-neutral-500 divide-opacity-20 overflow-hidden rounded-xl bg-neutral-900 shadow-2xl transition-all">
               <Combobox
                 onChange={(item: SearchDocumentProps | SearchChannelProps) => {
-                  if (item.uuid) {
+                  if (item?.uuid) {
                     if ('name' in item) {
                       postData({
                         query: query,
@@ -203,10 +211,10 @@ export default function SearchGlobal({
                     className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-neutral-500"
                     aria-hidden="true"
                   />
-                  <Combobox.Input
+                  <ComboboxInput
                     className=" form-input h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white focus:ring-0 sm:text-sm"
                     placeholder="Search ..."
-                    autoComplete="off"
+                    // autoComplete="on"
                     onChange={(event) => setQuery(event.target.value)}
                   />
                 </div>
@@ -215,12 +223,12 @@ export default function SearchGlobal({
                 {((query === '' && showRecent) ||
                   documentResults?.length > 0 ||
                   channelResults?.length > 0) && (
-                  <Combobox.Options
+                  <ComboboxOptions
                     static
                     className="max-h-80 divide-y divide-neutral-500 divide-opacity-20 overflow-y-auto"
                   >
                     {/* 搜索内容 */}
-                    <li className="p-2">
+                    <div className="p-2">
                       {showRecent && query === '' && (
                         <h2 className="mb-2 mt-4 px-3 text-xs font-semibold text-neutral-200">
                           Recent searches
@@ -235,82 +243,70 @@ export default function SearchGlobal({
                             channelResults?.length > 0
                           ? [channelResults, documentResults].flat()
                           : []
-                        ).map((project) => (
-                          <Combobox.Option
-                            key={project?.uuid}
-                            value={project}
-                            className={({ active }) =>
-                              clsx(
+                        )
+                          .filter((item) => item !== null)
+                          .map((project) => (
+                            <ComboboxOption
+                              key={project?.uuid}
+                              value={project}
+                              className={clsx(
                                 'flex cursor-default select-none items-center rounded-md px-3 py-2',
-                                active && 'bg-neutral-800 text-white',
-                              )
-                            }
-                          >
-                            {({ active }) => (
-                              <>
-                                {project && (
-                                  <>
-                                    {'name' in project ? (
-                                      <UsersIcon
-                                        className={classNames(
-                                          'h-6 w-6 flex-none',
-                                          active
-                                            ? 'text-white'
-                                            : 'text-neutral-500',
-                                        )}
-                                        aria-hidden="true"
-                                      />
-                                    ) : (
-                                      <DocumentMagnifyingGlassIcon
-                                        className={classNames(
-                                          'h-6 w-6 flex-none',
-                                          active
-                                            ? 'text-white'
-                                            : 'text-neutral-500',
-                                        )}
-                                        aria-hidden="true"
-                                      />
-                                    )}
-                                    <span className="ml-3 flex-auto truncate">
-                                      {'title' in project &&
-                                        highlightKeyword(project.title, query)}
-                                      {'name' in project &&
-                                        highlightKeyword(project.name, query)}
-                                    </span>
-                                    <span className="ml-3 flex-none text-xs font-semibold text-neutral-400">
-                                      {'content' in project &&
-                                        highlightKeyword(
-                                          project.content,
-                                          query,
-                                        )}
-                                      {'description' in project &&
-                                        highlightKeyword(
-                                          project.description,
-                                          query,
-                                        )}
-                                    </span>
+                                'hover:bg-neutral-800 hover:text-white',
+                                'group',
+                              )}
+                            >
+                              {project && (
+                                <>
+                                  {'name' in project ? (
+                                    <UsersIcon
+                                      className={classNames(
+                                        'h-6 w-6 flex-none text-neutral-500 hover:text-white',
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    <DocumentMagnifyingGlassIcon
+                                      className={classNames(
+                                        'h-6 w-6 flex-none text-neutral-500 hover:text-white',
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  )}
 
-                                    {active && (
-                                      <span className="ml-3 flex-none text-neutral-400">
-                                        Jump to...
-                                      </span>
-                                    )}
-                                  </>
-                                )}
-                              </>
-                            )}
-                          </Combobox.Option>
-                        ))}
+                                  <span className="ml-3 flex-auto truncate">
+                                    {'title' in project &&
+                                      highlightKeyword(project.title, query)}
+                                    {'name' in project &&
+                                      highlightKeyword(project.name, query)}
+                                  </span>
+
+                                  <span className="ml-3 flex-none text-xs font-semibold text-neutral-400">
+                                    {'content' in project &&
+                                      highlightKeyword(project.content, query)}
+                                    {'description' in project &&
+                                      highlightKeyword(
+                                        project.description,
+                                        query,
+                                      )}
+                                  </span>
+                                </>
+                              )}
+
+                              <span className="ml-3 hidden text-neutral-400 group-hover:flex-none">
+                                Jump to...
+                              </span>
+                            </ComboboxOption>
+                          ))}
                       </ul>
-                    </li>
+                    </div>
 
                     {/* 快捷选项 */}
                     {query === '' && showShortcut && (
-                      <li className="p-2">
+                      <div className="p-2">
                         <h2 className="sr-only">Quick actions</h2>
                         <ul className="text-sm text-neutral-400">
                           {quickActions.map((action) => (
-                            <Combobox.Option
+                            <ComboboxOption
                               key={action.shortcut}
                               value={action}
                               className={({ active }) =>
@@ -342,12 +338,12 @@ export default function SearchGlobal({
                                   </span>
                                 </>
                               )}
-                            </Combobox.Option>
+                            </ComboboxOption>
                           ))}
                         </ul>
-                      </li>
+                      </div>
                     )}
-                  </Combobox.Options>
+                  </ComboboxOptions>
                 )}
 
                 {/* 没有搜索结果，则显示找不到结果 */}
@@ -366,10 +362,10 @@ export default function SearchGlobal({
                     </div>
                   )}
               </Combobox>
-            </Dialog.Panel>
-          </Transition.Child>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   );
 }

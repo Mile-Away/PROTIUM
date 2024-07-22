@@ -32,8 +32,8 @@ export const navigation: Array<NavGroup> = [
   {
     title: 'Interface',
     links: [
-      { title: 'Workflow', href: `/workflow/models/workflow` },
-      { title: 'Node', href: `/workflow/models/node` },
+      { title: 'Canvas', href: `/workflow/interface/canvas` },
+      { title: 'Node', href: `/workflow/interface/node` },
     ],
   },
 ]

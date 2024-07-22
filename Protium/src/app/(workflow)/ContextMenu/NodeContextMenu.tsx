@@ -6,6 +6,7 @@ import { nodeContextMenuItems } from './contextMenuItems';
 
 import { Dispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 export interface NodeContextMenuProps {
   id: string;
   top: number | undefined;
@@ -26,7 +27,6 @@ export default function NodeContextMenu({
 
   const node: Node<any> | undefined = getNode(id);
 
-  console.log('node', node?.data.header);
   const duplicateNode = useCallback(() => {
     if (!node) return;
     const position = {
@@ -38,7 +38,7 @@ export default function NodeContextMenu({
       ...node,
       selected: false,
       dragging: false,
-      id: `${node.id}-copy`,
+      id: `${uuidv4()}`,
       position,
     });
   }, [id, getNode, addNodes]);
@@ -63,7 +63,7 @@ export default function NodeContextMenu({
       style={{ top, left, right, bottom }}
       className={clsx(
         'absolute z-[9999] p-1 ',
-        'rounded-md border border-neutral-200  dark:border-neutral-700 dark:bg-neutral-800 bg-white',
+        'rounded-md border border-neutral-200  bg-white dark:border-neutral-700 dark:bg-neutral-800',
         'shadow-lg dark:shadow-black',
         'h-fit w-28 min-w-fit',
         'select-none',
@@ -76,7 +76,13 @@ export default function NodeContextMenu({
             <ContextMenuButton
               className="w-full"
               type="button"
-              onClick={() => onContextMenuClick(item.onClick)}
+              onClick={
+                item.action === 'delete'
+                  ? deleteNode
+                  : item.action === 'duplicate'
+                  ? duplicateNode
+                  : undefined
+              }
               arrow={item.arrow}
             >
               <div className="flex items-center">
@@ -87,8 +93,8 @@ export default function NodeContextMenu({
           </div>
         ))}
         {node?.data.header && (
-          <div className="w-full border-t px-2 pt-2 pb-1 flex justify-end dark:border-neutral-700">
-            <span className="text-[0.6rem] font-semibold line-clamp-1">
+          <div className="flex w-full justify-end border-t px-2 pb-1 pt-2 dark:border-neutral-700">
+            <span className="line-clamp-1 text-[0.6rem] font-semibold">
               Node: {node.data.header}
             </span>
           </div>

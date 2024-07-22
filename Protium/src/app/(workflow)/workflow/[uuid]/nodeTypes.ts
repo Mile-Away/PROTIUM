@@ -214,6 +214,54 @@ export const NodeMapping: {
     },
     dragHandle: '.drag-handle',
   },
+  ABACUS: {
+    type: 'Solver',
+    data: {
+      header: 'ABACUS',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: 'default',
+          type: 'select',
+          key: 'potcarSelect',
+        },
+        {
+          id: '',
+          source: 'bohrium',
+          type: 'select',
+          key: 'machineSelect',
+        },
+        {
+          id: '',
+          source: '',
+          title: 'Machine Config',
+          type: 'textarea',
+          key: 'config',
+        },
+      ],
+
+      footer: 'ABACUS 3.7.1',
+      handles: [
+        { key: 'input', type: 'target', rope: 'INPUT'},
+        // { key: 'potcar', type: 'target' },
+        { key: 'kpt', type: 'target', rope: 'KPT'},
+        { key: 'stru', type: 'target', rope: 'STRU' },
+      ],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'vasp',
+          title: 'VASP',
+          key: 'vasp',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
 };
 
 
