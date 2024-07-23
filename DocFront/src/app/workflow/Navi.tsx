@@ -13,13 +13,16 @@ export const navigation: Array<NavGroup> = [
   {
     title: 'Nodes',
     links: [
-      { title: 'BasicExecutor', href: '/workflow/execution/NodeExecutor' },
-      { title: 'VASPExecutor', href: '/workflow/execution/VaspNodeExecutor' },
-      { title: 'Interfaces - 工作流创建界面', href: `/workflow/interfaces` },
-      { title: 'API - 通过代码创建工作流', href: `/workflow/api` },
+      { title: 'VASP', href: '/workflow/nodes/vasp' },
+      { title: 'ABACUS', href: '/workflow/nodes/abacus' },
+      { title: 'ABACUS SIAB', href: '/workflow/nodes/abacus_siab' },
+      // { title: 'BasicExecutor', href: '/workflow/execution/NodeExecutor' },
+      // { title: 'VASPExecutor', href: '/workflow/execution/VaspNodeExecutor' },
+      // { title: 'Interfaces - 工作流创建界面', href: `/workflow/interfaces` },
+      // { title: 'API - 通过代码创建工作流', href: `/workflow/api` },
       // { title: 'Development', href: `/workflow/development` },
 
-      { title: '运行状态提示', href: '/workflow/status' },
+      // { title: '运行状态提示', href: '/workflow/status' },
     ],
   },
   {

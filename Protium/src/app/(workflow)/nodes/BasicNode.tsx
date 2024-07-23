@@ -11,7 +11,7 @@ export default function BasicNode(props: BasicNodeProps) {
       <div
         className={clsx(
           // 'h-fit w-64 select-none rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-800 ',
-          'relative w-64',
+          'relative min-w-64 w-auto',
           'shadow-lg dark:shadow-black',
           'cursor-auto rounded',
           'transition-all duration-300 ease-in-out',

@@ -213,6 +213,135 @@ export const NodeMapping: {
     dragHandle: '.drag-handle',
   },
 
+  // ABACUS
+  ABACUS_INPUT: {
+    type: 'Input',
+    data: {
+      header: 'ABACUS INPUT',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'abacus_input',
+          results: [],
+        },
+      ],
+
+      footer: 'ABACUS INPUT',
+      handles: [{ key: 'abacus/input', type: 'source', rope: 'ABACUS' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'abacus',
+          title: 'ABACUS',
+          key: 'abacus_input',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  ORBITALS: {
+    type: 'Input',
+    data: {
+      header: 'ORBITALS',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'orbitals',
+          results: [],
+        },
+      ],
+
+      footer: 'ORBITALS',
+      handles: [{ key: 'orbitals', type: 'source', rope: 'ABACUS' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'abacus',
+          title: 'ABACUS',
+          key: 'orbitals',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  ABACUS_STRU: {
+    type: 'Input',
+    data: {
+      header: 'STRU',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'stru',
+          results: [],
+        },
+      ],
+
+      footer: 'STRU',
+      handles: [{ key: 'abacus/stru', type: 'source', rope: 'ABACUS' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'abacus',
+          title: 'ABACUS',
+          key: 'stru',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
+  ABACUS_SYSTEM: {
+    type: 'Input',
+    data: {
+      header: 'SYSTEM',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'system',
+          results: [],
+        },
+      ],
+
+      footer: 'SYSTEM',
+      handles: [{ key: 'abacus/system', type: 'source', rope: 'ABACUS' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'abacus',
+          title: 'ABACUS',
+          key: 'system',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle'
+  },
+
   ABACUS: {
     type: 'Solver',
     data: {
@@ -278,9 +407,7 @@ export const NodeMapping: {
       ],
 
       footer: 'VASP Outputs',
-      handles: [
-        { key: 'vasp/outputs', type: 'target', rope: 'VASP' },
-      ],
+      handles: [{ key: 'vasp/outputs', type: 'target', rope: 'VASP' }],
       results: [
         {
           id: '',
@@ -330,7 +457,7 @@ export const NodeMapping: {
     dragHandle: '.drag-handle',
   },
 
-  PIPELINE_ABACUS_SIAB: {
+  ABACUS_SIAB: {
     type: 'Input',
     data: {
       header: 'ABACUS SIAB',
@@ -347,9 +474,9 @@ export const NodeMapping: {
 
       footer: 'Pipeline ABACUS SIAB',
       handles: [
-        { key: 'input', type: 'target', rope: 'INPUT' },
-        { key: 'system', type: 'target', rope: 'KPT' },
-        { key: 'orbitals', type: 'target', rope: 'STRU' },
+        { key: 'abacus/input', type: 'target', rope: 'ABACUS_INPUT' },
+        { key: 'abacus/system', type: 'target', rope: 'ABACUS_SYSTEM' },
+        { key: 'orbitals', type: 'target', rope: 'ORBITALS' },
         { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
       ],
       results: [

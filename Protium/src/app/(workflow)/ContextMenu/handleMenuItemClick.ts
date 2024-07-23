@@ -25,6 +25,9 @@ const handleMenuItemClick = (action: string) => {
       case 'kpoints':
         return dispatch(addNode(NodeMapping.KPOINTS));
 
+      case 'abacus_input':
+        return dispatch(addNode(NodeMapping.ABACUS_INPUT));
+
       // Solver 相关操作 
       case 'vasp':
         return dispatch(addNode(NodeMapping.VASP));
@@ -41,7 +44,7 @@ const handleMenuItemClick = (action: string) => {
 
       // Pipeline 相关操作
       case 'pipeline_abacus_siab':
-        return dispatch(addNode(NodeMapping.PIPELINE_ABACUS_SIAB));
+        return dispatch(addNode(NodeMapping.ABACUS_SIAB));
       default:
         return;
     }

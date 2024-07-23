@@ -62,35 +62,34 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
             arrow: true,
             subContextMenuItems: [
               {
-                action: 'abacus-input',
+                action: 'abacus_input',
                 label: 'INPUT',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('poscar'),
+                onClick: () => handleMenuItemClick('abacus_input'),
               },
               {
-                action: 'abacus-stru',
+                action: 'abacus_stru',
                 label: 'STRU',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('potcar'),
+                onClick: () => handleMenuItemClick('abacus_stru'),
               },
               {
-                action: 'abacus-kpt',
+                action: 'abacus_kpt',
                 label: 'KPT',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('kpoints'),
+                onClick: () => handleMenuItemClick('abacus_kpt'),
               },
               {
-                action: 'abacus-pseudo',
+                action: 'abacus_pseudo',
                 label: 'Pseudo',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('kpoints'),
+                onClick: () => handleMenuItemClick('abacus_pseudo'),
               },
-
               {
-                action: 'abacus-orbitals',
+                action: 'abacus_orbitals',
                 label: 'Orbitals',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('kpoints'),
+                onClick: () => handleMenuItemClick('abacus_orbitals'),
               },
             ],
           },
@@ -194,13 +193,13 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
     arrow: true,
     subContextMenuItems: [
       {
-        action: 'vasp-outputs',
+        action: 'vasp_outputs',
         label: 'VASP',
         icon: VASPIcon,
         onClick: () => handleMenuItemClick('vasp_outputs'),
       },
       {
-        action: 'abacus-outputs',
+        action: 'abacus_outputs',
         label: 'ABACUS',
         icon: ABACUSIcon,
         onClick: () => handleMenuItemClick('abacus_outputs'),
