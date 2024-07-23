@@ -2,20 +2,16 @@ import asyncio
 import json
 import os
 from abc import ABC
-from typing import Literal, TypedDict
 
+from accounts.models import ArithmeticAccess
 from asgiref.sync import sync_to_async
 from bohrium_open_sdk import OpenSDK
 from django.conf import settings
-
-from accounts.models import ArithmeticAccess
 from workflow.models import WorkflowNodeResult
 from workflow.types import NodeStatus
 
 from ..contemplates.SolverExecutor import SolverExecutor
-
-# from ..utils.bohriumSDK.client import Client
-# from ..utils.bohriumSDK.job import Job
+from ..types import BohriumJobCallbackTyped
 from ..utils.handles import (
     check_handle_connected,
     filter_target_handles,
@@ -24,11 +20,6 @@ from ..utils.handles import (
 )
 from ..utils.nodes import get_node_header
 from ..utils.utils import channel_send_node_result, move_file
-
-
-class BohriumJobCallbackTyped(TypedDict):
-    code: int
-    data: dict[Literal["jobGroupId", "jobId", "bohrJobId"], int]
 
 
 class VaspNodeExecutor(SolverExecutor, ABC):
@@ -122,14 +113,14 @@ class VaspNodeExecutor(SolverExecutor, ABC):
         except Exception as e:
             raise Exception(f"生成 POTCAR 文件失败：{e}")
 
-    async def get_default_potcar(self) -> str:
-        return "default POTCAR"
+    # async def get_default_potcar(self) -> str:
+    #     return "default POTCAR"
 
     async def execute(self, result: WorkflowNodeResult) -> NodeStatus:
 
         # 从 target handle 获取 POSCAR, INCAR, KPOINTS 的文件路径
         if not await check_handle_connected(self.node, "target"):
-            return "failed"
+            raise Exception("Target handle not connected")
 
         # 从 Edge 获取 Source handle
         connected_target_handles = await filter_target_handles(self.node, connected=True)
@@ -174,8 +165,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
             try:
                 machine_config = json.loads(machine_config)
             except json.JSONDecodeError:
-                print("json decode error")
-                return "failed"
+                raise Exception("Machine Config is not a valid JSON")
 
             print(">>>>>> Start Submit Bohrium Job >>>>>>")
             details = await self.submit_bohrium_job(dir_path, machine_config)
@@ -192,7 +182,5 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                     "results": [{"key": result.key, "source": str(details.get("data")["jobId"])}],
                 },
             )
-
-        # await asyncio.sleep(20)
 
         return "success"

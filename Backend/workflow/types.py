@@ -4,6 +4,11 @@ from typing import Literal, Required, TypeAlias, TypedDict
 NodeStatus: TypeAlias = Literal["draft", "skipped", "failed", "success", "running", "pending"]
 
 
+class BohriumJobCallbackTyped(TypedDict):
+    code: int
+    data: dict[Literal["jobGroupId", "jobId", "bohrJobId"], int]
+
+
 class WorkflowNodeMessageProps(TypedDict, total=False):
     uuid: Required[str]
     header: Required[str]

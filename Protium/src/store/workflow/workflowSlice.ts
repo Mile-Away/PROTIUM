@@ -358,7 +358,8 @@ const workflowSlice = createSlice({
             state.consoleInfo.push({
               time: new Date().toISOString(),
               type: message.type,
-              message: `${action.payload.header}: ${message.message}`,
+              // message: `${action.payload.header}: ${message.message}`,
+              message: message.message,
             });
           },
         );

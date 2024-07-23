@@ -54,6 +54,7 @@ class WorkflowExecuter:
 
         if not scripts:
             return ["skipped"]
+        
         node_executors = await asyncio.gather(
             *(self.node_executor_registry.get_executor(script) for script in scripts)
         )
@@ -191,6 +192,7 @@ class WorkflowExecuter:
             # for node, dependencies in self.node_dependencies.items():
             #     if not dependencies:
             #         await self.execute_node(node)
+
             # 从没有依赖的节点开始执行
             no_dependency_nodes = [node for node, dependencies in self.node_dependencies.items() if not dependencies]
             await asyncio.gather(*(self.execute_node(node) for node in no_dependency_nodes))

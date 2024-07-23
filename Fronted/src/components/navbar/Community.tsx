@@ -1,6 +1,7 @@
 import { NavbarFullWidthColumnsProps } from '@/@types/navbar';
 import { GitHubIcon } from '@/components/SocialIcons';
 import {
+  AdjustmentsHorizontalIcon,
   DocumentTextIcon,
   EnvelopeIcon,
   RocketLaunchIcon,
@@ -8,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import NavbarFullWidthColumns from './NavbarFullWidthColumns';
 
-import { DocumentSite } from '@/config';
+import { DocumentSite, WorkflowSite } from '@/config';
 import {
   CubeTransparentIcon,
   NewspaperIcon,
@@ -27,12 +28,12 @@ const resources = [
     icon: NewspaperIcon,
   },
 
-  // {
-  //   name: 'Workflows',
-  //   description: 'Automate your work',
-  //   href: '/workflows',
-  //   icon: AdjustmentsHorizontalIcon,
-  // },
+  {
+    name: 'Workflows',
+    description: 'Automate your work',
+    href: `${WorkflowSite}`,
+    icon: AdjustmentsHorizontalIcon,
+  },
   {
     name: 'Tutorials',
     description: 'Learn here',

@@ -31,6 +31,7 @@ export const nodeColors = (node: Node<any>) => {
 export const NodeMapping: {
   [key: string]: addNodeProps;
 } = {
+  // VASP
   POSCAR: {
     type: 'Input',
     data: {
@@ -213,6 +214,38 @@ export const NodeMapping: {
     dragHandle: '.drag-handle',
   },
 
+  VASP_OUTPUTS: {
+    type: 'Input',
+    data: {
+      header: 'VASP Outputs',
+      status: 'draft',
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          key: 'vasp_outputs',
+          results: [],
+        },
+      ],
+
+      footer: 'VASP Outputs',
+      handles: [{ key: 'vasp/outputs', type: 'target', rope: 'VASP' }],
+      results: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'vasp',
+          title: 'VASP',
+          key: 'vasp',
+          bodies: [],
+        },
+      ],
+    },
+    dragHandle: '.drag-handle',
+  },
+
   // ABACUS
   ABACUS_INPUT: {
     type: 'Input',
@@ -236,10 +269,10 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'file',
-          script: 'abacus',
-          title: 'ABACUS',
+          script: 'abacus_input',
+          title: 'ABACUS INPUT',
           key: 'abacus_input',
-          bodies: [],
+          bodies: ['abacus_input'],
         },
       ],
     },
@@ -268,8 +301,8 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'file',
-          script: 'abacus',
-          title: 'ABACUS',
+          script: 'orbitals',
+          title: 'ABACUS Oribitals',
           key: 'orbitals',
           bodies: [],
         },
@@ -300,9 +333,9 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'file',
-          script: 'abacus',
-          title: 'ABACUS',
-          key: 'stru',
+          script: 'abacus_stru',
+          title: 'ABACUS_STRU',
+          key: 'abacus_stru',
           bodies: [],
         },
       ],
@@ -332,14 +365,14 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'file',
-          script: 'abacus',
-          title: 'ABACUS',
-          key: 'system',
+          script: 'abacus_system',
+          title: 'ABACUS SYSTEM',
+          key: 'system_system',
           bodies: [],
         },
       ],
     },
-    dragHandle: '.drag-handle'
+    dragHandle: '.drag-handle',
   },
 
   ABACUS: {
@@ -391,31 +424,36 @@ export const NodeMapping: {
     dragHandle: '.drag-handle',
   },
 
-  VASP_OUTPUTS: {
+  ABACUS_SIAB: {
     type: 'Input',
     data: {
-      header: 'VASP Outputs',
+      header: 'ABACUS SIAB',
       status: 'draft',
       body: [
         {
           id: '',
           source: '',
           type: 'textarea',
-          key: 'vasp_outputs',
+          key: 'abacus_siab',
           results: [],
         },
       ],
 
-      footer: 'VASP Outputs',
-      handles: [{ key: 'vasp/outputs', type: 'target', rope: 'VASP' }],
+      footer: 'Pipeline ABACUS SIAB',
+      handles: [
+        { key: 'abacus/input', type: 'target', rope: 'ABACUS_INPUT' },
+        { key: 'abacus/system', type: 'target', rope: 'ABACUS_SYSTEM' },
+        { key: 'orbitals', type: 'target', rope: 'ORBITALS' },
+        { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
+      ],
       results: [
         {
           id: '',
           source: '',
           type: 'file',
-          script: 'vasp',
-          title: 'VASP',
-          key: 'vasp',
+          script: 'abacus_siab',
+          title: 'ABACUS_SIAB',
+          key: 'abacus_siab',
           bodies: [],
         },
       ],
@@ -441,43 +479,6 @@ export const NodeMapping: {
       footer: 'ABACUS SIAB Outputs',
       handles: [
         { key: 'siab/outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
-      ],
-      results: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'vasp',
-          title: 'VASP',
-          key: 'vasp',
-          bodies: [],
-        },
-      ],
-    },
-    dragHandle: '.drag-handle',
-  },
-
-  ABACUS_SIAB: {
-    type: 'Input',
-    data: {
-      header: 'ABACUS SIAB',
-      status: 'draft',
-      body: [
-        {
-          id: '',
-          source: '',
-          type: 'textarea',
-          key: 'abacus_siab',
-          results: [],
-        },
-      ],
-
-      footer: 'Pipeline ABACUS SIAB',
-      handles: [
-        { key: 'abacus/input', type: 'target', rope: 'ABACUS_INPUT' },
-        { key: 'abacus/system', type: 'target', rope: 'ABACUS_SYSTEM' },
-        { key: 'orbitals', type: 'target', rope: 'ORBITALS' },
-        { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
       ],
       results: [
         {
