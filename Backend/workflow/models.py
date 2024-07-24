@@ -90,7 +90,7 @@ class WorkflowNodeData(models.Model):
     footer = models.TextField(blank=True, null=True)
 
     handles: models.QuerySet["WorkflowNodeHandle"]
-    results: models.QuerySet["WorkflowNodeResult"]
+    compile: models.QuerySet["WorkflowNodeCompile"]
     body: models.QuerySet["WorkflowNodeBody"]
 
     def __str__(self):
@@ -106,7 +106,7 @@ class WorkflowNodeHandle(models.Model):
     data_source_choices = (
         ("handle", "Handle"),
         ("body", "Body"),
-        ("result", "Result"),
+        ("compile", "Compile"),
     )
     # 只有不同的节点才能有相同的key，同一个节点相同 type 的key不能相同，不同 type 的key可以相同
     # 所以 unique_together 是 ("node", "type", "key")
@@ -146,7 +146,7 @@ class WorkflowNodeBody(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
 
-    results: models.QuerySet["WorkflowNodeResult"]
+    compile: models.QuerySet["WorkflowNodeCompile"]
 
     class Meta:
         unique_together = ("node", "key")
@@ -155,19 +155,19 @@ class WorkflowNodeBody(models.Model):
         return f"{self.node.node}-{self.key}"
 
 
-class WorkflowNodeResult(models.Model):
+class WorkflowNodeCompile(models.Model):
     # 使用 key 来和 source handle 对齐
     # 使用 script 来确定执行的脚本
     # 使用 source 存储执行结果
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="results")
+    node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="compile")
     key = models.CharField(max_length=100)
     script = models.CharField(blank=True, null=True)
     source = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=50, blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
-    bodies = models.ManyToManyField(WorkflowNodeBody, related_name="results", blank=True)
+    bodies = models.ManyToManyField(WorkflowNodeBody, related_name="compile", blank=True)
 
     class Meta:
         unique_together = ("node", "key")

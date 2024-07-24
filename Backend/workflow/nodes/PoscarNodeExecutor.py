@@ -1,7 +1,7 @@
 import os
 from abc import ABC
 
-from workflow.models import WorkflowNodeResult
+from workflow.models import WorkflowNodeCompile
 
 from ..contemplates.IOExecutor import IOExecutor
 from ..types import NodeStatus
@@ -12,9 +12,9 @@ class PoscarNodeExecutor(IOExecutor, ABC):
     # def __init__(self, node: WorkflowNode):
     #     super().__init__(node)
 
-    async def execute(self, result: WorkflowNodeResult) -> NodeStatus:
+    async def execute(self, compile: WorkflowNodeCompile) -> NodeStatus:
 
-        body_source = await self.get_body_source_from_results(result, "poscar")
+        body_source = await self.get_body_source_from_compile(compile, "poscar")
 
         dir_path = await self.create_dir_path()
 
@@ -24,8 +24,8 @@ class PoscarNodeExecutor(IOExecutor, ABC):
 
         await self.write(file_path, body_source)
 
-        result.source = file_path
+        compile.source = file_path
 
-        await self.save_result(result)
+        await self.save_compile(compile)
 
         return "success"

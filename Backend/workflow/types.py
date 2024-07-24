@@ -9,11 +9,19 @@ class BohriumJobCallbackTyped(TypedDict):
     data: dict[Literal["jobGroupId", "jobId", "bohrJobId"], int]
 
 
+class BohriumJobConfigProps(TypedDict):
+    project_id: int
+    job_name: str
+    machine_type: str
+    command: str
+    image_address: str
+
+
 class WorkflowNodeMessageProps(TypedDict, total=False):
     uuid: Required[str]
     header: Required[str]
     status: Required[NodeStatus]
-    results: list[dict[str, str | dict]]  # 返回的 Results 字典 key 是 Node 中的 ResultsKey, value 是执行结果
+    compile: list[dict[str, str | dict]]  # 返回的 compile 字典 key 是 Node 中的 compileKey, value 是执行结果
     messages: list[dict[str, str]]  # 返回的 Message，应该是一个 NodeMessage Model 对象的列表
 
 

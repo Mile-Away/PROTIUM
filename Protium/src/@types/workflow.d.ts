@@ -4,13 +4,15 @@ import { NodeProps } from 'reactflow';
 // Workflow
 // export type MenuItemAction = 'edit' | 'delete' | 'copy' | 'new' | 'hidden';
 
+export type HandleDataSourceProps = 'compile' | 'body' | 'handle';
+
 export interface WorkflowNodeDataHandlesProps {
   key: string;
   type: 'source' | 'target';
   label?: string;
   hasConnected?: boolean;
   required?: boolean;
-  data_source?: 'result' | 'body' | 'handle';
+  data_source?: HandleDataSourceProps;
   data_key?: string;
   rope: string;
 }
@@ -20,12 +22,12 @@ export interface WorkflowNodeDataBodyProps {
   type: 'input' | 'select' | 'textarea' | 'file';
   key: string;
   source: string;
-  results?: string[]; // 记录这个 Body 运行的 Result 的 key
+  compile?: string[]; // 记录这个 Body 运行的 Result 的 key
   title?: string;
   attachment?: string;
 }
 
-export interface WorkflowNodeResultProps {
+export interface WorkflowNodeCompileProps {
   id: string;
   key: string; // 记录 Result 的实际的 key
   source: string; // 记录 Result 的结果
@@ -43,7 +45,7 @@ export interface WorkflowNodeDataProps {
   // 不同节点中有相同的 key，这个 key 用来判断 handle 之间是否可以连接
   handles: WorkflowNodeDataHandlesProps[];
   body: WorkflowNodeDataBodyProps[]; // body 属性决定 Node 上展示的与用户交互的表单，表单提交的行为回调到 Redux
-  results: WorkflowNodeResultProps[];
+  compile: WorkflowNodeCompileProps[];
   status: 'draft' | 'skipped' | 'pending' | 'running' | 'success' | 'failed';
   footer?: string;
 }
@@ -111,7 +113,7 @@ export interface ExecutedNodeMessageProps {
   id: string;
   header: string;
   status: 'success' | 'failed' | 'running' | 'draft' | 'skipped' | 'pending';
-  results?: [];
+  compile?: [];
   messages?: { type: 'info' | 'warning' | 'error'; message: string }[];
 }
 
@@ -119,6 +121,6 @@ export interface ExecuteStatusProps {
   uuid: string;
   header: string;
   status: 'success' | 'failed' | 'running' | 'draft' | 'skipped' | 'pending';
-  results: { [key: string]: string | object }[];
+  compile: { [key: string]: string | object }[];
   messages: { type: 'info' | 'warning' | 'error'; message: string }[];
 }

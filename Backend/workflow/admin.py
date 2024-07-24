@@ -6,9 +6,9 @@ from .models import (
     WorkflowEdge,
     WorkflowNode,
     WorkflowNodeBody,
+    WorkflowNodeCompile,
     WorkflowNodeData,
     WorkflowNodeHandle,
-    WorkflowNodeResult,
     WorkflowTask,
 )
 
@@ -39,7 +39,7 @@ class WorkflowNodeHandleAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-class WorkflowNodeResultAdmin(admin.ModelAdmin):
+class WorkflowNodeCompileAdmin(admin.ModelAdmin):
     def result_bodies(self, obj):
         return obj.bodies.all()
 
@@ -54,6 +54,6 @@ admin.site.register(WorkflowNode, WorkflowNodeAdmin)
 admin.site.register(WorkflowNodeHandle, WorkflowNodeHandleAdmin)
 admin.site.register(WorkflowNodeBody, WorkflowNodeBodyAdmin)
 admin.site.register(WorkflowEdge)
-admin.site.register(WorkflowNodeResult, WorkflowNodeResultAdmin)
+admin.site.register(WorkflowNodeCompile, WorkflowNodeCompileAdmin)
 admin.site.register(WorkflowTask)
 admin.site.register(WorkflowNodeData)

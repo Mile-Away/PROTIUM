@@ -1,15 +1,14 @@
 import os
 from abc import ABC
-import asyncio
 
 from ..contemplates.IOExecutor import IOExecutor
 
 
 class KpointsNodeExecutor(IOExecutor, ABC):
 
-    async def execute(self, result) -> str:
+    async def execute(self, compile) -> str:
 
-        body_source = await self.get_body_source_from_results(result, "kpoints")
+        body_source = await self.get_body_source_from_compile(compile, "kpoints")
 
         dir_path = await self.create_dir_path()
 
@@ -18,8 +17,8 @@ class KpointsNodeExecutor(IOExecutor, ABC):
         # await asyncio.sleep(1)
         await self.write(file_path, body_source)
 
-        result.source = file_path
+        compile.source = file_path
 
-        await self.save_result(result)
+        await self.save_compile(compile)
 
         return "success"

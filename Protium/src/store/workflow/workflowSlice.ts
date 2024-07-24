@@ -1,6 +1,7 @@
 import {
   addNodeProps,
   ExecutedNodeMessageProps,
+  HandleDataSourceProps,
   WorkflowNodeDataHandlesProps,
   WorkflowNodeProps,
   WorkflowStateProps,
@@ -101,7 +102,7 @@ const workflowSlice = createSlice({
                 ...item,
                 id: uuidv4(),
               })),
-              results: props.data.results.map((item) => ({
+              compile: props.data.compile.map((item) => ({
                 ...item,
                 id: uuidv4(),
               })),
@@ -153,11 +154,14 @@ const workflowSlice = createSlice({
     },
 
     // 添加控制台信息
-    addConsole: (state, action: PayloadAction<{
-      time: string;
-      type: 'info' | 'warning' | 'error';
-      message: string;
-    }>) => {
+    addConsole: (
+      state,
+      action: PayloadAction<{
+        time: string;
+        type: 'info' | 'warning' | 'error';
+        message: string;
+      }>,
+    ) => {
       state.consoleInfo.push(action.payload);
     },
 
@@ -241,7 +245,7 @@ const workflowSlice = createSlice({
       action: PayloadAction<{
         nodeId: string;
         handleKey: string;
-        data_source: 'result' | 'body' | 'handle';
+        data_source: HandleDataSourceProps
         data_key: string;
       }>,
     ) => {
@@ -297,7 +301,7 @@ const workflowSlice = createSlice({
         (node) => node.id === action.payload.nodeId,
       );
       if (node) {
-        const result = node.data.results.find(
+        const result = node.data.compile.find(
           (result) => result.key === action.payload.resultKey,
         );
         if (result) {
@@ -330,7 +334,7 @@ const workflowSlice = createSlice({
       });
     },
 
-    setNodeExecutedResults: (
+    setNodeExecutedCompile: (
       state,
       action: PayloadAction<ExecutedNodeMessageProps>,
     ) => {
@@ -339,9 +343,9 @@ const workflowSlice = createSlice({
       if (node) {
         node.data.status = action.payload.status;
 
-        action.payload.results?.map(
+        action.payload.compile?.map(
           (result: { key: string; source: string }) => {
-            const resultItem = node.data.results.find(
+            const resultItem = node.data.compile.find(
               (item) => item.key === result.key,
             );
             if (resultItem) {
@@ -379,7 +383,7 @@ export const {
   setEdges,
   connectEdges,
   setNodeDataBodyContent,
-  setNodeExecutedResults,
+  setNodeExecutedCompile,
   setSliderOverlayVisible,
   setSliderOverlay,
   setWorkflow,

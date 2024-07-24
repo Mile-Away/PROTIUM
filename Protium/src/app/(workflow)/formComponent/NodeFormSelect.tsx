@@ -6,17 +6,17 @@ interface WorkflowFormSelectItemProps {
   name: string;
 }
 
-const WorkflowFormSelect = ({
+const NodeFormSelect = ({
   items,
   onSelectedIndexChange,
 }: {
   items: WorkflowFormSelectItemProps[];
   onSelectedIndexChange: (index: number) => void;
 }) => {
-  /* 这个组件用于创建所有 Node 中使用的常规选择
-  
+  /* 
+  这个组件用于创建所有 Node 中使用的常规选择器
   */
-  
+
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handlePrevious = () => {
@@ -31,12 +31,12 @@ const WorkflowFormSelect = ({
     onSelectedIndexChange(newIndex);
   };
   return (
-    <div className="flex w-full items-center justify-between rounded bg-indigo-50 px-2 py-2 dark:bg-black">
+    <div className="group flex h-8 w-full items-center justify-between rounded bg-indigo-50 px-2 py-2 hover:shadow hover:shadow-neutral-900/80 dark:bg-black/40">
       <div
         className={clsx(
-          '-m-2 cursor-pointer rounded p-1.5 opacity-50 hover:opacity-100 dark:text-white ',
+          '-m-2 cursor-pointer rounded p-1.5 opacity-50 group-hover:opacity-80 dark:text-white ',
           'transition-all duration-300 ease-in-out',
-          'hover:scale-125',
+          'hover:scale-125 hover:opacity-100',
         )}
         onClick={handlePrevious}
       >
@@ -47,9 +47,9 @@ const WorkflowFormSelect = ({
       </div>
       <div
         className={clsx(
-          '-m-2 cursor-pointer rounded p-1.5 opacity-50 hover:opacity-100 dark:text-white ',
+          '-m-2 cursor-pointer rounded p-1.5 opacity-50 group-hover:opacity-80 dark:text-white ',
           'transition-all duration-300 ease-in-out',
-          'hover:scale-125',
+          'hover:scale-125 hover:opacity-100',
         )}
         onClick={handleNext}
       >
@@ -59,4 +59,4 @@ const WorkflowFormSelect = ({
   );
 };
 
-export default WorkflowFormSelect;
+export default NodeFormSelect;

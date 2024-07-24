@@ -43,14 +43,15 @@ def handle_has_connected(handle: WorkflowNodeHandle):
 def get_handle_data_source_content(handle: WorkflowNodeHandle) -> str | None:
     data_source = handle.data_source
     data_key = handle.data_key
-    if data_source == "result":
-        source = handle.node.results.get(key=data_key).source
+    if data_source == "compile":
+        source = handle.node.compile.get(key=data_key).source
         print(">>>>>>>>>>>>", source)
         return source
 
     elif data_source == "body":
         return handle.node.body.get(key=data_key).source
     else:
+        # TODO: data_source == "handle"
         return None
 
 

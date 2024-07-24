@@ -37,16 +37,25 @@ export const NodeMapping: {
     data: {
       header: 'POSCAR',
       status: 'draft',
+      handles: [
+        {
+          type: 'source',
+          key: 'poscar',
+          rope: 'VASP',
+          data_source: 'compile',
+          data_key: 'poscar',
+        },
+      ],
       body: [
         {
           id: '',
           source: '',
           type: 'textarea',
           key: 'poscar',
-          results: [],
+          compile: [],
         },
       ],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -58,15 +67,6 @@ export const NodeMapping: {
         },
       ],
       footer: 'VASP/POSCAR',
-      handles: [
-        {
-          type: 'source',
-          key: 'poscar',
-          rope: 'VASP',
-          data_source: 'result',
-          data_key: 'poscar',
-        },
-      ],
     },
     dragHandle: '.drag-handle',
   },
@@ -77,7 +77,7 @@ export const NodeMapping: {
       header: 'POTCAR',
       status: 'draft',
       body: [{ id: '', source: '', type: 'select', key: 'potcar' }],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -94,7 +94,7 @@ export const NodeMapping: {
           type: 'source',
           key: 'potcar',
           rope: 'VASP',
-          data_source: 'result',
+          data_source: 'compile',
           data_key: 'potcar',
         },
       ],
@@ -112,12 +112,12 @@ export const NodeMapping: {
           type: 'source',
           key: 'incar',
           rope: 'VASP',
-          data_source: 'result',
+          data_source: 'compile',
           data_key: 'incar',
         },
       ],
       body: [{ id: '', source: '', type: 'textarea', key: 'incar' }],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -143,12 +143,12 @@ export const NodeMapping: {
           key: 'kpoints',
           type: 'source',
           rope: 'VASP',
-          data_source: 'result',
+          data_source: 'compile',
           data_key: 'kpoints',
         },
       ],
       body: [{ id: '', source: '', type: 'textarea', key: 'kpoints' }],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -199,7 +199,7 @@ export const NodeMapping: {
         { key: 'kpoints', type: 'target', rope: 'KPOINTS' },
         { key: 'vasp/outputs', type: 'source', rope: 'VASP_OUTPUTS' },
       ],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -225,13 +225,13 @@ export const NodeMapping: {
           source: '',
           type: 'textarea',
           key: 'vasp_outputs',
-          results: [],
+          compile: [],
         },
       ],
 
       footer: 'VASP Outputs',
       handles: [{ key: 'vasp/outputs', type: 'target', rope: 'VASP' }],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -257,14 +257,23 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'textarea',
+          title: 'ABACUS INPUT',
           key: 'abacus_input',
-          results: [],
+          compile: [],
         },
       ],
 
       footer: 'ABACUS INPUT',
-      handles: [{ key: 'abacus/input', type: 'source', rope: 'ABACUS' }],
-      results: [
+      handles: [
+        {
+          key: 'abacus/input',
+          type: 'source',
+          rope: 'ABACUS',
+          data_source: 'compile',
+          data_key: 'abacus_input',
+        },
+      ],
+      compile: [
         {
           id: '',
           source: '',
@@ -289,14 +298,23 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'textarea',
+          title: 'ORBITALS',
           key: 'orbitals',
-          results: [],
+          compile: [],
         },
       ],
 
       footer: 'ORBITALS',
-      handles: [{ key: 'orbitals', type: 'source', rope: 'ABACUS' }],
-      results: [
+      handles: [
+        {
+          key: 'orbitals',
+          type: 'source',
+          rope: 'ABACUS',
+          data_source: 'compile',
+          data_key: 'orbitals',
+        },
+      ],
+      compile: [
         {
           id: '',
           source: '',
@@ -304,7 +322,7 @@ export const NodeMapping: {
           script: 'orbitals',
           title: 'ABACUS Oribitals',
           key: 'orbitals',
-          bodies: [],
+          bodies: ['orbitals'],
         },
       ],
     },
@@ -322,13 +340,13 @@ export const NodeMapping: {
           source: '',
           type: 'textarea',
           key: 'stru',
-          results: [],
+          compile: [],
         },
       ],
 
       footer: 'STRU',
       handles: [{ key: 'abacus/stru', type: 'source', rope: 'ABACUS' }],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -336,7 +354,7 @@ export const NodeMapping: {
           script: 'abacus_stru',
           title: 'ABACUS_STRU',
           key: 'abacus_stru',
-          bodies: [],
+          bodies: ['stru'],
         },
       ],
     },
@@ -353,22 +371,31 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'textarea',
-          key: 'system',
-          results: [],
+          title: 'ABACUS SYSTEM',
+          key: 'abacus_system',
+          compile: [],
         },
       ],
 
       footer: 'SYSTEM',
-      handles: [{ key: 'abacus/system', type: 'source', rope: 'ABACUS' }],
-      results: [
+      handles: [
+        {
+          key: 'abacus/system',
+          type: 'source',
+          rope: 'ABACUS',
+          data_source: 'compile',
+          data_key: 'abacus_system',
+        },
+      ],
+      compile: [
         {
           id: '',
           source: '',
           type: 'file',
           script: 'abacus_system',
           title: 'ABACUS SYSTEM',
-          key: 'system_system',
-          bodies: [],
+          key: 'abacus_system',
+          bodies: ['abacus_system'],
         },
       ],
     },
@@ -409,7 +436,7 @@ export const NodeMapping: {
         { key: 'kpt', type: 'target', rope: 'KPT' },
         { key: 'stru', type: 'target', rope: 'STRU' },
       ],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
@@ -425,7 +452,7 @@ export const NodeMapping: {
   },
 
   ABACUS_SIAB: {
-    type: 'Input',
+    type: 'Solver',
     data: {
       header: 'ABACUS SIAB',
       status: 'draft',
@@ -434,8 +461,17 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'textarea',
+          title: 'SIAB Config',
           key: 'abacus_siab',
-          results: [],
+          compile: [],
+        },
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          title: 'Bohrium Job Config',
+          key: 'bohrium_job_config',
+          compile: [],
         },
       ],
 
@@ -446,11 +482,11 @@ export const NodeMapping: {
         { key: 'orbitals', type: 'target', rope: 'ORBITALS' },
         { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
       ],
-      results: [
+      compile: [
         {
           id: '',
           source: '',
-          type: 'file',
+          type: 'task',
           script: 'abacus_siab',
           title: 'ABACUS_SIAB',
           key: 'abacus_siab',
@@ -472,7 +508,7 @@ export const NodeMapping: {
           source: '',
           type: 'textarea',
           key: 'vasp_outputs',
-          results: [],
+          compile: [],
         },
       ],
 
@@ -480,7 +516,7 @@ export const NodeMapping: {
       handles: [
         { key: 'siab/outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
       ],
-      results: [
+      compile: [
         {
           id: '',
           source: '',

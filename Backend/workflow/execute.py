@@ -1,8 +1,7 @@
 import asyncio
 
 from asgiref.sync import sync_to_async
-
-from workflow.models import Workflow, WorkflowNode, WorkflowNodeResult
+from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
 from .registry import NodeExecutorRegistry
 from .types import NodeStatus
@@ -42,27 +41,27 @@ class WorkflowExecuter:
         self.build_node_dependencies(node)
 
     @sync_to_async
-    def get_node_results(self, node: WorkflowNode, key: str | None = None):
-        return node.node_data.results.get(key=key)
+    def get_node_compile(self, node: WorkflowNode, key: str | None = None):
+        return node.node_data.compile.get(key=key)
 
     @sync_to_async
-    def get_all_results(self, node: WorkflowNode) -> list[WorkflowNodeResult]:
-        return list(node.node_data.results.all())
+    def get_all_compile(self, node: WorkflowNode) -> list[WorkflowNodeCompile]:
+        return list(node.node_data.compile.all())
 
-    async def execute_results_script(self, node: WorkflowNode, results: list[WorkflowNodeResult]) -> list[NodeStatus]:
-        scripts = [result.script for result in results]
+    async def execute_compile_script(self, node: WorkflowNode, compile: list[WorkflowNodeCompile]) -> list[NodeStatus]:
+        scripts = [item.script for item in compile]
 
         if not scripts:
             return ["skipped"]
-        
+
         node_executors = await asyncio.gather(
             *(self.node_executor_registry.get_executor(script) for script in scripts)
         )
 
         status = await asyncio.gather(
             *(
-                node_executor(node).execute(result)  # type: ignore
-                for node_executor, result in zip(node_executors, results)
+                node_executor(node).execute(item)  # type: ignore
+                for node_executor, item in zip(node_executors, compile)
             )
         )
 
@@ -129,9 +128,9 @@ class WorkflowExecuter:
             # source handle 中任意一个被连接，或者 target handle 全部被连接，就执行 node 中的所有 results
             elif all(connected_target_results) or any(connected_source_results):
                 # 所有的 results 都会被执行，只要有一个执行失败，就会标记为 failed
-                results = await self.get_all_results(node)
-                # 执行这个 Node 中的所有 Results
-                status = await self.execute_results_script(node, results)
+                compile = await self.get_all_compile(node)
+                # 执行这个 Node 中的所有 compile
+                status = await self.execute_compile_script(node, compile)
                 # 只要有一个 failed，就返回 failed
                 if "failed" in status:
                     node.status = "failed"

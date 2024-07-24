@@ -8,7 +8,7 @@ from .models import (
     WorkflowNodeBody,
     WorkflowNodeData,
     WorkflowNodeHandle,
-    WorkflowNodeResult,
+    WorkflowNodeCompile,
 )
 
 
@@ -38,7 +38,7 @@ class WorkflowNodeBodySerializer(serializers.ModelSerializer):
         return ret
 
 
-class WorkflowNodeResultSerializer(serializers.ModelSerializer):
+class WorkflowNodeCompileSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
     bodies = serializers.ListField(child=serializers.CharField())
     script = serializers.CharField(required=False)
@@ -71,7 +71,7 @@ class WorkflowNodeResultSerializer(serializers.ModelSerializer):
 class WorkflowNodeDataSerializer(serializers.ModelSerializer):
     handles = WorkflowNodeHandleSerializer(many=True)
     body = WorkflowNodeBodySerializer(many=True)
-    results = WorkflowNodeResultSerializer(many=True)
+    compile = WorkflowNodeCompileSerializer(many=True)
 
     class Meta:
         model = WorkflowNodeData
@@ -163,7 +163,7 @@ class WorkflowSerializer(serializers.ModelSerializer):
             node_data = node.pop("node_data", {})
             node_handles = node_data.pop("handles", [])
             node_body = node_data.pop("body", [])
-            node_results = node_data.pop("results", [])
+            node_compile = node_data.pop("compile", [])
 
             # 更新 WorkflowNode 实例
             Node, created = WorkflowNode.objects.update_or_create(
@@ -204,10 +204,10 @@ class WorkflowSerializer(serializers.ModelSerializer):
                     defaults=body,
                 )
 
-            for result in node_results:
+            for result in node_compile:
                 result_bodies = result.pop("bodies", [])
 
-                Result, _ = WorkflowNodeResult.objects.update_or_create(
+                Result, _ = WorkflowNodeCompile.objects.update_or_create(
                     uuid=result["uuid"],
                     node=Node_Data,
                     defaults=result,

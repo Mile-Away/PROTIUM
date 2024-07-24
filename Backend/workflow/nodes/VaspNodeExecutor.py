@@ -3,79 +3,19 @@ import json
 import os
 from abc import ABC
 
-from accounts.models import ArithmeticAccess
 from asgiref.sync import sync_to_async
-from bohrium_open_sdk import OpenSDK
 from django.conf import settings
-from workflow.models import WorkflowNodeResult
+from workflow.models import WorkflowNodeCompile
 from workflow.types import NodeStatus
 
 from ..contemplates.SolverExecutor import SolverExecutor
-from ..types import BohriumJobCallbackTyped
-from ..utils.handles import (
-    check_handle_connected,
-    filter_target_handles,
-    get_bound_handle_from_target,
-    get_handle_data_source_content,
-)
+from ..utils.bohrium import submit_bohrium_job
+from ..utils.handles import filter_target_handles, get_bound_handle_from_target, get_handle_data_source_content
 from ..utils.nodes import get_node_header
 from ..utils.utils import channel_send_node_result, move_file
 
 
 class VaspNodeExecutor(SolverExecutor, ABC):
-
-    @sync_to_async
-    def submit_bohrium_job(self, dir_path: str, config: dict) -> BohriumJobCallbackTyped:
-
-        try:
-            arithmetic = ArithmeticAccess.objects.get(user=self.node.workflow.creator)
-            access_token = arithmetic.bohrium_access_token
-
-            print(">>>>>>>>>>>>>>>>>> Bohrium Access Key: ", access_token)
-
-            if access_token is None:
-                raise ArithmeticAccess.DoesNotExist
-        except ArithmeticAccess.DoesNotExist:
-            raise ValueError("Bohrium access token is None, Please add it in settings.")
-
-        try:
-            client = OpenSDK(access_key=access_token)
-
-            details = client.job.submit(
-                work_dir=dir_path,
-                project_id=config["project_id"],
-                job_name=config["job_name"],
-                machine_type=config["machine_type"],
-                cmd=config["command"],
-                dataset_path=[],
-                image_address=config["image_address"],
-                log_files=[],
-                out_files=[],
-            )
-
-        except SystemExit:
-
-            try:
-                client = OpenSDK(access_key=access_token, app_key="protium")
-
-                details = client.job.submit(
-                    work_dir=dir_path,
-                    project_id=config["project_id"],
-                    job_name=config["job_name"],
-                    machine_type=config["machine_type"],
-                    cmd=config["command"],
-                    dataset_path=[],
-                    image_address=config["image_address"],
-                    log_files=[],
-                    out_files=[],
-                )
-            except SystemExit:
-                raise Exception("Bohrium Job Submit Failed")
-
-        if details is None or details.get("code") != 0:
-            raise Exception("Bohrium Job Submit Failed")
-
-        return details
 
     @sync_to_async
     def generate_potcar(
@@ -116,11 +56,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
     # async def get_default_potcar(self) -> str:
     #     return "default POTCAR"
 
-    async def execute(self, result: WorkflowNodeResult) -> NodeStatus:
-
-        # 从 target handle 获取 POSCAR, INCAR, KPOINTS 的文件路径
-        if not await check_handle_connected(self.node, "target"):
-            raise Exception("Target handle not connected")
+    async def execute(self, compile: WorkflowNodeCompile) -> NodeStatus:
 
         # 从 Edge 获取 Source handle
         connected_target_handles = await filter_target_handles(self.node, connected=True)
@@ -168,7 +104,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                 raise Exception("Machine Config is not a valid JSON")
 
             print(">>>>>> Start Submit Bohrium Job >>>>>>")
-            details = await self.submit_bohrium_job(dir_path, machine_config)
+            details = await submit_bohrium_job(node=self.node, dir_path=dir_path, config=machine_config)
             # print(details, type(details))
             # {'jobGroupId': 12121871, 'jobId': 12532070, 'bohrJobId': 9983760} <class 'dict'>
             workflow = await self.get_workflow(self.node)
@@ -179,7 +115,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                     "uuid": str(self.node.uuid),
                     "header": await get_node_header(self.node),
                     "status": "success",
-                    "results": [{"key": result.key, "source": str(details.get("data")["jobId"])}],
+                    "compile": [{"key": compile.key, "source": str(details.get("data")["jobId"])}],
                 },
             )
 

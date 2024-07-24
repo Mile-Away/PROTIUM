@@ -2,10 +2,7 @@ import { RootReducerProps } from '@/app/store';
 import { BASE_URL, WS_URL } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useAuthService } from '@/services/AuthService';
-import {
-  setNodeExecutedResults,
-  setWorkflow,
-} from '@/store/workflow/workflowSlice';
+import { setNodeExecutedCompile, setWorkflow } from '@/store/workflow/workflowSlice';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
@@ -60,11 +57,11 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
         const data = JSON.parse(event.data);
         if (data.execute_status) {
           dispatch(
-            setNodeExecutedResults({
+            setNodeExecutedCompile({
               id: data.execute_status.uuid,
               header: data.execute_status.header,
               status: data.execute_status.status,
-              results: data.execute_status.results,
+              compile: data.execute_status.compile,
               messages: data.execute_status.messages,
             }),
           );

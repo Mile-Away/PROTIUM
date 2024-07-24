@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from accounts.models import User
 from asgiref.sync import sync_to_async
 from django.conf import settings
-from workflow.models import Workflow, WorkflowNode, WorkflowNodeResult
+from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
 from ..utils.utils import filter_bohrium_access_token
 
@@ -38,8 +38,9 @@ class NodeExecutor(ABC):
         body = await sync_to_async(self.node.node_data.body.get)(key=key)
         return body.source
 
-    async def get_body_source_from_results(self, result: WorkflowNodeResult, key: str) -> str:
-        body = await sync_to_async(result.bodies.get)(key=key)
+    async def get_body_source_from_compile(self, compile: WorkflowNodeCompile, key: str) -> str:
+        # 这里compile.bodies 在上传的时候就已经被指定了，要求输入 key 是因为可能有多个对应的 body，获取其中某个的 source
+        body = await sync_to_async(compile.bodies.get)(key=key)
         return body.source
 
     async def generate_file_path(self) -> str:
@@ -59,9 +60,9 @@ class NodeExecutor(ABC):
         with open(file_path, "r") as f:
             return f.read()
 
-    async def save_result(self, result: WorkflowNodeResult) -> None:
-        await sync_to_async(result.save)()
+    async def save_compile(self, compile: WorkflowNodeCompile) -> None:
+        await sync_to_async(compile.save)()
 
     @abstractmethod
-    async def execute(self, result: WorkflowNodeResult) -> str:
+    async def execute(self, compile: WorkflowNodeCompile) -> str:
         pass

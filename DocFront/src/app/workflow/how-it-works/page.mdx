@@ -2,6 +2,16 @@
 
 这篇文档旨在解释，当我们开始运行一个工作流后，实际发生了什么。
 
+<Note>
+TODO：！！！ Source Handle 可以允许连接多个 Target Handle(共用数据源)，但是 Target Handle 不允许连接多个 Source Handle（避免冲突）
+</Note>
+
+<Note>
+对于一个 Node 具有自己完整的生命周期（LifeCycle），以所有的 Compile 完成作为生命周期结束的标志。body 内容只在 Node 自己的生命周期内可读。
+其它时候只可读到 compile 的结果。
+？？Handle 也可以取到上一级的 body source，为什么一定只允许以 Compile 的结果来开放？？
+</Note>
+
 首先，程序会将你的 Workflow 实例化为一个 Workflow Execute 对象：
 
 ```python

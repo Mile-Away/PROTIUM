@@ -1,7 +1,7 @@
 import { BasicNodeProps } from '@/@types/workflow';
 import { setNodeDataBodyContent } from '@/store/workflow/workflowSlice';
 import { useDispatch } from 'react-redux';
-import WorkflowFormSelect from '../formComponent/WorkflowFormSelect';
+import WorkflowFormSelect from '../formComponent/NodeFormSelect';
 import BasicNode from './BasicNode';
 
 const items = [

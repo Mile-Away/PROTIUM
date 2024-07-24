@@ -71,6 +71,6 @@ class StartWorkflowAPIView(APIView):
         print("Running Workflow >>>>>>>>", workflow)
 
         executer = WorkflowExecuter(workflow)
-        results = executer.execute()
+        compile = executer.execute()
 
-        return Response({"results": results}, status=status.HTTP_200_OK)
+        return Response({"compile": compile}, status=status.HTTP_200_OK)
