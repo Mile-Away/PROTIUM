@@ -1,23 +1,22 @@
-import SuccessAlert from '@/components/notification/SuccessAlert';
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
+import { setNodeDataBodyContent } from '@/store/workflow/workflowSlice';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { TextAreaProps } from './TextArea';
 
-export default function WithStickyFooter({
-  title,
-  initialContent,
-  onContentSave,
-  open,
-  setOpen,
-}: {
-  title: string;
-  initialContent?: string;
-  open: boolean;
-  setOpen: (value: boolean) => void;
-  onContentSave: (content: string) => void;
-}) {
-  const [content, setContent] = useState(initialContent || '');
-  
+const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
+  const { id, open, setOpen, data, idx } = props;
+  const title = data.body[idx]?.title || data?.header;
+
+  const [content, setContent] = useState(data.body[idx]?.source || '');
+
   const [isSaving, setIsSaving] = useState(false);
   const [savedTime, setSavedTime] = useState<Date | null>(null); // 保存时间，用于显示保存状态
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -39,6 +38,18 @@ export default function WithStickyFooter({
       setSavedTime(new Date());
       setIsSaving(false);
     }, MIN_CHANGE_TIME);
+  };
+
+  const dispatch = useDispatch();
+
+  const onContentSave = (content: string) => {
+    dispatch(
+      setNodeDataBodyContent({
+        nodeId: id,
+        bodyKey: data.body[idx]?.key,
+        source: content,
+      }),
+    );
   };
 
   return (
@@ -84,7 +95,7 @@ export default function WithStickyFooter({
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <form className=" flex h-full flex-col ">
-                          <textarea
+                          {/* <textarea
                             value={content}
                             onChange={handleChange}
                             className="inert form-textarea h-full w-full overflow-scroll rounded bg-transparent text-sm focus:outline-none focus:ring-0 dark:border-neutral-400 dark:border-opacity-30 dark:focus:border-opacity-100"
@@ -99,7 +110,7 @@ export default function WithStickyFooter({
                                 {savedTime.toLocaleTimeString()}
                               </p>
                             </SuccessAlert>
-                          )}
+                          )} */}
                         </form>
                       </div>
                     </div>
@@ -127,4 +138,6 @@ export default function WithStickyFooter({
       </Dialog>
     </Transition>
   );
-}
+};
+
+export default AbacusInputReact;

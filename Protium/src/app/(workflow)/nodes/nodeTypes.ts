@@ -27,7 +27,7 @@ export const nodeColors = (node: Node<any>) => {
   }
 };
 
-// Key 的值应等于 headers 的值
+// Key 的值应等于 header 的值
 export const NodeMapping: {
   [key: string]: addNodeProps;
 } = {

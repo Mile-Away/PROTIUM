@@ -1,6 +1,8 @@
 import { BasicNodeProps } from '@/@types/workflow';
-import NodeFormInput from '../formComponent/NodeFormTextarea';
+
 import BasicNode from './BasicNode';
+import NodeFormTextarea from '../formComponent/NodeFormTextarea';
+import { interactiveMapping } from '../interactive/interactiveMapping';
 
 export default function InputNode(props: BasicNodeProps) {
   const { id, type, dragging, data } = props;
@@ -9,7 +11,7 @@ export default function InputNode(props: BasicNodeProps) {
     <BasicNode {...props}>
       <div className="flex flex-col space-y-4 text-xs">
         {data.body.map((item, idx) => (
-          <NodeFormInput
+          <NodeFormTextarea
             key={item.id}
             nodeId={id}
             bodyItem={item}

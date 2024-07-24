@@ -3,13 +3,13 @@ import WithStickyFooter from '@/components/overlays/with_sticky_footer';
 import { setNodeDataBodyContent } from '@/store/workflow/workflowSlice';
 import { useDispatch } from 'react-redux';
 
-export default function TextArea(
-  props: BasicNodeProps & {
-    open: boolean;
-    setOpen: (value: boolean) => void;
-    idx: number;
-  },
-) {
+export interface TextAreaProps extends BasicNodeProps {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+  idx: number;
+}
+
+const TextArea: React.FC<TextAreaProps> = (props) => {
   const { id, open, setOpen, data, idx } = props;
 
   const dispatch = useDispatch();
@@ -33,4 +33,6 @@ export default function TextArea(
       setOpen={setOpen}
     />
   );
-}
+};
+
+export default TextArea;
