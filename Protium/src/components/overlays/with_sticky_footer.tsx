@@ -1,5 +1,11 @@
 import SuccessAlert from '@/components/notification/SuccessAlert';
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useRef, useState } from 'react';
 
@@ -11,13 +17,13 @@ export default function WithStickyFooter({
   setOpen,
 }: {
   title: string;
-  initialContent?: string;
+  initialContent?: object | string;
   open: boolean;
   setOpen: (value: boolean) => void;
   onContentSave: (content: string) => void;
 }) {
   const [content, setContent] = useState(initialContent || '');
-  
+
   const [isSaving, setIsSaving] = useState(false);
   const [savedTime, setSavedTime] = useState<Date | null>(null); // 保存时间，用于显示保存状态
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -85,7 +91,7 @@ export default function WithStickyFooter({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <form className=" flex h-full flex-col ">
                           <textarea
-                            value={content}
+                            value={content.toString()}
                             onChange={handleChange}
                             className="inert form-textarea h-full w-full overflow-scroll rounded bg-transparent text-sm focus:outline-none focus:ring-0 dark:border-neutral-400 dark:border-opacity-30 dark:focus:border-opacity-100"
                           />

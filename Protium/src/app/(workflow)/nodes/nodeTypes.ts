@@ -51,6 +51,7 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'textarea',
+          title: 'POSCAR',
           key: 'poscar',
           compile: [],
         },
@@ -76,7 +77,9 @@ export const NodeMapping: {
     data: {
       header: 'POTCAR',
       status: 'draft',
-      body: [{ id: '', source: '', type: 'select', key: 'potcar' }],
+      body: [
+        { id: '', source: '', type: 'select', title: 'POTCAR', key: 'potcar' },
+      ],
       compile: [
         {
           id: '',
@@ -116,7 +119,9 @@ export const NodeMapping: {
           data_key: 'incar',
         },
       ],
-      body: [{ id: '', source: '', type: 'textarea', key: 'incar' }],
+      body: [
+        { id: '', source: '', type: 'textarea', title: 'INCAR', key: 'incar' },
+      ],
       compile: [
         {
           id: '',
@@ -147,7 +152,15 @@ export const NodeMapping: {
           data_key: 'kpoints',
         },
       ],
-      body: [{ id: '', source: '', type: 'textarea', key: 'kpoints' }],
+      body: [
+        {
+          id: '',
+          source: '',
+          type: 'textarea',
+          title: 'KPOINTS',
+          key: 'kpoints',
+        },
+      ],
       compile: [
         {
           id: '',
