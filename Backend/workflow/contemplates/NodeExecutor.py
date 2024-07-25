@@ -1,3 +1,4 @@
+import json
 import os
 from abc import ABC, abstractmethod
 
@@ -52,7 +53,9 @@ class NodeExecutor(ABC):
         os.makedirs(dir_path, exist_ok=True)
         return dir_path
 
-    async def write(self, file_path: str, content: str) -> None:
+    async def write(self, file_path: str, content: dict | str) -> None:
+        if isinstance(content, dict):
+            content = json.dumps(content, ensure_ascii=False, indent=4)
         with open(file_path, "w") as f:
             f.write(content)
 

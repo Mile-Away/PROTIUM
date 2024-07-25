@@ -1,4 +1,4 @@
-import AbacusInputReact from './AbacusInputReact';
+import AbacusInputReact from './InteractivePanel';
 
 export const interactiveMapping: {
   [key: string]: React.FC<any>;
@@ -6,3 +6,4 @@ export const interactiveMapping: {
   abacus_input: AbacusInputReact,
   orbitals: AbacusInputReact,
 };
+

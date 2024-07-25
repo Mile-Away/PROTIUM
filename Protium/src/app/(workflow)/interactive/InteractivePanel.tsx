@@ -13,159 +13,36 @@ import {
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
-import Form from '@rjsf/core';
-import {
-  FieldTemplateProps,
-  ObjectFieldTemplatePropertyType,
-  ObjectFieldTemplateProps,
-  RegistryWidgetsType,
-  RJSFSchema,
-  UiSchema,
-  WidgetProps,
-} from '@rjsf/utils';
+import { IChangeEvent } from '@rjsf/core';
 import validator from '@rjsf/validator-ajv8';
-import { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useCallback, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Editors, { toJson } from './Editor';
-import { TextAreaProps } from './TextArea';
+import { JsonSchemaThemedForm } from './jsonSchema/JsonSchemaThemed';
 
-const schema: RJSFSchema = {
-  type: 'object',
-  properties: {
-    pseudo_dir: {
-      type: 'string',
-      default:
-        '/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0',
-    },
-    pseudo_name: {
-      type: 'string',
-    },
-    ecutwfc: {
-      type: 'number',
-    },
-    bessel_nao_smooth: {
-      type: 'number',
-    },
-    bassel_nao_rcut: {
-      type: 'array',
-      items: {
-        type: 'number',
-      },
-    },
-    smearing_sigma: {
-      type: 'number',
-    },
-  },
-};
+import Editors from './Editor';
 
-function CustomFieldTemplate(props: FieldTemplateProps) {
-  const {
-    id,
-    classNames,
-    style,
-    label,
-    help,
-    required,
-    description,
-    errors,
-    children,
-  } = props;
-  return (
-    <div className="flex w-full justify-between">
-      <label htmlFor={id}>
-        <div className=" font-semibold">{label}</div>
-        {required ? '*' : null}
-      </label>
-      {description}
-      {children}
-      {errors}
-      {help}
-    </div>
-  );
-}
+import { InteractivePanelProps } from '@/@types/interactive';
 
-function ObjectFieldTemplate(props: ObjectFieldTemplateProps) {
-  const {
-    registry,
-    properties,
-    title,
-    description,
-    uiSchema,
-    required,
-    schema,
-    idSchema,
-  } = props;
-
-  return (
-    <div className="flex flex-col gap-2">
-      {properties.map((element: ObjectFieldTemplatePropertyType) => (
-        <div className="flex" key={element.content.key}>
-          {element.content}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-const CustomTextarea: React.FC<WidgetProps> = (props) => {
-  return (
-    <input
-      type="text"
-      className="w-64 bg-white/10 focus:outline-none"
-      value={props.value}
-      required={props.required}
-      onChange={(event) => props.onChange(event.target.value)}
-    />
-  );
-};
-
-const widgets: RegistryWidgetsType = {
-  TextWidget: CustomTextarea,
-  // SelectWidget: CustomTextarea,
-  // CheckboxWidget: CustomCheckbox,
-};
-
-let uiSchema: UiSchema = {
-  'ui:ObjectFieldTemplate': ObjectFieldTemplate,
-
-  'ui:submitButtonOptions': {
-    submitText: 'Submit',
-    norender: true,
-    props: {
-      disabled: false,
-    },
-  },
-  //   pseudo_dir: {
-  //     'ui:FieldTemplate': CustomFieldTemplate,
-  //   },
-  //   ecutwfc: {
-  //     'ui:FieldTemplate': CustomFieldTemplate,
-  //   },
-};
-
-// 将 schema.properties 的每个键值对转换为一个对象，其中 key 为键名，键值为：'ui:FieldTemplate': CustomFieldTemplate,
-// 以此来自定义每个字段的样式
-uiSchema = Object.keys(schema.properties!).reduce((acc, key) => {
-  acc[key] = {
-    'ui:FieldTemplate': CustomFieldTemplate,
-  };
-  return acc;
-}, uiSchema);
-
-const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
-  const { id, open, setOpen, data, idx } = props;
+const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
+  const { id, open, setOpen, data, idx, tabItems } = props;
   const title = data.body[idx]?.title || data?.header;
-
-  const [content, setContent] = useState(data.body[idx]?.source || '');
 
   const [isSaving, setIsSaving] = useState(false);
   const [savedTime, setSavedTime] = useState<Date | null>(null); // 保存时间，用于显示保存状态
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const MIN_CHANGE_TIME = 500; // 最小变更时间为 500ms
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
+  const onContentSave = (formData: object | string) => {
+    dispatch(
+      setNodeDataBodyContent({
+        nodeId: id,
+        bodyKey: data.body[idx]?.key,
+        source: formData,
+      }),
+    );
+  };
 
+  const onCodeDataChange = (formData: object | string) => {
     // 以下代码设置了 500ms 的延迟，在用户停止输入 500ms 后触发 onContentSave
     // 清除之前的定时器
     if (timeoutRef.current) {
@@ -175,23 +52,24 @@ const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
     // 设置新的定时器
     timeoutRef.current = setTimeout(() => {
       setIsSaving(true);
-      onContentSave(e.target.value);
+      onContentSave(formData);
       setSavedTime(new Date());
       setIsSaving(false);
     }, MIN_CHANGE_TIME);
   };
 
-  const dispatch = useDispatch();
+  const onFormDataChange = useCallback(
+    ({ formData }: IChangeEvent, id?: string) => {
+      if (id) {
+        console.log('Field changed, id: ', id);
+      }
 
-  const onContentSave = (content: string) => {
-    dispatch(
-      setNodeDataBodyContent({
-        nodeId: id,
-        bodyKey: data.body[idx]?.key,
-        source: content,
-      }),
-    );
-  };
+      onContentSave(formData);
+    },
+    [onContentSave],
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <Transition show={open} as={Fragment}>
@@ -238,31 +116,39 @@ const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
                         <form className=" flex h-full flex-col ">
                           <TabGroup>
                             <TabList className="flex gap-4">
-                              <Tab className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
-                                General
-                              </Tab>
-                              <Tab className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
-                                Advanced
-                              </Tab>
+                              {tabItems.map((item) => (
+                                <Tab className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
+                                  {item.name}
+                                </Tab>
+                              ))}
                             </TabList>
                             <TabPanels className="mt-3 flex-1">
-                              <TabPanel className="rounded-xl bg-white/5 p-3">
-                                <Form
-                                  schema={schema}
-                                  uiSchema={uiSchema}
-                                  validator={validator}
-                                  widgets={widgets}
-                                  formData={toJson(content)}
-                                />
-                              </TabPanel>
-                              <TabPanel>
-                                <div className="-m-1 rounded-sm bg-[rgb(31,31,31)] p-1">
-                                  <Editors
-                                    formData={content}
-                                    setFormData={setContent}
-                                  />
-                                </div>
-                              </TabPanel>
+                              {tabItems.map((item) => (
+                                <>
+                                  {item.jsonSchema ? (
+                                    <TabPanel className="rounded-xl bg-white/5 p-3">
+                                      <JsonSchemaThemedForm
+                                        schema={item.jsonSchema.schema}
+                                        uiSchema={item.jsonSchema.uiSchema}
+                                        validator={validator}
+                                        formData={data.body[idx]?.source || ''}
+                                        onChange={onFormDataChange}
+                                      />
+                                    </TabPanel>
+                                  ) : (
+                                    <TabPanel>
+                                      <div className="-m-1 rounded-sm bg-[rgb(31,31,31)] p-1">
+                                        <Editors
+                                          formData={
+                                            data.body[idx]?.source || ''
+                                          }
+                                          setFormData={onCodeDataChange}
+                                        />
+                                      </div>
+                                    </TabPanel>
+                                  )}
+                                </>
+                              ))}
                             </TabPanels>
                           </TabGroup>
 
@@ -311,4 +197,4 @@ const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
   );
 };
 
-export default AbacusInputReact;
+export default InteractivePanel;

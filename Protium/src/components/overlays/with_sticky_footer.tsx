@@ -22,7 +22,7 @@ export default function WithStickyFooter({
   setOpen: (value: boolean) => void;
   onContentSave: (content: string) => void;
 }) {
-  const [content, setContent] = useState(initialContent || '');
+  const [formData, setFormData] = useState(initialContent || '');
 
   const [isSaving, setIsSaving] = useState(false);
   const [savedTime, setSavedTime] = useState<Date | null>(null); // 保存时间，用于显示保存状态
@@ -30,7 +30,7 @@ export default function WithStickyFooter({
   const MIN_CHANGE_TIME = 500; // 最小变更时间为 500ms
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
+    setFormData(e.target.value);
 
     // 以下代码设置了 500ms 的延迟，在用户停止输入 500ms 后触发 onContentSave
     // 清除之前的定时器
@@ -91,7 +91,7 @@ export default function WithStickyFooter({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <form className=" flex h-full flex-col ">
                           <textarea
-                            value={content.toString()}
+                            value={formData.toString()}
                             onChange={handleChange}
                             className="inert form-textarea h-full w-full overflow-scroll rounded bg-transparent text-sm focus:outline-none focus:ring-0 dark:border-neutral-400 dark:border-opacity-30 dark:focus:border-opacity-100"
                           />

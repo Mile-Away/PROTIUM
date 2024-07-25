@@ -211,7 +211,11 @@ const workflowSlice = createSlice({
 
     // 记录节点的 Body 的输入
     setNodeDataBodyContent: {
-      prepare(props: { nodeId: string; bodyKey: string; source: string }) {
+      prepare(props: {
+        nodeId: string;
+        bodyKey: string;
+        source: object | string;
+      }) {
         return {
           payload: props,
           meta: undefined,
@@ -223,7 +227,7 @@ const workflowSlice = createSlice({
         action: PayloadAction<{
           nodeId: string;
           bodyKey: string;
-          source: string;
+          source: object | string;
         }>,
       ) {
         const node = state.nodes.find(
@@ -245,7 +249,7 @@ const workflowSlice = createSlice({
       action: PayloadAction<{
         nodeId: string;
         handleKey: string;
-        data_source: HandleDataSourceProps
+        data_source: HandleDataSourceProps;
         data_key: string;
       }>,
     ) => {
