@@ -3,13 +3,154 @@ import {
   Dialog,
   DialogPanel,
   DialogTitle,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
   Transition,
   TransitionChild,
 } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+
+import Form from '@rjsf/core';
+import {
+  FieldTemplateProps,
+  ObjectFieldTemplatePropertyType,
+  ObjectFieldTemplateProps,
+  RegistryWidgetsType,
+  RJSFSchema,
+  UiSchema,
+  WidgetProps,
+} from '@rjsf/utils';
+import validator from '@rjsf/validator-ajv8';
 import { Fragment, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Editors, { toJson } from './Editor';
 import { TextAreaProps } from './TextArea';
+
+const schema: RJSFSchema = {
+  type: 'object',
+  properties: {
+    pseudo_dir: {
+      type: 'string',
+      default:
+        '/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0',
+    },
+    pseudo_name: {
+      type: 'string',
+    },
+    ecutwfc: {
+      type: 'number',
+    },
+    bessel_nao_smooth: {
+      type: 'number',
+    },
+    bassel_nao_rcut: {
+      type: 'array',
+      items: {
+        type: 'number',
+      },
+    },
+    smearing_sigma: {
+      type: 'number',
+    },
+  },
+};
+
+function CustomFieldTemplate(props: FieldTemplateProps) {
+  const {
+    id,
+    classNames,
+    style,
+    label,
+    help,
+    required,
+    description,
+    errors,
+    children,
+  } = props;
+  return (
+    <div className="flex w-full justify-between">
+      <label htmlFor={id}>
+        <div className=" font-semibold">{label}</div>
+        {required ? '*' : null}
+      </label>
+      {description}
+      {children}
+      {errors}
+      {help}
+    </div>
+  );
+}
+
+function ObjectFieldTemplate(props: ObjectFieldTemplateProps) {
+  const {
+    registry,
+    properties,
+    title,
+    description,
+    uiSchema,
+    required,
+    schema,
+    idSchema,
+  } = props;
+
+  return (
+    <div className="flex flex-col gap-2">
+      {properties.map((element: ObjectFieldTemplatePropertyType) => (
+        <div className="flex" key={element.content.key}>
+          {element.content}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const CustomTextarea: React.FC<WidgetProps> = (props) => {
+  return (
+    <input
+      type="text"
+      className="w-64 bg-white/10 focus:outline-none"
+      value={props.value}
+      required={props.required}
+      onChange={(event) => props.onChange(event.target.value)}
+    />
+  );
+};
+
+const widgets: RegistryWidgetsType = {
+  TextWidget: CustomTextarea,
+  // SelectWidget: CustomTextarea,
+  // CheckboxWidget: CustomCheckbox,
+};
+
+let uiSchema: UiSchema = {
+  'ui:ObjectFieldTemplate': ObjectFieldTemplate,
+
+  'ui:submitButtonOptions': {
+    submitText: 'Submit',
+    norender: true,
+    props: {
+      disabled: false,
+    },
+  },
+  //   pseudo_dir: {
+  //     'ui:FieldTemplate': CustomFieldTemplate,
+  //   },
+  //   ecutwfc: {
+  //     'ui:FieldTemplate': CustomFieldTemplate,
+  //   },
+};
+
+// 将 schema.properties 的每个键值对转换为一个对象，其中 key 为键名，键值为：'ui:FieldTemplate': CustomFieldTemplate,
+// 以此来自定义每个字段的样式
+uiSchema = Object.keys(schema.properties!).reduce((acc, key) => {
+  acc[key] = {
+    'ui:FieldTemplate': CustomFieldTemplate,
+  };
+  return acc;
+}, uiSchema);
 
 const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
   const { id, open, setOpen, data, idx } = props;
@@ -95,6 +236,36 @@ const AbacusInputReact: React.FC<TextAreaProps> = (props) => {
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <form className=" flex h-full flex-col ">
+                          <TabGroup>
+                            <TabList className="flex gap-4">
+                              <Tab className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
+                                General
+                              </Tab>
+                              <Tab className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
+                                Advanced
+                              </Tab>
+                            </TabList>
+                            <TabPanels className="mt-3 flex-1">
+                              <TabPanel className="rounded-xl bg-white/5 p-3">
+                                <Form
+                                  schema={schema}
+                                  uiSchema={uiSchema}
+                                  validator={validator}
+                                  widgets={widgets}
+                                  formData={toJson(content)}
+                                />
+                              </TabPanel>
+                              <TabPanel>
+                                <div className="-m-1 rounded-sm bg-[rgb(31,31,31)] p-1">
+                                  <Editors
+                                    formData={content}
+                                    setFormData={setContent}
+                                  />
+                                </div>
+                              </TabPanel>
+                            </TabPanels>
+                          </TabGroup>
+
                           {/* <textarea
                             value={content}
                             onChange={handleChange}

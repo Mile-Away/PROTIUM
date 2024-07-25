@@ -21,7 +21,7 @@ export interface WorkflowNodeDataBodyProps {
   id: string;
   type: 'input' | 'select' | 'textarea' | 'file';
   key: string;
-  source: string;
+  source: string | object;
   compile?: string[]; // 记录这个 Body 运行的 Result 的 key
   title?: string;
   attachment?: string;

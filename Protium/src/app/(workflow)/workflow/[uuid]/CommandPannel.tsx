@@ -53,7 +53,7 @@ const CommandPannel = ({ params }: { params: { uuid: string } }) => {
           </div>
           {isConsoleVisible && (
             <div className='gap-4 flex items-center'>
-              <span className=' border-b font-semibold text-neutral-200'>Console</span>
+              <span className=' border-b font-semibold text-black border-black dark:border-white dark:text-neutral-200'>Console</span>
               <span className=' text-gray-400'>Task</span>
             </div>
           )}

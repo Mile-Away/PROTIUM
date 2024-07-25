@@ -142,7 +142,7 @@ class WorkflowNodeBody(models.Model):
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="body")
     key = models.CharField(max_length=100)
     type = models.CharField(max_length=50)
-    source = models.TextField(blank=True, null=True)
+    source = models.JSONField(blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
 

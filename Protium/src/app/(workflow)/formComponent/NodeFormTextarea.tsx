@@ -14,7 +14,6 @@ const NodeFormTextarea = ({
   nodeId,
   bodyItem,
   idx,
-
   ...props
 }: {
   nodeId: string;
@@ -40,14 +39,14 @@ const NodeFormTextarea = ({
   return (
     <div>
       <div
-        className="group flex h-8 w-full cursor-pointer items-center justify-between rounded bg-indigo-50 px-3 py-2 hover:shadow hover:shadow-neutral-900/80 dark:bg-black/40"
+        className="group flex h-8 w-full cursor-pointer items-center justify-between rounded bg-indigo-50 px-3 py-2 hover:shadow dark:hover:shadow-neutral-900/80 dark:bg-black/40"
         onClick={() => {
           dispatch(setSliderOverlay({ nodeId: nodeId, bodyId: bodyItem.id }));
           setOpen(true);
         }}
       >
         <div
-          className="flex-1 rounded-r border-l-2 bg-transparent pl-2 text-center font-semibold capitalize placeholder:text-xs placeholder:text-neutral-100 focus:outline-none dark:border-indigo-600"
+          className="flex-1 rounded-r border-l-2 border-indigo-600 bg-transparent pl-2 text-center font-semibold capitalize placeholder:text-xs placeholder:text-neutral-100 focus:outline-none dark:border-indigo-600"
 
           // placeholder={`${
           //   data.body[idx]?.source.split('\n')[0].slice(0, 20) ||
