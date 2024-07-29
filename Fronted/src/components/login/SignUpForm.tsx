@@ -18,7 +18,7 @@ export function SignUpForm() {
   const [successAlert, setSuccessAlert] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(300);
   const { postData, dataBack, error, isLoading } = useAnonymousPost<unknown>(
     '/accounts/check_email_exists/?is_public=true',
   );
@@ -72,12 +72,13 @@ export function SignUpForm() {
           localStorage.setItem('email', formik.values.email);
           localStorage.setItem('enableCaptcha', Date.now().toString());
 
+          // 设置 5 分钟后验证码过期
           setTimeout(() => {
             setDisableSubmit(false);
             localStorage.removeItem('disableSubmit');
             localStorage.removeItem('email');
             localStorage.removeItem('enableCaptcha');
-          }, 60000);
+          }, 300000);
         }
         // else if (res.response?.status === 422) {
         //   setLoadSubmit(false);
@@ -94,36 +95,36 @@ export function SignUpForm() {
   });
 
   // 设置手动刷新后的倒计时
-  useEffect(() => {
-    // 检查 localStorage 中是否存在禁用状态
-    const disableStatus = localStorage.getItem('disableSubmit');
-    const enableCaptcha = localStorage.getItem('enableCaptcha');
-    const email = localStorage.getItem('email');
+  // useEffect(() => {
+  //   // 检查 localStorage 中是否存在禁用状态
+  //   const disableStatus = localStorage.getItem('disableSubmit');
+  //   const enableCaptcha = localStorage.getItem('enableCaptcha');
+  //   const email = localStorage.getItem('email');
 
-    if (enableCaptcha) {
-      setShowCaptcha(true);
-    }
-    if (email) {
-      formik.setFieldValue('email', email);
-    }
-    //
-    if (disableStatus) {
-      setDisableSubmit(true);
-      //
-      const remainingTime = 60000 - (Date.now() - Number(disableStatus));
-      const remainingTimeInt = Math.ceil(remainingTime / 1000);
-      //
-      setCountdown(remainingTimeInt);
-      setTimeout(() => {
-        setDisableSubmit(false);
-        setShowCaptcha(false);
-        formik.setErrors({ email: '已超时，请重新获取验证码。' });
-        localStorage.removeItem('disableSubmit');
-        localStorage.removeItem('email');
-        localStorage.removeItem('enableCaptcha');
-      }, remainingTime);
-    }
-  }, [disableSubmit, countdown]);
+  //   if (enableCaptcha) {
+  //     setShowCaptcha(true);
+  //   }
+  //   if (email) {
+  //     formik.setFieldValue('email', email);
+  //   }
+  //   //
+  //   if (disableStatus) {
+  //     setDisableSubmit(true);
+  //     //
+  //     const remainingTime = 300000 - (Date.now() - Number(disableStatus));
+  //     const remainingTimeInt = Math.ceil(remainingTime / 1000);
+  //     //
+  //     setCountdown(remainingTimeInt);
+  //     setTimeout(() => {
+  //       setDisableSubmit(false);
+  //       setShowCaptcha(false);
+  //       formik.setErrors({ email: '已超时，请重新获取验证码。' });
+  //       localStorage.removeItem('disableSubmit');
+  //       localStorage.removeItem('email');
+  //       localStorage.removeItem('enableCaptcha');
+  //     }, remainingTime);
+  //   }
+  // }, [disableSubmit, countdown]);
 
   return (
     <>
@@ -157,7 +158,13 @@ export function SignUpForm() {
               value={formik.values.email}
               error={!!formik.touched.email && !!formik.errors.email}
               message={formik.errors.email}
-              disabled={loadSubmit ? loadSubmit : disableSubmit}
+              // disabled={loadSubmit ? loadSubmit : disableSubmit}
+              onFocus={() => {
+                setShowCaptcha(false);
+                setShowLogin(false);
+                setDisableSubmit(false);
+                setSuccessAlert(false);
+              }}
             >
               {loadSubmit ? (
                 <Loading />
@@ -166,8 +173,8 @@ export function SignUpForm() {
                   type="submit"
                   arrow
                   disabled={disableSubmit}
-                  remain={countdown}
-                  className={loadSubmit ? 'cursor-not-allowed opacity-50' : ''}
+                  remain={showCaptcha || showLogin ? countdown : 0}
+                  className={''}
                 >
                   Get Started
                 </Button>

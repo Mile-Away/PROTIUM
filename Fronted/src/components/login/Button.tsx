@@ -31,7 +31,7 @@ export function Button({
   | ({ href?: undefined } & React.ComponentPropsWithoutRef<'button'>)
 )) {
   //
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(0);
   //
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export function Button({
     if (remain) {
       setCountdown(remain);
     } else {
-      setCountdown(60);
+      setCountdown(0);
     }
 
     if (disabled) {
@@ -51,7 +51,7 @@ export function Button({
 
     return () => {
       clearInterval(interval);
-      setCountdown(60); // Reset countdown when unmounting
+      setCountdown(0); // Reset countdown when unmounting
     };
   }, [disabled, remain]);
 

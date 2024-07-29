@@ -178,30 +178,34 @@ class RegisterView(APIView):
         """
 
         # auth_header 用来判断第三方登陆的情况
-        auth_header = request.headers["Authorization"]
-        if auth_header:
-            scheme, _, credentials = auth_header.partition(" ")
+        try:
+            auth_header = request.headers["Authorization"]
 
-            if scheme == "Bohrium":
-                auth = BohriumAuthentication()
-                try:
-                    user: User = auth.authenticate(request)
+            if auth_header:
 
-                    return Response(
-                        {
-                            "id": user.id,
-                            "username": user.username,
-                            "bohrium_account": user.bohrium_account,
-                        },
-                        status=status.HTTP_201_CREATED,
-                    )
-                except Exception as e:
-                    return Response(
-                        {"error": str(e)},
-                        status=status.HTTP_401_UNAUTHORIZED,
-                    )
+                print(">>>>> Enter", auth_header)
+                scheme, _, credentials = auth_header.partition(" ")
 
-        else:
+                if scheme == "Bohrium":
+                    auth = BohriumAuthentication()
+                    try:
+                        user: User = auth.authenticate(request)
+
+                        return Response(
+                            {
+                                "id": user.id,
+                                "username": user.username,
+                                "bohrium_account": user.bohrium_account,
+                            },
+                            status=status.HTTP_201_CREATED,
+                        )
+                    except Exception as e:
+                        return Response(
+                            {"error": str(e)},
+                            status=status.HTTP_401_UNAUTHORIZED,
+                        )
+
+        except KeyError:
             (email, username, password, captcha, captcha_id) = (
                 request.data.get("email"),
                 request.data.get("username"),

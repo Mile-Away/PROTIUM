@@ -55,7 +55,36 @@ npm run dev
 
 ## 其它需要依赖的项目
 
-ElasticSearch==***
-PostgreSQL==***
-Email==***
-Docker==***
+### `docker`
+
+### `elasticSearch`
+
+### `PostgreSQL`
+
+### `redis`
+
+### `celery`
+
+1. 安装
+
+```bash
+pip install redis celery django-celery-beat django-celery-results
+```
+
+2. 运行
+
+1. 启动 Celery worker 服务:
+
+```bash
+# execute path: @/Backend/
+
+celery -A backend worker --loglevel=info
+```
+
+2. 启动 Celery beat 服务:
+
+```bash
+# execute path: @/Backend/
+
+celery -A backend beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+```
