@@ -29,8 +29,8 @@ class NodeExecutorRegistry:
             "vasp": VaspNodeExecutor,
             "abacus_siab": AbacusSiabExecutor,
             "abacus_input": AbacusInputExecutor,
-            "abacus_system": AbacusSystemExecutor,
-            "orbitals": OribitalNodeExecutor,
+            "siab_system": AbacusSystemExecutor,
+            "siab_orbitals": OribitalNodeExecutor,
         }
 
     def register(self, node_type, executor):

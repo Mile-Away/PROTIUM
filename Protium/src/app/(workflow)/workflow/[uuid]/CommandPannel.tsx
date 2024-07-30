@@ -9,16 +9,23 @@ import {
   PlayIcon,
 } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const CommandPannel = ({ params }: { params: { uuid: string } }) => {
   const [isConsoleExpand, setIsConsoleExpand] = useState(true);
   const [isConsoleVisible, setIsConsoleVisible] = useState(true);
+  const consoleEndRef = useRef<HTMLDivElement | null>(null);
   const { workflow, nodes, edges, consoleInfo } = useSelector(
     (state: RootReducerProps) => state.workflow,
   );
   const { saveWorkflow, startWorkflow } = useWorkflowWebSocket(params);
+
+  useEffect(() => {
+    if (consoleEndRef.current) {
+      consoleEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [consoleInfo]);
 
   return (
     <div
@@ -52,9 +59,11 @@ const CommandPannel = ({ params }: { params: { uuid: string } }) => {
             />
           </div>
           {isConsoleVisible && (
-            <div className='gap-4 flex items-center'>
-              <span className=' border-b font-semibold text-black border-black dark:border-white dark:text-neutral-200'>Console</span>
-              <span className=' text-gray-400'>Task</span>
+            <div className="flex items-center gap-4">
+              <span className=" border-b border-black font-semibold text-black dark:border-white dark:text-neutral-200">
+                Console
+              </span>
+              <span className=" text-gray-400">Task</span>
             </div>
           )}
         </div>
@@ -119,6 +128,7 @@ const CommandPannel = ({ params }: { params: { uuid: string } }) => {
               </span>
             </p>
           ))}
+          <div ref={consoleEndRef} />
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { SpaceProps } from '@/@types/space';
 import { useCRUD } from '@/hooks/useCrud';
 import { Disclosure, Transition } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
+import { StarIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
 import SpaceLi from './SpaceLi';
 
@@ -30,7 +31,10 @@ const AllSpaceList = () => {
              hover:bg-indigo-200 focus:outline-none
            focus-visible:ring focus-visible:ring-indigo-500/75 dark:bg-indigo-800 dark:text-indigo-100"
               >
-                <span>Popular Spaces ...</span>
+                <div className='flex gap-2 items-center'>
+                  <StarIcon className="h-4 w-4 text-yellow-500 dark:text-yellow-400" />
+                  <span>Starred Spaces</span>
+                </div>
                 <ChevronUpIcon
                   className={`${
                     open ? 'rotate-180 transform' : ''

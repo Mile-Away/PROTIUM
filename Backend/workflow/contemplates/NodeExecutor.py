@@ -35,7 +35,7 @@ class NodeExecutor(ABC):
     def get_workflow_uuid(self, node: WorkflowNode) -> str:
         return str(node.workflow.uuid)
 
-    async def get_body_source(self, key: str) -> str | None:
+    async def get_body_source(self, key: str) -> str | dict | None:
         body = await sync_to_async(self.node.node_data.body.get)(key=key)
         return body.source
 

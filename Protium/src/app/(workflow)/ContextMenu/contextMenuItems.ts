@@ -89,7 +89,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
                 action: 'abacus_orbitals',
                 label: 'Orbitals',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('abacus_orbitals'),
+                onClick: () => handleMenuItemClick('siab_orbitals'),
               },
             ],
           },
@@ -229,6 +229,21 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
             label: 'SIAB',
             icon: PlusIcon,
             onClick: () => handleMenuItemClick('pipeline_abacus_siab'),
+            arrow: true,
+            subContextMenuItems: [
+              {
+                action: 'siab_orbitals',
+                label: 'Orbitals',
+                icon: PlusIcon,
+                onClick: () => handleMenuItemClick('siab_orbitals'),
+              },
+              {
+                action: 'siab_system',
+                label: 'System',
+                icon: PlusIcon,
+                onClick: () => handleMenuItemClick('siab_system'),
+              }
+            ],
           },
         ],
       },

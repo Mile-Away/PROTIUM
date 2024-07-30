@@ -17,7 +17,7 @@ const CustomLiElement = (space: SpaceProps, pure?: boolean) => {
       />
 
       <Link
-        href={`/dashboard/space/${space.uuid}/`}
+        href={`/dashboard/space/${space.name}/`}
         className="flex items-center justify-between  "
       >
         <div className=" relative flex flex-col items-start">

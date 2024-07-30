@@ -10,7 +10,7 @@ class OribitalNodeExecutor(IOExecutor, ABC):
 
     async def execute(self, compile: WorkflowNodeCompile) -> NodeStatus:
 
-        body_source = await self.get_body_source_from_compile(compile, "orbitals")
+        body_source = await self.get_body_source_from_compile(compile, "siab_orbitals")
 
         dir_path = await self.create_dir_path()
 

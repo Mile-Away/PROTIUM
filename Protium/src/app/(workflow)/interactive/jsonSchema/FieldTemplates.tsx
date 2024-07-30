@@ -36,8 +36,6 @@ export function CustomFieldTemplate(props: FieldTemplateProps) {
 }
 
 export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
-  console.log(props);
-
   const [value, setValue] = useState<number | null>(null);
 
   return (

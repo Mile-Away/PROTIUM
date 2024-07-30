@@ -28,12 +28,19 @@ const handleMenuItemClick = (action: string) => {
       case 'abacus_input':
         return dispatch(addNode(NodeMapping.ABACUS_INPUT));
 
+      case "siab_orbitals":
+        return dispatch(addNode(NodeMapping.SIAB_ORBITALS));
+
+      case "siab_system":
+        return dispatch(addNode(NodeMapping.SIAB_SYSTEM));
+
       // Solver 相关操作 
       case 'vasp':
         return dispatch(addNode(NodeMapping.VASP));
 
       case 'abacus':
         return dispatch(addNode(NodeMapping.ABACUS));
+
 
       // Outputs 相关操作
       case 'vasp_outputs':

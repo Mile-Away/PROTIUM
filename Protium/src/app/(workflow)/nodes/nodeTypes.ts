@@ -31,6 +31,12 @@ export const nodeColors = (node: Node<any>) => {
 export const NodeMapping: {
   [key: string]: addNodeProps;
 } = {
+  /*
+   * 以下是节点类型的定义
+   * 1. type: 节点类型，必须与 nodeTypes 中的键值对应
+   * 2. data: 节点的数据
+   * 3. dragHandle: 拖拽句柄
+   */
   // VASP
   POSCAR: {
     type: 'Input',
@@ -309,18 +315,18 @@ export const NodeMapping: {
     dragHandle: '.drag-handle',
   },
 
-  ORBITALS: {
+  SIAB_ORBITALS: {
     type: 'Input',
     data: {
-      header: 'ORBITALS',
+      header: 'SIAB ORBITALS',
       status: 'draft',
       body: [
         {
           id: '',
-          source: '',
+          source: {},
           type: 'textarea',
-          title: 'ORBITALS',
-          key: 'orbitals',
+          title: 'SIAB ORBITALS',
+          key: 'siab_orbitals',
           compile: [],
         },
       ],
@@ -328,11 +334,11 @@ export const NodeMapping: {
       footer: 'ORBITALS',
       handles: [
         {
-          key: 'orbitals',
+          key: 'siab/orbitals',
           type: 'source',
-          rope: 'ABACUS',
+          rope: 'ABACUS_SIAB',
           data_source: 'compile',
-          data_key: 'orbitals',
+          data_key: 'siab_orbitals',
         },
       ],
       compile: [
@@ -340,10 +346,10 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'file',
-          script: 'orbitals',
-          title: 'ABACUS Oribitals',
-          key: 'orbitals',
-          bodies: ['orbitals'],
+          script: 'siab_orbitals',
+          title: 'SIAB Oribitals',
+          key: 'siab_orbitals',
+          bodies: ['siab_orbitals'],
         },
       ],
     },
@@ -358,7 +364,7 @@ export const NodeMapping: {
       body: [
         {
           id: '',
-          source: '',
+          source: {},
           type: 'textarea',
           key: 'stru',
           compile: [],
@@ -382,30 +388,30 @@ export const NodeMapping: {
     dragHandle: '.drag-handle',
   },
 
-  ABACUS_SYSTEM: {
+  SIAB_SYSTEM: {
     type: 'Input',
     data: {
-      header: 'SYSTEM',
+      header: 'SIAB SYSTEM',
       status: 'draft',
       body: [
         {
           id: '',
-          source: '',
+          source: {},
           type: 'textarea',
-          title: 'ABACUS SYSTEM',
-          key: 'abacus_system',
+          title: 'SIAB SYSTEM',
+          key: 'siab_system',
           compile: [],
         },
       ],
 
-      footer: 'SYSTEM',
+      footer: 'Version 0.1.0',
       handles: [
         {
-          key: 'abacus/system',
+          key: 'siab/system',
           type: 'source',
-          rope: 'ABACUS',
+          rope: 'ABACUS_SIAB',
           data_source: 'compile',
-          data_key: 'abacus_system',
+          data_key: 'siab_system',
         },
       ],
       compile: [
@@ -413,10 +419,10 @@ export const NodeMapping: {
           id: '',
           source: '',
           type: 'file',
-          script: 'abacus_system',
-          title: 'ABACUS SYSTEM',
-          key: 'abacus_system',
-          bodies: ['abacus_system'],
+          script: 'siab_system',
+          title: 'SIAB SYSTEM',
+          key: 'siab_system',
+          bodies: ['siab_system'],
         },
       ],
     },
@@ -480,7 +486,7 @@ export const NodeMapping: {
       body: [
         {
           id: '',
-          source: '',
+          source: {},
           type: 'textarea',
           title: 'SIAB Config',
           key: 'abacus_siab',
@@ -488,19 +494,17 @@ export const NodeMapping: {
         },
         {
           id: '',
-          source: '',
+          source: {},
           type: 'textarea',
           title: 'Bohrium Job Config',
           key: 'bohrium_job_config',
           compile: [],
         },
       ],
-
-      footer: 'Pipeline ABACUS SIAB',
       handles: [
         { key: 'abacus/input', type: 'target', rope: 'ABACUS_INPUT' },
-        { key: 'abacus/system', type: 'target', rope: 'ABACUS_SYSTEM' },
-        { key: 'orbitals', type: 'target', rope: 'ORBITALS' },
+        { key: 'siab/system', type: 'target', rope: 'SIAB_SYSTEM' },
+        { key: 'siab/orbitals', type: 'target', rope: 'SIAB_ORBITALS' },
         { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
       ],
       compile: [
@@ -514,6 +518,7 @@ export const NodeMapping: {
           bodies: [],
         },
       ],
+      footer: 'Version 0.1.0',
     },
     dragHandle: '.drag-handle',
   },

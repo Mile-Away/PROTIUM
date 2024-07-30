@@ -23,7 +23,6 @@ const DiscussionPage = ({ params }: { params: { uuid: string[] } }) => {
     setRefresh(!refresh);
   };
 
-
   const { fetchData, dataCRUD, isLoading, error } = useCRUD<SpaceProps>(
     [],
     `/server/vs/select/?by_serverid=${spaceId}&named=true`,

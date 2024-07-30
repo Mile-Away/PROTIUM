@@ -1,4 +1,4 @@
-from accounts.publicSerializer import BasicUserSerializer
+from accounts.public_serializer import BasicUserSerializer
 from rest_framework import serializers
 
 from .models import (

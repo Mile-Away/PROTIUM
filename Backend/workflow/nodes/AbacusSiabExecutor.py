@@ -33,7 +33,10 @@ class AbacusSiabExecutor(SolverExecutor, ABC):
 
         body_source = await self.get_body_source("abacus_siab")
 
-        body_source = json.loads(body_source) if body_source else {}
+        body_source = json.loads(body_source) if isinstance(body_source, str) else body_source
+
+        if not body_source:
+            raise ValueError("Body source is empty")
 
         siab_content = {
             os.path.splitext(os.path.basename(file_path))[0]: json.loads(await self.read_file_content(file_path))

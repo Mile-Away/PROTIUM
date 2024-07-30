@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import User
-from .publicSerializer import BasicUserSerializer, PublicUserSerializer
+from .public_serializer import BasicUserSerializer, PublicUserSerializer
 from .schema import user_list_schema
 from .serializer import UserSerializer
 

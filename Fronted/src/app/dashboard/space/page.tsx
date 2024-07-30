@@ -6,7 +6,7 @@ const Page = () => {
     <div className="m-auto hidden h-full w-full flex-col items-center justify-center xl:flex">
       <Logo className="mb-12 h-24 w-24 fill-gray-400 dark:fill-gray-400" />
       <span className="select-none text-center text-gray-400 dark:text-gray-500">
-        Choose a space to start discussion
+      Manage the spaces you starred,
         <br />
         <span className="mr-1">or</span>
         <button

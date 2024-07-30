@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { InteractivePanelProps } from '@/@types/interactive';
 import TextArea from '../interactive/TextArea';
-import { interactiveMapping } from '../interactive/interactiveMapping';
 import jsonSchemaMapping from '../interactive/jsonSchema/jsonSchemaMapping';
 
 const NodeFormTextarea = ({
@@ -30,7 +29,7 @@ const NodeFormTextarea = ({
   const dispatch = useDispatch();
 
   const Interactive: React.FC<InteractivePanelProps> =
-    interactiveMapping[bodyItem.key] || TextArea;
+    jsonSchemaMapping[bodyItem.key]?.panelType || TextArea;
 
   const tabItems = [
     {
