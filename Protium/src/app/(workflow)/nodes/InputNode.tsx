@@ -2,7 +2,6 @@ import { BasicNodeProps } from '@/@types/workflow';
 
 import BasicNode from './BasicNode';
 import NodeFormTextarea from '../formComponent/NodeFormTextarea';
-import { interactiveMapping } from '../interactive/interactiveMapping';
 
 export default function InputNode(props: BasicNodeProps) {
   const { id, type, dragging, data } = props;
