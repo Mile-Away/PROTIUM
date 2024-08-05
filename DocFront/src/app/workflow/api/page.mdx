@@ -1,0 +1,66 @@
+# API
+
+API 
+
+<Note>
+TODO: 改正所有的 Execute 逻辑，全部改为先从所有地方取输入（handle 和 body），并构成一个输入列表。???(待定)
+</Note>
+
+## 文件格式
+
+Protium 的存储文件被设计为人类易读的 json 格式，以方便理解工作流背后的含义，一个工作流文件的示意如下：
+
+<Row>
+
+<Col>
+
+该 json 文件以 `nodes` 与 `edges` 两个部分组织，nodes 定义节点参数，edges 定义节点连接方式
+
+</Col>
+<Col sticky>
+
+```json {{ title:"json file"}}
+{
+  "nodes": {
+    "0": {
+      "key": "ABACUS_SIAB",
+      "body": {
+        "abacus_siab": {
+          "jY_type": "reduced",
+          "max_steps": 1000,
+          "optimizer": "bfgs",
+          "environment": "",
+          "mpi_command": "mpirun -np 8",
+          "spill_coefs": [0, 1],
+          "spill_guess": "atomic",
+          "nthreads_rcut": 4,
+          "abacus_command": "abacus"
+        },
+        "bohrium_job_config": {}
+      }
+    },
+    "1": {
+      "key": "ABACUS_INPUT",
+      "body": {
+        "abacus_input": {
+          "ecutwfc": 60,
+          "pseudo_name": "Si_ONCV_PBE-1.0.upf",
+          "smearing_sigma": 0.01,
+          "bessel_nao_rcut": [6, 7, 8, 9, 10],
+          "bessel_nao_smooth": 0
+        }
+      }
+    }
+  },
+  "edges": [
+    {
+      "source": "1",
+      "target": "0",
+      "handle": "abacus/input"
+    }
+  ]
+}
+```
+
+</Col>
+</Row>

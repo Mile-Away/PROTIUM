@@ -2,7 +2,10 @@ import { RootReducerProps } from '@/app/store';
 import { BASE_URL, WS_URL } from '@/config';
 import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useAuthService } from '@/services/AuthService';
-import { setNodeExecutedCompile, setWorkflow } from '@/store/workflow/workflowSlice';
+import {
+  setNodeExecutedCompile,
+  setWorkflow,
+} from '@/store/workflow/workflowSlice';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
@@ -79,6 +82,11 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
     });
 
   const saveWorkflow = async () => {
+    console.log('>>>>', {
+      ...workflow,
+      nodes,
+      edges,
+    });
     try {
       const res = await jwtAxios.put(
         `${BASE_URL}/workflow/workflow/${params.uuid}/`,

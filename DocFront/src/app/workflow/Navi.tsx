@@ -28,4 +28,11 @@ export const navigation: Array<NavGroup> = [
       { title: 'Executor', href: '/workflow/execution' },
     ],
   },
+  {
+    title: 'API',
+    links: [
+      { title: 'API', href: '/workflow/api' },
+      { title: 'CLI', href: '/workflow/cli' },
+    ],
+  },
 ]

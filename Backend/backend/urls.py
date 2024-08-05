@@ -17,7 +17,7 @@ from rest_framework.routers import DefaultRouter
 from webchat.consumer import WebChatConsumer
 from webchat.viewsets import MessageListViewset
 from workflow.consumer import WorkflowConsumer
-
+from .views import root_view
 router = DefaultRouter()
 
 router.register("api/accounts", UserViewSet, basename="accounts")
@@ -25,8 +25,9 @@ router.register("api/message", MessageListViewset, basename="message")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("", root_view),
+    # path("api/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    # path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/token/", JWTCookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", JWTCookieTokenRefreshView.as_view(), name="token_refresh"),
     # My APIs
