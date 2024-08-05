@@ -116,6 +116,7 @@ const workflowSlice = createSlice({
         state.nodes.push({
           ...action.payload,
           position: { x: state.contextMenuX, y: state.contextMenuY },
+          dragHandle: '.drag-handle', // 加上这个，只允许拖拽顶部，不加这个，全部区域都允许拖拽。考虑到以后还要支持3D模型，所以只允许顶部拖拽
         });
 
         state.consoleInfo.push({

@@ -6,12 +6,6 @@
 TODO：！！！ Source Handle 可以允许连接多个 Target Handle(共用数据源)，但是 Target Handle 不允许连接多个 Source Handle（避免冲突）
 </Note>
 
-<Note>
-对于一个 Node 具有自己完整的生命周期（LifeCycle），以所有的 Compile 完成作为生命周期结束的标志。body 内容只在 Node 自己的生命周期内可读。
-其它时候只可读到 compile 的结果。
-？？Handle 也可以取到上一级的 body source，为什么一定只允许以 Compile 的结果来开放？？
-</Note>
-
 首先，程序会将你的 Workflow 实例化为一个 Workflow Execute 对象：
 
 ```python
@@ -120,7 +114,7 @@ class WorkflowExecuter:
 运行一个节点时，经历以下步骤：
 
 1. 任务开始时，向客户端发送任务开始消息 -> `running`
-2. 提取 Node 中的所有 Handle，获取其连接状态，并根据连接状态决定是否需要执行节点中的 Results，
+2. 提取 Node 中的所有 Handle，获取其连接状态，并根据连接状态决定是否需要执行节点中的 Compiles，
     1. 如果节点没有连接任意 handle，就将这个 Node status 标记为跳过 -> `skipped`
     2. 如果 Node 满足以下任一情况，就执行 node 中的所有 results -> `running`
         * source handle 中**任意**一个被连接;
@@ -135,12 +129,12 @@ class WorkflowExecuter:
 这个逻辑要求 Node 的所有 Target 都需要被连接。
 </Warn>
 
-3. 当 Node 满足 2.2 中的条件后，获取 Node 中所有需要运行的内容 `Results`，并行执行这个节点中的所有 Results。
-    * 当有任意一个 Result 发生错误时，返回 -> `failed`
+3. 当 Node 满足 2.2 中的条件后，获取 Node 中所有需要运行的内容 `Compiles`，并行执行这个节点中的所有 Compiles。
+    * 当有任意一个 Compile 发生错误时，返回 -> `failed`
     * 全部完成时，返回 -> `success`
 
 <Warn>
-这个逻辑要求 Node 中的所有 Result 必须全部为可运行的。
+这个逻辑要求 Node 中的所有 Compile 必须全部为可运行的。
 </Warn>
 
 4. 当有错误发生时，execute_node 函数将捕获错误，并将错误信息返回给客户端。

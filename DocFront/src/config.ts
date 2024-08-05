@@ -5,6 +5,7 @@ export {
   MEDIA_URL,
   PrimarySite,
   WS_URL,
+  WorkflowSite,
 } from '../../Fronted/src/config'
 
 /* EXAMPLE

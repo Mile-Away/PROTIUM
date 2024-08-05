@@ -35,14 +35,13 @@ export const NodeMapping: {
    * 以下是节点类型的定义
    * 1. type: 节点类型，必须与 nodeTypes 中的键值对应
    * 2. data: 节点的数据
-   * 3. dragHandle: 拖拽句柄
    */
   // VASP
   POSCAR: {
     type: 'Input',
     data: {
       header: 'POSCAR',
-      status: 'draft',
+
       handles: [
         {
           type: 'source',
@@ -56,7 +55,7 @@ export const NodeMapping: {
         {
           id: '',
           source: '',
-          type: 'textarea',
+          type: 'object',
           title: 'POSCAR',
           key: 'poscar',
           compile: [],
@@ -75,14 +74,13 @@ export const NodeMapping: {
       ],
       footer: 'VASP/POSCAR',
     },
-    dragHandle: '.drag-handle',
   },
 
   POTCAR: {
     type: 'Select',
     data: {
       header: 'POTCAR',
-      status: 'draft',
+
       body: [
         { id: '', source: '', type: 'select', title: 'POTCAR', key: 'potcar' },
       ],
@@ -108,14 +106,13 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   INCAR: {
     type: 'Input',
     data: {
       header: 'INCAR',
-      status: 'draft',
+
       handles: [
         {
           type: 'source',
@@ -126,7 +123,7 @@ export const NodeMapping: {
         },
       ],
       body: [
-        { id: '', source: '', type: 'textarea', title: 'INCAR', key: 'incar' },
+        { id: '', source: '', type: 'object', title: 'INCAR', key: 'incar' },
       ],
       compile: [
         {
@@ -141,14 +138,13 @@ export const NodeMapping: {
       ],
       footer: 'VASP/INCAR',
     },
-    dragHandle: '.drag-handle',
   },
 
   KPOINTS: {
     type: 'Input',
     data: {
       header: 'KPOINTS',
-      status: 'draft',
+
       handles: [
         {
           key: 'kpoints',
@@ -162,7 +158,7 @@ export const NodeMapping: {
         {
           id: '',
           source: '',
-          type: 'textarea',
+          type: 'object',
           title: 'KPOINTS',
           key: 'kpoints',
         },
@@ -180,14 +176,13 @@ export const NodeMapping: {
       ],
       footer: 'VASP/KPOINTS',
     },
-    dragHandle: '.drag-handle',
   },
 
   VASP: {
     type: 'Solver',
     data: {
       header: 'VASP',
-      status: 'draft',
+
       body: [
         {
           id: '',
@@ -205,7 +200,7 @@ export const NodeMapping: {
           id: '',
           source: '',
           title: 'Machine Config',
-          type: 'textarea',
+          type: 'object',
           key: 'config',
         },
       ],
@@ -230,19 +225,18 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   VASP_OUTPUTS: {
     type: 'Input',
     data: {
       header: 'VASP Outputs',
-      status: 'draft',
+
       body: [
         {
           id: '',
           source: '',
-          type: 'textarea',
+          type: 'object',
           key: 'vasp_outputs',
           compile: [],
         },
@@ -262,7 +256,6 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   // ABACUS
@@ -270,7 +263,7 @@ export const NodeMapping: {
     type: 'Input',
     data: {
       header: 'ABACUS INPUT',
-      status: 'draft',
+
       body: [
         {
           id: '',
@@ -283,7 +276,7 @@ export const NodeMapping: {
             bessel_nao_rcut: [6, 7, 8, 9, 10],
             smearing_sigma: 0.01,
           },
-          type: 'textarea',
+          type: 'object',
           title: 'ABACUS INPUT',
           key: 'abacus_input',
           compile: [],
@@ -312,19 +305,18 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   SIAB_ORBITALS: {
     type: 'Input',
     data: {
       header: 'SIAB ORBITALS',
-      status: 'draft',
+
       body: [
         {
           id: '',
           source: {},
-          type: 'textarea',
+          type: 'object',
           title: 'SIAB ORBITALS',
           key: 'siab_orbitals',
           compile: [],
@@ -353,19 +345,18 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   ABACUS_STRU: {
     type: 'Input',
     data: {
       header: 'STRU',
-      status: 'draft',
+
       body: [
         {
           id: '',
           source: {},
-          type: 'textarea',
+          type: 'object',
           key: 'stru',
           compile: [],
         },
@@ -385,19 +376,18 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   SIAB_SYSTEM: {
     type: 'Input',
     data: {
       header: 'SIAB SYSTEM',
-      status: 'draft',
+
       body: [
         {
           id: '',
           source: {},
-          type: 'textarea',
+          type: 'object',
           title: 'SIAB SYSTEM',
           key: 'siab_system',
           compile: [],
@@ -426,14 +416,12 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   ABACUS: {
     type: 'Solver',
     data: {
       header: 'ABACUS',
-      status: 'draft',
       body: [
         {
           id: '',
@@ -451,7 +439,7 @@ export const NodeMapping: {
           id: '',
           source: '',
           title: 'Machine Config',
-          type: 'textarea',
+          type: 'object',
           key: 'config',
         },
       ],
@@ -475,19 +463,27 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 
   ABACUS_SIAB: {
     type: 'Solver',
     data: {
       header: 'ABACUS SIAB',
-      status: 'draft',
       body: [
         {
           id: '',
-          source: {},
-          type: 'textarea',
+          source: {
+            environment: '',
+            mpi_command: 'mpirun -np 8',
+            abacus_command: 'abacus',
+            optimizer: 'bfgs',
+            max_steps: 1000,
+            spill_coefs: [0.0, 1.0],
+            spill_guess: 'atomic',
+            nthreads_rcut: 4,
+            jY_type: 'reduced',
+          },
+          type: 'object',
           title: 'SIAB Config',
           key: 'abacus_siab',
           compile: [],
@@ -495,7 +491,7 @@ export const NodeMapping: {
         {
           id: '',
           source: {},
-          type: 'textarea',
+          type: 'object',
           title: 'Bohrium Job Config',
           key: 'bohrium_job_config',
           compile: [],
@@ -520,19 +516,17 @@ export const NodeMapping: {
       ],
       footer: 'Version 0.1.0',
     },
-    dragHandle: '.drag-handle',
   },
 
   ABACUS_SIAB_OUTPUTS: {
     type: 'Input',
     data: {
       header: 'ABACUS SIAB Outputs',
-      status: 'draft',
       body: [
         {
           id: '',
           source: '',
-          type: 'textarea',
+          type: 'object',
           key: 'vasp_outputs',
           compile: [],
         },
@@ -554,7 +548,6 @@ export const NodeMapping: {
         },
       ],
     },
-    dragHandle: '.drag-handle',
   },
 };
 

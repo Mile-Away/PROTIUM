@@ -19,7 +19,7 @@ export interface WorkflowNodeDataHandlesProps {
 
 export interface WorkflowNodeDataBodyProps {
   id: string;
-  type: 'input' | 'select' | 'textarea' | 'file';
+  type: 'input' | 'select' | 'textarea' | 'file' | 'object';
   key: string;
   source: string | object;
   compile?: string[]; // 记录这个 Body 运行的 Result 的 key
@@ -46,7 +46,7 @@ export interface WorkflowNodeDataProps {
   handles: WorkflowNodeDataHandlesProps[];
   body: WorkflowNodeDataBodyProps[]; // body 属性决定 Node 上展示的与用户交互的表单，表单提交的行为回调到 Redux
   compile: WorkflowNodeCompileProps[];
-  status: 'draft' | 'skipped' | 'pending' | 'running' | 'success' | 'failed';
+  status?: 'draft' | 'skipped' | 'pending' | 'running' | 'success' | 'failed';
   footer?: string;
 }
 export interface WorkflowNodeProps

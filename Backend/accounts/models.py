@@ -64,7 +64,7 @@ class EmailVerifyCode(models.Model):
     """
     验证码
     """
-
+    id: int
     send_choices = (("register", "注册"), ("forget", "找回密码"))
 
     captcha = models.CharField("验证码", blank=True, null=True, max_length=20)

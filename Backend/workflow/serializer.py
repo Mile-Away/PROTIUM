@@ -1,6 +1,5 @@
 from accounts.public_serializer import BasicUserSerializer
 from rest_framework import serializers
-
 from .models import (
     Workflow,
     WorkflowEdge,
@@ -111,7 +110,7 @@ class WorkflowEdgeSerializer(serializers.ModelSerializer):
         exclude = ["id", "workflow"]
 
     def to_internal_value(self, data) -> dict:
-        print("data >>>>>>>>", data)
+        # print("data >>>>>>>>", data)
         if "id" in data:
             data["connection_id"] = data.pop("id")
 
@@ -144,6 +143,7 @@ class WorkflowSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
+
         # 处理嵌套字段
         nodes = validated_data.pop("nodes", [])
         edges = validated_data.pop("edges", [])

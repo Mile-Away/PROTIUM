@@ -3,26 +3,27 @@ import { Heading } from '@/components/Heading'
 
 const guides = [
   {
-    href: '/authentication',
-    name: 'Design',
-    description: 'Learn how to authenticate your API requests.',
-  },
-  {
     href: '/pagination',
     name: 'Quickstart',
     description: 'Understand how to work with paginated responses.',
   },
   {
+    href: '/authentication',
+    name: 'Design',
+    description: 'Learn how to authenticate your API requests.',
+  },
+
+  {
     href: '/errors',
-    name: 'Shortcuts',
+    name: 'Use CLI',
     description:
       'Read about the different types of errors returned by the API.',
   },
   {
     href: '/webhooks',
-    name: '开发自定义节点',
+    name: 'Set API Key',
     description:
-      'Learn how to programmatically configure webhooks for your app.',
+      'Learn how to configure api for your app.',
   },
 ]
 

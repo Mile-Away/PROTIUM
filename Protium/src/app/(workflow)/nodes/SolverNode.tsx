@@ -114,7 +114,7 @@ export default function SolverNode(props: BasicNodeProps) {
                 onSelectedIndexChange={onMachineSelectedIndexChange}
               />
             )}
-            {item.type === 'textarea' && (
+            {item.type === 'object' && (
               <NodeFormTextarea
                 key={item.id}
                 nodeId={id}

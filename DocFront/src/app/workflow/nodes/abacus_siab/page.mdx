@@ -2,7 +2,7 @@
 
 # 环境部署
 
-## 方法一：拉取Bohrium镜像
+## Method 1. 拉取Bohrium镜像
 
 如果已经在ABACUS (ID: 717)项目中，建立新的容器节点：
 
@@ -18,7 +18,7 @@
 conda activate orbgen
 ```
 
-## 方法二：从零开始
+## Method 2：从零开始
 
 为支持PyTorch的SWAT优化器优化Spillage函数，需要合理配置PyTorch，保证链接Intel-MKL库以充分提高性能。对于Bohrium用户，可以使用镜像：`ubuntu:22.04-py3.10-intel2022`，选择`c32_m64_cpu`机器。
 
@@ -69,7 +69,7 @@ cmake --install build
 
 在下载的仓库目录中，共有`SIAB_INPUT_old`、`SIAB_INPUT_new`和`SIAB_INPUT.json`三个意义几乎相同的不同组织方式输入文件，其中`SIAB_INPUT_old`为旧版输入文件，`SIAB_INPUT_new`为新版输入文件，目前不开放使用，`SIAB_INPUT.json`为普适的版本输入文件。
 
-## 【基础】方法一：旧版输入文件（不推荐）
+## BASIC -方法一：旧版输入文件（不推荐）
 
 ### 计算环境配置
 
@@ -197,7 +197,7 @@ cmake --install build
  Save3    Level3      TZDP
 ```
 
-## 【基础】方法二：json输入文件（推荐）
+## BASIC -方法二：json输入文件（推荐）
 
 对于使用Bohrium镜像`registry.dp.tech/dptech/prod-16047/apns:orbgen`的用户可以参考`/root/document/orbgen/`目录下`SIAB_INPUT.json`。
 
@@ -406,7 +406,7 @@ cmake --install build
 }
 ```
 
-## 【基础】方法三：新版输入文件（未充分支持）
+## BASIC -方法三：新版输入文件（未充分支持）
 
 因目前未开放使用，仅展示，其内容和json相符
 
@@ -435,7 +435,7 @@ max_steps           1000
   TZDP             trimer   6            DZP
 ```
 
-## 【扩展】方法四：APNS（ABACUS赝势轨道库）-SIAB-ABACUS联用
+## EXTEND -方法四：APNS（ABACUS赝势轨道库）-SIAB-ABACUS联用
 
 对于使用Bohrium镜像`registry.dp.tech/dptech/prod-16047/apns:orbgen`构建的环境来讲，在熟练使用方法二的基础上，本方法自动化了大批量轨道的生成流程。准备APNS输入文件orbgen.json（可在镜像的`/root/deepmodeling/ABACUS-Pseudopot-Nao-Square`目录下找到示例文件：
 
@@ -513,7 +513,7 @@ nohup python3 autorun.py > log&
 
 将开始批量生成轨道。
 
-## 【扩展】方法五：abacustest-SIAB-ABACUS联用
+## EXTEND -方法五：abacustest-SIAB-ABACUS联用
 
 由@赵天琦 探索的使用方法：[轨道测试工作流](https://ucoyxk075n.feishu.cn/docx/Os2qditbzoUc1GxTpmOcbe26ncc)
 

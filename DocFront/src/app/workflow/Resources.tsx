@@ -74,9 +74,9 @@ const resources: Array<Resource> = [
   },
   {
     href: '/Console',
-    name: 'API',
+    name: 'CLI',
     description:
-      '探索使用脚本语言直接提交任务，以提高任务提交的灵活性和效率',
+      '探索使用命令行界面直接提交任务，以提高任务提交的灵活性和效率',
     icon: SignalIcon,
     pattern: {
       y: -6,
@@ -90,7 +90,7 @@ const resources: Array<Resource> = [
     href: `${PrimarySite}/space`,
     name: 'Custom',
     description:
-      '允许开发者创建和自定义节点，以满足特定需求和扩展系统功能。',
+      '探索和发现自定义节点或工作流，以满足特定需求和扩展系统功能。',
     icon: BeakerIcon,
     pattern: {
       y: 32,
@@ -104,7 +104,7 @@ const resources: Array<Resource> = [
     href: '/workflow/integration',
     name: 'Integration',
     description:
-      '探索工作流与外部设施的集成方案，以及利用自然语言处理技术来简化工作流的构建过程等持续集成方案。',
+      '探索工作流与外部设施的集成方案，例如利用自然语言处理技术来简化工作流的构建。',
     icon: PuzzlePieceIcon,
     pattern: {
       y: 22,
