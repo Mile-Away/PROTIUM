@@ -223,7 +223,7 @@ REST_FRAMEWORK = {
 
 if not DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
-        "path.to.your.renderers.EmptyBrowsableAPIRenderer",
+        "backend.renders.EmptyBrowsableAPIRenderer",
         "rest_framework.renderers.JSONRenderer",
     ]
 else:
