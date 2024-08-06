@@ -1,3 +1,9 @@
+export const metadata = {
+    title: 'API',
+    description:
+        '',
+}
+
 # API
 
 API 
@@ -21,44 +27,40 @@ Protium 的存储文件被设计为人类易读的 json 格式，以方便理解
 
 ```json {{ title:"json file"}}
 {
-  "nodes": {
-    "0": {
-      "key": "ABACUS_SIAB",
-      "body": {
-        "abacus_siab": {
-          "jY_type": "reduced",
-          "max_steps": 1000,
-          "optimizer": "bfgs",
-          "environment": "",
-          "mpi_command": "mpirun -np 8",
-          "spill_coefs": [0, 1],
-          "spill_guess": "atomic",
-          "nthreads_rcut": 4,
-          "abacus_command": "abacus"
-        },
-        "bohrium_job_config": {}
-      }
+  "0": {
+    "template": "ABACUS_SIAB",
+    "body": {
+      "abacus_siab": {
+        "jY_type": "reduced",
+        "max_steps": 1000,
+        "optimizer": "bfgs",
+        "environment": "",
+        "mpi_command": "mpirun -np 8",
+        "spill_coefs": [0, 1],
+        "spill_guess": "atomic",
+        "nthreads_rcut": 4,
+        "abacus_command": "abacus"
+      },
+      "bohrium_job_config": {}
     },
-    "1": {
-      "key": "ABACUS_INPUT",
-      "body": {
-        "abacus_input": {
-          "ecutwfc": 60,
-          "pseudo_name": "Si_ONCV_PBE-1.0.upf",
-          "smearing_sigma": 0.01,
-          "bessel_nao_rcut": [6, 7, 8, 9, 10],
-          "bessel_nao_smooth": 0
-        }
-      }
+    "handles": {
+      "abacus/input": ["1"],
+      "siab/oribital": ["2"],
+      "siab/system": ["3"]
     }
   },
-  "edges": [
-    {
-      "source": "1",
-      "target": "0",
-      "handle": "abacus/input"
+  "1": {
+    "template": "ABACUS_INPUT",
+    "body": {
+      "abacus_input": {
+        "ecutwfc": 60,
+        "pseudo_name": "Si_ONCV_PBE-1.0.upf",
+        "smearing_sigma": 0.01,
+        "bessel_nao_rcut": [6, 7, 8, 9, 10],
+        "bessel_nao_smooth": 0
+      }
     }
-  ]
+  }
 }
 ```
 

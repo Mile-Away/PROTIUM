@@ -25,6 +25,10 @@ class AbacusSiabExecutor(SolverExecutor, ABC):
 
         # 从 Edge 获取 Source handle
         connected_target_handles = await filter_target_handles(self.node, connected=True)
+
+        # 事实上，我的 outputs 是存到 compile 的 source 中，然后 handle 是指定到 compile 的 key
+        # 所以，outputs 即为 source handle 的 data_body 和 data_source，所以 outputs 我只需要指定到上一个 node 的 handle 即可
+        # 先从 target handle 取到 edge，再从 edge 取到 source handle
         source_handles = [await get_bound_handle_from_target(handle) for handle in connected_target_handles]
 
         # 从 Source handle 获取 Source data
