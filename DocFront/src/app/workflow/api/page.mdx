@@ -6,7 +6,9 @@ export const metadata = {
 
 # API
 
-API 
+除了通过网页生成，你也可以向我们的 api 来构建工作流，只需要上传我们相应的文件即可一键构建工作流。
+
+
 
 <Note>
 TODO: 改正所有的 Execute 逻辑，全部改为先从所有地方取输入（handle 和 body），并构成一个输入列表。???(待定)
@@ -18,51 +20,71 @@ Protium 的存储文件被设计为人类易读的 json 格式，以方便理解
 
 <Row>
 
-<Col>
+    <Col>
 
-该 json 文件以 `nodes` 与 `edges` 两个部分组织，nodes 定义节点参数，edges 定义节点连接方式
+    ### JSON 说明
 
-</Col>
-<Col sticky>
+    <Properties>
+      <Property name="key" type="string">
+        `key` 是单个工作流中节点的唯一标识符，用于与其它节点产生联系。可使用自定义字符串来定义，默认使用 “0”， “1” 等顺序增长的字符。
+      </Property>
 
-```json {{ title:"json file"}}
-{
-  "0": {
-    "template": "ABACUS_SIAB",
-    "body": {
-      "abacus_siab": {
-        "jY_type": "reduced",
-        "max_steps": 1000,
-        "optimizer": "bfgs",
-        "environment": "",
-        "mpi_command": "mpirun -np 8",
-        "spill_coefs": [0, 1],
-        "spill_guess": "atomic",
-        "nthreads_rcut": 4,
-        "abacus_command": "abacus"
-      },
-      "bohrium_job_config": {}
-    },
-    "handles": {
-      "abacus/input": ["1"],
-      "siab/oribital": ["2"],
-      "siab/system": ["3"]
-    }
-  },
-  "1": {
-    "template": "ABACUS_INPUT",
-    "body": {
-      "abacus_input": {
-        "ecutwfc": 60,
-        "pseudo_name": "Si_ONCV_PBE-1.0.upf",
-        "smearing_sigma": 0.01,
-        "bessel_nao_rcut": [6, 7, 8, 9, 10],
-        "bessel_nao_smooth": 0
-      }
-    }
-  }
-}
-```
+        <Property name="template" type="string">
+            Node 所使用的模版，你可以在 [Flociety 社区](“#”) 查看目前可用的所有 Node 模版及它们的 key。
+        </Property>
 
-</Col>
+        <Property name="body" type="object">
+            在 template 中指定模版后，可以在对应 node 的介绍页面查看这个 node 的结构，以及该 node body 部分需要接受的输入。
+            
+            每个输入参数都隶属于一个 body 的 key，需要按照模版中参数与对象的关系进行输入。
+        </Property>
+
+        <Property name="target_handles" type="object">
+            `target_handles` 接受一个对象，这个对象的 key 是 node 模版中对应的每个 target handle 的 key，这个对象的值是一个列表，列表包含所有连接到该 target_handle 的 node 的 唯一标识符 (key)。
+        </Property>
+    </Properties> 
+
+
+    </Col>
+    <Col sticky>
+
+        ```json {{ title:"json file"}}
+        {
+        "0": {
+            "template": "ABACUS_SIAB",
+            "body": {
+                "abacus_siab": {
+                    "jY_type": "reduced",
+                    "max_steps": 1000,
+                    "optimizer": "bfgs",
+                    "environment": "",
+                    "mpi_command": "mpirun -np 8",
+                    "spill_coefs": [0, 1],
+                    "spill_guess": "atomic",
+                    "nthreads_rcut": 4,
+                    "abacus_command": "abacus"
+                },
+                "bohrium_job_config": {}
+            },
+            "target_handles": {
+                "abacus/input": ["1"],
+                "siab/oribital": ["2"],
+                "siab/system": ["3"]
+            }
+        },
+        "1": {
+            "template": "ABACUS_INPUT",
+            "body": {
+                "abacus_input": {
+                    "ecutwfc": 60,
+                    "pseudo_name": "Si_ONCV_PBE-1.0.upf",
+                    "smearing_sigma": 0.01,
+                    "bessel_nao_rcut": [6, 7, 8, 9, 10],
+                    "bessel_nao_smooth": 0
+                }
+            }
+        }
+        }
+        ```
+    </Col>
 </Row>

@@ -211,7 +211,7 @@ export const NodeMapping: {
         // { key: 'potcar', type: 'target' },
         { key: 'incar', type: 'target', rope: 'INCAR' },
         { key: 'kpoints', type: 'target', rope: 'KPOINTS' },
-        { key: 'vasp/outputs', type: 'source', rope: 'VASP_OUTPUTS' },
+        { key: 'vasp-outputs', type: 'source', rope: 'VASP_OUTPUTS' },
       ],
       compile: [
         {
@@ -243,7 +243,7 @@ export const NodeMapping: {
       ],
 
       footer: 'VASP Outputs',
-      handles: [{ key: 'vasp/outputs', type: 'target', rope: 'VASP' }],
+      handles: [{ key: 'vasp-outputs', type: 'target', rope: 'VASP' }],
       compile: [
         {
           id: '',
@@ -286,7 +286,7 @@ export const NodeMapping: {
       footer: 'ABACUS INPUT',
       handles: [
         {
-          key: 'abacus/input',
+          key: 'abacus-input',
           type: 'source',
           rope: 'ABACUS',
           data_source: 'compile',
@@ -326,7 +326,7 @@ export const NodeMapping: {
       footer: 'ORBITALS',
       handles: [
         {
-          key: 'siab/orbitals',
+          key: 'siab-orbitals',
           type: 'source',
           rope: 'ABACUS_SIAB',
           data_source: 'compile',
@@ -363,7 +363,7 @@ export const NodeMapping: {
       ],
 
       footer: 'STRU',
-      handles: [{ key: 'abacus/stru', type: 'source', rope: 'ABACUS' }],
+      handles: [{ key: 'abacus-stru', type: 'source', rope: 'ABACUS' }],
       compile: [
         {
           id: '',
@@ -397,7 +397,7 @@ export const NodeMapping: {
       footer: 'Version 0.1.0',
       handles: [
         {
-          key: 'siab/system',
+          key: 'siab-system',
           type: 'source',
           rope: 'ABACUS_SIAB',
           data_source: 'compile',
@@ -498,10 +498,10 @@ export const NodeMapping: {
         },
       ],
       handles: [
-        { key: 'abacus/input', type: 'target', rope: 'ABACUS_INPUT' },
-        { key: 'siab/system', type: 'target', rope: 'SIAB_SYSTEM' },
-        { key: 'siab/orbitals', type: 'target', rope: 'SIAB_ORBITALS' },
-        { key: 'siab/outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
+        { key: 'abacus-input', type: 'target', rope: 'ABACUS_INPUT' },
+        { key: 'siab-system', type: 'target', rope: 'SIAB_SYSTEM' },
+        { key: 'siab-orbitals', type: 'target', rope: 'SIAB_ORBITALS' },
+        { key: 'siab-outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
       ],
       compile: [
         {
@@ -534,7 +534,7 @@ export const NodeMapping: {
 
       footer: 'ABACUS SIAB Outputs',
       handles: [
-        { key: 'siab/outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
+        { key: 'siab-outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
       ],
       compile: [
         {
