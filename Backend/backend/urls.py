@@ -6,6 +6,8 @@ from accounts.views import (
     RegisterView,
     ResetPasswordView,
     UserDetailView,
+    ApiTokenView,
+    ArithmeticAccessView
 )
 from accounts.viewset import UserViewSet
 from django.conf import settings
@@ -25,17 +27,19 @@ router.register("api/message", MessageListViewset, basename="message")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", root_view),
+    path("", root_view),  # disable the default Django index page
     # path("api/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     # path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/token/", JWTCookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", JWTCookieTokenRefreshView.as_view(), name="token_refresh"),
     # My APIs
     path("api/account/", UserDetailView.as_view()),
+    path("api/account/token/", ApiTokenView.as_view(), name="api_token"),
     path("api/account/register/", RegisterView.as_view(), name="register"),
     path("api/account/forget/", ResetPasswordView.as_view(), name="forget"),
     path("api/account/logout/", LogoutView.as_view(), name="logout"),
     path("api/account/email_eval/", EmailVerifyCodeView.as_view(), name="send_email"),
+    path("api/account/arithmatic_access/", ArithmeticAccessView.as_view()),
     path("api/server/", include("server.urls")),
     path("api/document/", include("document.urls")),
     path("api/search/", include("search.urls")),

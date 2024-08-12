@@ -142,7 +142,6 @@ class ServerListViewSet(viewsets.ViewSet):
         return queryset
 
     def list(self, request):
-
         queryset = self.get_queryset()
         named = request.query_params.get("named") == "true"
         categories = request.query_params.get("category")

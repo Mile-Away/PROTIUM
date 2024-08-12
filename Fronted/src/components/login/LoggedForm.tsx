@@ -27,7 +27,7 @@ const LoggedForm = () => {
   );
 
   const navigation = [
-    { name: 'Edit Profile', href: '/dashboard/settings' },
+    { name: 'Settings', href: '/dashboard/settings' },
     { name: 'Sign out', onClick: () => logout() },
   ];
 

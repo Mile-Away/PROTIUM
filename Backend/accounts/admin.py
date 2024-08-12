@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ArithmeticAccess, EmailVerifyCode, User, UserSettings
+from .models import APITokens, ArithmeticAccess, EmailVerifyCode, User, UserSettings
 
 # Register your models here.
 
@@ -36,6 +36,10 @@ class UserSettingsAdmin(admin.ModelAdmin):
     ordering = ("user",)
 
 
+class APITokensAdmin(admin.ModelAdmin):
+    list_display = ("user", "token", "created", "last_used", "expired")
+
+
 admin.site.site_header = "Protium Administation"
 admin.site.site_title = "Protium Administation"
 
@@ -43,3 +47,4 @@ admin.site.register(ArithmeticAccess)
 admin.site.register(User, UserAdmin)
 admin.site.register(EmailVerifyCode, EmailVerifyCodeAdmin)
 admin.site.register(UserSettings, UserSettingsAdmin)
+admin.site.register(APITokens, APITokensAdmin)

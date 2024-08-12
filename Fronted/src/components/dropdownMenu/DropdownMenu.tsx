@@ -70,7 +70,7 @@ export function DropdownMenu({
     //   icon: <AdjustmentsHorizontalIcon />,
     // },
     {
-      name: 'Edit Profile',
+      name: 'Settings',
       href: '/dashboard/settings',
       class: 'secondary',
       icon: <Cog6ToothIcon />,

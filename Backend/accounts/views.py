@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.utils import timezone
 from rest_framework import status
@@ -8,8 +10,15 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .authentication import JWTCookieTokenObtainPairSerializer, JWTCookieTokenRefreshSerializer
-from .models import EmailVerifyCode, User
-from .serializer import EmailVerifyCodeSerializer, RegisterSerializer, ResetPasswordSerializer, UserSerializer
+from .models import APITokens, ArithmeticAccess, EmailVerifyCode, User
+from .serializer import (
+    APITokenSerializer,
+    ArithmeticAccessSerializer,
+    EmailVerifyCodeSerializer,
+    RegisterSerializer,
+    ResetPasswordSerializer,
+    UserSerializer,
+)
 from .social_auth import BohriumAuthentication
 from .utils.mail_eval import mail_send
 
@@ -56,10 +65,7 @@ class JWTCookieTokenObtainPairView(JWTSetCookieMixin, TokenObtainPairView):
         ):
             user = User.objects.get(bohrium_account=request.data["bohrium_account"])
             token = self.serializer_class.get_token(user)
-            data = {}
-
-            data["refresh"] = str(token)
-            data["access"] = str(token.access_token)  # type: ignore
+            data = {"refresh": str(token), "access": str(token.access_token)}  # type: ignore
 
             return Response(data, status=status.HTTP_200_OK)
         else:
@@ -68,6 +74,205 @@ class JWTCookieTokenObtainPairView(JWTSetCookieMixin, TokenObtainPairView):
 
 class JWTCookieTokenRefreshView(JWTSetCookieMixin, TokenRefreshView):
     serializer_class = JWTCookieTokenRefreshSerializer
+
+
+class ApiTokenView(APIView):
+    """
+    View for retrieving the current user's API tokens.
+    """
+
+    serializer_class = APITokenSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        Retrieve the current user's API tokens.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response containing the user's API tokens.
+        """
+
+        user = request.user
+        if user:
+            user = User.objects.get(id=user.id)
+            tokens = user.api_tokens.all()
+            serializer = self.serializer_class(tokens, many=True)
+            data = serializer.data
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        """
+        Create a new API token for the current user.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response containing the new API token.
+        """
+        print("data>>>>>>>", request.data)
+        user = request.user
+        if user:
+            name = request.data.get("name")
+            # 创建 uuidv4 token
+            secret_token = str(uuid.uuid4())
+            full_token = f"ptm_{secret_token}"
+            token = APITokens.objects.create(user=user, name=name, token=full_token)
+            serializer = self.serializer_class(token)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        """
+        Delete an API token for the current user.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response confirming the deletion of the API token.
+        """
+        user = request.user
+        token_id = request.data.get("token_id")
+
+        if user and token_id:
+            try:
+                token = APITokens.objects.get(id=token_id, user=user)
+                token.delete()
+                return Response({"success": "Token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+            except APITokens.DoesNotExist:
+                return Response({"error": "Token not found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"error": "User not found or token ID not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ArithmeticAccessView(APIView):
+    """
+    View for retrieving the current user's Bohrium access token.
+    """
+
+    serializer_class = ArithmeticAccessSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        Retrieve the current user's Bohrium access token.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response containing the user's Bohrium access token.
+        """
+
+        user: User = request.user
+        if user:
+            platform = request.query_params.get("platform")
+            match platform:
+                case "bohrium":
+                    try:
+                        bohrium_access_token = user.arithmetic_access.bohrium_access_token
+                        if bohrium_access_token:
+                            return Response({"bohrium_access_token": bohrium_access_token}, status=status.HTTP_200_OK)
+                    except ArithmeticAccess.DoesNotExist:
+                        return Response(
+                            {"error": "Bohrium access token not found, please add it firstly"},
+                            status=status.HTTP_404_NOT_FOUND,
+                        )
+
+                case _:
+                    return Response({"error": "Unsupported platform"}, status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        """
+        Retrieve the current user's Bohrium access token.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response containing the user's Bohrium access token.
+        """
+        print(">>>>>", request.data)
+        user = request.user
+        if user:
+            platform = request.query_params.get("platform")
+
+            match platform:
+                case "bohrium":
+                    bohrium_access_token = request.data.get("bohrium_access_token")
+
+                    if not bohrium_access_token:
+                        return Response(
+                            {"error": "Bohrium access token is required"}, status=status.HTTP_400_BAD_REQUEST
+                        )
+
+                    try:
+                        bohrium_access_token, _ = ArithmeticAccess.objects.update_or_create(
+                            user=user, defaults={"bohrium_access_token": bohrium_access_token}
+                        )
+
+                        serializer = self.serializer_class(bohrium_access_token)
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    except Exception as e:
+                        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+                case _:
+                    return Response({"error": "Unsupported platform"}, status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        """
+        Retrieve the current user's Bohrium access token.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response containing the user's Bohrium access token.
+        """
+
+        user = request.user
+        if user:
+            user = User.objects.get(id=user.id)
+            data = request.data.copy()
+            user.bohrium_account = data.get("bohrium_account")
+            user.save()
+            return Response({"bohrium_account": user.bohrium_account}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        """
+        Retrieve the current user's Bohrium access token.
+
+        Args:
+            request: The request sent to the server.
+
+        Returns:
+            Response: JSON response containing the user's Bohrium access token.
+        """
+
+        user = request.user
+        if user:
+            user = User.objects.get(id=user.id)
+            user.bohrium_account = None
+            user.save()
+            return Response({"bohrium_account": user.bohrium_account}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserDetailView(APIView):
@@ -119,7 +324,7 @@ class UserDetailView(APIView):
         if user:
             user = self.queryset.get(id=user.id)
             data = request.data.copy()
-            serializer = UserSerializer(user, data=data, partial=True)
+            serializer = self.serializer_class(user, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)

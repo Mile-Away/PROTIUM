@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import EmailVerifyCode, User
+from .models import APITokens, ArithmeticAccess, EmailVerifyCode, User
 
 
 class EmailVerifyCodeSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class EmailVerifyCodeSerializer(serializers.ModelSerializer):
         model = EmailVerifyCode
         fields = "__all__"
 
-    def is_valid(self, raise_exception=False) -> bool:
+    def is_valid(self, *, raise_exception: bool = False) -> bool:
         valid = super().is_valid(raise_exception=raise_exception)
 
         return valid
@@ -32,24 +32,44 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
+class APITokenSerializer(serializers.ModelSerializer):
+
+    def is_valid(self, *, raise_exception=False):
+        return super().is_valid(raise_exception=raise_exception)
+
+    class Meta:
+        model = APITokens
+        fields = "__all__"
+
+
+class ArithmeticAccessSerializer(serializers.ModelSerializer):
+
+    def is_valid(self, *, raise_exception=False):
+        return super().is_valid(raise_exception=raise_exception)
+
+    class Meta:
+        model = ArithmeticAccess
+        fields = "__all__"
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "email", "username", "password")
         # extra_kwargs = {"password": {"write_only": True}}
 
-    def is_valid(self, raise_exception=False):
+    def is_valid(self, *, raise_exception=False):
         valid = super().is_valid(raise_exception=raise_exception)
 
         if valid:
             # 因为导入模型是在构建 json 序列化器的时候，所以在这里进行验证
-            email = self.validated_data["email"]
+            email = self.validated_data["email"]  # type: ignore
             if User.objects.filter(email=email).exists():
-                self._errors["email"] = ["Email already exists"]
+                self._errors["email"] = ["Email already exists"]  # type: ignore
                 valid = False
-            username = self.validated_data["username"]
+            username = self.validated_data["username"]  # type: ignore
             if User.objects.filter(username=username).exists():
-                self._errors["username"] = ["Username already exists"]
+                self._errors["username"] = ["Username already exists"]  # type: ignore
                 valid = False
 
         return valid
@@ -69,7 +89,7 @@ class ResetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=50)
     password = serializers.CharField(max_length=50)
 
-    def is_valid(self, raise_exception=False):
+    def is_valid(self, *, raise_exception=False):
         valid = super().is_valid(raise_exception=raise_exception)
 
         return valid

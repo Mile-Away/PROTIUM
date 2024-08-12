@@ -31,6 +31,8 @@ class User(AbstractUser):
 
     # Optional Fields
     about = models.TextField(max_length=500, blank=True, null=True)
+
+    api_tokens: models.QuerySet["APITokens"]
     arithmetic_access: models.OneToOneField["ArithmeticAccess"]
 
     # Django Fields
@@ -60,10 +62,30 @@ class User(AbstractUser):
     #     return True
 
 
+class APITokens(models.Model):
+    """
+    API Tokens
+    """
+
+    id: int
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="api_tokens")
+    name = models.CharField(max_length=50, blank=True, null=True)
+    token = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    last_used = models.DateTimeField(auto_now=True)
+    # 有效期
+    period = models.IntegerField(default=30, help_text="Token 有效期，单位为天", blank=True, null=True)
+    expired = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} API Token"
+
+
 class EmailVerifyCode(models.Model):
     """
     验证码
     """
+
     id: int
     send_choices = (("register", "注册"), ("forget", "找回密码"))
 
@@ -117,6 +139,7 @@ class ArithmeticAccess(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="arithmetic_access")
     bohrium_access_token = models.CharField(max_length=100, blank=True, null=True)
+    bohrium_username = models.CharField(max_length=50, blank=True, null=True)
     bohrium_default_project = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self) -> str:
