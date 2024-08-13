@@ -260,7 +260,7 @@ EMAIL_SSL_CERTFILE = None
 EMAIL_SSL_KEYFILE = None
 EMAIL_FROM = "Protium"  # os.environ.get("EMAIL_HOST_USER")
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ORIGIN_WHITELIST = ast.literal_eval(os.environ.get("CORS_ORIGIN_WHITELIST", "[]"))
 CORS_ALLOW_CREDENTIALS = True  # 允许携带 cookie
 
