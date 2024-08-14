@@ -12,7 +12,6 @@ def user_avatar_path(instance, filename):
     return f"accounts/{instance.id}/avatar/{filename}"
 
 
-# Create your models here.
 class User(AbstractUser):
     # Required Fields
     id: int
@@ -27,7 +26,7 @@ class User(AbstractUser):
 
     # Social Account[Optional]
     email = models.EmailField(max_length=50, null=True, blank=False, unique=True)
-    bohrium_account = models.CharField(max_length=50, blank=True, null=True, unique=True)
+    bohrium_account = models.CharField(max_length=50, blank=True, null=True, unique=True)  # 这个是 Bohrium APP 给用户提供的用户名
 
     # Optional Fields
     about = models.TextField(max_length=500, blank=True, null=True)

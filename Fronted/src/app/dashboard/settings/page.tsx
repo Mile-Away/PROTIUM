@@ -446,7 +446,7 @@ export default function Example() {
                           htmlFor="cover-photo"
                           className="block  text-sm font-medium leading-6 text-neutral-900  dark:text-white"
                         >
-                          Access Token
+                          API Token
                         </label>
 
                         <button

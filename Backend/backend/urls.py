@@ -19,15 +19,19 @@ from rest_framework.routers import DefaultRouter
 from webchat.consumer import WebChatConsumer
 from webchat.viewsets import MessageListViewset
 from workflow.consumer import WorkflowConsumer
-from .views import root_view
+
 router = DefaultRouter()
 
 router.register("api/accounts", UserViewSet, basename="accounts")
 router.register("api/message", MessageListViewset, basename="message")
 
+# apis for api.protium.space
+apipatterns = [
+    path("", include("api.urls")),
+]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", root_view),  # disable the default Django index page
     # path("api/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     # path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/token/", JWTCookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -47,7 +51,7 @@ urlpatterns = [
     path("api/integration/", include("integration.urls"))
     # Social Login
     # path("accounts/", include("allauth.urls")),
-] + router.urls
+] + router.urls + apipatterns
 
 websocket_urlpatterns = [
     path("ws/<uuid:channelUUID>/", WebChatConsumer.as_asgi(), name="webchat"),

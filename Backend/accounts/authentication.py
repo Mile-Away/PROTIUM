@@ -3,13 +3,38 @@ from __future__ import annotations
 from typing import Any, Dict, Tuple
 
 from django.conf import settings
+from rest_framework.authentication import BaseAuthentication
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.request import Request
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import Token
 
+from .models import APITokens
 from .models import User as AuthUser
+
+
+# API Token Authentication
+class APITokenAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        auth_header = request.headers.get("Authorization")
+        if not auth_header:
+            return None
+
+        try:
+            prefix, token = auth_header.split(" ")
+            if prefix.lower() != "bearer":
+                raise AuthenticationFailed("Invalid token prefix")
+        except ValueError:
+            raise AuthenticationFailed("Invalid token header format")
+
+        try:
+            api_token = APITokens.objects.get(token=token, expired=False)
+        except APITokens.DoesNotExist:
+            raise AuthenticationFailed("Invalid or expired token")
+
+        return (api_token.user, api_token)
 
 
 class JWTCookieAuthentication(JWTAuthentication):

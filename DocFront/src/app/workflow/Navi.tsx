@@ -29,10 +29,12 @@ export const navigation: Array<NavGroup> = [
     ],
   },
   {
-    title: 'API',
+    title: 'CLI',
     links: [
+      { title: 'CLI', href: '/workflow/api/cli' },
+      { title: 'API Token', href: '/workflow/api/api-token' },
+      { title: 'File Format', href: '/workflow/api/file-format' },
       { title: 'API', href: '/workflow/api' },
-      { title: 'CLI', href: '/workflow/cli' },
     ],
   },
 ]
