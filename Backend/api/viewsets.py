@@ -13,14 +13,9 @@ class WorkflowViewSet(viewsets.ViewSet):
 
     def list(self, request):
 
-        by_user = request.query_params.get("by_user")
+        # by_user = request.query_params.get("by_user")
 
-        if by_user:
-            workflows = Workflow.objects.filter(creator=request.user)
-            serializer = self.serializer_class(workflows, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        workflows = Workflow.objects.all()
+        workflows = Workflow.objects.filter(creator=request.user)
         serializer = self.serializer_class(workflows, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
