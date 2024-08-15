@@ -37,230 +37,232 @@ export const NodeMapping: {
    * 2. data: 节点的数据
    */
   // VASP
-  POSCAR: {
-    type: 'Input',
-    data: {
-      header: 'POSCAR',
+  // POSCAR: {
+  //   type: 'Input',
+  //   template: 'POSCAR',
+  //   data: {
+  //     header: 'POSCAR',
+  //     handles: [
+  //       {
+  //         type: 'source',
+  //         key: 'poscar',
+  //         rope: 'VASP',
+  //         data_source: 'compile',
+  //         data_key: 'poscar',
+  //       },
+  //     ],
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'object',
+  //         title: 'POSCAR',
+  //         key: 'poscar',
+  //         compile: [],
+  //       },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'poscar',
+  //         title: 'POSCAR',
+  //         key: 'poscar',
+  //         bodies: ['poscar'],
+  //       },
+  //     ],
+  //     footer: 'VASP/POSCAR',
+  //   },
+  // },
 
-      handles: [
-        {
-          type: 'source',
-          key: 'poscar',
-          rope: 'VASP',
-          data_source: 'compile',
-          data_key: 'poscar',
-        },
-      ],
-      body: [
-        {
-          id: '',
-          source: '',
-          type: 'object',
-          title: 'POSCAR',
-          key: 'poscar',
-          compile: [],
-        },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'poscar',
-          title: 'POSCAR',
-          key: 'poscar',
-          bodies: ['poscar'],
-        },
-      ],
-      footer: 'VASP/POSCAR',
-    },
-  },
+  // POTCAR: {
+  //   type: 'Select',
+  //   template: 'POTCAR',
+  //   data: {
+  //     header: 'POTCAR',
 
-  POTCAR: {
-    type: 'Select',
-    data: {
-      header: 'POTCAR',
+  //     body: [
+  //       { id: '', source: '', type: 'select', title: 'POTCAR', key: 'potcar' },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'potcar',
+  //         title: 'POTCAR',
+  //         key: 'potcar',
+  //         bodies: ['potcar'],
+  //       },
+  //     ],
+  //     footer: 'VASP/POTCAR',
+  //     handles: [
+  //       {
+  //         type: 'source',
+  //         key: 'potcar',
+  //         rope: 'VASP',
+  //         data_source: 'compile',
+  //         data_key: 'potcar',
+  //       },
+  //     ],
+  //   },
+  // },
 
-      body: [
-        { id: '', source: '', type: 'select', title: 'POTCAR', key: 'potcar' },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'potcar',
-          title: 'POTCAR',
-          key: 'potcar',
-          bodies: ['potcar'],
-        },
-      ],
-      footer: 'VASP/POTCAR',
-      handles: [
-        {
-          type: 'source',
-          key: 'potcar',
-          rope: 'VASP',
-          data_source: 'compile',
-          data_key: 'potcar',
-        },
-      ],
-    },
-  },
+  // INCAR: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'INCAR',
 
-  INCAR: {
-    type: 'Input',
-    data: {
-      header: 'INCAR',
+  //     handles: [
+  //       {
+  //         type: 'source',
+  //         key: 'incar',
+  //         rope: 'VASP',
+  //         data_source: 'compile',
+  //         data_key: 'incar',
+  //       },
+  //     ],
+  //     body: [
+  //       { id: '', source: '', type: 'object', title: 'INCAR', key: 'incar' },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'incar',
+  //         title: 'INCAR',
+  //         key: 'incar',
+  //         bodies: ['incar'],
+  //       },
+  //     ],
+  //     footer: 'VASP/INCAR',
+  //   },
+  // },
 
-      handles: [
-        {
-          type: 'source',
-          key: 'incar',
-          rope: 'VASP',
-          data_source: 'compile',
-          data_key: 'incar',
-        },
-      ],
-      body: [
-        { id: '', source: '', type: 'object', title: 'INCAR', key: 'incar' },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'incar',
-          title: 'INCAR',
-          key: 'incar',
-          bodies: ['incar'],
-        },
-      ],
-      footer: 'VASP/INCAR',
-    },
-  },
+  // KPOINTS: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'KPOINTS',
 
-  KPOINTS: {
-    type: 'Input',
-    data: {
-      header: 'KPOINTS',
+  //     handles: [
+  //       {
+  //         key: 'kpoints',
+  //         type: 'source',
+  //         rope: 'VASP',
+  //         data_source: 'compile',
+  //         data_key: 'kpoints',
+  //       },
+  //     ],
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'object',
+  //         title: 'KPOINTS',
+  //         key: 'kpoints',
+  //       },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'kpoints',
+  //         title: 'KPOINTS',
+  //         key: 'kpoints',
+  //         bodies: ['kpoints'],
+  //       },
+  //     ],
+  //     footer: 'VASP/KPOINTS',
+  //   },
+  // },
 
-      handles: [
-        {
-          key: 'kpoints',
-          type: 'source',
-          rope: 'VASP',
-          data_source: 'compile',
-          data_key: 'kpoints',
-        },
-      ],
-      body: [
-        {
-          id: '',
-          source: '',
-          type: 'object',
-          title: 'KPOINTS',
-          key: 'kpoints',
-        },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'kpoints',
-          title: 'KPOINTS',
-          key: 'kpoints',
-          bodies: ['kpoints'],
-        },
-      ],
-      footer: 'VASP/KPOINTS',
-    },
-  },
+  // VASP: {
+  //   type: 'Solver',
+  //   data: {
+  //     header: 'VASP',
 
-  VASP: {
-    type: 'Solver',
-    data: {
-      header: 'VASP',
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: 'default',
+  //         type: 'select',
+  //         key: 'potcarSelect',
+  //       },
+  //       {
+  //         id: '',
+  //         source: 'bohrium',
+  //         type: 'select',
+  //         key: 'machineSelect',
+  //       },
+  //       {
+  //         id: '',
+  //         source: '',
+  //         title: 'Machine Config',
+  //         type: 'object',
+  //         key: 'config',
+  //       },
+  //     ],
 
-      body: [
-        {
-          id: '',
-          source: 'default',
-          type: 'select',
-          key: 'potcarSelect',
-        },
-        {
-          id: '',
-          source: 'bohrium',
-          type: 'select',
-          key: 'machineSelect',
-        },
-        {
-          id: '',
-          source: '',
-          title: 'Machine Config',
-          type: 'object',
-          key: 'config',
-        },
-      ],
+  //     footer: 'VASP 5.4.4',
+  //     handles: [
+  //       { key: 'poscar', type: 'target', rope: 'POSCAR' },
+  //       // { key: 'potcar', type: 'target' },
+  //       { key: 'incar', type: 'target', rope: 'INCAR' },
+  //       { key: 'kpoints', type: 'target', rope: 'KPOINTS' },
+  //       { key: 'vasp-outputs', type: 'source', rope: 'VASP_OUTPUTS' },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'vasp',
+  //         title: 'VASP',
+  //         key: 'vasp',
+  //         bodies: [],
+  //       },
+  //     ],
+  //   },
+  // },
 
-      footer: 'VASP 5.4.4',
-      handles: [
-        { key: 'poscar', type: 'target', rope: 'POSCAR' },
-        // { key: 'potcar', type: 'target' },
-        { key: 'incar', type: 'target', rope: 'INCAR' },
-        { key: 'kpoints', type: 'target', rope: 'KPOINTS' },
-        { key: 'vasp-outputs', type: 'source', rope: 'VASP_OUTPUTS' },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'vasp',
-          title: 'VASP',
-          key: 'vasp',
-          bodies: [],
-        },
-      ],
-    },
-  },
+  // VASP_OUTPUTS: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'VASP Outputs',
 
-  VASP_OUTPUTS: {
-    type: 'Input',
-    data: {
-      header: 'VASP Outputs',
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'object',
+  //         key: 'vasp_outputs',
+  //         compile: [],
+  //       },
+  //     ],
 
-      body: [
-        {
-          id: '',
-          source: '',
-          type: 'object',
-          key: 'vasp_outputs',
-          compile: [],
-        },
-      ],
-
-      footer: 'VASP Outputs',
-      handles: [{ key: 'vasp-outputs', type: 'target', rope: 'VASP' }],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'vasp',
-          title: 'VASP',
-          key: 'vasp',
-          bodies: [],
-        },
-      ],
-    },
-  },
+  //     footer: 'VASP Outputs',
+  //     handles: [{ key: 'vasp-outputs', type: 'target', rope: 'VASP' }],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'vasp',
+  //         title: 'VASP',
+  //         key: 'vasp',
+  //         bodies: [],
+  //       },
+  //     ],
+  //   },
+  // },
 
   // ABACUS
   ABACUS_INPUT: {
     type: 'Input',
+    template: 'ABACUS_INPUT',
     data: {
       header: 'ABACUS INPUT',
 
@@ -307,166 +309,167 @@ export const NodeMapping: {
     },
   },
 
-  SIAB_ORBITALS: {
-    type: 'Input',
-    data: {
-      header: 'SIAB ORBITALS',
+  // SIAB_ORBITALS: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'SIAB ORBITALS',
 
-      body: [
-        {
-          id: '',
-          source: {},
-          type: 'object',
-          title: 'SIAB ORBITALS',
-          key: 'siab_orbitals',
-          compile: [],
-        },
-      ],
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: {},
+  //         type: 'object',
+  //         title: 'SIAB ORBITALS',
+  //         key: 'siab_orbitals',
+  //         compile: [],
+  //       },
+  //     ],
 
-      footer: 'ORBITALS',
-      handles: [
-        {
-          key: 'siab-orbitals',
-          type: 'source',
-          rope: 'ABACUS_SIAB',
-          data_source: 'compile',
-          data_key: 'siab_orbitals',
-        },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'siab_orbitals',
-          title: 'SIAB Oribitals',
-          key: 'siab_orbitals',
-          bodies: ['siab_orbitals'],
-        },
-      ],
-    },
-  },
+  //     footer: 'ORBITALS',
+  //     handles: [
+  //       {
+  //         key: 'siab-orbitals',
+  //         type: 'source',
+  //         rope: 'ABACUS_SIAB',
+  //         data_source: 'compile',
+  //         data_key: 'siab_orbitals',
+  //       },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'siab_orbitals',
+  //         title: 'SIAB Oribitals',
+  //         key: 'siab_orbitals',
+  //         bodies: ['siab_orbitals'],
+  //       },
+  //     ],
+  //   },
+  // },
 
-  ABACUS_STRU: {
-    type: 'Input',
-    data: {
-      header: 'STRU',
+  // ABACUS_STRU: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'STRU',
 
-      body: [
-        {
-          id: '',
-          source: {},
-          type: 'object',
-          key: 'stru',
-          compile: [],
-        },
-      ],
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: {},
+  //         type: 'object',
+  //         key: 'stru',
+  //         compile: [],
+  //       },
+  //     ],
 
-      footer: 'STRU',
-      handles: [{ key: 'abacus-stru', type: 'source', rope: 'ABACUS' }],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'abacus_stru',
-          title: 'ABACUS_STRU',
-          key: 'abacus_stru',
-          bodies: ['stru'],
-        },
-      ],
-    },
-  },
+  //     footer: 'STRU',
+  //     handles: [{ key: 'abacus-stru', type: 'source', rope: 'ABACUS' }],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'abacus_stru',
+  //         title: 'ABACUS_STRU',
+  //         key: 'abacus_stru',
+  //         bodies: ['stru'],
+  //       },
+  //     ],
+  //   },
+  // },
 
-  SIAB_SYSTEM: {
-    type: 'Input',
-    data: {
-      header: 'SIAB SYSTEM',
+  // SIAB_SYSTEM: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'SIAB SYSTEM',
 
-      body: [
-        {
-          id: '',
-          source: {},
-          type: 'object',
-          title: 'SIAB SYSTEM',
-          key: 'siab_system',
-          compile: [],
-        },
-      ],
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: {},
+  //         type: 'object',
+  //         title: 'SIAB SYSTEM',
+  //         key: 'siab_system',
+  //         compile: [],
+  //       },
+  //     ],
 
-      footer: 'Version 0.1.0',
-      handles: [
-        {
-          key: 'siab-system',
-          type: 'source',
-          rope: 'ABACUS_SIAB',
-          data_source: 'compile',
-          data_key: 'siab_system',
-        },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'siab_system',
-          title: 'SIAB SYSTEM',
-          key: 'siab_system',
-          bodies: ['siab_system'],
-        },
-      ],
-    },
-  },
+  //     footer: 'Version 0.1.0',
+  //     handles: [
+  //       {
+  //         key: 'siab-system',
+  //         type: 'source',
+  //         rope: 'ABACUS_SIAB',
+  //         data_source: 'compile',
+  //         data_key: 'siab_system',
+  //       },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'siab_system',
+  //         title: 'SIAB SYSTEM',
+  //         key: 'siab_system',
+  //         bodies: ['siab_system'],
+  //       },
+  //     ],
+  //   },
+  // },
 
-  ABACUS: {
-    type: 'Solver',
-    data: {
-      header: 'ABACUS',
-      body: [
-        {
-          id: '',
-          source: 'default',
-          type: 'select',
-          key: 'potcarSelect',
-        },
-        {
-          id: '',
-          source: 'bohrium',
-          type: 'select',
-          key: 'machineSelect',
-        },
-        {
-          id: '',
-          source: '',
-          title: 'Machine Config',
-          type: 'object',
-          key: 'config',
-        },
-      ],
+  // ABACUS: {
+  //   type: 'Solver',
+  //   data: {
+  //     header: 'ABACUS',
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: 'default',
+  //         type: 'select',
+  //         key: 'potcarSelect',
+  //       },
+  //       {
+  //         id: '',
+  //         source: 'bohrium',
+  //         type: 'select',
+  //         key: 'machineSelect',
+  //       },
+  //       {
+  //         id: '',
+  //         source: '',
+  //         title: 'Machine Config',
+  //         type: 'object',
+  //         key: 'config',
+  //       },
+  //     ],
 
-      footer: 'ABACUS 3.7.1',
-      handles: [
-        { key: 'input', type: 'target', rope: 'INPUT' },
-        // { key: 'potcar', type: 'target' },
-        { key: 'kpt', type: 'target', rope: 'KPT' },
-        { key: 'stru', type: 'target', rope: 'STRU' },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'vasp',
-          title: 'VASP',
-          key: 'vasp',
-          bodies: [],
-        },
-      ],
-    },
-  },
+  //     footer: 'ABACUS 3.7.1',
+  //     handles: [
+  //       { key: 'input', type: 'target', rope: 'INPUT' },
+  //       // { key: 'potcar', type: 'target' },
+  //       { key: 'kpt', type: 'target', rope: 'KPT' },
+  //       { key: 'stru', type: 'target', rope: 'STRU' },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'vasp',
+  //         title: 'VASP',
+  //         key: 'vasp',
+  //         bodies: [],
+  //       },
+  //     ],
+  //   },
+  // },
 
   ABACUS_SIAB: {
     type: 'Solver',
+    template: 'ABACUS_SIAB',
     data: {
       header: 'ABACUS SIAB',
       body: [
@@ -518,37 +521,37 @@ export const NodeMapping: {
     },
   },
 
-  ABACUS_SIAB_OUTPUTS: {
-    type: 'Input',
-    data: {
-      header: 'ABACUS SIAB Outputs',
-      body: [
-        {
-          id: '',
-          source: '',
-          type: 'object',
-          key: 'vasp_outputs',
-          compile: [],
-        },
-      ],
+  // ABACUS_SIAB_OUTPUTS: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'ABACUS SIAB Outputs',
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'object',
+  //         key: 'vasp_outputs',
+  //         compile: [],
+  //       },
+  //     ],
 
-      footer: 'ABACUS SIAB Outputs',
-      handles: [
-        { key: 'siab-outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'vasp',
-          title: 'VASP',
-          key: 'vasp',
-          bodies: [],
-        },
-      ],
-    },
-  },
+  //     footer: 'ABACUS SIAB Outputs',
+  //     handles: [
+  //       { key: 'siab-outputs', type: 'target', rope: 'PIPELINE_ABACUS_SIAB' },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'vasp',
+  //         title: 'VASP',
+  //         key: 'vasp',
+  //         bodies: [],
+  //       },
+  //     ],
+  //   },
+  // },
 };
 
 export default nodeTypes;

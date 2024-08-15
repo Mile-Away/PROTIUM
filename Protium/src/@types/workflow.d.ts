@@ -52,6 +52,7 @@ export interface WorkflowNodeDataProps {
 export interface WorkflowNodeProps
   extends Node<WorkflowNodeDataProps, keyof typeof nodeTypes> {
   id: string;
+  template: string;
   type?: keyof typeof nodeTypes;
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';

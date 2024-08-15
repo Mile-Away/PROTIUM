@@ -82,11 +82,14 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
     });
 
   const saveWorkflow = async () => {
+    
+    // 每次保存的时候，打印一下当前的 workflow 数据
     console.log('>>>>', {
       ...workflow,
       nodes,
       edges,
     });
+
     try {
       const res = await jwtAxios.put(
         `${BASE_URL}/workflow/workflow/${params.uuid}/`,

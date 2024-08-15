@@ -1,13 +1,15 @@
 from accounts.public_serializer import BasicUserSerializer
+from flociety.models import NodeTemplateLibrary
 from rest_framework import serializers
+
 from .models import (
     Workflow,
     WorkflowEdge,
     WorkflowNode,
     WorkflowNodeBody,
+    WorkflowNodeCompile,
     WorkflowNodeData,
     WorkflowNodeHandle,
-    WorkflowNodeCompile,
 )
 
 
@@ -80,21 +82,29 @@ class WorkflowNodeDataSerializer(serializers.ModelSerializer):
 class WorkflowNodeSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
     node_data = WorkflowNodeDataSerializer(many=False)  # 换成 node_data，data 和 serializer 的内置变量冲突了
+    type = serializers.SerializerMethodField()
+    template = serializers.CharField()  # 使用 CharField 来处理 template
 
     class Meta:
         model = WorkflowNode
         exclude = ["id"]
 
+    def get_type(self, obj):
+        return obj.template.type
+
     def to_internal_value(self, data):
         if "id" in data:
             data["uuid"] = data.pop("id")
             data["node_data"] = data.pop("data")
+
         return super().to_internal_value(data)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret["id"] = ret.pop("uuid")
         ret["data"] = ret.pop("node_data")
+        # 手动添加 template 字段
+        ret["template"] = instance.template.name
         return ret
 
 
@@ -144,6 +154,8 @@ class WorkflowSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
+        print("validated_data >>>>>>>>", validated_data)
+
         # 处理嵌套字段
         nodes = validated_data.pop("nodes", [])
         edges = validated_data.pop("edges", [])
@@ -164,12 +176,17 @@ class WorkflowSerializer(serializers.ModelSerializer):
             node_handles = node_data.pop("handles", [])
             node_body = node_data.pop("body", [])
             node_compile = node_data.pop("compile", [])
+            node_template = node.pop("template")
 
+            try:
+                template = NodeTemplateLibrary.objects.get(name=node_template)
+            except NodeTemplateLibrary.DoesNotExist:
+                raise Exception("Can't find node template with name: ", node_template)
             # 更新 WorkflowNode 实例
             Node, created = WorkflowNode.objects.update_or_create(
                 uuid=node["uuid"],
                 workflow=instance,
-                defaults=node,
+                defaults={**node, "template": template},
             )
 
             # 更新 WorkflowNodeData 实例

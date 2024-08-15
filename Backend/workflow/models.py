@@ -1,9 +1,15 @@
 import uuid
 
+from accounts.models import User
 from django.conf import settings
 from django.db import models
-
-from accounts.models import User
+from flociety.abstract import (
+    BaseNodeDataBodyModel,
+    BaseNodeDataCompileModel,
+    BaseNodeDataHandleModel,
+    BaseNodeDataModel,
+)
+from flociety.models import NodeTemplateLibrary
 
 
 class Workflow(models.Model):
@@ -69,7 +75,8 @@ class WorkflowNode(models.Model):
     id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, related_name="nodes")
-    type = models.CharField(max_length=50)
+    template = models.ForeignKey(NodeTemplateLibrary, on_delete=models.CASCADE)
+    # type = models.CharField(max_length=50)
     position = models.JSONField(default=dict)
     positionAbsolute = models.JSONField(default=dict)
     width = models.IntegerField(default=200)
@@ -84,96 +91,62 @@ class WorkflowNode(models.Model):
         return f"{self.uuid}"
 
 
-class WorkflowNodeData(models.Model):
+class WorkflowNodeData(BaseNodeDataModel):
     node = models.OneToOneField(WorkflowNode, on_delete=models.CASCADE, related_name="node_data")
-    header = models.CharField(max_length=100)
-    footer = models.TextField(blank=True, null=True)
 
     handles: models.QuerySet["WorkflowNodeHandle"]
-    compile: models.QuerySet["WorkflowNodeCompile"]
     body: models.QuerySet["WorkflowNodeBody"]
+    compile: models.QuerySet["WorkflowNodeCompile"]
 
     def __str__(self):
         return f"{self.node}"
 
 
-class WorkflowNodeHandle(models.Model):
-    AS_CHOICES = (
-        ("target", "Target"),
-        ("source", "Source"),
-    )
+class WorkflowNodeHandle(BaseNodeDataHandleModel):
 
-    data_source_choices = (
-        ("handle", "Handle"),
-        ("body", "Body"),
-        ("compile", "Compile"),
-    )
-    # 只有不同的节点才能有相同的key，同一个节点相同 type 的key不能相同，不同 type 的key可以相同
-    # 所以 unique_together 是 ("node", "type", "key")
-    # key 用来判断节点之间是否可以连接
-    key = models.CharField(max_length=100)
-    label = models.CharField(max_length=100, blank=True, null=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="handles")
-    type = models.CharField(max_length=10, choices=AS_CHOICES)
+
     hasConnected = models.BooleanField(default=False)
     required = models.BooleanField(default=False)
-    # source 储存这个作为 source handle，输出的数据的来源，只有三个选项，handle, body, result
-    # source 的格式为 {"source": "handle", "key": "poscar"}
-    # 或者 {"source": "body", "key": "input"}  # 一般来说，不会使用 body 作为 source
-    # 或者 {"source": "result", "key": "poscar"}
-    data_source = models.CharField(max_length=10, blank=True, null=True, choices=data_source_choices)
-    data_key = models.CharField(max_length=100, blank=True, null=True)
-    # rope 记录从一端连线时自动连接的节点
-    rope = models.CharField(max_length=100, blank=True, null=True)
 
     edges_sourceHandle: models.QuerySet["WorkflowEdge"]
     edges_targetHandle: models.QuerySet["WorkflowEdge"]
 
-    class Meta:
+    class Meta:  # type: ignore
         unique_together = ("node", "type", "key")
 
     def __str__(self):
-        return f"{self.node.node}_{self.type}_{self.key}"
+        return f"{self.node.node}_{self.type}_{self.key}"  # 这里的下划线不能随意修改，会影响前端绘图
 
 
-class WorkflowNodeBody(models.Model):
+class WorkflowNodeBody(BaseNodeDataBodyModel):
     # body 和 result 应该是多对多关系
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="body")
-    key = models.CharField(max_length=100)
-    type = models.CharField(max_length=50)
-    source = models.JSONField(blank=True, null=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
-    attachment = models.CharField(max_length=100, blank=True, null=True)
 
     compile: models.QuerySet["WorkflowNodeCompile"]
 
-    class Meta:
+    class Meta:  # type: ignore
         unique_together = ("node", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.key}"
+        return f"{self.node.node}-{self.key}-body"
 
 
-class WorkflowNodeCompile(models.Model):
+class WorkflowNodeCompile(BaseNodeDataCompileModel):
     # 使用 key 来和 source handle 对齐
     # 使用 script 来确定执行的脚本
     # 使用 source 存储执行结果
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     node = models.ForeignKey(WorkflowNodeData, on_delete=models.CASCADE, related_name="compile")
-    key = models.CharField(max_length=100)
-    script = models.CharField(blank=True, null=True)
-    source = models.TextField(blank=True, null=True)
-    type = models.CharField(max_length=50, blank=True, null=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
-    attachment = models.CharField(max_length=100, blank=True, null=True)
+
     bodies = models.ManyToManyField(WorkflowNodeBody, related_name="compile", blank=True)
 
-    class Meta:
+    class Meta:  # type: ignore
         unique_together = ("node", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.key}"
+        return f"{self.node.node}-{self.key}-compile"
 
 
 class WorkflowNodeMessage(models.Model):

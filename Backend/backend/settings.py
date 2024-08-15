@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     "webchat.apps.WebchatConfig",
     "workflow.apps.WorkflowConfig",
     "integration.apps.IntegrationConfig",
+    "api.apps.ApiConfig",
+    "flociety.apps.FlocietyConfig",
 ]
 
 MIDDLEWARE = [

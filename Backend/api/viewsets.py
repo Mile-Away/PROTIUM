@@ -21,4 +21,6 @@ class WorkflowViewSet(viewsets.ViewSet):
 
     def create(self, request):
 
-        pass
+        print(request.data)
+
+        return Response(data={"name": "untitled"}, status=status.HTTP_201_CREATED)
