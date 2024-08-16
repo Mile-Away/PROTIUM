@@ -1,3 +1,4 @@
+import { WorkflowSite } from '@/config';
 import {
   AdjustmentsHorizontalIcon,
   CubeTransparentIcon,
@@ -31,19 +32,18 @@ export const dashboardNavi = [
     icon: DocumentTextIcon,
     current: false,
   },
-  // {
-  //   name: 'sidebar.workflow',
-  //   href: '/workflow',
-  //   icon: AdjustmentsHorizontalIcon,
-  //   current: false,
-  // },
+  {
+    name: 'sidebar.workflow',
+    href: WorkflowSite,
+    icon: AdjustmentsHorizontalIcon,
+    current: false,
+  },
   // {
   //   name: 'Template',
   //   href: '#',
   //   icon: DocumentDuplicateIcon,
   //   current: false,
   // },
-  // { name: 'WorkFlow', href: '#', icon: PlayIcon, current: false },
 ];
 
 export const workshopNavi = [

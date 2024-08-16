@@ -228,7 +228,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
             action: 'pipeline_abacus_siab',
             label: 'SIAB',
             icon: PlusIcon,
-            onClick: () => handleMenuItemClick('pipeline_abacus_siab'),
+            onClick: () => handleMenuItemClick('ABACUS_SIAB'),
             arrow: true,
             subContextMenuItems: [
               {

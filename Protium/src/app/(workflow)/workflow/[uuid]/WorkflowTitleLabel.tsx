@@ -1,6 +1,6 @@
 'use client';
 import { RootReducerProps } from '@/app/store';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { setWorkflowName } from '@/store/workflow/workflowSlice';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
@@ -8,10 +8,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const WorkflowTitleLabel = (
-    {handleSaveWorkflow}: {handleSaveWorkflow: () => void},
-) => {
-  const jwtAxios = useAxiosWithInterceptors();
+const WorkflowTitleLabel = ({
+  handleSaveWorkflow,
+}: {
+  handleSaveWorkflow: () => void;
+}) => {
+  const jwtAxios = createAxiosWithInterceptors();
   const url = usePathname();
   const router = useRouter();
 
@@ -49,7 +51,6 @@ const WorkflowTitleLabel = (
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateInputWidth(e.target);
     dispatch(setWorkflowName(e.target.value));
-
   };
 
   return (

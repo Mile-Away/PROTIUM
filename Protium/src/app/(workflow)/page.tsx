@@ -2,13 +2,13 @@
 import { GrayLogo } from '@/@brand/Logo';
 import { RootReducerProps } from '@/app/store';
 import { BASE_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Page = () => {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const router = useRouter();
 

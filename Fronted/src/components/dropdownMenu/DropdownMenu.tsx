@@ -2,6 +2,7 @@ import { useAuthServiceContext } from '@/context/AuthContext';
 import { Menu, Transition } from '@headlessui/react';
 import {
   AdjustmentsHorizontalIcon,
+  BookOpenIcon,
   Cog6ToothIcon,
   CubeTransparentIcon,
 } from '@heroicons/react/24/outline';
@@ -9,6 +10,7 @@ import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { DocumentSite, PrimarySite, WorkflowSite } from '@/config';
 import {
   DocumentTextIcon,
   HomeIcon,
@@ -47,31 +49,37 @@ export function DropdownMenu({
   const navigations: NavigationProps[] = [
     {
       name: 'Dashboard',
-      href: '/dashboard',
+      href: `${PrimarySite}/dashboard`,
       class: 'primary',
       icon: <HomeIcon />,
     },
     {
       name: 'Space',
-      href: '/dashboard/space',
+      href: `${PrimarySite}/dashboard/space`,
       class: 'primary',
       icon: <CubeTransparentIcon />,
     },
     {
       name: 'Manuscript',
-      href: '/dashboard/manuscript',
+      href: `${PrimarySite}/dashboard/manuscript`,
       class: 'primary',
       icon: <DocumentTextIcon />,
     },
-    // {
-    //   name: 'Workflow',
-    //   href: '/workflow',
-    //   class: 'primary',
-    //   icon: <AdjustmentsHorizontalIcon />,
-    // },
+    {
+      name: 'Workflow',
+      href: WorkflowSite,
+      class: 'primary',
+      icon: <AdjustmentsHorizontalIcon />,
+    },
+    {
+      name: 'Docs',
+      href: `${DocumentSite}/workflow`,
+      class: 'secondary',
+      icon: <BookOpenIcon />,
+    },
     {
       name: 'Settings',
-      href: '/dashboard/settings',
+      href: `${PrimarySite}/dashboard/settings`,
       class: 'secondary',
       icon: <Cog6ToothIcon />,
     },

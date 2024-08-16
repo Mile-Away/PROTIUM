@@ -1,4 +1,4 @@
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import usePost from '@/hooks/usePost';
 import {
@@ -93,7 +93,7 @@ export default function SearchGlobal({
   showRecent = true,
   showShortcut = false,
 }: SearchProps) {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
   const [query, setQuery] = useState('');
 

@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { BASE_URL } from '../config';
-import useAxiosWithInterceptors from '../helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '../helpers/jwtinterceptor';
 
 interface UseAxiosPostResponse<T> {
   dataBack: AxiosResponse | null;
@@ -11,13 +11,12 @@ interface UseAxiosPostResponse<T> {
 }
 
 const usePost = <T>(apiURL: string): UseAxiosPostResponse<T> => {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [dataBack, setDataBack] = useState<AxiosResponse | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const postData = async (data: T) => {
-
     setIsLoading(true);
     try {
       const response = await jwtAxios.post(

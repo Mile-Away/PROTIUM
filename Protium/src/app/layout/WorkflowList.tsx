@@ -2,7 +2,7 @@
 import { RootReducerProps } from '@/app/store';
 import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import { BASE_URL, MEDIA_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
 import { PlusIcon } from '@heroicons/react/24/solid';
@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function WorkflowList() {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const router = useRouter();
 
@@ -21,7 +21,6 @@ export default function WorkflowList() {
   const { workflowList } = useSelector(
     (state: RootReducerProps) => state.workflow,
   );
-  
 
   const { name, uuid } = useSelector(
     (state: RootReducerProps) => state.workflow.workflow,
@@ -31,7 +30,9 @@ export default function WorkflowList() {
 
   const fetchWorkflows = async () => {
     try {
-      const res = await jwtAxios.get(`${BASE_URL}/workflow/vs/workflow/?by_user=true`);
+      const res = await jwtAxios.get(
+        `${BASE_URL}/workflow/vs/workflow/?by_user=true`,
+      );
       dispatch(setWorkflowList(res.data));
     } catch (error) {
       console.error(error);
@@ -60,11 +61,7 @@ export default function WorkflowList() {
 
   return (
     <>
-      <div
-        className={clsx(
-          'inert flex w-full flex-col gap-y-4 px-2',
-        )}
-      >
+      <div className={clsx('inert flex w-full flex-col gap-y-4 px-2')}>
         <div
           className={clsx(
             'mb-4 flex w-full items-center justify-between gap-x-2',
@@ -81,7 +78,7 @@ export default function WorkflowList() {
           </PrimaryButton>
         </div>
       </div>
-      <div className='flex flex-col items-center gap-4 p-1 overflow-y-scroll inert'>
+      <div className="inert flex flex-col items-center gap-4 overflow-y-scroll p-1">
         {workflowList
           .slice()
           .sort(
@@ -125,7 +122,7 @@ export default function WorkflowList() {
                   {/* <span>{formatTime(workflow.created_at)}</span> */}
                   <span
                     className={clsx(
-                      "text-nowrap",
+                      'text-nowrap',
                       workflow.uuid === uuid && 'dark:text-neutral-100',
                     )}
                   >

@@ -1,6 +1,8 @@
 import { useAuthServiceContext } from '@/context/AuthContext';
 import { Menu, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import {
+  AdjustmentsHorizontalIcon,
+  BookOpenIcon,
   Cog6ToothIcon,
   CubeTransparentIcon,
 } from '@heroicons/react/24/outline';
@@ -8,7 +10,7 @@ import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ENV } from '@/config';
+import { DocumentSite, ENV, PrimarySite, WorkflowSite } from '@/config';
 import {
   DocumentTextIcon,
   HomeIcon,
@@ -47,31 +49,37 @@ export function DropdownMenu({
   const navigations: NavigationProps[] = [
     {
       name: 'Dashboard',
-      href: '/dashboard',
+      href: `${PrimarySite}/dashboard`,
       class: 'primary',
       icon: <HomeIcon />,
     },
     {
       name: 'Space',
-      href: '/dashboard/space',
+      href: `${PrimarySite}/dashboard/space`,
       class: 'primary',
       icon: <CubeTransparentIcon />,
     },
     {
       name: 'Manuscript',
-      href: '/dashboard/manuscript',
+      href: `${PrimarySite}/dashboard/manuscript`,
       class: 'primary',
       icon: <DocumentTextIcon />,
     },
-    // {
-    //   name: 'Workflow',
-    //   href: '/workflow',
-    //   class: 'primary',
-    //   icon: <AdjustmentsHorizontalIcon />,
-    // },
     {
-      name: 'Edit Profile',
-      href: '/dashboard/settings',
+      name: 'Workflow',
+      href: WorkflowSite,
+      class: 'primary',
+      icon: <AdjustmentsHorizontalIcon />,
+    },
+    {
+      name: 'Docs',
+      href: `${DocumentSite}/workflow`,
+      class: 'secondary',
+      icon: <BookOpenIcon />,
+    },
+    {
+      name: 'Settings',
+      href: `${PrimarySite}/dashboard/settings`,
       class: 'secondary',
       icon: <Cog6ToothIcon />,
     },
@@ -107,7 +115,7 @@ export function DropdownMenu({
             )}
           >
             <div className=" relative">
-              <div className="pointer-events-none py-2 relative w-full select-none rounded-md bg-white opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+              <div className="pointer-events-none relative w-full select-none rounded-md bg-white py-2 opacity-40 shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
                 <div className="p-2 pt-0">
                   {navigation
                     .filter((item) => item.class === 'primary')
@@ -173,8 +181,10 @@ export function DropdownMenu({
                     ))}
                 </div>
               </div>
-              <div className="absolute -translate-y-full flex items-center justify-center h-full w-full rounded-md bg-indigo-500/15 px-2.5 py-0.5 text-center text-sm/6 font-semibold text-indigo-700 backdrop-blur-sm dark:text-indigo-400">
-                请访问 <br/>Protium <br/>使用完整功能
+              <div className="absolute flex h-full w-full -translate-y-full items-center justify-center rounded-md bg-indigo-500/15 px-2.5 py-0.5 text-center text-sm/6 font-semibold text-indigo-700 backdrop-blur-sm dark:text-indigo-400">
+                请访问 <br />
+                Protium <br />
+                使用完整功能
               </div>
             </div>
           </MenuItems>

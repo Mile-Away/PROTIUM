@@ -1,24 +1,15 @@
-import { addNode } from '@/store/workflow/workflowSlice';
-import { Dispatch } from '@reduxjs/toolkit';
-import { NodeMapping } from '../nodes/nodeTypes';
 import { fetchNodeTemplate } from '@/store/middleware';
+import { Dispatch } from '@reduxjs/toolkit';
 const handleMenuItemClick = (action: string) => {
   return (dispatch: Dispatch<any>) => {
-    switch (action) {
-      // Node 相关操作
-      case 'hidden':
-        return;
-      case 'delete':
-        return;
-      case 'duplicate':
-        return;
-
-      // Basic 相关操作
-      case 'abacus_input':
-        return dispatch(fetchNodeTemplate({template: 'ABACUS_INPUT'}));
-
-      default:
-        return;
+    if (action) {
+      try {
+        return dispatch(fetchNodeTemplate({ template: action }));
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      throw new Error('No action provided');
     }
   };
 };

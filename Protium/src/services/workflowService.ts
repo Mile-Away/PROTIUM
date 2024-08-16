@@ -1,6 +1,6 @@
 import { RootReducerProps } from '@/app/store';
 import { BASE_URL, WS_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useAuthService } from '@/services/AuthService';
 import {
   setNodeExecutedCompile,
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 
 const useWorkflowWebSocket = (params: { uuid: string }) => {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const { logout, userInfo, refreshAccessToken } = useAuthService();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -82,7 +82,6 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
     });
 
   const saveWorkflow = async () => {
-    
     // 每次保存的时候，打印一下当前的 workflow 数据
     console.log('>>>>', {
       ...workflow,
