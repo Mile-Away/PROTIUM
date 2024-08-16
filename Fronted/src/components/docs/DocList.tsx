@@ -1,7 +1,7 @@
 import { DocProps } from '@/@types/maunscript';
 import DocSlide from '@/components/docs/DocSlide';
 import { BASE_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useCRUD } from '@/hooks/useCrud';
 import { formatTime } from '@/lib/formatDate';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/20/solid';
@@ -25,7 +25,7 @@ export default function DocList() {
     fetchData();
   }, [isDelete]);
 
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const createDoc = () => {
     jwtAxios

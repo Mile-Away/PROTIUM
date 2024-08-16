@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import Vditor from 'vditor';
 // import 'vditor/dist/index.css';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 interface VditorMarkdownProps {
   onChange?: (value: string) => void;
   TYPE: 'create' | 'edit';
@@ -17,7 +17,7 @@ const VditorMarkdown: React.FC<VditorMarkdownProps> = ({
   initialContent,
   documentUUID,
 }) => {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   let { resolvedTheme, setTheme } = useTheme();
   const [vd, setVd] = useState<Vditor>();
 

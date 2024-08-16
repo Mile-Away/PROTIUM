@@ -1,8 +1,9 @@
 import { addNode } from '@/store/workflow/workflowSlice';
 import { Dispatch } from '@reduxjs/toolkit';
 import { NodeMapping } from '../nodes/nodeTypes';
+import { fetchNodeTemplate } from '@/store/middleware';
 const handleMenuItemClick = (action: string) => {
-  return (dispatch: Dispatch) => {
+  return (dispatch: Dispatch<any>) => {
     switch (action) {
       // Node 相关操作
       case 'hidden':
@@ -13,45 +14,9 @@ const handleMenuItemClick = (action: string) => {
         return;
 
       // Basic 相关操作
-      case 'poscar':
-        return dispatch(addNode(NodeMapping.POSCAR));
-
-      case 'potcar':
-        return dispatch(addNode(NodeMapping.POTCAR));
-
-      case 'incar':
-        return dispatch(addNode(NodeMapping.INCAR));
-
-      case 'kpoints':
-        return dispatch(addNode(NodeMapping.KPOINTS));
-
       case 'abacus_input':
-        return dispatch(addNode(NodeMapping.ABACUS_INPUT));
+        return dispatch(fetchNodeTemplate({template: 'ABACUS_INPUT'}));
 
-      case "siab_orbitals":
-        return dispatch(addNode(NodeMapping.SIAB_ORBITALS));
-
-      case "siab_system":
-        return dispatch(addNode(NodeMapping.SIAB_SYSTEM));
-
-      // Solver 相关操作 
-      case 'vasp':
-        return dispatch(addNode(NodeMapping.VASP));
-
-      case 'abacus':
-        return dispatch(addNode(NodeMapping.ABACUS));
-
-
-      // Outputs 相关操作
-      case 'vasp_outputs':
-        return dispatch(addNode(NodeMapping.VASP_OUTPUTS));
-      
-      case 'abacus_outputs':
-        return dispatch(addNode(NodeMapping.ABACUS_OUTPUTS));
-
-      // Pipeline 相关操作
-      case 'pipeline_abacus_siab':
-        return dispatch(addNode(NodeMapping.ABACUS_SIAB));
       default:
         return;
     }

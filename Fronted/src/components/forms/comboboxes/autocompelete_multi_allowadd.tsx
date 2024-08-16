@@ -1,6 +1,6 @@
 import { ArticleProps } from '@/@types/article';
 import { MEDIA_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
 import {
   Combobox,
@@ -38,7 +38,7 @@ export default function AutoCompleteCombobox({
     setSelectedOptions(selected);
   }, [options, selected]);
 
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const filteredOptions =
     query === ''
       ? restOptions

@@ -3,14 +3,14 @@ import { SpaceProps } from '@/@types/space';
 import { Success } from '@/components/notification/Success';
 import { GitHubIcon } from '@/components/SocialIcons';
 import { MEDIA_URL, PrimarySite } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 
 export default function Page({ params }: { params: { name: string } }) {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const [previewIcon, setPreviewIcon] = useState<string>('');
   const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);

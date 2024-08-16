@@ -1,12 +1,12 @@
 import { ArticleProps } from '@/@types/article';
 import { SpaceProps } from '@/@types/space';
 import AutoCompleteCombobox from '@/components/forms/comboboxes/autocompelete_multi_allowadd';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { useEffect, useState } from 'react';
 
 const SetPinnedArticles = ({ spaceName }: { spaceName: string }) => {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [articles, setArticles] = useState<ArticleProps[]>([]);

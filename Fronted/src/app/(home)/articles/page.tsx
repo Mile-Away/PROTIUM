@@ -1,7 +1,7 @@
 'use client';
 import { ArticleProps } from '@/@types/article';
 import Loading from '@/app/loading';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import '@/styles/markdown.abstract.css';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ import { SimpleLayout } from './SimpleLayout';
 
 export default function Page() {
   const { t } = useTranslation('translation');
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

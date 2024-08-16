@@ -262,7 +262,6 @@ export const NodeMapping: {
   // ABACUS
   ABACUS_INPUT: {
     type: 'Input',
-    template: 'ABACUS_INPUT',
     data: {
       header: 'ABACUS INPUT',
 
@@ -280,7 +279,7 @@ export const NodeMapping: {
           },
           type: 'object',
           title: 'ABACUS INPUT',
-          key: 'abacus_input',
+          key: 'abacus-input',
           compile: [],
         },
       ],
@@ -292,7 +291,7 @@ export const NodeMapping: {
           type: 'source',
           rope: 'ABACUS',
           data_source: 'compile',
-          data_key: 'abacus_input',
+          data_key: 'abacus-input',
         },
       ],
       compile: [
@@ -302,8 +301,8 @@ export const NodeMapping: {
           type: 'file',
           script: 'abacus_input',
           title: 'ABACUS INPUT',
-          key: 'abacus_input',
-          bodies: ['abacus_input'],
+          key: 'abacus-input',
+          bodies: ['abacus-input'],
         },
       ],
     },
@@ -469,7 +468,6 @@ export const NodeMapping: {
 
   ABACUS_SIAB: {
     type: 'Solver',
-    template: 'ABACUS_SIAB',
     data: {
       header: 'ABACUS SIAB',
       body: [

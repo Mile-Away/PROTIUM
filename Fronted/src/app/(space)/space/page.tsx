@@ -1,6 +1,6 @@
 'use client';
 import { BASE_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import AfterLogin from './AfterLogin';
 import Carousel from './Carousel';
 
 export default function Page() {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [labelList, setLabelList] = useState<
     {
       id: number;

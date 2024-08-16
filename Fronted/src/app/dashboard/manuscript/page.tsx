@@ -1,7 +1,7 @@
 'use client';
 import DocList from '@/components/docs/DocList';
 import { BASE_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import {
   BarsArrowUpIcon,
   ChevronDownIcon,
@@ -22,8 +22,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function Page() {
-  const jwtAxios = useAxiosWithInterceptors();
-  
+  const jwtAxios = createAxiosWithInterceptors();
+
   const router = useRouter();
 
   const createDoc = () => {

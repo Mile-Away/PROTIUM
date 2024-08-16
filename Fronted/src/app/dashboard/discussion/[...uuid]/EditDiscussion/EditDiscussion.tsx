@@ -1,6 +1,6 @@
 import { DiscussionProps } from '@/@types/space';
 import Loading from '@/app/loading';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -22,7 +22,7 @@ export default function EditDiscussion({
   channelUUID: string;
   onEditSuccess: () => void;
 }) {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const { fetchData, dataCRUD, error, isLoading } =
     useDictCRUD<DiscussionProps>(
       {} as DiscussionProps,
@@ -69,7 +69,6 @@ export default function EditDiscussion({
           if (res.status === 200) {
             onClose();
             onEditSuccess();
-            
           } else if (res.status === 409) {
             formik.setFieldError(
               'name',

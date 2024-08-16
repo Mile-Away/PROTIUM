@@ -2,7 +2,7 @@
 import { SpaceProps } from '@/@types/space';
 import Loading from '@/app/loading';
 import { BASE_URL, PrimarySite } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useCRUD } from '@/hooks/useCrud';
 import { formatTime } from '@/lib/formatDate';
 import { TagIcon } from '@heroicons/react/24/outline';
@@ -19,7 +19,7 @@ const Page = ({ params }: { params: { name: string } }) => {
     `/server/vs/select/?by_server_name=${name}`,
   );
 
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const [releaseOverview, setReleaseOverview] = useState<{
     name: string;

@@ -1,5 +1,5 @@
+import { NodeTemplateProps } from '@/@types/flociety';
 import {
-  addNodeProps,
   ExecutedNodeMessageProps,
   HandleDataSourceProps,
   WorkflowNodeDataHandlesProps,
@@ -15,6 +15,7 @@ import {
   Edge,
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
+import { fetchNodeTemplate } from '../middleware';
 
 const initialStateWorkflow: WorkflowStateProps = {
   contextMenuVisible: false,
@@ -43,6 +44,8 @@ const initialStateWorkflow: WorkflowStateProps = {
   },
   workflowList: [],
   consoleInfo: [],
+
+  status: 'idle',
 
   // CASE 2: Redux 不存储 workflows，只存储当前 workflow 的 nodes 和 edges，只存储单个 workflow 对象
   // 需要切换 Workflow 时，重新请求数据
@@ -88,42 +91,31 @@ const workflowSlice = createSlice({
       state.workflowList = action.payload;
     },
 
-    // 添加节点
-    addNode: {
-      // 由中间件处理 id
-      prepare(props: addNodeProps) {
-        return {
-          payload: {
+    // NOTE: 调用 fetchNodeTemplate 时，会自动调用 addNode
+    addNode: (state, action: PayloadAction<NodeTemplateProps>) => {
+      // console.log('>>>>>>>>fetchNodeTemplate:', action.payload);
+      // Use the addNode reducer to add the node to the state
+      state.nodes.push({
+        id: uuidv4(),
+        type: action.payload.type,
+        data: {
+          ...action.payload.data,
+          body: action.payload.data.body.map((item) => ({
+            ...item,
             id: uuidv4(),
-            ...props,
-            data: {
-              ...props.data,
-              body: props.data.body.map((item) => ({
-                ...item,
-                id: uuidv4(),
-              })),
-              compile: props.data.compile.map((item) => ({
-                ...item,
-                id: uuidv4(),
-              })),
-            },
-          } as WorkflowNodeProps,
-          meta: undefined,
-          error: undefined,
-        };
-      },
-      reducer(state, action: PayloadAction<WorkflowNodeProps>) {
-        state.nodes.push({
-          ...action.payload,
-          position: { x: state.contextMenuX, y: state.contextMenuY },
-          dragHandle: '.drag-handle', // 加上这个，只允许拖拽顶部，不加这个，全部区域都允许拖拽。考虑到以后还要支持3D模型，所以只允许顶部拖拽
-        });
-
-        state.consoleInfo.push({
-          time: new Date().toISOString(),
-          message: `Added: ${action.payload.data.header}`,
-        });
-      },
+          })),
+          compile: action.payload.data.compile.map((item) => ({
+            ...item,
+            id: uuidv4(),
+          })),
+        },
+        position: { x: state.contextMenuX, y: state.contextMenuY },
+        dragHandle: '.drag-handle',
+      });
+      state.consoleInfo.push({
+        time: new Date().toISOString(),
+        message: `Added: ${action.payload.data.header}`,
+      });
     },
 
     // // 删除节点
@@ -374,6 +366,28 @@ const workflowSlice = createSlice({
         );
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNodeTemplate.pending, (state: WorkflowStateProps) => {
+        state.status = 'loading';
+        // console.log('>>>>>>>>fetchNodeTemplate.pending:', state);
+      })
+      .addCase(
+        fetchNodeTemplate.fulfilled,
+        (state, action: PayloadAction<NodeTemplateProps>) => {
+          workflowSlice.caseReducers.addNode(state, action);
+          state.status = 'idle';
+        },
+      )
+      .addCase(fetchNodeTemplate.rejected, (state, action) => {
+        state.status = 'error';
+        state.consoleInfo.push({
+          time: new Date().toISOString(),
+          type: 'error',
+          message: action.error.message || 'Error',
+        });
+      });
   },
 });
 

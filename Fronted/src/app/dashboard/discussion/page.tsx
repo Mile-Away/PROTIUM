@@ -1,6 +1,6 @@
 'use client';
 import DiscussionSearch from '@/components/DiscussionSearch';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { BarsArrowUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function Page() {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
 
   return (

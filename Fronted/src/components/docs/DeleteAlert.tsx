@@ -1,4 +1,4 @@
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
@@ -11,7 +11,7 @@ interface DeleteAlertProps {
 
 export default function DeleteAlert({ isOpen, onClose, id }: DeleteAlertProps) {
   const router = useRouter();
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const deleteData = async (id: string) => {
     try {
       await jwtAxios.delete(`/document/vs/document/${id}/`);

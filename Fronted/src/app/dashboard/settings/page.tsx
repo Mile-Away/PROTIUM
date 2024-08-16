@@ -1,7 +1,7 @@
 'use client';
 import { UserProps } from '@/@types/auth-service';
 import { MEDIA_URL, PrimarySite } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import formatToken from '@/lib/formatToken';
 import { EyeIcon, EyeSlashIcon, PlusIcon } from '@heroicons/react/24/outline';
@@ -35,7 +35,7 @@ type ExtendedFormikErrors = FormikErrors<FormValues> & {
 
 export default function Example() {
   const router = useRouter();
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [previewAvatar, setPreviewAvatar] = useState<string | null>(null);
   const [bohriumToken, setBohriumToken] = useState<string>();
   const [accessTokens, setAccessTokens] = useState<TokenListProps[]>([]);
@@ -404,8 +404,8 @@ export default function Example() {
                         </div>
                       </div>
                     ) : bohriumToken ? (
-                      <div className='flex gap-2'>
-                        <div className="flex-1 flex w-full justify-between rounded-md px-3 py-2 text-xs shadow-sm ring-1 ring-inset ring-neutral-300 dark:bg-white/2.5 dark:ring-white/5">
+                      <div className="flex gap-2">
+                        <div className="flex w-full flex-1 justify-between rounded-md px-3 py-2 text-xs shadow-sm ring-1 ring-inset ring-neutral-300 dark:bg-white/2.5 dark:ring-white/5">
                           <span className=" text-neutral-400">
                             {isBohriumAccessTokenVisible
                               ? bohriumToken

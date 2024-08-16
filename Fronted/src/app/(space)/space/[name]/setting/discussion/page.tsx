@@ -1,6 +1,6 @@
 'use client';
 import { SpaceProps } from '@/@types/space';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 export default function Page({ params }: { params: { name: string } }) {
   const [enabled, setEnabled] = useState(false);
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const { fetchData, dataCRUD, error } = useDictCRUD<SpaceProps>(
     {} as SpaceProps,
@@ -145,8 +145,6 @@ export default function Page({ params }: { params: { name: string } }) {
           <li>Who can chat?</li>
         </div> */}
       </div>
-
-
     </form>
   );
 }

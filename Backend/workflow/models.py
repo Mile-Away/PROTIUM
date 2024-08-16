@@ -116,7 +116,7 @@ class WorkflowNodeHandle(BaseNodeDataHandleModel):
         unique_together = ("node", "type", "key")
 
     def __str__(self):
-        return f"{self.node.node}_{self.type}_{self.key}"  # 这里的下划线不能随意修改，会影响前端绘图
+        return f"{self.node.node}_{self.type}_{self.key}"  # 这里的下划线不能随意修改，会影响前端渲染
 
 
 class WorkflowNodeBody(BaseNodeDataBodyModel):
@@ -130,7 +130,7 @@ class WorkflowNodeBody(BaseNodeDataBodyModel):
         unique_together = ("node", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.key}-body"
+        return f"{self.node.node}-{self.key}"
 
 
 class WorkflowNodeCompile(BaseNodeDataCompileModel):
@@ -146,7 +146,7 @@ class WorkflowNodeCompile(BaseNodeDataCompileModel):
         unique_together = ("node", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.key}-compile"
+        return f"{self.node.node}-{self.key}"
 
 
 class WorkflowNodeMessage(models.Model):

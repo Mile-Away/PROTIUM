@@ -6,7 +6,7 @@ import NavigationStepsSimple, {
   StepProps,
 } from '@/components/navigation/steps/simple';
 import { BASE_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 
 export default function Page({ params }: { params: { name: string } }) {
   const spaceName = params.name;
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [releases, setReleases] = useState<ReleaseProps[]>([]);
   const [enabled, setEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

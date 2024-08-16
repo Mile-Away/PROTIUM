@@ -42,14 +42,14 @@ class NodeTemplateLibrary(models.Model):
 class NodeDataTemplate(BaseNodeDataModel):
     id: int
 
-    node = models.OneToOneField(NodeTemplateLibrary, on_delete=models.CASCADE, related_name="data")
+    node = models.OneToOneField(NodeTemplateLibrary, on_delete=models.CASCADE, related_name="node_data")
 
     handles: models.QuerySet["NodeDataHandleTemplate"]
     body: models.QuerySet["NodeDataBodyTemplate"]
     compile: models.QuerySet["NodeDataCompileTemplate"]
 
     def __str__(self):
-        return f"{self.node.name}-{self.node.version}-data"
+        return f"{self.node.name}-{self.node.version}"
 
 
 class NodeDataHandleTemplate(BaseNodeDataHandleModel):
@@ -60,7 +60,7 @@ class NodeDataHandleTemplate(BaseNodeDataHandleModel):
         unique_together = ("node", "type", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.type}-{self.key}-handle"
+        return f"{self.node.node}_{self.type}_{self.key}"  # 这里的下划线不能随意修改，会影响前端渲染
 
 
 class NodeDataBodyTemplate(BaseNodeDataBodyModel):
@@ -73,7 +73,7 @@ class NodeDataBodyTemplate(BaseNodeDataBodyModel):
         unique_together = ("node", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.key}-body"
+        return f"{self.node.node}-{self.key}"
 
 
 class NodeDataCompileTemplate(BaseNodeDataCompileModel):
@@ -86,4 +86,4 @@ class NodeDataCompileTemplate(BaseNodeDataCompileModel):
         unique_together = ("node", "key")
 
     def __str__(self):
-        return f"{self.node.node}-{self.key}-compile"
+        return f"{self.node.node}-{self.key}"

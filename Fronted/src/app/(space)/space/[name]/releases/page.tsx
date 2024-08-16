@@ -4,7 +4,7 @@ import Markdown from '@/components/docs/Markdwon';
 import { ReleaseProps } from '@/@types/github';
 import { GitHubIcon } from '@/components/SocialIcons';
 import { BASE_URL } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
 import { formatFileSize } from '@/lib/formatFileSize';
 import '@/styles/markdown.css';
@@ -15,7 +15,7 @@ import { CubeIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 
 export default function Page({ params }: { params: { name: string } }) {
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [releases, setReleases] = useState<ReleaseProps[]>([]);
   const fetchLocalReleases = async () => {
     const res = await jwtAxios.get(
@@ -87,7 +87,7 @@ export default function Page({ params }: { params: { name: string } }) {
                 </div>
               )}
             </div>
-            <div className="markdown w-[calc(100vw-36px)] sm:w-full overflow-hidden">
+            <div className="markdown w-[calc(100vw-36px)] overflow-hidden sm:w-full">
               <Markdown content={release.body} />
             </div>
             <div className=" mt-8">

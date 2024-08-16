@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 
 const API_BASE_URL = BASE_URL;
 
-const useAxiosWithInterceptors = (): AxiosInstance => {
-  const { logout } = useAuthServiceContext();
+const createAxiosWithInterceptors = (): AxiosInstance => {
 
   const jwtAxios = axios.create({
     baseURL: API_BASE_URL,
@@ -51,4 +50,4 @@ const useAxiosWithInterceptors = (): AxiosInstance => {
   return jwtAxios;
 };
 
-export default useAxiosWithInterceptors;
+export default createAxiosWithInterceptors;

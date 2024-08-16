@@ -49,10 +49,11 @@ export interface WorkflowNodeDataProps {
   status?: 'draft' | 'skipped' | 'pending' | 'running' | 'success' | 'failed';
   footer?: string;
 }
+
+
 export interface WorkflowNodeProps
   extends Node<WorkflowNodeDataProps, keyof typeof nodeTypes> {
   id: string;
-  template: string;
   type?: keyof typeof nodeTypes;
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';
@@ -95,6 +96,8 @@ export interface WorkflowStateProps {
     type?: 'info' | 'warning' | 'error';
     message: string;
   }[];
+
+  status: 'idle' | 'loading' | 'error';
 }
 export interface ContextMenuItemProps {
   action: string;

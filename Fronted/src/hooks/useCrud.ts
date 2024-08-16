@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { BASE_URL } from '../config';
-import useAxiosWithInterceptors from '../helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '../helpers/jwtinterceptor';
 
 interface IuseCrud<T> {
   dataCRUD: T[];
@@ -15,7 +15,7 @@ export const useCRUD = <T>(initalData: T[], apiURL: string): IuseCrud<T> => {
   // T[] 中的 T 指代的是数组中每个数据的类型，而 <T> 将 T 传递给 T[]，使得 T[] 中的 T 与 useCRUD<T>() 中的 T 一致
   // 你可以指定一个 interface 作为 T 的类型，然后在调用 useCRUD<T>() 时，传递这个 interface 作为 T 的类型
   // 这样，T 的类型就变成了你指定的对象，里面包含的键值对就是你指定的对象的键值对
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [dataCRUD, setDataCRUD] = useState<T[]>(initalData);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export const useDictCRUD = <T>(
   // T[] 中的 T 指代的是数组中每个数据的类型，而 <T> 将 T 传递给 T[]，使得 T[] 中的 T 与 useCRUD<T>() 中的 T 一致
   // 你可以指定一个 interface 作为 T 的类型，然后在调用 useCRUD<T>() 时，传递这个 interface 作为 T 的类型
   // 这样，T 的类型就变成了你指定的对象，里面包含的键值对就是你指定的对象的键值对
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const [dataCRUD, setDataCRUD] = useState<T>(initalData);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);

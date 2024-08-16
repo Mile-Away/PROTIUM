@@ -2,7 +2,7 @@
 import { WarningAlert } from '@/components/alert/Warning';
 import PublishButton from '@/components/docs/PublishButton';
 import VditorMarkdown from '@/components/vditor/Vditor';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -19,7 +19,7 @@ interface DocumentProps {
 const Page = ({ params }: { params: { uuid: string } }) => {
   const router = useRouter();
   const pk = params.uuid;
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
 
   const { fetchData, dataCRUD, error, isLoading } = useDictCRUD<DocumentProps>(
     {} as DocumentProps,

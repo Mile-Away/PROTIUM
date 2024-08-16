@@ -5,7 +5,7 @@ import { Button } from '@/components/Button';
 import HoverMessage from '@/components/overlays/hover_message';
 import { GitHubIcon } from '@/components/SocialIcons';
 import { BASE_URL, PrimarySite } from '@/config';
-import useAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import '@/styles/markdown.css';
 import '@/styles/markdown.dark.css';
@@ -21,7 +21,7 @@ const Readme = ({ spaceName }: { spaceName: string }) => {
   );
   const [createReadme, setCreateReadme] = useState<boolean>(false);
 
-  const jwtAxios = useAxiosWithInterceptors();
+  const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
 
   // TODO: 后续把抓取改到后端完成，用户可能获取不到
