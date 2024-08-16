@@ -133,7 +133,7 @@ export default function RootReactFlow() {
           );
 
           if (nodeKey) {
-            dispatch<any>(fetchNodeTemplate({ template: nodeKey }));
+            dispatch<any>(fetchNodeTemplate({ template: nodeKey, id: endUuid }));
           }
 
           // Add Edges;

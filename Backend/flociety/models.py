@@ -36,7 +36,7 @@ class NodeTemplateLibrary(models.Model):
         unique_together = ("name", "version")
 
     def __str__(self):
-        return self.name
+        return f"{self.name}-{self.version}"
 
 
 class NodeDataTemplate(BaseNodeDataModel):

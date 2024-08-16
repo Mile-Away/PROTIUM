@@ -4,11 +4,20 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchNodeTemplate = createAsyncThunk<
   NodeTemplateProps,
-  { template: string }
->('workflow/fetchNodeTemplate', async ({ template }: { template: string }) => {
+  { template: string, id?: string }
+>('workflow/fetchNodeTemplate', async ({ template, id }:{ template: string, id?: string }) => {
   const jwtAxios = createAxiosWithInterceptors();
 
   const response = await jwtAxios.get(`/flociety/node/${template}`);
 
-  return response.data as NodeTemplateProps;
+  if (!response.data) {
+    throw new Error('No data returned');
+  }
+
+  const data = response.data as NodeTemplateProps;
+
+  if (id) {
+    return { ...data, id };
+  }
+  return data;
 });

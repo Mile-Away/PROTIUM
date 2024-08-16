@@ -65,7 +65,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
                 action: 'abacus_input',
                 label: 'INPUT',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('abacus_input'),
+                onClick: () => handleMenuItemClick('ABACUS_INPUT'),
               },
               {
                 action: 'abacus_stru',
@@ -225,7 +225,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
           //   onClick: () => handleMenuItemClick('VASP/outputs'),
           // },
           {
-            action: 'pipeline_abacus_siab',
+            action: 'ABACUS_SIAB',
             label: 'SIAB',
             icon: PlusIcon,
             onClick: () => handleMenuItemClick('ABACUS_SIAB'),

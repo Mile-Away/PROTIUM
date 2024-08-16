@@ -20,13 +20,18 @@ class NodeTemplateDetailView(APIView):
             name (str): The name of the Node Template object to retrieve.
 
         Returns:
-            NodeTemplateLibrary: The Node Template object with the provided name.
+            NodeTemplateLibrary: The Node Template object with the provided name, the most recent version.
 
         Raises:
             Http404: If the Workflow object with the provided UUID does not exist.
         """
         try:
-            return NodeTemplateLibrary.objects.get(name=name)
+            # 获取最新版本的节点模板
+            node_template = NodeTemplateLibrary.objects.filter(name=name).last()
+            if node_template is None:
+                raise NodeTemplateLibrary.DoesNotExist
+            return node_template
+
         except NodeTemplateLibrary.DoesNotExist:
             raise Http404("NodeTemplateLibrary does not exist")
 

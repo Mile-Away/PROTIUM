@@ -96,7 +96,7 @@ const workflowSlice = createSlice({
       // console.log('>>>>>>>>fetchNodeTemplate:', action.payload);
       // Use the addNode reducer to add the node to the state
       state.nodes.push({
-        id: uuidv4(),
+        id: action.payload.id || uuidv4(),
         type: action.payload.type,
         data: {
           ...action.payload.data,
