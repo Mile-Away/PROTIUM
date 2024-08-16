@@ -1,5 +1,5 @@
 import { WorkflowNodeDataHandlesProps } from '@/@types/workflow';
-import { RootReducerProps } from '@/app/store';
+import { AppDispatch, RootReducerProps } from '@/app/store';
 import {
   addNode,
   connectEdges,
@@ -28,6 +28,7 @@ import RootContextMenu, {
   PaneContextMenuProps,
 } from '../../ContextMenu/RootContextMenu';
 import nodeTypes, { nodeColors, NodeMapping } from '../../nodes/nodeTypes';
+import { fetchNodeTemplate } from '@/store/middleware';
 
 export default function RootReactFlow() {
   let level = 0;
@@ -132,7 +133,7 @@ export default function RootReactFlow() {
           );
 
           if (nodeKey) {
-            dispatch(addNode({ id: endUuid, ...NodeMapping[nodeKey] }));
+            dispatch<any>(fetchNodeTemplate({ template: nodeKey }));
           }
 
           // Add Edges;
