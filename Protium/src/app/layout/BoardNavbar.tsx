@@ -1,21 +1,26 @@
 'use client';
-import { MEDIA_URL } from '@/config';
+import { UserProps } from '@/@types/auth-service';
+import { MEDIA_URL, WorkflowSite } from '@/config';
 import { useDictCRUD } from '@/hooks/useCrud';
 import SearchGlobal from '@/search/SearchGlobal';
-import { Menu, MenuButton } from '@headlessui/react';
+import { MenuButton } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Bars3Icon, Cog6ToothIcon } from '@heroicons/react/24/outline';
+import {
+  Bars3Icon,
+  Cog6ToothIcon,
+  SparklesIcon,
+} from '@heroicons/react/24/outline';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import DropdownMenu from '../../components/DropdownMenu';
+import FlocietyButton from '../../components/FlocietyButton';
+import LangSwitch from '../../components/LangSwitch';
+import { ThemeSwitch } from '../../components/ThemeSwitch';
 import { dashboardNavi } from './dashboardNav';
-import DropdownMenu from './DropdownMenu';
-import LangSwitch from './LangSwitch';
 import SlideMenu from './SlideMenu';
-import { ThemeSwitch } from './ThemeSwitch';
-import { UserProps } from '@/@types/auth-service';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -221,13 +226,18 @@ const BoardNavbar = () => {
         <SearchGlobal open={openSearch} setOpen={setOpenSearch} />
         <div className="flex items-center gap-x-3 lg:gap-x-4">
           {/* Separator */}
-
           <div
             className="hidden lg:block lg:h-6 lg:w-px lg:bg-neutral-200 dark:lg:bg-neutral-700"
             aria-hidden="true"
           />
 
-          {/* Context Buttons */}
+          <FlocietyButton href={`${WorkflowSite}/flociety/nodes`}>
+            <span className="font-display text-sm font-semibold transition-none">
+              Flociety
+            </span>
+            <SparklesIcon className="ml-1 h-4 w-4 text-fuchsia-600 group-hover:text-white dark:text-fuchsia-400" />
+          </FlocietyButton>
+
           <LangSwitch className="m-0 h-5 w-5" />
           <ThemeSwitch />
 

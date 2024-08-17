@@ -1,0 +1,40 @@
+{
+  "Find our latest feature update.": "查看我们最近的功能更新。",
+  "Read more": "阅读更多",
+  "navbar": {
+    "community": "社区",
+    "project": "项目",
+    "tutorial": "教程",
+    "docs": "文档",
+    "publication": "出版物",
+    "certification": "证书",
+    "about": {
+      "title": "关于",
+      "Introduction": "介绍",
+      "Manifesto": "宣言",
+      "Join us": "加入我们",
+      "Follow in Github": "关注 GitHub",
+      "Contact us": "联系我们"
+    }
+  },
+  "hero": {
+    "title": "探索全新的材料研发方式",
+    "description": "Protium 平台的核心驱动力是建立一套基于个人终端运行的科学计算范式。摒弃超算依赖，即刻开始科学研究。",
+    "button": {
+      "primary": "立即开始",
+      "secondary": "关于我们"
+    }
+  },
+
+  "about": {
+    "title": "Protium 是这样一群人的社区。",
+    "button": {
+      "primary": "社区宣言"
+    },
+    "description": "机器学习与物理建模的结合正在改变着科学研究的范式。那些希望通过计算建模突破科学边界、解决困难问题的人们正在以前所未有的新方式集结起来。他们需要新的基础设施——新的协作平台，新的代码框架，新的数据处理手段，新的算力使用方式；他们需要新的文化——追求通力协作、惠及大众；追求知识与工具的自由交流与分享；追求尊重并欣赏相互的成就、和而不同。"
+  },
+  "sponsor": "支持机构",
+  "article": {
+    "intro": "我们正在改变科学实践。"
+  }
+}
