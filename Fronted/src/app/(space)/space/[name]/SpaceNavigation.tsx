@@ -35,46 +35,88 @@ const SpaceNavigation = ({ name }: { name: string }) => {
     if (name) fetchData();
   }, [name]);
 
-  const isAdmin = dataCRUD[0]?.admins?.includes(userInfo?.username || '');
-
-  const tabs: TabProps[] = [
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [tabs, setTabs] = useState<TabProps[]>([
     {
       name: 'Overview',
       href: '/',
       current: url === '' || url === name,
       icon: BookOpenIcon,
     },
-  ];
-
-  if (dataCRUD[0]?.enable_discussion) {
-    tabs.push({
+    {
       name: 'Discussion',
       href: 'discussion',
       icon: UsersIcon,
       current: url === 'discussion',
-    });
-  }
-
-  if (dataCRUD[0]?.enable_releases) {
-    tabs.push({
+    },
+    {
       name: 'Releases',
       href: 'releases',
       icon: NewspaperIcon,
       current: url === 'releases',
-    });
-  }
-
-  const adminTabs: TabProps[] = [
-    ...tabs,
+    },
     {
       name: 'Setting',
       href: 'setting',
       current: url === 'setting',
       icon: Cog6ToothIcon,
     },
-  ];
-  const [isAtEnd, setIsAtEnd] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  ]);
+
+  useEffect(() => {
+    if (dataCRUD[0]) {
+      if (!dataCRUD[0]?.enable_discussion) {
+        setTabs((tabs) => tabs.filter((tab) => tab.name !== 'Discussion'));
+      }
+
+      if (!dataCRUD[0]?.enable_releases) {
+        setTabs((tabs) => tabs.filter((tab) => tab.name !== 'Releases'));
+      }
+
+      setIsAdmin(dataCRUD[0]?.admins?.includes(userInfo?.username || ''));
+    }
+  }, [dataCRUD]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      setTabs((tabs) => {
+        if (!tabs.some((tab) => tab.name === 'Setting')) {
+          return [
+            ...tabs,
+            {
+              name: 'Setting',
+              href: 'setting',
+              current: url === 'setting',
+              icon: Cog6ToothIcon,
+            },
+          ];
+        }
+        return tabs;
+      });
+    } else {
+      setTabs((tabs) => tabs.filter((tab) => tab.name !== 'Setting'));
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    if (url === '' || url === name) {
+      setTabs((tabs) =>
+        tabs.map((tab) => ({
+          ...tab,
+          current: tab.href === '/',
+        })),
+      );
+    } else {
+      setTabs((tabs) =>
+        tabs.map((tab) => ({
+          ...tab,
+          current: tab.href === url,
+        })),
+      );
+    }
+  }, [url]);
 
   const handleScroll = () => {
     const container = scrollContainerRef.current;
@@ -93,7 +135,7 @@ const SpaceNavigation = ({ name }: { name: string }) => {
         className="inert relative w-full overflow-x-auto"
       >
         <nav className=" flex w-fit min-w-full items-center space-x-4 border-b dark:border-neutral-700 lg:space-x-8">
-          {(isAdmin ? adminTabs : tabs).map((tab) => (
+          {tabs.map((tab) => (
             <Link
               key={tab.name}
               href={
