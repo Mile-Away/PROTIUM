@@ -1,5 +1,5 @@
 import { UiSchema } from '@rjsf/utils';
-import { ArrayFieldTemplate, CustomFieldTemplate } from '../FieldTemplates';
+import { ArrayFieldTemplate, DefaultFieldTemplate } from '../FieldTemplates';
 
 import { RJSFSchema } from '@rjsf/utils';
 
@@ -33,35 +33,8 @@ export const abacusInputSchema: RJSFSchema = {
 };
 
 export const abacusInputUiSchema: UiSchema = {
-  'ui:submitButtonOptions': {
-    submitText: 'Submit',
-    norender: true,
-    props: {
-      disabled: false,
-    },
-  },
   pseudo_dir: {
     'ui:widget': 'textarea',
-    'ui:FieldTemplate': CustomFieldTemplate,
-  },
-  pseudo_name: {
-    'ui:FieldTemplate': CustomFieldTemplate,
-  },
-  ecutwfc: {
-    'ui:FieldTemplate': CustomFieldTemplate,
-  },
-  bessel_nao_smooth: {
-    'ui:FieldTemplate': CustomFieldTemplate,
-  },
-  bessel_nao_rcut: {
-    'ui:options': {
-      canAdd: true,
-    },
-    'ui:emptyValue': '',
-    'ui:ArrayFieldTemplate': ArrayFieldTemplate,
-  },
-  smearing_sigma: {
-    'ui:FieldTemplate': CustomFieldTemplate,
   },
 };
 

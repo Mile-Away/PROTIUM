@@ -1,7 +1,7 @@
 import { UiSchema } from '@rjsf/utils';
 
 import { RJSFSchema } from '@rjsf/utils';
-import { CustomFieldTemplate } from '../FieldTemplates';
+import { DefaultFieldTemplate } from '../FieldTemplates';
 
 export const bohriumJobConfigSchema: RJSFSchema = {
   type: 'object',
@@ -44,19 +44,19 @@ export const bohriumJobConfigUiSchema: UiSchema = {
     },
   },
   project_id: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   job_name: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   machine_type: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   command: {
     'ui:widget': 'textarea',
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   image_address: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
 };

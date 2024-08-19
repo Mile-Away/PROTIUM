@@ -1,20 +1,11 @@
 import { UiSchema } from '@rjsf/utils';
 
 import { RJSFSchema } from '@rjsf/utils';
-import { ArrayFieldTemplate, CustomFieldTemplate } from '../FieldTemplates';
+import { ArrayFieldTemplate, DefaultFieldTemplate } from '../FieldTemplates';
 
 export const abacusSiabSchema: RJSFSchema = {
   type: 'object',
   properties: {
-    // "environment": "",
-    // "mpi_command": "mpirun -np 8",
-    // "abacus_command": "abacus",
-    // "optimizer": "bfgs",
-    // "max_steps": 1000,
-    // "spill_coefs": [0.0, 1.0],
-    // "spill_guess": "atomic",
-    // "nthreads_rcut": 4,
-    // "jY_type": "reduced",
     environment: {
       type: 'string',
       title: 'Environment',
@@ -74,19 +65,19 @@ export const abacusSiabUiSchema: UiSchema = {
     },
   },
   environment: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   mpi_command: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   abacus_command: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   optimizer: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   max_steps: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   spill_coefs: {
     'ui:options': {
@@ -96,12 +87,12 @@ export const abacusSiabUiSchema: UiSchema = {
     'ui:ArrayFieldTemplate': ArrayFieldTemplate,
   },
   spill_guess: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   nthreads_rcut: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   jY_type: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
 };

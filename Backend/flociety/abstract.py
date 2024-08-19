@@ -80,7 +80,7 @@ class BaseNodeBodySchemaModel(models.Model):
 
     panel_type = models.CharField(max_length=100, default="default")
     schema = models.JSONField()
-    uiSchema = models.JSONField()
+    uiSchema = models.JSONField(blank=True, null=True)
 
     class Meta:
         abstract = True

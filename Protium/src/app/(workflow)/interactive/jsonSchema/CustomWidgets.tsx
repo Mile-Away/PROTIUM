@@ -12,7 +12,7 @@ export const DefaultTextWidget: React.FC<WidgetProps> = (props) => {
   return (
     <input
       type="text"
-      className="h-8 w-48 rounded bg-white/10 p-0.5 px-1 text-sm focus:outline-none"
+      className="form-input h-8 w-full rounded  bg-white/10 text-sm focus:outline-none"
       value={props.value}
       required={props.required}
       onChange={(event) => props.onChange(event.target.value)}
@@ -23,7 +23,7 @@ export const DefaultTextWidget: React.FC<WidgetProps> = (props) => {
 export const DefaultTextareaWidget: React.FC<WidgetProps> = (props) => {
   return (
     <textarea
-      className="h-32 w-48 rounded bg-white/10 p-0.5 px-1 text-sm focus:outline-none"
+      className="form-textarea h-32 w-full rounded bg-white/10  text-sm focus:outline-none"
       value={props.value}
       required={props.required}
       onChange={(event) => props.onChange(event.target.value)}
@@ -51,7 +51,7 @@ export const DefaultSelectWidget: React.FC<WidgetProps> = (props) => {
       <ListboxOptions
         anchor="bottom"
         className={clsx(
-          'w-[var(--button-width)] rounded-xl border border-white/5 bg-neutral-800 shadow-lg shadow-black z-50 p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none',
+          'z-50 w-[var(--button-width)] rounded-xl border border-white/5 bg-neutral-800 p-1 shadow-lg shadow-black [--anchor-gap:var(--spacing-1)] focus:outline-none',
           'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0',
         )}
       >

@@ -1,14 +1,43 @@
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 import {
   ArrayFieldTemplateProps,
   FieldTemplateProps,
+  getSubmitButtonOptions,
   ObjectFieldTemplatePropertyType,
   ObjectFieldTemplateProps,
+  SubmitButtonProps,
 } from '@rjsf/utils';
 import { useState } from 'react';
 
-export function CustomFieldTemplate(props: FieldTemplateProps) {
+export function ObjectFieldTemplate(props: ObjectFieldTemplateProps) {
+  const {
+    registry,
+    properties,
+    title,
+    description,
+    uiSchema,
+    required,
+    schema,
+    idSchema,
+  } = props;
+
+  return (
+    <div className="flex flex-col gap-y-3">
+      {properties.map((element: ObjectFieldTemplatePropertyType) => (
+        <div
+          className="w-full rounded p-2 hover:bg-white/5"
+          key={element.content.key}
+        >
+          {element.content}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function DefaultFieldTemplate(props: FieldTemplateProps) {
   const {
     id,
     classNames,
@@ -21,14 +50,18 @@ export function CustomFieldTemplate(props: FieldTemplateProps) {
     children,
   } = props;
   return (
-    <div className="flex justify-between">
+    <div className="w-full">
       <label htmlFor={id}>
-        <span className="font-semibold">{label}</span>
+        <div className="flex items-center gap-2">
+          <span className="font-semibold">{label}</span>
+        </div>
+        <i className=" text-2xs">{help}</i>
+
         {required ? '*' : null}
       </label>
       {/* {description} */}
 
-      <div className="">{children}</div>
+      <div className="mt-2">{children}</div>
       {/* {errors} */}
       {/* {help} */}
     </div>
@@ -39,13 +72,13 @@ export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
   const [value, setValue] = useState<number | null>(null);
 
   return (
-    <div className="w-full ">
-      <div className="flex w-full justify-between">
-        <div className="font-semibold">{props.title}</div>
-        <div className="w-48 flex-col pb-2 ">
+    <div className=" ">
+      <div className="flex justify-between">
+        {/* <div className="font-semibold">{props.title}</div> */}
+        <div className="w-full flex-col pb-2 ">
           <div className="relative ">
             <input
-              className="h-8 w-48 cursor-not-allowed rounded bg-white/10 p-0.5 px-1 focus:outline-none"
+              className="h-8 w-full cursor-not-allowed rounded bg-white/10 p-0.5 px-1 focus:outline-none"
               type="text"
               disabled={true}
               value={value || ''}
@@ -90,28 +123,11 @@ export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
   );
 }
 
-export function ObjectFieldTemplate(props: ObjectFieldTemplateProps) {
-  const {
-    registry,
-    properties,
-    title,
-    description,
-    uiSchema,
-    required,
-    schema,
-    idSchema,
-  } = props;
-
-  return (
-    <div className="flex flex-col gap-y-3">
-      {properties.map((element: ObjectFieldTemplatePropertyType) => (
-        <div
-          className="-m-2 rounded p-3 hover:bg-white/5"
-          key={element.content.key}
-        >
-          {element.content}
-        </div>
-      ))}
-    </div>
-  );
+export function SubmitButton(props: SubmitButtonProps) {
+  const { uiSchema } = props;
+  const { norender } = getSubmitButtonOptions(uiSchema);
+  if (norender) {
+    return null;
+  }
+  return <></>;
 }

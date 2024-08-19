@@ -67,7 +67,7 @@ class NodeTemplateLibrary(models.Model):
         max_length=50,
         choices=nodeTypes,
     )  # type 只有几个可选项，取决于 nodeTypes
-    data: models.OneToOneField["NodeDataTemplate"]
+    node_data: models.OneToOneField["NodeDataTemplate"]
 
     # name 和 version 唯一确定一个节点模板
     class Meta:

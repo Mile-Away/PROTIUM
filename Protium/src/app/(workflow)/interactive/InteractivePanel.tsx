@@ -114,7 +114,7 @@ const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <form className=" flex h-full flex-col ">
-                          <TabGroup>
+                          <TabGroup as='div' className="h-full">
                             <TabList className="flex gap-4">
                               {tabItems.map((item) => (
                                 <Tab
@@ -125,11 +125,11 @@ const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
                                 </Tab>
                               ))}
                             </TabList>
-                            <TabPanels className="mt-3 flex-1">
+                            <TabPanels className="mt-3 h-full flex-1">
                               {tabItems.map((item) => (
                                 <div key={item.name}>
                                   {item.jsonSchema ? (
-                                    <TabPanel className="rounded-xl bg-white/5 p-3">
+                                    <TabPanel className="rounded-md pb-1 px-1 h-full w-full bg-white/5">
                                       <JsonSchemaThemedForm
                                         schema={item.jsonSchema.schema}
                                         uiSchema={item.jsonSchema.uiSchema}

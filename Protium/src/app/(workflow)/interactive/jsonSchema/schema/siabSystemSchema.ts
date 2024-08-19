@@ -1,7 +1,7 @@
 import { UiSchema } from '@rjsf/utils';
 
 import { RJSFSchema } from '@rjsf/utils';
-import { ArrayFieldTemplate, CustomFieldTemplate } from '../FieldTemplates';
+import { ArrayFieldTemplate, DefaultFieldTemplate } from '../FieldTemplates';
 
 export const siabSystemSchema: RJSFSchema = {
   type: 'object',
@@ -40,13 +40,13 @@ export const siabSystemUiSchema: UiSchema = {
     },
   },
   shape: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   nbands: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   nspin: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   bond_length: {
     'ui:options': {

@@ -1,7 +1,7 @@
 from accounts.public_serializer import BasicUserSerializer
 from flociety.models import NodeTemplateLibrary
 from rest_framework import serializers
-
+from flociety.serializers import NodeBodySchemaTemplateSerializer, NodeDataBodyTemplate
 from .models import (
     Workflow,
     WorkflowEdge,
@@ -22,11 +22,20 @@ class WorkflowNodeHandleSerializer(serializers.ModelSerializer):
 
 
 class WorkflowNodeBodySerializer(serializers.ModelSerializer):
+    schema = serializers.SerializerMethodField(read_only=True)
     uuid = serializers.UUIDField()
 
     class Meta:
         model = WorkflowNodeBody
         exclude = ["id", "node"]
+
+    def get_schema(self, obj: WorkflowNodeBody):
+        print("obj >>>>>>>>", obj)
+        print("obj.node.node.template.node_data >>>>>>>>", obj.node.node.template.node_data)
+
+        schema = NodeDataBodyTemplate.objects.get(node=obj.node.node.template.node_data, key=obj.key).schema
+
+        return NodeBodySchemaTemplateSerializer(schema).data
 
     def to_internal_value(self, data):
         if "id" in data:

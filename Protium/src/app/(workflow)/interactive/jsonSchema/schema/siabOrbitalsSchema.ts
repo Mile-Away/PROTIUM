@@ -1,7 +1,7 @@
 import { UiSchema } from '@rjsf/utils';
 
 import { RJSFSchema } from '@rjsf/utils';
-import { CustomFieldTemplate } from '../FieldTemplates';
+import { DefaultFieldTemplate } from '../FieldTemplates';
 
 export const siabOrbitalsSchema: RJSFSchema = {
   type: 'object',
@@ -38,15 +38,15 @@ export const siabOrbitalsUiSchema: UiSchema = {
     },
   },
   zeta_notation: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   shape: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   nbands_ref: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
   orb_ref: {
-    'ui:FieldTemplate': CustomFieldTemplate,
+    'ui:FieldTemplate': DefaultFieldTemplate,
   },
 };
