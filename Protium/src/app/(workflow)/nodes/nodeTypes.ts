@@ -309,45 +309,45 @@ export const NodeMapping: {
   //   },
   // },
 
-  SIAB_ORBITALS: {
-    type: 'Input',
-    data: {
-      header: 'SIAB ORBITALS',
+  // SIAB_ORBITALS: {
+  //   type: 'Input',
+  //   data: {
+  //     header: 'SIAB ORBITALS',
 
-      body: [
-        {
-          id: '',
-          source: {},
-          type: 'object',
-          title: 'SIAB ORBITALS',
-          key: 'siab_orbitals',
-          compile: [],
-        },
-      ],
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: {},
+  //         type: 'object',
+  //         title: 'SIAB ORBITALS',
+  //         key: 'siab_orbitals',
+  //         compile: [],
+  //       },
+  //     ],
 
-      footer: 'ORBITALS',
-      handles: [
-        {
-          key: 'siab-orbitals',
-          type: 'source',
-          rope: 'ABACUS_SIAB',
-          data_source: 'compile',
-          data_key: 'siab_orbitals',
-        },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'siab_orbitals',
-          title: 'SIAB Oribitals',
-          key: 'siab_orbitals',
-          bodies: ['siab_orbitals'],
-        },
-      ],
-    },
-  },
+  //     footer: 'ORBITALS',
+  //     handles: [
+  //       {
+  //         key: 'siab-orbitals',
+  //         type: 'source',
+  //         rope: 'ABACUS_SIAB',
+  //         data_source: 'compile',
+  //         data_key: 'siab_orbitals',
+  //       },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'file',
+  //         script: 'siab_orbitals',
+  //         title: 'SIAB Oribitals',
+  //         key: 'siab_orbitals',
+  //         bodies: ['siab_orbitals'],
+  //       },
+  //     ],
+  //   },
+  // },
 
   // ABACUS_STRU: {
   //   type: 'Input',

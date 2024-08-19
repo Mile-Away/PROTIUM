@@ -1,3 +1,4 @@
+import asyncio
 import os
 from abc import ABC
 
@@ -18,6 +19,7 @@ class AbacusInputExecutor(IOExecutor, ABC):
         file_path = os.path.join(dir_path, "INPUT")
 
         await self.write(file_path, body_source)
+        await asyncio.sleep(1)
 
         compile.source = file_path
 
