@@ -25,29 +25,29 @@ const navItems = [
     href: `${DocumentSite}/tutorial/`,
     sub: [
       {
-        name: 'Getting Started',
+        name: 'Home',
         href: `${DocumentSite}/tutorial/getting-started`,
       },
       {
-        name: 'Case Studies',
+        name: 'Workflow',
         href: `${DocumentSite}/docs/case-studies`,
       },
     ],
   },
-  {
-    name: 'Docs',
-    href: '#',
-    sub: [
-      {
-        name: 'API Reference',
-        href: `${DocumentSite}/docs/api-reference`,
-      },
-      {
-        name: 'Guides',
-        href: `${DocumentSite}/docs/guides`,
-      },
-    ],
-  },
+  // {
+  //   name: 'Docs',
+  //   href: '#',
+  //   sub: [
+  //     {
+  //       name: 'API Reference',
+  //       href: `${DocumentSite}/docs/api-reference`,
+  //     },
+  //     {
+  //       name: 'Guides',
+  //       href: `${DocumentSite}/docs/guides`,
+  //     },
+  //   ],
+  // },
 ]
 
 function TopLevelNavItem({ item }: { item: (typeof navItems)[0] }) {
@@ -64,15 +64,15 @@ function TopLevelNavItem({ item }: { item: (typeof navItems)[0] }) {
 
       <div
         className={clsx(
-          'absolute left-1/2 top-full scale-0 w-fit min-w-full flex -translate-x-1/2 translate-y-1 flex-col items-center gap-1 rounded',
-          'bg-white/50 p-2 shadow backdrop-blur-xl group-hover:scale-100 dark:bg-white/10',
+          'absolute left-1/2 top-full flex w-fit min-w-full -translate-x-1/2 translate-y-1 scale-0 flex-col items-center gap-1 rounded',
+          'bg-white/50 p-2 shadow backdrop-blur-xl group-hover:scale-100 dark:border dark:border-white/5 dark:bg-white/10',
         )}
       >
         {item.sub?.map((subItem, idx) => (
           <Link
             href={subItem.href}
             key={subItem.name}
-            className="whitespace-nowrap rounded px-2  py-1 text-xs w-full text-center
+            className="w-full whitespace-nowrap rounded  px-2 py-1 text-center text-xs
              hover:bg-neutral-300 dark:text-white dark:hover:bg-white/10 dark:hover:text-white"
           >
             {subItem.name}
