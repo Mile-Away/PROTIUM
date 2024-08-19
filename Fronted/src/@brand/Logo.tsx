@@ -60,12 +60,7 @@ export function LogoBanner(props: React.ComponentPropsWithoutRef<'svg'>) {
     //   </g>
     // </svg>
 
-    <svg
-      width="579"
-      height="170"
-      viewBox="0 0 579 170"
-      {...props}
-    >
+    <svg width="579" height="170" viewBox="0 0 579 170" {...props}>
       <defs>
         <linearGradient
           x1="579"

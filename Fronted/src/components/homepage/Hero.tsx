@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LogoBanner } from '../../@brand/Logo';
 
 export default function Hero() {
   const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +97,10 @@ export default function Hero() {
                         </div>
                       </div>
                       <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white sm:text-6xl">
-                        <LogoBanner className="sm:h-24 mb-8 h-16 w-auto max-w-[calc(100%-1rem)] fill-indigo-800 dark:fill-[#6f6be2] " />
+                        {/* <LogoBanner className="sm:h-24 mb-8 h-16 w-auto max-w-[calc(100%-1rem)] fill-indigo-800 dark:fill-[#6f6be2] " /> */}
+                        <div className=" animate-gradient-flow pb-8 h-fit w-full bg-[length:400%_400%] bg-gradient-flow bg-clip-text text-transparent">
+                          <span className="text-7xl font-bold">PROTIUM</span>
+                        </div>
                         {t('hero.title')}
                       </h1>
                       <p className="mt-6 text-lg leading-8 text-neutral-600 dark:text-neutral-300 sm:max-w-md lg:max-w-none">

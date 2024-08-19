@@ -1,28 +1,28 @@
 import { NavbarFullWidthProps } from '@/@types/navbar';
 import { DocumentSite } from '@/config';
-import { BookmarkSquareIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { BookmarkSquareIcon, EnvelopeIcon, PuzzlePieceIcon, RectangleGroupIcon, SquaresPlusIcon } from '@heroicons/react/24/outline';
 import { DeePMDIcon, DPGenIcon } from '../Icons';
 import { GitHubIcon } from '../SocialIcons';
 import NavbarFullWidth from './NavbarFullWidth';
 
 const resources = [
   {
-    name: 'Review',
+    name: 'Overview',
     description: 'Get review of our projects',
     href: `${DocumentSite}`,
     icon: BookmarkSquareIcon,
   },
   {
-    name: 'DeePMD-kit',
+    name: 'Workflow',
     description: 'Learn from DeePMD-kit publications',
     href: `${DocumentSite}/deepmd-kit`,
-    icon: DeePMDIcon,
+    icon: RectangleGroupIcon,
   },
   {
-    name: 'DPGen',
+    name: 'Flociety',
     description: 'Learn from DPGen publications',
     href: `${DocumentSite}/deepmd-kit`,
-    icon: DPGenIcon,
+    icon: PuzzlePieceIcon,
   },
 ];
 

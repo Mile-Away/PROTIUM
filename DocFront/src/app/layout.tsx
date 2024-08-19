@@ -11,11 +11,11 @@ export const metadata: Metadata = {
     default: 'Protium Documentation',
   },
   icons: [
-    { rel: 'icon', url: '/@brand/logo/Logo.svg' },
+    { rel: 'icon', url: '/@brand/logo/Logo.png' },
     {
       rel: 'icon',
       media: '(prefers-color-scheme: dark)',
-      url: '/@brand/logo/Logo-Dark.svg',
+      url: '/@brand/logo/Logo-Dark.png',
     },
     { rel: 'apple-touch-icon', url: '/@brand/logo/Logo.png' },
     {
