@@ -25,17 +25,17 @@ const jsonSchemaMapping: {
    * 这个 Mapping 用于对不同的 body_key 在 InteractivePanel 面板的情况下，
    * 指定其输入框对应的 schema 和 uiSchema
    */
-  abacus_input: {
+  "abacus-input": {
     panelType: InteractivePanel,
     schema: abacusInputSchema,
     uiSchema: abacusInputUiSchema,
   },
-  abacus_siab: {
+  "abacus-siab": {
     panelType: InteractivePanel,
     schema: abacusSiabSchema,
     uiSchema: abacusSiabUiSchema,
   },
-  bohrium_job_config: {
+  "bohrium-job-config": {
     panelType: InteractivePanel,
     schema: bohriumJobConfigSchema,
     uiSchema: bohriumJobConfigUiSchema,

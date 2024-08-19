@@ -5,7 +5,7 @@ class BaseNodeDataModel(models.Model):
 
     id: int
 
-    header = models.TextField(blank=True, null=True)
+    header = models.TextField()
     footer = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -25,7 +25,7 @@ class BaseNodeDataHandleModel(models.Model):
         ("body", "Body"),
         ("compile", "Compile"),
     )
-    # 只有不同的节点才能有相同的key，同一个节点相同 type 的key不能相同，不同 type 的key可以相同
+    # 只有不同的节点才能有相同的 key，同一个节点相同 type 的 key 不能相同，不同 type 的 key 可以相同
     # 所以 unique_together 是 ("node", "type", "key")
     # key 用来判断节点之间是否可以连接
     key = models.CharField(max_length=100)
@@ -62,12 +62,25 @@ class BaseNodeDataBodyModel(models.Model):
 class BaseNodeDataCompileModel(models.Model):
     id: int
 
+    type_chocies = (("File", "File"),)
+
     key = models.CharField(max_length=100)
-    script = models.CharField(blank=True, null=True)
+    script = models.CharField(max_length=100)
     source = models.TextField(blank=True, null=True)
-    type = models.CharField(max_length=50, blank=True, null=True)
+    type = models.CharField(max_length=50)
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class BaseNodeBodySchemaModel(models.Model):
+    id: int
+
+    panel_type = models.CharField(max_length=100, default="default")
+    schema = models.JSONField()
+    uiSchema = models.JSONField()
 
     class Meta:
         abstract = True

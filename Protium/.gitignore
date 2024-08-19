@@ -47,6 +47,7 @@ prettier.config.js
 src/config.ts
 next-env.d.ts
 package-lock.json
+yarn.lock
 
 # debug
 npm-debug.log*

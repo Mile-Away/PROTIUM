@@ -1,6 +1,8 @@
-from rest_framework import serializers
 from accounts.public_serializer import BasicUserSerializer
+from rest_framework import serializers
+
 from .models import (
+    NodeBodySchemaTemplate,
     NodeDataBodyTemplate,
     NodeDataCompileTemplate,
     NodeDataHandleTemplate,
@@ -9,13 +11,32 @@ from .models import (
 )
 
 
+class NodeBodySchemaTemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NodeBodySchemaTemplate
+        exclude = ["id", "body"]
+
+
 class NodeDataCompileTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = NodeDataCompileTemplate
         exclude = ["id", "node"]
 
+    def to_representation(self, instance: NodeDataCompileTemplate):
+        ret = {
+            key: value
+            for key, value in instance.__dict__.items()
+            if key != "bodies" and not key.startswith("_")
+        }
+
+        ret["bodies"] = [body.key for body in instance.bodies.all()]
+
+        return ret
+
 
 class NodeDataBodyTemplateSerializer(serializers.ModelSerializer):
+    schema = NodeBodySchemaTemplateSerializer()
+
     class Meta:
         model = NodeDataBodyTemplate
         exclude = ["id", "node"]

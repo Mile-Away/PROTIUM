@@ -117,14 +117,17 @@ const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
                           <TabGroup>
                             <TabList className="flex gap-4">
                               {tabItems.map((item) => (
-                                <Tab className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white">
+                                <Tab
+                                  key={item.name}
+                                  className="rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+                                >
                                   {item.name}
                                 </Tab>
                               ))}
                             </TabList>
                             <TabPanels className="mt-3 flex-1">
                               {tabItems.map((item) => (
-                                <>
+                                <div key={item.name}>
                                   {item.jsonSchema ? (
                                     <TabPanel className="rounded-xl bg-white/5 p-3">
                                       <JsonSchemaThemedForm
@@ -147,7 +150,7 @@ const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
                                       </div>
                                     </TabPanel>
                                   )}
-                                </>
+                                </div>
                               ))}
                             </TabPanels>
                           </TabGroup>

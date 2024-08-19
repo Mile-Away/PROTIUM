@@ -9,20 +9,52 @@ import { MEDIA_URL } from '@/config';
 import { useAuthServiceContext } from '@/context/AuthContext';
 import { Dialog, Menu, MenuButton, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import { usePathname } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 const NavbarMenu = () => {
+  const url = usePathname();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState<number | null>(null);
+
+  console.log(url);
+
   return (
-    <>
-      <div className="ml-8">
-        <span className="font-display pointer-events-none cursor-none select-none text-xl font-semibold transition-none dark:text-neutral-400">
+    <div className='ml-8'>
+      <div className="gap-x-4 flex">
+        <Link
+          href={'/flociety/nodes'}
+          className={clsx(
+            'select-none rounded p-2',
+            'text-xl font-semibold transition-all duration-300 ease-in-out',
+            'dark:hover:bg-white/10',
+            // 如果 url 最开始是 /flociety/nodes, 则 'text-indigo-600' : 'text-gray-900',
+            url.startsWith('/flociety/nodes')
+              ? ' bg-gradient-to-r bg-clip-text text-transparent dark:from-indigo-400 dark:via-violet-500 dark:to-fuchsia-400'
+              : 'dark:text-white/50 dark:hover:text-white',
+          )}
+        >
           Nodes
-        </span>
+        </Link>
+        {/* <Link
+          href={'/flociety/workflows'}
+          className={clsx(
+            'select-none rounded p-2',
+            'text-xl font-semibold transition-all duration-300 ease-in-out',
+            'dark:hover:bg-white/10',
+            // 如果 url 最开始是 /flociety/nodes, 则 'text-indigo-600' : 'text-gray-900',
+            url.startsWith('/flociety/workflows')
+              ? 'bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent dark:from-indigo-400 dark:via-sky-500 dark:to-teal-400'
+              : 'dark:text-white/50 dark:hover:text-white',
+          )}
+        >
+          Workflows
+        </Link> */}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -52,7 +84,7 @@ const FlocietyNavbar = () => {
               className="z-50 -m-1.5 flex items-center rounded-md fill-indigo-800 p-1.5 transition-opacity duration-150 ease-in-out hover:bg-neutral-300/20 dark:fill-white dark:hover:bg-neutral-800"
             >
               <span className="sr-only">Protium - Flociety</span>
-              <FlocietyLogo className="h-fit w-32" />
+              <FlocietyLogo className="h-fit w-28" />
             </Link>
 
             <NavbarMenu />

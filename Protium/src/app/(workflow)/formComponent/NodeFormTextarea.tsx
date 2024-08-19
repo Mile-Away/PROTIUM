@@ -9,8 +9,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { InteractivePanelProps } from '@/@types/interactive';
-import TextArea from '../interactive/TextArea';
-import jsonSchemaMapping from '../interactive/jsonSchema/jsonSchemaMapping';
+import InteractivePanel from '../interactive/InteractivePanel';
 
 const NodeFormTextarea = ({
   nodeId,
@@ -28,15 +27,14 @@ const NodeFormTextarea = ({
 
   const dispatch = useDispatch();
 
-  const Interactive: React.FC<InteractivePanelProps> =
-    jsonSchemaMapping[bodyItem.key]?.panelType || TextArea;
+  const Interactive: React.FC<InteractivePanelProps> = InteractivePanel;
 
   const tabItems = [
     {
       name: 'General',
       jsonSchema: {
-        schema: jsonSchemaMapping[bodyItem.key]?.schema,
-        uiSchema: jsonSchemaMapping[bodyItem.key]?.uiSchema,
+        schema: bodyItem.schema?.schema || {},
+        uiSchema: bodyItem.schema?.uiSchema || {},
       },
     },
     {

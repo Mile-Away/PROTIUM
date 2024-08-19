@@ -84,6 +84,7 @@ class WorkflowNodeSerializer(serializers.ModelSerializer):
     node_data = WorkflowNodeDataSerializer(many=False)  # 换成 node_data，data 和 serializer 的内置变量冲突了
     type = serializers.SerializerMethodField()
     template = serializers.CharField()  # 使用 CharField 来处理 template
+    version = serializers.CharField(write_only=True)  # 需要 write_only，否则序列化器会报错模型中没有该字段
 
     class Meta:
         model = WorkflowNode
@@ -99,12 +100,13 @@ class WorkflowNodeSerializer(serializers.ModelSerializer):
 
         return super().to_internal_value(data)
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: WorkflowNode):
         ret = super().to_representation(instance)
         ret["id"] = ret.pop("uuid")
         ret["data"] = ret.pop("node_data")
         # 手动添加 template 字段
         ret["template"] = instance.template.name
+        ret["version"] = instance.template.version
         return ret
 
 
@@ -177,9 +179,10 @@ class WorkflowSerializer(serializers.ModelSerializer):
             node_body = node_data.pop("body", [])
             node_compile = node_data.pop("compile", [])
             node_template = node.pop("template")
+            node_version = node.pop("version")
 
             try:
-                template = NodeTemplateLibrary.objects.get(name=node_template)
+                template = NodeTemplateLibrary.objects.get(name=node_template, version=node_version)
             except NodeTemplateLibrary.DoesNotExist:
                 raise Exception("Can't find node template with name: ", node_template)
             # 更新 WorkflowNode 实例

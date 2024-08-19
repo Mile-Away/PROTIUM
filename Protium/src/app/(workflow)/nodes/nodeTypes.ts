@@ -6,6 +6,7 @@ import SelectNode from './SelectNode';
 import SolverNode from './SolverNode';
 
 const nodeTypes = {
+  Sequential: SolverNode,
   Solver: SolverNode,
   Basic: BasicNode,
   Select: SelectNode,
@@ -260,78 +261,38 @@ export const NodeMapping: {
   // },
 
   // ABACUS
-  ABACUS_INPUT: {
-    type: 'Input',
-    data: {
-      header: 'ABACUS INPUT',
-
-      body: [
-        {
-          id: '',
-          source: {
-            pseudo_dir:
-              '/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0',
-            pseudo_name: 'Si_ONCV_PBE-1.0.upf',
-            ecutwfc: 60,
-            bessel_nao_smooth: 0,
-            bessel_nao_rcut: [6, 7, 8, 9, 10],
-            smearing_sigma: 0.01,
-          },
-          type: 'object',
-          title: 'ABACUS INPUT',
-          key: 'abacus-input',
-          compile: [],
-        },
-      ],
-
-      footer: 'ABACUS INPUT',
-      handles: [
-        {
-          key: 'abacus-input',
-          type: 'source',
-          rope: 'ABACUS',
-          data_source: 'compile',
-          data_key: 'abacus-input',
-        },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'file',
-          script: 'abacus_input',
-          title: 'ABACUS INPUT',
-          key: 'abacus-input',
-          bodies: ['abacus-input'],
-        },
-      ],
-    },
-  },
-
-  // SIAB_ORBITALS: {
+  // ABACUS_INPUT: {
   //   type: 'Input',
   //   data: {
-  //     header: 'SIAB ORBITALS',
+  //     header: 'ABACUS INPUT',
 
   //     body: [
   //       {
   //         id: '',
-  //         source: {},
+  //         source: {
+  //           pseudo_dir:
+  //             '/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0',
+  //           pseudo_name: 'Si_ONCV_PBE-1.0.upf',
+  //           ecutwfc: 60,
+  //           bessel_nao_smooth: 0,
+  //           bessel_nao_rcut: [6, 7, 8, 9, 10],
+  //           smearing_sigma: 0.01,
+  //         },
   //         type: 'object',
-  //         title: 'SIAB ORBITALS',
-  //         key: 'siab_orbitals',
+  //         title: 'ABACUS INPUT',
+  //         key: 'abacus-input',
   //         compile: [],
   //       },
   //     ],
 
-  //     footer: 'ORBITALS',
+  //     footer: 'ABACUS INPUT',
   //     handles: [
   //       {
-  //         key: 'siab-orbitals',
+  //         key: 'abacus-input',
   //         type: 'source',
-  //         rope: 'ABACUS_SIAB',
+  //         rope: 'ABACUS',
   //         data_source: 'compile',
-  //         data_key: 'siab_orbitals',
+  //         data_key: 'abacus-input',
   //       },
   //     ],
   //     compile: [
@@ -339,14 +300,54 @@ export const NodeMapping: {
   //         id: '',
   //         source: '',
   //         type: 'file',
-  //         script: 'siab_orbitals',
-  //         title: 'SIAB Oribitals',
-  //         key: 'siab_orbitals',
-  //         bodies: ['siab_orbitals'],
+  //         script: 'abacus_input',
+  //         title: 'ABACUS INPUT',
+  //         key: 'abacus-input',
+  //         bodies: ['abacus-input'],
   //       },
   //     ],
   //   },
   // },
+
+  SIAB_ORBITALS: {
+    type: 'Input',
+    data: {
+      header: 'SIAB ORBITALS',
+
+      body: [
+        {
+          id: '',
+          source: {},
+          type: 'object',
+          title: 'SIAB ORBITALS',
+          key: 'siab_orbitals',
+          compile: [],
+        },
+      ],
+
+      footer: 'ORBITALS',
+      handles: [
+        {
+          key: 'siab-orbitals',
+          type: 'source',
+          rope: 'ABACUS_SIAB',
+          data_source: 'compile',
+          data_key: 'siab_orbitals',
+        },
+      ],
+      compile: [
+        {
+          id: '',
+          source: '',
+          type: 'file',
+          script: 'siab_orbitals',
+          title: 'SIAB Oribitals',
+          key: 'siab_orbitals',
+          bodies: ['siab_orbitals'],
+        },
+      ],
+    },
+  },
 
   // ABACUS_STRU: {
   //   type: 'Input',
@@ -390,7 +391,7 @@ export const NodeMapping: {
   //         source: {},
   //         type: 'object',
   //         title: 'SIAB SYSTEM',
-  //         key: 'siab_system',
+  //         key: 'siab-system',
   //         compile: [],
   //       },
   //     ],
@@ -466,58 +467,58 @@ export const NodeMapping: {
   //   },
   // },
 
-  ABACUS_SIAB: {
-    type: 'Solver',
-    data: {
-      header: 'ABACUS SIAB',
-      body: [
-        {
-          id: '',
-          source: {
-            environment: '',
-            mpi_command: 'mpirun -np 8',
-            abacus_command: 'abacus',
-            optimizer: 'bfgs',
-            max_steps: 1000,
-            spill_coefs: [0.0, 1.0],
-            spill_guess: 'atomic',
-            nthreads_rcut: 4,
-            jY_type: 'reduced',
-          },
-          type: 'object',
-          title: 'SIAB Config',
-          key: 'abacus-siab',
-          compile: [],
-        },
-        {
-          id: '',
-          source: {},
-          type: 'object',
-          title: 'Bohrium Job Config',
-          key: 'bohrium-job-config',
-          compile: [],
-        },
-      ],
-      handles: [
-        { key: 'abacus-input', type: 'target', rope: 'ABACUS_INPUT' },
-        { key: 'siab-system', type: 'target', rope: 'SIAB_SYSTEM' },
-        { key: 'siab-orbitals', type: 'target', rope: 'SIAB_ORBITALS' },
-        { key: 'siab-outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
-      ],
-      compile: [
-        {
-          id: '',
-          source: '',
-          type: 'task',
-          script: 'abacus_siab',
-          title: 'ABACUS SIAB',
-          key: 'abacus-siab',
-          bodies: [],
-        },
-      ],
-      footer: 'Version 0.1.0',
-    },
-  },
+  // ABACUS_SIAB: {
+  //   type: 'Solver',
+  //   data: {
+  //     header: 'ABACUS SIAB',
+  //     body: [
+  //       {
+  //         id: '',
+  //         source: {
+  //           environment: '',
+  //           mpi_command: 'mpirun -np 8',
+  //           abacus_command: 'abacus',
+  //           optimizer: 'bfgs',
+  //           max_steps: 1000,
+  //           spill_coefs: [0.0, 1.0],
+  //           spill_guess: 'atomic',
+  //           nthreads_rcut: 4,
+  //           jY_type: 'reduced',
+  //         },
+  //         type: 'object',
+  //         title: 'SIAB Config',
+  //         key: 'abacus-siab',
+  //         compile: [],
+  //       },
+  //       {
+  //         id: '',
+  //         source: {},
+  //         type: 'object',
+  //         title: 'Bohrium Job Config',
+  //         key: 'bohrium-job-config',
+  //         compile: [],
+  //       },
+  //     ],
+  //     handles: [
+  //       { key: 'abacus-input', type: 'target', rope: 'ABACUS_INPUT' },
+  //       { key: 'siab-system', type: 'target', rope: 'SIAB_SYSTEM' },
+  //       { key: 'siab-orbitals', type: 'target', rope: 'SIAB_ORBITALS' },
+  //       { key: 'siab-outputs', type: 'source', rope: 'ABACUS_SIAB_OUTPUTS' },
+  //     ],
+  //     compile: [
+  //       {
+  //         id: '',
+  //         source: '',
+  //         type: 'task',
+  //         script: 'abacus_siab',
+  //         title: 'ABACUS SIAB',
+  //         key: 'abacus-siab',
+  //         bodies: [],
+  //       },
+  //     ],
+  //     footer: 'Version 0.1.0',
+  //   },
+  // },
 
   // ABACUS_SIAB_OUTPUTS: {
   //   type: 'Input',

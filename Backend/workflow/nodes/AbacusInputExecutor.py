@@ -11,7 +11,7 @@ class AbacusInputExecutor(IOExecutor, ABC):
 
     async def execute(self, compile: WorkflowNodeCompile) -> NodeStatus:
 
-        body_source = await self.get_body_source_from_compile(compile, "abacus_input") 
+        body_source = await self.get_body_source_from_compile(compile, "abacus-input")
 
         dir_path = await self.create_dir_path()
 

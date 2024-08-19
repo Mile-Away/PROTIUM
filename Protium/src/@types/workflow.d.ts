@@ -25,6 +25,10 @@ export interface WorkflowNodeDataBodyProps {
   compile?: string[]; // 记录这个 Body 运行的 Result 的 key
   title?: string;
   attachment?: string;
+  schema?: {
+    schema: object;
+    uiSchema: object;
+  };
 }
 
 export interface WorkflowNodeCompileProps {
@@ -55,6 +59,8 @@ export interface WorkflowNodeProps
   extends Node<WorkflowNodeDataProps, keyof typeof nodeTypes> {
   id: string;
   type?: keyof typeof nodeTypes;
+  template: string;
+  version: string;
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';
   position: { x: number; y: number };

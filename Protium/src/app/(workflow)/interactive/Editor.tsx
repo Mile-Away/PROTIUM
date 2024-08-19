@@ -1,6 +1,17 @@
-import MonacoEditor from '@monaco-editor/react';
+import MonacoEditor, { loader } from '@monaco-editor/react';
 import isEqualWith from 'lodash/isEqualWith';
 import { useCallback, useState } from 'react';
+
+// loader.config({ monaco });
+if (typeof window !== 'undefined') {
+  // 这里的代码只会在浏览器中运行
+  loader.config({
+    paths: { vs: '/monaco-editor/min/vs' },
+  });
+}
+
+// you can change the source of the monaco files
+// loader.config({ paths: { vs: '.' } });
 
 const monacoEditorOptions = {
   minimap: {
@@ -50,7 +61,7 @@ function Editor({ code, onChange }: EditorProps) {
         value={code}
         theme="vs-dark"
         onChange={onCodeChange}
-        height={"84vh"}
+        height={'84vh'}
         options={monacoEditorOptions}
       />
     </div>
@@ -64,11 +75,7 @@ type EditorsProps = {
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 };
 
-function Editors({
-  formData,
-  setFormData,
-}: EditorsProps) {
-
+function Editors({ formData, setFormData }: EditorsProps) {
   const onFormDataEdited = useCallback(
     (newFormData: any) => {
       if (

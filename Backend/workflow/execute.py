@@ -133,13 +133,13 @@ class WorkflowExecuter:
                 status = await self.execute_compile_script(node, compile)
                 # 只要有一个 failed，就返回 failed
                 if "failed" in status:
-                    node.status = "failed"
+                    raise Exception("Error Executing Node Compiling")
                 else:
                     node.status = "success"
 
             # 有连接，但是 target handle 没有全部连接
             else:
-                node.status = "failed"
+                raise Exception("Error Executing Node: Not all target handles are connected")
 
             # 发送节点执行结果
             await channel_send_node_result(

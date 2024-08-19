@@ -98,6 +98,8 @@ const workflowSlice = createSlice({
       state.nodes.push({
         id: action.payload.id || uuidv4(),
         type: action.payload.type,
+        template: action.payload.name,
+        version: action.payload.version,
         data: {
           ...action.payload.data,
           body: action.payload.data.body.map((item) => ({

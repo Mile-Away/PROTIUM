@@ -35,7 +35,7 @@ class AbacusSiabExecutor(SolverExecutor, ABC):
         sources = [get_handle_data_source_content(source_handle) for source_handle in source_handles]
         sub_file_path = await asyncio.gather(*sources)
 
-        body_source = await self.get_body_source("abacus_siab")
+        body_source = await self.get_body_source("abacus-siab")
 
         body_source = json.loads(body_source) if isinstance(body_source, str) else body_source
 

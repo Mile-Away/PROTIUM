@@ -7,6 +7,7 @@ from .models import (
     NodeDataHandleTemplate,
     NodeDataTemplate,
     NodeTemplateLibrary,
+    NodeBodySchemaTemplate,
 )
 
 
@@ -45,3 +46,4 @@ admin.site.register(NodeDataTemplate, NodeDataTemplateAdmin)
 admin.site.register(NodeDataHandleTemplate, NodeDataHandleTemplateAdmin)
 admin.site.register(NodeDataBodyTemplate, NodeDataBodyTemplateAdmin)
 admin.site.register(NodeDataCompileTemplate, NodeDataCompileTemplateAdmin)
+admin.site.register(NodeBodySchemaTemplate)
