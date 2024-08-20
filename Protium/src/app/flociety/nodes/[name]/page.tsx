@@ -2,14 +2,12 @@
 import { NodeTemplateProps } from '@/@types/flociety';
 import { WorkflowNodeDataProps } from '@/@types/workflow';
 import InputNode from '@/app/(workflow)/nodes/InputNode';
-import GridBackground from '@/components/GridBackground';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-
-
+import NodeTemplateHeader from './NodeTemplateHeader';
 
 export default function Page({ params }: { params: { name: string } }) {
   const { fetchData, dataCRUD, error, isLoading } =
@@ -21,8 +19,6 @@ export default function Page({ params }: { params: { name: string } }) {
     (WorkflowNodeDataProps & { type: string }) | null
   >(null);
 
-  const [ndoeBodySchema, setNodeBodySchema] = useState<any>(null);
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -30,21 +26,29 @@ export default function Page({ params }: { params: { name: string } }) {
   useEffect(() => {
     if (dataCRUD.data?.body) {
       setNodeStru({ type: dataCRUD.type, ...dataCRUD.data });
-      setNodeBodySchema(dataCRUD.data.body.map((item) => item.schema));
     }
   }, [dataCRUD]);
 
   useEffect(() => {
     setTabItems([
+      // {
+      //   id: "description",
+      //   name: "README",
+      // },
       {
         id: 'dataStru',
         name: 'UI.json',
         type: 'json',
         source: JSON.stringify(nodeStru, null, 2),
       },
-      { id: 'executor', name: 'Python Executor', type: 'python', source: pyCode },
+      {
+        id: 'executor',
+        name: 'Python Executor',
+        type: 'python',
+        source: pyCode,
+      },
     ]);
-  }, [nodeStru, ndoeBodySchema]);
+  }, [nodeStru]);
 
   const pyCode = `class AbacusInputExecutor(IOExecutor, ABC):
 
@@ -71,25 +75,36 @@ export default function Page({ params }: { params: { name: string } }) {
   }
   return (
     <>
-      <div className=" flex h-screen w-screen gap-4 px-8 pt-24">
+
+      <NodeTemplateHeader {...dataCRUD}/>
+      <div className="relative my-4">
+        <div className="absolute bottom-0 left-0 h-0.5 w-full bg-white/5"></div>
+      </div>
+      <div className="mt-8 flex h-full gap-4">
         <div className="flex-1">
           <TabGroup as="div" className="h-full">
             <TabList className="flex gap-4">
               {tabItems.map((item) => (
                 <Tab
                   key={item.id}
-                  className="rounded-lg w-1/2 px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+                  className="w-1/2 rounded-lg px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
                 >
                   {item.name}
                 </Tab>
               ))}
             </TabList>
-            <TabPanels className=" mt-4 h-[90%]">
+            <TabPanels className=" mt-4 h-full">
               {tabItems.map((item) => (
-                <TabPanel key={item.id} className={clsx('h-full p-2 rounded-lg bg-[rgb(31,31,31)]')}>
+                <TabPanel
+                  key={item.id}
+                  className={clsx(
+                    'h-[80vh] rounded-lg bg-[rgb(31,31,31)] p-2 ',
+                  )}
+                >
                   <MonacoEditor
                     language={item.type}
                     value={item.source}
+                    height={'100%'}
                     theme="vs-dark"
                     options={{
                       minimap: {
@@ -104,8 +119,8 @@ export default function Page({ params }: { params: { name: string } }) {
           </TabGroup>
         </div>
 
-        <div className="relative my-8 mt-12 flex w-1/2 min-w-fit items-center justify-center rounded px-4 dark:bg-black/10">
-          <div className="w-fit z-10">
+        <div className="relative flex w-1/2 min-w-fit items-center justify-center rounded px-4 dark:bg-black/10">
+          <div className="z-10 w-fit">
             {nodeStru?.type && (
               <InputNode
                 key={dataCRUD.name}

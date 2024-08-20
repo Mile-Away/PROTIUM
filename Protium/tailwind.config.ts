@@ -23,6 +23,9 @@ export default {
         sans: 'var(--font-inter)',
         display: 'var(--font-mona-sans)',
       },
+      backgroundImage: {
+        'gradient-flow': 'linear-gradient(90deg, #895CFF, #2970ff)',
+      },
       opacity: {
         2.5: '0.025',
         7.5: '0.075',
@@ -33,11 +36,17 @@ export default {
       },
       animation: {
         'bounce-x': 'bounce-x 1.25s infinite',
+        'gradient-flow': 'gradient-flow 12s linear infinite',
       },
       keyframes: {
         'bounce-x': {
           '0%, 100%': { transform: 'translateX(0%)' },
           '50%': { transform: 'translateX(20%)' },
+        },
+        'gradient-flow': {
+          '0%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0% 50%' },
         },
       },
     },
