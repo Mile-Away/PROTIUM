@@ -44,8 +44,6 @@ export interface WorkflowNodeCompileProps {
 
 export interface WorkflowNodeDataProps {
   header: string;
-
-  // TODO:这里还需要限制相同 type 的 handles 的 key 在同一个节点中唯一。
   // 不同节点中有相同的 key，这个 key 用来判断 handle 之间是否可以连接
   handles: WorkflowNodeDataHandlesProps[];
   body: WorkflowNodeDataBodyProps[]; // body 属性决定 Node 上展示的与用户交互的表单，表单提交的行为回调到 Redux
@@ -59,7 +57,7 @@ export interface WorkflowNodeProps
   extends Node<WorkflowNodeDataProps, keyof typeof nodeTypes> {
   id: string;
   type?: keyof typeof nodeTypes;
-  template: string;
+  template: string;  // 这个 template 无法传入到 ReactFlow 画布中的 Node
   version: string;
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';
