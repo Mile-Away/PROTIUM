@@ -1,6 +1,6 @@
 import { ArticleProps } from '@/@types/article';
 import { SpaceProps } from '@/@types/space';
-import AutoCompleteCombobox from '@/components/forms/comboboxes/autocompelete_multi_allowadd';
+import AutoCompleteCombobox from '@/components/forms/comboboxes/AutocompeleteMultiAllowadd';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { useEffect, useState } from 'react';
@@ -40,13 +40,15 @@ const SetPinnedArticles = ({ spaceName }: { spaceName: string }) => {
 
   useEffect(() => {
     if (dataCRUD.pinned_manuscript) {
-      setPinnedArticles(dataCRUD.pinned_manuscript);
+      console.log("PinnedManu", dataCRUD.pinned_manuscript)
+      setPinnedArticles(dataCRUD.pinned_manuscript.map((item) => item.document));
     }
   }, [dataCRUD]);
 
   return (
     <div className="mt-8">
       <AutoCompleteCombobox
+        spaceName={spaceName}
         options={articles}
         selected={pinnedArticles}
         placeholder="Enter to search published articles..."

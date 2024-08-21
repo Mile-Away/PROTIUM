@@ -1,8 +1,7 @@
 from typing import Optional
 
-from rest_framework import serializers
-
 from document.serializer import DocumentSerializer, PublicArticleSerializer
+from rest_framework import serializers
 from webchat.serializer import MessageSerializer
 
 from .models import Category, Channel, PinnedDocument, Server
@@ -46,7 +45,7 @@ class SearchChannelSerializer(serializers.Serializer):
 
 class PinnedDocumentSerializer(serializers.ModelSerializer):
     document = PublicArticleSerializer()
-    server = serializers.SlugRelatedField(slug_field="uuid", read_only=True)
+    server = serializers.SlugRelatedField(slug_field="name", read_only=True)
 
     class Meta:
         model = PinnedDocument
@@ -59,7 +58,7 @@ class ServerSerializer(serializers.ModelSerializer):
     # 返回 Server 对象的所有 Channel 对象
     channel_server = ChannelSerializer(many=True)  # 一对多关系，需要加 many=True
     readme = DocumentSerializer()
-    pinned_manuscript = PublicArticleSerializer(many=True, read_only=True)
+    pinned_manuscript = serializers.SerializerMethodField()
     # pinned_manuscript = PinnedDocumentSerializer(many=True, read_only=True)
     owner = serializers.StringRelatedField(read_only=True)
     admins = serializers.StringRelatedField(many=True, read_only=True)
@@ -81,6 +80,10 @@ class ServerSerializer(serializers.ModelSerializer):
     #     valid = super().is_valid(raise_exception=raise_exception)
 
     #     return valid
+
+    def get_pinned_manuscript(self, obj):
+        pinned_documents = PinnedDocument.objects.filter(server=obj).order_by("order")
+        return PinnedDocumentSerializer(pinned_documents, many=True).data
 
     def get_num_members(self, obj) -> Optional[int]:
         if hasattr(obj, "num_members"):

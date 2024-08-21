@@ -88,3 +88,23 @@ celery -A backend worker --loglevel=info
 
 celery -A backend beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
 ```
+
+## 本项目核心依赖的项目
+
+前端：
+
+* TailwindCSS
+* Next.js
+* react-redux
+* tiptap
+* ReactFlow
+* dnd-kit
+* react-json-schema
+* react-use-websocket
+
+后端
+
+* Django
+* django-rest-framework
+* django-simple-jwt
+* django-celery-beat, django-celery-results 

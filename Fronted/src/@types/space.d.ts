@@ -10,7 +10,12 @@ export interface SpaceProps {
   admins: string[];
   members: string[];
   readme: ArticleProps;
-  pinned_manuscript: ArticleProps[];
+  pinned_manuscript: {
+    id: number;
+    document: ArticleProps;
+    server: string;
+    order: number;
+  }[];
   groups: string[];
   banner: string;
   channel_server: DiscussionProps[];

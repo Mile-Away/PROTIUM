@@ -73,7 +73,7 @@ const FlocietyNavbar = () => {
 
   return (
     <div className="relative flex w-full justify-center">
-      <header className="absolute top-0 z-50 mx-auto w-full max-w-9xl">
+      <header className="absolute top-0 z-50 mx-auto w-full">
         <nav
           className=" flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"

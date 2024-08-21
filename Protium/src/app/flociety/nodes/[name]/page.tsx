@@ -81,7 +81,7 @@ export default function Page({ params }: { params: { name: string } }) {
         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-white/5"></div>
       </div>
       <div className="mt-8 flex h-full gap-4">
-        <div className="flex-1">
+        <div className="w-2/3 h-full lg:w-1/2">
           <TabGroup as="div" className="h-full">
             <TabList className="flex gap-4">
               {tabItems.map((item) => (
@@ -119,7 +119,7 @@ export default function Page({ params }: { params: { name: string } }) {
           </TabGroup>
         </div>
 
-        <div className="relative flex w-1/2 min-w-fit items-center justify-center rounded px-4 dark:bg-black/10">
+        <div className="relative flex w-1/3 lg:w-1/2 min-w-fit items-center justify-center rounded px-4 dark:bg-black/10">
           <div className="z-10 w-fit">
             {nodeStru?.type && (
               <InputNode

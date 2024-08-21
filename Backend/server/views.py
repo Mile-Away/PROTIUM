@@ -2,12 +2,11 @@ from abc import ABC, abstractmethod
 from typing import Union
 
 from django.http import Http404
+from document.models import Document
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from document.models import Document
 
 from .models import Channel, Server
 from .serializers import ChannelSerializer, ServerSerializer
@@ -76,6 +75,7 @@ class ServerDetailAPIView(APIView, ABC):
 
 
 class ServerAdminsDetailAPIView(ServerDetailAPIView):
+
     def get_object(self, name: str) -> Server:
         user = self.request.user
         try:
@@ -103,6 +103,7 @@ class ServerAdminsDetailAPIView(ServerDetailAPIView):
             server.pinned_manuscript.clear()
             order = 0
             for manuscript in pinned_manuscript:
+
                 server.pinned_manuscript.add(manuscript, through_defaults={"order": order})
                 order += 1
 

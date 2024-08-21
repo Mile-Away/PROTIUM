@@ -2,6 +2,11 @@ import { ArticleProps } from '@/@types/article';
 import { MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { formatTime } from '@/lib/formatDate';
+import { closestCorners, DndContext } from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import {
   Combobox,
   ComboboxInput,
@@ -11,26 +16,24 @@ import {
   Label,
 } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
-import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-
+import SelectedOptionsList from './SelectedOptionsList';
 export default function AutoCompleteCombobox({
+  spaceName,
   options,
   selected,
   placeholder,
 }: {
+  spaceName: string;
   options: ArticleProps[];
   selected: ArticleProps[];
   placeholder: string;
 }) {
+  const jwtAxios = createAxiosWithInterceptors();
   const [query, setQuery] = useState('');
-  // const [selectedOption, setSelectedOption] = useState([]);
-
   const [selectedOptions, setSelectedOptions] = useState(selected);
-
   const [restOptions, setRestOptions] = useState(options);
-
   const [addOptions, setAddOptions] = useState<ArticleProps[]>([]);
 
   useEffect(() => {
@@ -38,7 +41,6 @@ export default function AutoCompleteCombobox({
     setSelectedOptions(selected);
   }, [options, selected]);
 
-  const jwtAxios = createAxiosWithInterceptors();
   const filteredOptions =
     query === ''
       ? restOptions
@@ -46,14 +48,41 @@ export default function AutoCompleteCombobox({
           return option.title.toLowerCase().includes(query.toLowerCase());
         });
 
-  const handleSelectOptions = (options: ArticleProps[]) => {
+  const handleSelectOptions = async (options: ArticleProps[]) => {
+    console.log(options);
+
     setSelectedOptions(options);
 
-    const res = jwtAxios.put(`/server/server/DeePMD-kit/`, {
+    await putOptions(options);
+  };
+
+  async function putOptions(options: any[]) {
+    const res = await jwtAxios.put(`/server/server/${spaceName}/`, {
       pinned_manuscript: options.map((option) => option.id),
     });
 
     console.log(res);
+  }
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const activeIndex = selectedOptions.findIndex(
+        (option) => option.id === active.id,
+      );
+      const overIndex = selectedOptions.findIndex(
+        (option) => option.id === over.id,
+      );
+
+      const newOptions = [...selectedOptions];
+      newOptions.splice(activeIndex, 1);
+      newOptions.splice(overIndex, 0, selectedOptions[activeIndex]);
+
+      setSelectedOptions(newOptions);
+
+      putOptions(newOptions);
+    }
   };
 
   return (
@@ -131,35 +160,22 @@ export default function AutoCompleteCombobox({
 
         {/* 展示已经被选中过的选项 */}
 
-        {selectedOptions.length > 0 && (
-          <div className="mt-4 flex w-full flex-col gap-4">
-            {selectedOptions.map((option) => (
-              <div
-                key={option.id}
-                className="flex items-center justify-between rounded-r border-l border-white bg-white/2.5 p-2 px-3"
+        {selectedOptions && (
+          <DndContext
+            collisionDetection={closestCorners}
+            onDragEnd={handleDragEnd}
+          >
+            <div className="mt-4 flex w-full flex-col gap-4">
+              <SortableContext
+                items={selectedOptions}
+                strategy={verticalListSortingStrategy}
               >
-                <div className=" text-sm">
-                  <h1 className="mb-4 font-semibold">{option.title}</h1>
-                  <div className="flex items-center">
-                    <button className="-m-2 flex items-center gap-x-2  rounded-lg px-2 py-2 text-xs font-semibold text-zinc-600  dark:text-zinc-300 ">
-                      <img
-                        className="h-5 w-5 rounded-full"
-                        src={`${MEDIA_URL}${option.avatar}`}
-                        alt={option.author}
-                      />
-                      {option.author}
-                    </button>
-                    <span className=" ml-4 text-xs">
-                      {formatTime(option.updated_at)}
-                    </span>
-                  </div>
-                </div>
-                <div className=" cursor-move hover:text-white">
-                  <EllipsisVerticalIcon className="h-6 w-6" />
-                </div>
-              </div>
-            ))}
-          </div>
+                {selectedOptions.map((option) => (
+                  <SelectedOptionsList key={option.id} {...option} />
+                ))}
+              </SortableContext>
+            </div>
+          </DndContext>
         )}
       </Combobox>
     </Field>

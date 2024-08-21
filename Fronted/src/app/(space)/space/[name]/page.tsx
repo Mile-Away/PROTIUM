@@ -112,7 +112,7 @@ const Page = ({ params }: { params: { name: string } }) => {
               </div>
             </div>
           )}
-          <PinnedArticle articles={articles} />
+          <PinnedArticle articles={articles?.map((item) => item.document)} />
         </div>
       </div>
     </div>
