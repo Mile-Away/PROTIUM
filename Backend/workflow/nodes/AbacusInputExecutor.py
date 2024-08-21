@@ -19,7 +19,7 @@ class AbacusInputExecutor(IOExecutor, ABC):
         file_path = os.path.join(dir_path, "INPUT")
 
         await self.write(file_path, body_source)
-        await asyncio.sleep(1)
+        await asyncio.sleep(20)
 
         compile.source = file_path
 

@@ -1,0 +1,31 @@
+/* RainbowCard.css */
+.rainbow-card {
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .rainbow-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    z-index: -1;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 1;
+    background-color: white;
+    border-radius: 8px;
+    height: 100%;
+  }
+  

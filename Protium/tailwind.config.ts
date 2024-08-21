@@ -25,6 +25,8 @@ export default {
       },
       backgroundImage: {
         'gradient-flow': 'linear-gradient(90deg, #895CFF, #2970ff)',
+        // "conic-gradient": 'conic-gradient(#EEEEEE22, #F0C237, #EEEEEE22 30%)',
+        "conic-gradient": 'conic-gradient(#EEEEEE22, rgba(253,244,271), #EEEEEE22 30%)',
       },
       opacity: {
         2.5: '0.025',
@@ -37,6 +39,7 @@ export default {
       animation: {
         'bounce-x': 'bounce-x 1.25s infinite',
         'gradient-flow': 'gradient-flow 12s linear infinite',
+        "gradient-conic": 'gradient-conic 5s linear infinite',
       },
       keyframes: {
         'bounce-x': {
@@ -47,6 +50,9 @@ export default {
           '0%': { 'background-position': '0% 50%' },
           '50%': { 'background-position': '100% 50%' },
           '100%': { 'background-position': '0% 50%' },
+        },
+        'gradient-conic': {
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
     },

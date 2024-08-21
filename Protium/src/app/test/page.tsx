@@ -1,29 +1,20 @@
-'use client';
-import validator from '@rjsf/validator-ajv8';
-import { JsonSchemaThemedForm } from '../(workflow)/interactive/jsonSchema/JsonSchemaThemed';
+// RainbowCard.tsx
+import React from 'react';
 
-export default function Page() {
+const RainbowCard: React.FC = () => {
   return (
-    <JsonSchemaThemedForm
-      schema={{
-        type: 'object',
-        properties: {
-          ecutwfc: { type: 'number' },
-          pseudo_dir: {
-            type: 'string',
-            description: "Directory containing the pseudopotential files",
-            default:
-              '/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0',
-          },
-          pseudo_name: { type: 'string' },
-          smearing_sigma: { type: 'number' },
-          bessel_nao_rcut: { type: 'array', items: { type: 'number' } },
-          bessel_nao_smooth: { type: 'number' },
-        },
-      }}
-      // uiSchema={item.jsonSchema.uiSchema}
-      validator={validator}
-      formData={""}
-    />
+    <div className="relative h-48 w-72 overflow-hidden rounded-lg bg-white p-1">
+      <div
+        className="animate-spin-slow absolute inset-0 rounded-lg bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500"
+        style={{ backgroundSize: '400% 400%' }}
+      ></div>
+      <div className="absolute inset-0 m-1 rounded-lg bg-white"></div>
+      <div className="relative h-full w-full rounded-lg bg-white p-4">
+        {/* 这里放置卡片内容 */}
+        <p>Card Content</p>
+      </div>
+    </div>
   );
-}
+};
+
+export default RainbowCard;

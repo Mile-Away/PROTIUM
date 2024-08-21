@@ -37,18 +37,19 @@ export default function BasicNode(props: BasicNodeProps) {
       <div
         className={clsx(
           // 'h-fit w-64 select-none rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-800 ',
-          'relative w-auto min-w-64',
+          'relative w-auto min-w-64 p-[1px]',
           'shadow-lg dark:shadow-black',
           'cursor-auto rounded',
           'transition-transform duration-300 ease-in-out',
-          ' overflow-clip ',
+          ' overflow-clip',
           dragging && ' opacity-75',
           minimized ? 'h-10' : 'h-auto',
-          data.status === 'running' && 'ring-1 dark:ring-yellow-500',
+          data.status === 'running' && 'ring-1 dark:ring-yellow-500/80 ring-yellow-300 before:-z-1 before:animate-gradient-conic before:rounded-lg before:pointer-events-none before:dark:bg-conic-gradient before:absolute before:-top-full before:-left-full before:w-[300%] before:h-[300%]',
           data.status === 'failed' && 'ring-1 dark:ring-red-500 ',
           data.status === 'success' && 'ring-1 dark:ring-teal-500 ',
           data.status === 'skipped' && 'opacity-60',
         )}
+        
       >
         {/* <div className="absolute inset-0 rounded-md bg-gradient-to-tr from-sky-600 via-sky-600/70 to-blue-600 opacity-10 blur-lg"></div> */}
         {/* <div className="absolute inset-0 rounded-md bg-gradient-to-tr from-sky-600 via-sky-600/70 to-blue-600 opacity-10"></div> */}
