@@ -1,5 +1,5 @@
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { ChevronDoubleUpIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/solid';
 
 import {
   ArrayFieldTemplateProps,
@@ -9,6 +9,8 @@ import {
   ObjectFieldTemplateProps,
   SubmitButtonProps,
 } from '@rjsf/utils';
+import clsx from 'clsx';
+import { JSONSchema7TypeName } from 'json-schema';
 import { useState } from 'react';
 
 export function ObjectFieldTemplate(props: ObjectFieldTemplateProps) {
@@ -56,10 +58,8 @@ export function DefaultFieldTemplate(props: FieldTemplateProps) {
           <span className="font-semibold">{label}</span>
         </div>
         <i className=" text-2xs">{help}</i>
-
-        {required ? '*' : null}
+        <i className=" text-2xs">{description}</i>
       </label>
-      {/* {description} */}
 
       <div className="mt-2">{children}</div>
       {/* {errors} */}
@@ -69,56 +69,83 @@ export function DefaultFieldTemplate(props: FieldTemplateProps) {
 }
 
 export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
-  const [value, setValue] = useState<number | null>(null);
+
+  const { schema, title, items, formData, onAddClick } = props;
+
+  const [minimized, setMinimized] = useState<string[]>([]);
+
+  const handleMinimizeOrExpand = (key: string) => {
+    if (minimized.includes(key)) {
+      setMinimized((prev) => prev.filter((e) => e !== key));
+    } else {
+      setMinimized((prev) => [...prev, key]);
+    }
+  };
+
+  let itemType: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined =
+    undefined;
+
+  if (
+    props.schema.items &&
+    !Array.isArray(props.schema.items) &&
+    typeof props.schema.items !== 'boolean'
+  ) {
+    itemType = props.schema.items.type;
+  }
 
   return (
-    <div className=" ">
-      <div className="flex justify-between">
-        {/* <div className="font-semibold">{props.title}</div> */}
-        <div className="w-full flex-col pb-2 ">
-          <div className="relative ">
-            <input
-              className="h-8 w-full cursor-not-allowed rounded bg-white/10 p-0.5 px-1 focus:outline-none"
-              type="text"
-              disabled={true}
-              value={value || ''}
-            />
-            <button
-              className=" absolute right-0 top-0 cursor-not-allowed p-2 hover:bg-white/20"
-              type="button"
-              disabled={true}
-              onClick={props.onAddClick}
-            >
-              <PlusIcon className="h-4 w-4" />
-            </button>
-          </div>
-          <div className="mt-2 flex flex-wrap gap-1">
-            {props.items.map((element) => (
-              <div
-                className="group relative w-fit min-w-8 cursor-pointer select-none rounded-lg bg-white/15 px-2
-           py-1 text-center text-sm text-white hover:bg-white/5"
-                key={element.key}
+    <div className="w-full flex-col pb-2 ">
+      <button
+        className=" flex w-full items-center justify-center gap-2 border border-white/10 bg-white/5 p-2 hover:bg-white/10"
+        type="button"
+        onClick={onAddClick}
+      >
+        <span>Add New</span>
+        <PlusIcon className="h-4 w-4" />
+      </button>
+
+      <div className="flex w-full flex-wrap">
+        {items.map((element) => (
+          <div
+            key={element.key}
+            className={clsx(
+              ' relative mt-2 w-full overflow-scroll border border-white/10 p-4 shadow',
+              'transition-all duration-500 ease-in-out',
+              minimized.includes(element.key) ? 'max-h-14' : 'max-h-screen',
+            )}
+          >
+            {element.children}
+            <div className=" absolute right-4 top-4">
+              {/* 删除按钮 */}
+              <button
+                type="button"
+                className="rounded p-1 hover:bg-white/5 hover:text-red-400"
                 onClick={element.onDropIndexClick(element.index)}
               >
-                {element.children.props.formData}
-                <button className="rihgt-0 absolute top-0 -translate-y-1/3 translate-x-1/4 opacity-0 group-hover:opacity-100">
-                  <XMarkIcon className="h-3 w-3 dark:text-red-400" />
-                </button>
-              </div>
-            ))}
+                <XMarkIcon className="h-4 w-4" />
+              </button>
+            </div>
+            {/* 减小宽度按钮 */}
+            <div
+              className=" absolute inset-x-0 bottom-0
+            z-10 flex items-center justify-center opacity-0  hover:bg-white/5 hover:opacity-100"
+            >
+              <button
+                type="button"
+                onClick={() => handleMinimizeOrExpand(element.key)}
+              >
+                <ChevronDoubleUpIcon
+                  className={clsx(
+                    'h-4 w-4',
+                    'transition-all duration-300 ease-in-out',
+                    minimized.includes(element.key) && 'rotate-180 transform',
+                  )}
+                />
+              </button>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-
-      {/* {props.canAdd && (
-          <button
-            className="flex w-full items-end justify-end"
-            type="button"
-            onClick={props.onAddClick}
-          >
-            <PlusIcon className="h-4 w-4" />
-          </button>
-        )} */}
     </div>
   );
 }

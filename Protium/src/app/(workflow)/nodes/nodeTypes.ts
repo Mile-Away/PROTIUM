@@ -6,7 +6,8 @@ import SelectNode from './SelectNode';
 import SolverNode from './SolverNode';
 
 const nodeTypes = {
-  Sequential: SolverNode,
+  ILab: InputNode,
+  Step: InputNode,
   Solver: SolverNode,
   Basic: BasicNode,
   Select: SelectNode,

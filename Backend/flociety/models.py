@@ -57,7 +57,8 @@ class NodeTemplateLibrary(models.Model):
 
     # 节点模板字段
     nodeTypes = (
-        ("Sequential", "Sequential"),
+        ("Step", "Step"),
+        ("ILab", "ILab"),
         ("Solver", "Solver"),
         ("Basic", "Basic"),
         ("Select", "Select"),

@@ -126,6 +126,7 @@ class WorkflowExecuter:
 
             # source handle 无论有没有，甚至无论有没有被连接，都有可能需要被执行
             # source handle 中任意一个被连接，或者 target handle 全部被连接，就执行 node 中的所有 results
+            # TODO 这个逻辑待删除，所有情况都要允许被运行，除非被用户指定 diabeled。
             elif all(connected_target_results) or any(connected_source_results):
                 # 所有的 results 都会被执行，只要有一个执行失败，就会标记为 failed
                 compile = await self.get_all_compile(node)

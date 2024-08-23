@@ -258,8 +258,8 @@ class WorkflowSerializer(serializers.ModelSerializer):
                 key = edge["connection_id"].split("_").pop()
                 source: WorkflowNode = WorkflowNode.objects.get(uuid=edge["source"])
                 target: WorkflowNode = WorkflowNode.objects.get(uuid=edge["target"])
-                sourceHandle = WorkflowNodeHandle.objects.get(node=source.node_data, key=key)
-                targetHandle = WorkflowNodeHandle.objects.get(node=target.node_data, key=key)
+                sourceHandle = WorkflowNodeHandle.objects.get(node=source.node_data, key=key, type="source")
+                targetHandle = WorkflowNodeHandle.objects.get(node=target.node_data, key=key, type="target")
                 WorkflowEdge.objects.create(
                     workflow=instance,
                     connection_id=edge["connection_id"],

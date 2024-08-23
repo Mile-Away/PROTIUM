@@ -13,6 +13,7 @@ import {
   applyNodeChanges,
   Connection,
   Edge,
+  EdgeChange,
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 import { fetchNodeTemplate } from '../middleware';
@@ -144,7 +145,55 @@ const workflowSlice = createSlice({
     },
 
     // 控制线条拖拽
-    setEdges: (state, action) => {
+    setEdges: (state, action: PayloadAction<EdgeChange[]>) => {
+      console.log('edges', JSON.stringify(action.payload));
+      // console.log('setEdges:', action.payload);
+      action.payload.map((item) => {
+        if (item.type === 'remove') {
+          const removedEdge = state.edges.find((edge: Edge) => {
+            console.log(
+              'Checking edge id:',
+              edge.id,
+              'against item id:',
+              item.id,
+            );
+            return edge.id === item.id;
+          });
+
+          console.log('removedEdge:', JSON.stringify(removedEdge));
+
+          if (removedEdge) {
+            const sourceNode = state.nodes.find(
+              (node: WorkflowNodeProps) => node.id === removedEdge.source,
+            );
+            if (sourceNode) {
+              const removedSourceHandle = sourceNode.data.handles.find(
+                (handle) =>
+                  handle.key === removedEdge.sourceHandle?.split('_').pop() &&
+                  handle.type === 'source',
+              );
+              if (removedSourceHandle) {
+                removedSourceHandle.hasConnected = false;
+              }
+            }
+
+            const targetNode = state.nodes.find(
+              (node: WorkflowNodeProps) => node.id === removedEdge.target,
+            );
+            if (targetNode) {
+              const removedTargetHandle = targetNode.data.handles.find(
+                (handle) =>
+                  handle.key === removedEdge.targetHandle?.split('_').pop() &&
+                  handle.type === 'target',
+              );
+              if (removedTargetHandle) {
+                removedTargetHandle.hasConnected = false;
+              }
+            }
+          }
+        }
+      });
+
       state.edges = applyEdgeChanges(action.payload, state.edges) as Edge[];
     },
 
@@ -160,12 +209,24 @@ const workflowSlice = createSlice({
       state.consoleInfo.push(action.payload);
     },
 
+    // onConnect: (state, action: PayloadAction<Connection>) => {
+
+    // },
+
     // 控制线条连接
     connectEdges: (state, action: PayloadAction<Connection>) => {
-      state.edges = addEdge(action.payload, state.edges) as Edge[];
+      // 添加到 reactflow 的 redux edges 中
+      state.edges = addEdge(action.payload, state.edges);
 
+      // 添加到我自己的 edges 中
+      // state.edges.push({
+      //   id: uuidv4(),
+      //   source: action.payload.source,
+      //   target: action.payload.target,
+      //   sourceHandle: action.payload.sourceHandle,
+      //   targetHandle: action.payload.targetHandle,
+      // });
       // 将连接的节点的 handles 的 hasConnected 设置为 true
-
       const sourceNode = state.nodes.find(
         (node: WorkflowNodeProps) => node.id === action.payload.source,
       );
@@ -173,7 +234,8 @@ const workflowSlice = createSlice({
       if (sourceNode) {
         const sourceHandle = sourceNode.data.handles.find(
           (handle) =>
-            handle.key === action.payload.sourceHandle?.split('_').pop(),
+            handle.key === action.payload.sourceHandle?.split('_').pop() &&
+            handle.type === 'source',
         );
         if (sourceHandle) {
           sourceHandle.hasConnected = true;
@@ -186,7 +248,8 @@ const workflowSlice = createSlice({
       if (targetNode) {
         const targetHandle = targetNode.data.handles.find(
           (handle) =>
-            handle.key === action.payload.targetHandle?.split('_').pop(),
+            handle.key === action.payload.targetHandle?.split('_').pop() &&
+            handle.type === 'target',
         );
         if (targetHandle) {
           targetHandle.hasConnected = true;
@@ -195,8 +258,9 @@ const workflowSlice = createSlice({
 
       state.consoleInfo.push({
         time: new Date().toISOString(),
-        message: `Connected: ${sourceNode?.data
-          .header}(${action.payload.sourceHandle
+        message: `Connected: ${
+          sourceNode?.data.header
+        }(${action.payload.sourceHandle
           ?.split('_')
           .pop()}) -> ${targetNode?.data.header}(${action.payload.targetHandle
           ?.split('_')

@@ -1,6 +1,6 @@
 import nodeTypes from '@/app/(workflow)/nodes/nodeTypes.ts';
 import { Dispatch } from '@reduxjs/toolkit';
-import { NodeProps } from 'reactflow';
+import { Edge, NodeProps } from 'reactflow';
 // Workflow
 // export type MenuItemAction = 'edit' | 'delete' | 'copy' | 'new' | 'hidden';
 
@@ -52,12 +52,11 @@ export interface WorkflowNodeDataProps {
   footer?: string;
 }
 
-
 export interface WorkflowNodeProps
   extends Node<WorkflowNodeDataProps, keyof typeof nodeTypes> {
   id: string;
   type?: keyof typeof nodeTypes;
-  template: string;  // 这个 template 无法传入到 ReactFlow 画布中的 Node
+  template: string; // 这个 template 无法传入到 ReactFlow 画布中的 Node
   version: string;
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';

@@ -3,10 +3,8 @@ import { ABACUSIcon, VASPIcon } from '@/components/Icons';
 import {
   CodeBracketIcon,
   DocumentDuplicateIcon,
-  EllipsisVerticalIcon,
   PlusIcon,
   TrashIcon,
-  WrenchIcon,
 } from '@heroicons/react/24/outline';
 import handleMenuItemClick from './handleMenuItemClick';
 
@@ -18,95 +16,89 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
     arrow: true,
     subContextMenuItems: [
       {
-        action: 'dft',
-        label: 'DFT',
+        action: 'vasp',
+        label: 'VASP',
         icon: PlusIcon,
         arrow: true,
         subContextMenuItems: [
           {
-            action: 'vasp',
-            label: 'VASP',
+            action: 'poscar',
+            label: 'POSCAR',
             icon: PlusIcon,
-            arrow: true,
-            subContextMenuItems: [
-              {
-                action: 'poscar',
-                label: 'POSCAR',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('poscar'),
-              },
-              {
-                action: 'potcar',
-                label: 'POTCAR',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('potcar'),
-              },
-              {
-                action: 'incar',
-                label: 'INCAR',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('incar'),
-              },
-              {
-                action: 'kpoints',
-                label: 'KPOINTS',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('kpoints'),
-              },
-            ],
+            onClick: () => handleMenuItemClick('poscar'),
           },
           {
-            action: 'abacus',
-            label: 'ABACUS',
+            action: 'potcar',
+            label: 'POTCAR',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('potcar'),
+          },
+          {
+            action: 'incar',
+            label: 'INCAR',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('incar'),
+          },
+          {
+            action: 'kpoints',
+            label: 'KPOINTS',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('kpoints'),
+          },
+        ],
+      },
+      {
+        action: 'abacus',
+        label: 'ABACUS',
+        icon: PlusIcon,
+        arrow: true,
+        subContextMenuItems: [
+          {
+            action: 'abacus_input',
+            label: 'INPUT',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ABACUS_INPUT'),
+          },
+          {
+            action: 'abacus_stru',
+            label: 'STRU',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('abacus-stru'),
+          },
+          {
+            action: 'abacus_kpt',
+            label: 'KPT',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('abacus-kpt'),
+          },
+          {
+            action: 'abacus_pseudo',
+            label: 'Pseudo',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('abacus_pseudo'),
+          },
+          {
+            action: 'abacus_siab',
+            label: 'SIAB',
             icon: PlusIcon,
             arrow: true,
             subContextMenuItems: [
               {
-                action: 'abacus_input',
-                label: 'INPUT',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('ABACUS_INPUT'),
-              },
-              {
-                action: 'abacus_stru',
-                label: 'STRU',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('abacus-stru'),
-              },
-              {
-                action: 'abacus_kpt',
-                label: 'KPT',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('abacus-kpt'),
-              },
-              {
-                action: 'abacus_pseudo',
-                label: 'Pseudo',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('abacus_pseudo'),
-              },
-              {
-                action: 'abacus_orbitals',
+                action: 'siab_orbitals',
                 label: 'Orbitals',
                 icon: PlusIcon,
-                onClick: () => handleMenuItemClick('siab-orbitals'),
+                onClick: () => handleMenuItemClick('SIAB_Orbitals'),
+              },
+              {
+                action: 'siab_system',
+                label: 'System',
+                icon: PlusIcon,
+                onClick: () => handleMenuItemClick('SIAB_SYSTEM'),
               },
             ],
           },
         ],
       },
-      // {
-      //   action: 'molecule',
-      //   label: 'Molecule',
-      //   icon: PlusIcon,
-      //   onClick: () => handleMenuItemClick('edit'),
-      // },
-      // {
-      //   action: 'fem',
-      //   label: 'FEM',
-      //   icon: PlusIcon,
-      //   onClick: () => handleMenuItemClick('edit'),
-      // },
     ],
   },
   // {
@@ -166,6 +158,12 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         icon: ABACUSIcon,
         onClick: () => handleMenuItemClick('abacus'),
       },
+      {
+        action: 'ABACUS_SIAB',
+        label: 'SIAB',
+        icon: ABACUSIcon,
+        onClick: () => handleMenuItemClick('ABACUS_SIAB'),
+      },
       // {
       //   action: 'lammps',
       //   label: 'LAMMPS',
@@ -187,68 +185,45 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
     ],
   },
   {
-    action: 'outputs',
-    label: 'Outputs',
-    icon: WrenchIcon,
+    action: 'ilab',
+    label: 'IntelliLab',
+    icon: CodeBracketIcon,
     arrow: true,
     subContextMenuItems: [
       {
-        action: 'vasp_outputs',
-        label: 'VASP',
-        icon: VASPIcon,
-        onClick: () => handleMenuItemClick('vasp_outputs'),
+        action: 'grasp',
+        label: 'Grasp',
+        icon: PlusIcon,
+        onClick: () => handleMenuItemClick('ILab_Grasp'),
       },
       {
-        action: 'abacus_outputs',
-        label: 'ABACUS',
-        icon: ABACUSIcon,
-        onClick: () => handleMenuItemClick('abacus_outputs'),
+        action: 'pump',
+        label: 'Pump',
+        icon: PlusIcon,
+        onClick: () => handleMenuItemClick('ILab_Pump'),
       },
     ],
   },
-  {
-    action: 'pipeline',
-    label: 'Pipeline',
-    icon: EllipsisVerticalIcon,
-    arrow: true,
-    subContextMenuItems: [
-      {
-        action: 'pipeline_abacus',
-        label: 'ABACUS',
-        icon: ABACUSIcon,
-        arrow: true,
-        subContextMenuItems: [
-          // {
-          //   action: 'abacus-unit-test',
-          //   label: 'UnitTest',
-          //   icon: EllipsisHorizontalIcon,
-          //   onClick: () => handleMenuItemClick('VASP/outputs'),
-          // },
-          {
-            action: 'ABACUS_SIAB',
-            label: 'SIAB',
-            icon: PlusIcon,
-            onClick: () => handleMenuItemClick('ABACUS_SIAB'),
-            arrow: true,
-            subContextMenuItems: [
-              {
-                action: 'siab_orbitals',
-                label: 'Orbitals',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('SIAB_Orbitals'),
-              },
-              {
-                action: 'siab_system',
-                label: 'System',
-                icon: PlusIcon,
-                onClick: () => handleMenuItemClick('SIAB_SYSTEM'),
-              }
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   action: 'outputs',
+  //   label: 'Outputs',
+  //   icon: WrenchIcon,
+  //   arrow: true,
+  //   subContextMenuItems: [
+  //     {
+  //       action: 'vasp_outputs',
+  //       label: 'VASP',
+  //       icon: VASPIcon,
+  //       onClick: () => handleMenuItemClick('vasp_outputs'),
+  //     },
+  //     {
+  //       action: 'abacus_outputs',
+  //       label: 'ABACUS',
+  //       icon: ABACUSIcon,
+  //       onClick: () => handleMenuItemClick('abacus_outputs'),
+  //     },
+  //   ],
+  // },
 ];
 
 export const nodeContextMenuItems: ContextMenuItemProps[] = [

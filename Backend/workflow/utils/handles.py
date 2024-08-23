@@ -55,13 +55,13 @@ def get_handle_data_source_content(handle: WorkflowNodeHandle) -> str | None:
         return None
 
 
-async def check_handle_connected(node: WorkflowNode, source_type: str | None) -> list[bool]:
-    if source_type == "target":
+async def check_handle_connected(node: WorkflowNode, handle_type: str | None) -> list[bool]:
+    if handle_type == "target":
         target_handles = await filter_target_handles(node)
         connected_checks = [handle_has_connected(handle) for handle in target_handles]
         connected_results = await asyncio.gather(*connected_checks)
         return connected_results
-    elif source_type == "source":
+    elif handle_type == "source":
         source_handles = await filter_source_handles(node)
         connected_checks = [handle_has_connected(handle) for handle in source_handles]
         connected_results = await asyncio.gather(*connected_checks)

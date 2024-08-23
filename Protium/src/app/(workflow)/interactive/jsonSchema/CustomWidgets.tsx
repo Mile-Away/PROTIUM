@@ -9,13 +9,14 @@ import { RegistryWidgetsType, WidgetProps } from '@rjsf/utils';
 import clsx from 'clsx';
 
 export const DefaultTextWidget: React.FC<WidgetProps> = (props) => {
+  const {onChange} = props
   return (
     <input
       type="text"
       className="form-input h-8 w-full rounded  bg-white/10 text-sm focus:outline-none"
       value={props.value}
       required={props.required}
-      onChange={(event) => props.onChange(event.target.value)}
+      onChange={(event) => onChange(event.target.value)}
     />
   );
 };
@@ -32,13 +33,13 @@ export const DefaultTextareaWidget: React.FC<WidgetProps> = (props) => {
 };
 
 export const DefaultSelectWidget: React.FC<WidgetProps> = (props) => {
-  console.log(props);
+
   const { id, name, label, onChange, options, value } = props;
   return (
     <Listbox value={value} onChange={onChange}>
       <ListboxButton
         className={clsx(
-          'relative block w-full rounded-lg bg-white/10 py-1.5 pl-3 pr-8 text-left text-sm/6 text-white',
+          'relative h-10 block w-full rounded bg-white/10 py-1.5 pl-3 pr-8 text-left text-sm/6 text-white',
           'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
         )}
       >
@@ -51,7 +52,7 @@ export const DefaultSelectWidget: React.FC<WidgetProps> = (props) => {
       <ListboxOptions
         anchor="bottom"
         className={clsx(
-          'z-50 w-[var(--button-width)] rounded-xl border border-white/5 bg-neutral-800 p-1 shadow-lg shadow-black [--anchor-gap:var(--spacing-1)] focus:outline-none',
+          'z-50 w-[var(--button-width)] rounded border border-white/5 bg-neutral-800 p-1 shadow-lg shadow-black [--anchor-gap:var(--spacing-1)] focus:outline-none',
           'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0',
         )}
       >

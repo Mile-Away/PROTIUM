@@ -1,7 +1,6 @@
 import { WorkflowNodeDataHandlesProps } from '@/@types/workflow';
-import { AppDispatch, RootReducerProps } from '@/app/store';
+import { RootReducerProps } from '@/app/store';
 import {
-  addNode,
   connectEdges,
   setContextMenuVisible,
   setContextMenuX,
@@ -27,8 +26,7 @@ import NodeContextMenu, {
 import RootContextMenu, {
   PaneContextMenuProps,
 } from '../../ContextMenu/RootContextMenu';
-import nodeTypes, { nodeColors, NodeMapping } from '../../nodes/nodeTypes';
-import { fetchNodeTemplate } from '@/store/middleware';
+import nodeTypes, { nodeColors } from '../../nodes/nodeTypes';
 
 export default function RootReactFlow() {
   let level = 0;
@@ -38,6 +36,7 @@ export default function RootReactFlow() {
   const { nodes, edges, contextMenuVisible } = useSelector(
     (state: RootReducerProps) => state.workflow,
   );
+
   const [nodeMenu, setNodeMenu] = useState<NodeContextMenuProps | null>(null);
   const [paneMenu, setPaneMenu] = useState<PaneContextMenuProps | null>(null);
 
@@ -55,7 +54,11 @@ export default function RootReactFlow() {
   );
 
   const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) => dispatch(setEdges(changes)),
+    (changes: EdgeChange[]) => {
+      dispatch(setEdges(changes));
+      // console.log('edges', edges);
+    },
+
     [setEdges],
   );
   const onConnect = useCallback(
@@ -110,6 +113,8 @@ export default function RootReactFlow() {
 
       const connectingHandleKey = connectingHandleId.current.split('_').pop();
 
+      console.log('connectingHandleKey', connectingHandleKey);
+
       if (targetIsPane) {
         if ('touches' in event) {
           // TODO: Support touch event
@@ -128,37 +133,37 @@ export default function RootReactFlow() {
 
           const endUuid = uuidv4();
 
-          const nodeKey = Object.keys(NodeMapping).find(
-            (key) => key === connectingHandleRope.current,
-          );
+          // const nodeKey = Object.keys(NodeMapping).find(
+          //   (key) => key === connectingHandleRope.current,
+          // );
 
-          if (nodeKey) {
-            dispatch<any>(fetchNodeTemplate({ template: nodeKey, id: endUuid }));
-          }
+          // if (nodeKey) {
+          //   dispatch<any>(fetchNodeTemplate({ template: nodeKey, id: endUuid }));
+          // }
 
-          // Add Edges;
-          const endType =
-            connectingHandleType.current === 'target' ? 'source' : 'target';
+          // // Add Edges;
+          // const endType =
+          //   connectingHandleType.current === 'target' ? 'source' : 'target';
 
-          if (endType === 'source') {
-            dispatch(
-              connectEdges({
-                source: endUuid,
-                sourceHandle: `${endUuid}_${endType}_${connectingHandleKey}`,
-                target: connectingNodeId.current!,
-                targetHandle: connectingHandleId.current!,
-              }),
-            );
-          } else if (endType === 'target') {
-            dispatch(
-              connectEdges({
-                source: connectingNodeId.current!,
-                sourceHandle: connectingHandleId.current!,
-                target: endUuid,
-                targetHandle: `${endUuid}_${endType}_${connectingHandleKey}`,
-              }),
-            );
-          }
+          // if (endType === 'source') {
+          //   dispatch(
+          //     connectEdges({
+          //       source: endUuid,
+          //       sourceHandle: `${endUuid}_${endType}_${connectingHandleKey}`,
+          //       target: connectingNodeId.current!,
+          //       targetHandle: connectingHandleId.current!,
+          //     }),
+          //   );
+          // } else if (endType === 'target') {
+          //   dispatch(
+          //     connectEdges({
+          //       source: connectingNodeId.current!,
+          //       sourceHandle: connectingHandleId.current!,
+          //       target: endUuid,
+          //       targetHandle: `${endUuid}_${endType}_${connectingHandleKey}`,
+          //     }),
+          //   );
+          // }
         }
       }
     },
