@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 
@@ -27,8 +28,16 @@ class BaseNodeDataHandleModel(models.Model):
     )
     # 只有不同的节点才能有相同的 key，同一个节点相同 type 的 key 不能相同，不同 type 的 key 可以相同
     # 所以 unique_together 是 ("node", "type", "key")
-    # key 用来判断节点之间是否可以连接
-    key = models.CharField(max_length=100)
+    # key 用来判断节点之间是否可以连接, key 只允许字母、数字、横杠，特别注意不能包含下划线
+    key = models.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=r"^[a-zA-Z0-9-]+$",
+                message="Name can only contain letters, numbers, and hyphens. underscores is not allowed.",
+            ),
+        ],
+    )
     label = models.CharField(max_length=100, blank=True, null=True)
     type = models.CharField(max_length=10, choices=AS_CHOICES)
 

@@ -146,7 +146,7 @@ const workflowSlice = createSlice({
 
     // 控制线条拖拽
     setEdges: (state, action: PayloadAction<EdgeChange[]>) => {
-      console.log('edges', JSON.stringify(action.payload));
+
       // console.log('setEdges:', action.payload);
       action.payload.map((item) => {
         if (item.type === 'remove') {
@@ -159,8 +159,6 @@ const workflowSlice = createSlice({
             );
             return edge.id === item.id;
           });
-
-          console.log('removedEdge:', JSON.stringify(removedEdge));
 
           if (removedEdge) {
             const sourceNode = state.nodes.find(
