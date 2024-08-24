@@ -1,11 +1,10 @@
 import subprocess
 
+from accounts.models import User
 from asgiref.sync import sync_to_async
 from channels.layers import get_channel_layer
-
-from accounts.models import User
 from workflow.models import Workflow
-from workflow.types import WorkflowNodeMessageProps
+from workflow.typed import WorkflowNodeMessageProps
 
 
 @sync_to_async

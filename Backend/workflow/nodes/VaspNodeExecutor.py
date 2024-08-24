@@ -6,7 +6,7 @@ from abc import ABC
 from asgiref.sync import sync_to_async
 from django.conf import settings
 from workflow.models import WorkflowNodeCompile
-from workflow.types import NodeStatus
+from workflow.typed import NodeStatus
 
 from ..contemplates.SolverExecutor import SolverExecutor
 from ..utils.bohrium import submit_bohrium_job
@@ -99,7 +99,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
             await self.write(os.path.join(dir_path, "job.json"), machine_config)
 
             try:
-                machine_config = json.loads(machine_config)
+                machine_config = json.loads(machine_config)  # type: ignore
             except json.JSONDecodeError:
                 raise Exception("Machine Config is not a valid JSON")
 

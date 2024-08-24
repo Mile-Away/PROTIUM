@@ -5,10 +5,10 @@ from abc import ABC
 
 import aiofiles
 from workflow.models import WorkflowNodeCompile
-from workflow.types import NodeStatus
+from workflow.typed import NodeStatus
 
 from ..contemplates.SolverExecutor import SolverExecutor
-from ..types import BohriumJobConfigProps
+from ..typed import BohriumJobConfigProps
 from ..utils.bohrium import submit_bohrium_job
 from ..utils.handles import filter_target_handles, get_bound_handle_from_target, get_handle_data_source_content
 from ..utils.nodes import get_node_header

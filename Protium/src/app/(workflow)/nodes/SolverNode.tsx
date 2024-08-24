@@ -95,7 +95,7 @@ export default function SolverNode(props: BasicNodeProps) {
 
   const jobId = data.compile
     .find((item) => item.type === 'task')
-    ?.source.toString();
+    ?.source?.toString();
 
   return (
     <BasicNode {...props}>

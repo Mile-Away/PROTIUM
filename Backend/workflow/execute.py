@@ -4,7 +4,7 @@ from asgiref.sync import sync_to_async
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
 from .registry import NodeExecutorRegistry
-from .types import NodeStatus
+from .typed import NodeStatus
 from .utils.handles import check_handle_connected, filter_target_handles
 from .utils.nodes import get_node_header
 from .utils.utils import channel_send_node_result

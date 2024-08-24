@@ -81,7 +81,7 @@ class WorkflowNode(models.Model):
     positionAbsolute = models.JSONField(default=dict)
     width = models.IntegerField(default=200)
     height = models.IntegerField(default=250)
-    dragHandle = models.CharField(max_length=50, blank=True, null=True)
+    dragHandle = models.CharField(max_length=50, blank=True, null=True, default=".drag-handle")
     status = models.CharField(max_length=10, choices=status_choices, default="draft")
 
     # 一个节点对应一个节点数据

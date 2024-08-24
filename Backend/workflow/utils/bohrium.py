@@ -3,7 +3,7 @@ from asgiref.sync import sync_to_async
 from bohrium_open_sdk import OpenSDK
 
 from ..models import WorkflowNode
-from ..types import BohriumJobCallbackTyped, BohriumJobConfigProps
+from ..typed import BohriumJobCallbackTyped, BohriumJobConfigProps
 
 
 @sync_to_async

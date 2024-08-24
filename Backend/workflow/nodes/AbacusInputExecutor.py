@@ -5,7 +5,7 @@ from abc import ABC
 from workflow.models import WorkflowNodeCompile
 
 from ..contemplates.IOExecutor import IOExecutor
-from ..types import NodeStatus
+from ..typed import NodeStatus
 
 
 class AbacusInputExecutor(IOExecutor, ABC):

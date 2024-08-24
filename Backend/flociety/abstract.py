@@ -38,8 +38,8 @@ class BaseNodeDataHandleModel(models.Model):
             ),
         ],
     )
-    label = models.CharField(max_length=100, blank=True, null=True)
     type = models.CharField(max_length=10, choices=AS_CHOICES)
+    label = models.CharField(max_length=100, blank=True, null=True)
 
     # source 储存这个作为 source handle，输出的数据的来源，只有三个选项，handle, body, result
     # source 的格式为 {"source": "handle", "key": "poscar"}
@@ -57,9 +57,10 @@ class BaseNodeDataHandleModel(models.Model):
 
 class BaseNodeDataBodyModel(models.Model):
     id: int
-
     key = models.CharField(max_length=100)
     type = models.CharField(max_length=50)
+
+    # Optional
     source = models.JSONField(blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
@@ -75,8 +76,10 @@ class BaseNodeDataCompileModel(models.Model):
 
     key = models.CharField(max_length=100)
     script = models.CharField(max_length=100)
-    source = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=50)
+    
+    # Optional
+    source = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     attachment = models.CharField(max_length=100, blank=True, null=True)
 
