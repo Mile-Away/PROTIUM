@@ -23,9 +23,14 @@ export default async function RootLayout({
     path.dirname(new URL(import.meta.url).pathname),
   )
 
+  // 搜索所有目标文件夹下的 mdx 文件，然后返回一个包含两个数组的元素
+  // 所以文件路径变动就要改 pages 的位置，不然 allSections 搜索不到东西，就会没有目录，
+  // 确定 sections 的时候会拿标题里的所有英文作为 id，所以如果标题里只有中文，就没有 id，就没法判断位置。
+  // 所以标题必须使用英文开头
+  
   // glob 函数是一个异步函数，它接受一个 glob 模式和一个选项对象，返回一个 Promise，
   // 这个 Promise 在解析完所有匹配的文件后会被 resolve 为一个字符串数组。
-  let pages = await glob('**/*.mdx', { cwd: `src/app/${currentFilePath}` })
+  let pages = await glob('**/*.mdx', { cwd: `src/app/(cn)/${currentFilePath}` })
 
   let allSectionsEntries = (await Promise.all(
     // allSectionsEntries 是一个数组，其中的每个元素都是一个包含两个元素的数组：
@@ -42,6 +47,8 @@ export default async function RootLayout({
   )) as Array<[string, Array<Section>]>
 
   let allSections = Object.fromEntries(allSectionsEntries)
+
+  console.log(">>>>>> Workflow all Sections", allSections)
 
   return (
     <div className="w-full">

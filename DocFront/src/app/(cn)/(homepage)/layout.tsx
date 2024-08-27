@@ -11,12 +11,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  
   const currentFilePath = path.basename(
     path.dirname(new URL(import.meta.url).pathname),
   )
 
-  let pages = await glob('**/*.mdx', { cwd: `src/app/${currentFilePath}` })
+  let pages = await glob('**/*.mdx', { cwd: `src/app/(cn)/${currentFilePath}` })
 
   let allSectionsEntries = (await Promise.all(
     pages.map(async (filename) => [

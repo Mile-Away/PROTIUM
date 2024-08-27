@@ -146,6 +146,7 @@ function NavigationGroup({
   group: NavGroup
   className?: string
 }) {
+
   // If this is the mobile navigation then we always render the initial
   // state, so that the state does not change during the close animation.
   // The state will still update when we re-open (re-render) the navigation.
@@ -229,6 +230,7 @@ interface NavigationProps extends React.ComponentPropsWithoutRef<'nav'> {
 
 // 这是移动端弹出导航
 export function Navigation({ navigation, ...props }: NavigationProps) {
+  console.log(navigation)
   const { isLogged, userInfo, checkIsLogged } = useAuthServiceContext()
 
   return (
