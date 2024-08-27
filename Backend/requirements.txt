@@ -151,7 +151,7 @@ protium==0.3.1
 protobuf==5.27.2
 psutil==5.9.8
 psycopg==3.1.18
-psycopg2==2.9.9
+psycopg2 @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/psycopg2_1707344507705/work
 pyarrow==17.0.0
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
