@@ -40,3 +40,5 @@ auth/
 
 Dockerfile
 .dockerignore
+
+/src/config.ts
