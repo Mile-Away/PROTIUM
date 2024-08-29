@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useInView } from 'framer-motion'
 
@@ -106,7 +106,7 @@ export function Heading<Level extends 2 | 3>({
       >
         {anchor ? (
           <Anchor id={props.id} inView={inView}>
-            {children}
+            {children as React.ReactNode}
           </Anchor>
         ) : (
           children

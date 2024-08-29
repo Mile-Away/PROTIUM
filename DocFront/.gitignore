@@ -38,3 +38,5 @@ yarn-error.log*
 # User Auth
 auth/
 
+Dockerfile
+.dockerignore

@@ -27,6 +27,8 @@ ALLOWED_HOSTS = ast.literal_eval(os.environ.get("ALLOWED_HOSTS", "[]"))
 
 CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
 
+# ILAB_HOST = os.environ.get("ILAB_HOST")
+ILAB_HOST = "http://172.21.4.200:8000"
 # # For Allauth
 # SITE_ID = 1
 # AUTHENTICATION_BACKENDS = [

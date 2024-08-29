@@ -14,7 +14,7 @@ import { ChatBubbleIcon } from '@/components/icons/ChatBubbleIcon'
 import { EnvelopeIcon } from '@/components/icons/EnvelopeIcon'
 import { UserIcon } from '@/components/icons/UserIcon'
 import { UsersIcon } from '@/components/icons/UsersIcon'
-import { PrimarySite } from '../../../Fronted/src/config'
+import { PrimarySite } from '@/config'
 
 interface Resource {
   href: string

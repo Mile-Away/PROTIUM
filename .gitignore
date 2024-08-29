@@ -20,3 +20,7 @@ DFlow/
 @SandBox/
 
 example/
+
+# docker related
+.env
+docker-compose.yml

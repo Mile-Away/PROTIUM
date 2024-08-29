@@ -6,6 +6,7 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start -p 4000",
+    "prod": "next build && next start -p 4000",
     "lint": "next lint"
   },
   "browserslist": "defaults, not ie <= 11",

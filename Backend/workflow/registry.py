@@ -5,6 +5,7 @@ from .contemplates.SolverExecutor import SolverExecutor
 from .nodes.AbacusInputExecutor import AbacusInputExecutor
 from .nodes.AbacusSiabExecutor import AbacusSiabExecutor
 from .nodes.AbacusSystemExecutor import AbacusSystemExecutor
+from .nodes.ILabGraspExecutor import ILabGraspExecutor
 from .nodes.IncarNodeExecutor import IncarNodeExecutor
 from .nodes.KpointsNodeExecutor import KpointsNodeExecutor
 from .nodes.OrbitalsNodeExecutor import OribitalNodeExecutor
@@ -31,6 +32,7 @@ class NodeExecutorRegistry:
             "abacus_input": AbacusInputExecutor,
             "siab_system": AbacusSystemExecutor,
             "siab_orbitals": OribitalNodeExecutor,
+            "ilab_grasp": ILabGraspExecutor,
         }
 
     def register(self, node_type, executor):

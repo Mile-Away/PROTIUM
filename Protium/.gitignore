@@ -73,8 +73,5 @@ DocFront/src/app/doc/
 # Ignore all .pyc files
 *.pyc
 
-elasticsearch/
-
-DFlow/
-
-@SandBox/
+Dockerfile
+.dockerignore

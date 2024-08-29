@@ -10,7 +10,7 @@ import { Header } from '@/components/Header'
 import { Logo } from '@/components/Logo'
 import { Navigation } from '@/components/Navigation'
 import { type Section, SectionProvider } from '@/components/SectionProvider'
-import { PrimarySite } from '../../../Fronted/src/config'
+import { PrimarySite } from '@/config'
 
 export function Layout({
   children,
