@@ -15,6 +15,9 @@ class NodeExecutor(ABC):
     def __init__(self, node: WorkflowNode):
         self.node = node
         self.node_uuid = str(node.uuid)
+        self.compile = node.node_data.compile.all()
+        self.body = node.node_data.body.all()
+        self.handles = node.node_data.handles.all()
 
     @sync_to_async
     def get_creator(self) -> User:
@@ -67,5 +70,5 @@ class NodeExecutor(ABC):
         await sync_to_async(compile.save)()
 
     @abstractmethod
-    async def execute(self, compile: WorkflowNodeCompile) -> str:
+    async def execute(self) -> str:
         pass

@@ -21,7 +21,7 @@ class AbacusSiabExecutor(SolverExecutor, ABC):
         async with aiofiles.open(file_path, mode="r") as file:
             return await file.read()
 
-    async def execute(self, compile: WorkflowNodeCompile) -> NodeStatus:
+    async def execute(self) -> NodeStatus:
 
         # 从 Edge 获取 Source handle
         connected_target_handles = await filter_target_handles(self.node, connected=True)
@@ -83,7 +83,7 @@ class AbacusSiabExecutor(SolverExecutor, ABC):
                 "uuid": str(self.node.uuid),
                 "header": await get_node_header(self.node),
                 "status": "success",
-                "compile": [{"key": compile.key, "source": str(details.get("data")["jobId"])}],
+                "compile": [{"key": self.compile[0].key, "source": str(details.get("data")["jobId"])}],
             },
         )
         return "success"

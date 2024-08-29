@@ -4,10 +4,10 @@
   "private": true,
   "main": "electron.js",
   "scripts": {
-    "dev": "next dev -H 127.0.0.1 -p 3003",
+    "dev": "next dev -p 3003",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 3003",
-    "prod": "next build && next start -H 0.0.0.0 -p 3003",
+    "prod": "next build && next start -p 3003",
     "lint": "next lint",
     "elec": "electron ."
   },

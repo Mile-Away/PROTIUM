@@ -1,35 +1,20 @@
-import asyncio
 from abc import ABC
 
-import requests
-from django.conf import settings
-from workflow.models import WorkflowNodeCompile
 
-from ..contemplates.IOExecutor import IOExecutor
+from ..contemplates.ILabExecutor import ILabExecutor
 from ..typed import NodeStatus
 
 
-class ILabGraspExecutor(IOExecutor, ABC):
+class ILabGraspExecutor(ILabExecutor, ABC):
 
-    async def execute(self, compile: WorkflowNodeCompile) -> NodeStatus:
+    async def execute(self) -> NodeStatus:
+
+        # print(">>>>>>>>>> body", self.body)
 
         data = {"test": "test", "action": "grasp"}
 
-        res = requests.post(f"{settings.ILAB_HOST}/admin/v1/devices/add/", json=data)
+        res = self.send_request(device="add", data=data)
 
-        res.raise_for_status()
-
-        while True:
-            res = requests.get(f"{settings.ILAB_HOST}/api/v1/devices/1/status/")
-
-            await asyncio.sleep(1)
-
-            data = res.json().get("data")
-
-            if data is None:
-                raise Exception("ILabGraspExecutor: No Response from ILab")
-            else:
-                if data["status"] == "Idle":
-                    break
+        device_status = await self.poll_device_status("add")
 
         return "success"

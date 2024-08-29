@@ -230,7 +230,6 @@ interface NavigationProps extends React.ComponentPropsWithoutRef<'nav'> {
 
 // 这是移动端弹出导航
 export function Navigation({ navigation, ...props }: NavigationProps) {
-  console.log(navigation)
   const { isLogged, userInfo, checkIsLogged } = useAuthServiceContext()
 
   return (

@@ -36,7 +36,7 @@ class WorkflowDetailAPIView(APIView):
 
     def put(self, request: Request, uuid: str) -> Response:
 
-        print("Request >>>>>>>>", request.data)
+        # print("Request >>>>>>>>", request.data)
 
         workflow = self.get_object(uuid)
         serializer = WorkflowSerializer(workflow, data=request.data, partial=True)

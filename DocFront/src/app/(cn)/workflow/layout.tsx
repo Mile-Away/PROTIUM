@@ -48,8 +48,6 @@ export default async function RootLayout({
 
   let allSections = Object.fromEntries(allSectionsEntries)
 
-  console.log(">>>>>> Workflow all Sections", allSections)
-
   return (
     <div className="w-full">
       <Layout navigation={navigation} allSections={allSections}>

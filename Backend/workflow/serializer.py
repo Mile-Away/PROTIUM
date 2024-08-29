@@ -30,9 +30,6 @@ class WorkflowNodeBodySerializer(serializers.ModelSerializer):
         exclude = ["id", "node"]
 
     def get_schema(self, obj: WorkflowNodeBody):
-        print("obj >>>>>>>>", obj)
-        print("obj.node.node.template.node_data >>>>>>>>", obj.node.node.template.node_data)
-
         schema = NodeDataBodyTemplate.objects.get(node=obj.node.node.template.node_data, key=obj.key).schema
 
         return NodeBodySchemaTemplateSerializer(schema).data
@@ -165,7 +162,7 @@ class WorkflowSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
-        print("validated_data >>>>>>>>", validated_data)
+        # print("validated_data >>>>>>>>", validated_data)
 
         # 处理嵌套字段
         nodes = validated_data.pop("nodes", [])
