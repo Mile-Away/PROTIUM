@@ -246,7 +246,7 @@ export default function RootReactFlow() {
         onPaneContextMenu={onPaneContextMenu}
         onNodeContextMenu={onNodeContextMenu}
         // fitView
-        className=""
+        className="z-0"
       >
         <MiniMap
           maskColor="rgba(0,0,0,0)"

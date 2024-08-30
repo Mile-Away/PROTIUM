@@ -32,13 +32,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SideNavBar isSticky={isSticky} setIsSticky={setIsSticky} />
         <main
           className={clsx(
-            isSticky ? 'lg:pl-64' : 'lg:pl-4 ',
+            isSticky ? 'lg:pl-64' : 'lg:pl-2 ',
             'relative h-screen transition-all duration-300 ease-in-out',
           )}
         >
           <div
             className={clsx(
-              isSticky ? 'lg:left-64' : 'lg:left-4',
+              isSticky ? 'lg:left-64' : 'lg:left-2',
               'fixed left-0 right-0 top-0 z-20 transition-all duration-300 ease-in-out',
             )}
           >
@@ -47,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div
             className={clsx(
-              isSticky ? 'lg:left-64' : 'lg:left-4',
+              isSticky ? 'lg:left-64' : 'lg:left-2',
               'absolute bottom-0 left-0 right-0 top-16 transition-all duration-300 ease-in-out',
             )}
           >

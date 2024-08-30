@@ -1,6 +1,7 @@
 import { ContextMenuItemProps } from '@/@types/workflow';
 import { ABACUSIcon, VASPIcon } from '@/components/Icons';
 import {
+  ArrowUpOnSquareIcon,
   CodeBracketIcon,
   DocumentDuplicateIcon,
   PlusIcon,
@@ -247,4 +248,25 @@ export const nodeContextMenuItems: ContextMenuItemProps[] = [
     arrow: false,
     onClick: () => handleMenuItemClick('delete'),
   },
+];
+
+export const sideContextMenuItems: ContextMenuItemProps[] = [
+  {
+    action: 'delete',
+    label: 'Delete',
+    icon: TrashIcon,
+    arrow: false,
+  },
+  {
+    action: 'duplicate',
+    label: 'Duplicate',
+    icon: DocumentDuplicateIcon,
+    arrow: false,
+  },
+  {
+    action: 'export',
+    label: 'Export',
+    icon: ArrowUpOnSquareIcon,
+    arrow: false,
+  }
 ];

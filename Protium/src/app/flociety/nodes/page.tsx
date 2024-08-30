@@ -27,7 +27,6 @@ export default function Page() {
 
   return (
     <>
-
       <div className="my-16  flex h-32 items-center justify-center border-b py-24 dark:border-white/10">
         <div className=" relative w-1/2">
           <input
@@ -38,38 +37,48 @@ export default function Page() {
           <MagnifyingGlassIcon className="absolute inset-y-0 right-2 h-6 w-6 translate-y-1/3 text-gray-400" />
         </div>
       </div>
-      <div className=" relative flex flex-wrap px-8 py-8">
+      <div className=" relative  px-8 py-8">
         <GridBackground />
-        {nodeTemplates.map((node) => {
-          const NodeTypeComponent = nodeTypes[node.type];
-          return (
-            <div
-              key={node.name}
-              className="relative h-fit cursor-pointer rounded-md  p-2 
-              "
-              onClick={() => router.push(`/flociety/nodes/${node.name}`)}
-            >
+        <div
+          className=" grid"
+          style={{
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gridAutoRows: 'minmax(200px, auto)',
+            gridAutoFlow: 'dense',
+            gap: '1rem',
+          }}
+        >
+          {nodeTemplates.map((node) => {
+            const NodeTypeComponent = nodeTypes[node.type];
+            return (
               <div
-                className=" relative h-fit w-fit after:transition-colors after:duration-300 after:ease-in-out
-              hover:after:absolute hover:after:inset-0 hover:after:bg-white hover:after:opacity-5 hover:after:content-[''] "
+                key={node.name}
+                className="relative h-fit cursor-pointer rounded-md  p-2 
+              "
+                onClick={() => router.push(`/flociety/nodes/${node.name}`)}
               >
-                <div className=" pointer-events-none -z-[9999]">
-                  <NodeTypeComponent
-                    id=""
-                    type={node.type}
-                    selected={false}
-                    zIndex={0}
-                    isConnectable={false}
-                    xPos={0}
-                    yPos={0}
-                    dragging
-                    data={node.data}
-                  />
+                <div
+                  className=" relative h-fit w-fit after:transition-colors after:duration-300 after:ease-in-out
+              hover:after:absolute hover:after:inset-0 hover:after:bg-white hover:after:opacity-5 hover:after:content-[''] "
+                >
+                  <div className=" pointer-events-none -z-[9999]">
+                    <NodeTypeComponent
+                      id=""
+                      type={node.type}
+                      selected={false}
+                      zIndex={0}
+                      isConnectable={false}
+                      xPos={0}
+                      yPos={0}
+                      dragging
+                      data={node.data}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </>
   );

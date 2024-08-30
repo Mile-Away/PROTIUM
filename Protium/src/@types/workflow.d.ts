@@ -81,6 +81,7 @@ export interface WorkflowProps {
   edges: Edge[];
 }
 export interface WorkflowStateProps {
+  sideMenuVisible: boolean;
   contextMenuVisible: boolean;
   contextMenuX: number;
   contextMenuY: number;

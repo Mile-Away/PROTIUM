@@ -1,110 +1,47 @@
-# PROTIUM Web
+# PROTIUM
 
-## 启动项目
+> [Read Chinese Readme (查看中文文档) ->]("#")
 
-### 后端 Backend
+PROTIUM 是为科学研究人员设计的可视化工作流。
 
-0. 依赖：
+# Features
 
-`python >= 3.12.3`
+# Quick Start
 
-1. 安装
+Protium 提供以下三种访问方式：
 
-```bash
-pip install -r requirements.txt
+1. Web
+2. 本地部署
+    * 使用 Docker 部署
+    * 使用源码部署
+
+## 1. Web
+
+随时随地访问 「[Protium 官网](https://protium.space)」立即开始。有关网站的任何使用帮助，请参阅：[Protium Docs](https://docs.protium.spoace/workflow)
+
+## 2. 本地部署
+
+本地部署的为离线版本，所有数据将保存在你的本地，不与 Protium 发生通信。
+
+1. 使用 Docker 部署【推荐】
+
+执行以下脚本一键部署 (该脚本仅涉及 Docker 镜像拉取与启动)
+
+* Windows
+
+打开 PowerShell 或 CMD，运行以下命令：
+
+```powershell
+curl -O https://raw.githubusercontent.com/mile-away/protium/main/deploy.sh
+bash deploy.sh
 ```
 
-2. 启动
+* Linux 和 macOS
+
+打开终端，运行以下命令：
 
 ```bash
-uvicorn backend.asgi:application --port 8000 --log-level debug --reload
+curl -O https://raw.githubusercontent.com/mile-away/protium/main/deploy.sh
+chmod +x deploy.sh
+bash deploy.sh
 ```
-
-#### 环境变量（不包含在仓库中）
-
-```bash
-- .env
-```
-
-### 前端 Fronted/工作流 PROTIUM/文档 DocFront
-
-0. 依赖
-
-`node >= 20.12.1`
-
-1. 安装
-
-```bash
-cd Fronted
-npm install
-```
-
-2. 启动
-
-```bash
-npm run dev
-```
-
-#### 环境变量（不包含在仓库中）
-
-```bash
-- .env
-- next-env.d.ts
-- src/config.ts
-```
-
-## 其它需要依赖的项目
-
-### `docker`
-
-### `elasticSearch`
-
-### `PostgreSQL`
-
-### `redis`
-
-### `celery`
-
-1. 安装
-
-```bash
-pip install redis celery django-celery-beat django-celery-results
-```
-
-2. 运行
-
-1. 启动 Celery worker 服务:
-
-```bash
-# execute path: @/Backend/
-
-celery -A backend worker --loglevel=info
-```
-
-2. 启动 Celery beat 服务:
-
-```bash
-# execute path: @/Backend/
-
-celery -A backend beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-```
-
-## 本项目核心依赖的项目
-
-前端：
-
-* TailwindCSS
-* Next.js
-* react-redux
-* tiptap
-* ReactFlow
-* dnd-kit
-* react-json-schema
-* react-use-websocket
-
-后端
-
-* Django
-* django-rest-framework
-* django-simple-jwt
-* django-celery-beat, django-celery-results 

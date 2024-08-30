@@ -19,6 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { fetchNodeTemplate } from '../middleware';
 
 const initialStateWorkflow: WorkflowStateProps = {
+  sideMenuVisible: false,
   contextMenuVisible: false,
   contextMenuX: 0,
   contextMenuY: 0,
@@ -72,7 +73,12 @@ const workflowSlice = createSlice({
   name: 'workflow',
   initialState: initialStateWorkflow,
   reducers: {
-    // 控制菜单栏是否可见
+    setSideMenuVisible: (state, action) => {
+      state.sideMenuVisible = action.payload;
+    },
+
+
+    // 控制画布菜单栏是否可见
     setContextMenuVisible: (state, action) => {
       state.contextMenuVisible = action.payload;
       state.activeMenuItems = [];
