@@ -4,4 +4,3 @@ library/
 PyPI.txt
 Dockerfile
 .dockerignore
-entrypoint.sh

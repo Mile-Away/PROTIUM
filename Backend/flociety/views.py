@@ -4,6 +4,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .management.commands.backup import backup_node_template_library
 from .models import NodeTemplateLibrary
 from .serializers import NodeTemplateLibrarySerializer
 
@@ -60,3 +61,4 @@ class NodeTemplateDetailView(APIView):
     def put(self, request: Request, uuid: str) -> Response | None:
 
         pass
+

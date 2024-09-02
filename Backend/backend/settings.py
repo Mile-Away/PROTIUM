@@ -14,9 +14,6 @@ load_dotenv(override=False)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -117,12 +114,12 @@ ASGI_APPLICATION = "backend.asgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("DATABASE_ENGINE"),  # 数据库引擎
-        "NAME": os.environ.get("DATABASE_NAME"),  # 之前创建的数据库名
+        "ENGINE": os.environ.get("DATABASE_ENGINE", "django.db.backends.postgresql"),  # 数据库引擎
+        "NAME": os.environ.get("DATABASE_NAME"),  # 创建的数据库名
         "USER": os.environ.get("DATABASE_USER"),  # 用户名
         "PASSWORD": os.environ.get("DATABASE_PASSWORD"),  # 密码
-        "HOST": os.environ.get("DATABASE_HOST"),  # 不填写默认是localhost
-        "PORT": os.environ.get("DATABASE_PORT"),  # MySQL默认端口
+        "HOST": os.environ.get("DATABASE_HOST"),
+        "PORT": os.environ.get("DATABASE_PORT"),
         # "OPTIONS": {
         #     "charset": "utf8mb4",
         # },
@@ -138,7 +135,7 @@ ELASTICSEARCH_DSL = {
     "default": {
         "hosts": os.environ.get("ELASTICSEARCH_HOST"),
         "http_auth": (os.environ.get("ELASTICSEARCH_USERNAME"), os.environ.get("ELASTICSEARCH_PASSWORD")),
-        "ca_certs": os.environ.get("ELASTICSEARCH_CA_CERTS"),
+        # "ca_certs": os.environ.get("ELASTICSEARCH_CA_CERTS"),
     }
 }
 

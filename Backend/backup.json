@@ -1,0 +1,653 @@
+[
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "ABACUS_INPUT",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-08-15T20:24:36.533787+08:00",
+        "updated_at": "2024-08-15T20:24:36.533828+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "abacus-input",
+                    "type": "source",
+                    "label": null,
+                    "data_source": "compile",
+                    "data_key": "abacus-input",
+                    "rope": "ABACUS_SIAB"
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ecutwfc": {
+                                    "type": "number"
+                                },
+                                "pseudo_dir": {
+                                    "type": "string",
+                                    "description": "Directory containing the pseudopotential files"
+                                },
+                                "pseudo_name": {
+                                    "type": "string"
+                                },
+                                "smearing_sigma": {
+                                    "type": "number"
+                                },
+                                "bessel_nao_rcut": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "bessel_nao_smooth": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "uiSchema": {
+                            "pseudo_dir": {
+                                "ui:help": "Hint: Make it strong!",
+                                "ui:widget": "textarea"
+                            }
+                        }
+                    },
+                    "key": "abacus-input",
+                    "type": "object",
+                    "source": {
+                        "ecutwfc": 60,
+                        "pseudo_dir": "/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0",
+                        "pseudo_name": "Si_ONCV_PBE-1.0.upf",
+                        "smearing_sigma": 0.01,
+                        "bessel_nao_rcut": [
+                            6,
+                            7,
+                            8,
+                            9,
+                            10
+                        ],
+                        "bessel_nao_smooth": 0
+                    },
+                    "title": "ABACUS INPUT",
+                    "attachment": null
+                }
+            ],
+            "compile": [
+                {
+                    "id": 1,
+                    "key": "abacus-input",
+                    "script": "abacus_input",
+                    "type": "file",
+                    "source": "",
+                    "title": "ABACUS INPUT",
+                    "attachment": null,
+                    "node_id": 1,
+                    "bodies": [
+                        "abacus-input"
+                    ]
+                }
+            ],
+            "header": "ABACUS INPUT",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "ABACUS_SIAB",
+        "description": "",
+        "version": "0.0.2",
+        "created_at": "2024-08-16T16:29:55.862330+08:00",
+        "updated_at": "2024-08-16T16:29:55.862432+08:00",
+        "public": true,
+        "type": "Solver",
+        "data": {
+            "handles": [
+                {
+                    "key": "abacus-input",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": "ABACUS_INPUT"
+                },
+                {
+                    "key": "siab-system",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": "SIAB_SYSTEM"
+                },
+                {
+                    "key": "siab-orbitals",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": "SIAB_ORBITALS"
+                },
+                {
+                    "key": "siab-outputs",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": "ABACUS_SIAB_OUTPUTS"
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "jY_type": {
+                                    "type": "string",
+                                    "title": "JY Type"
+                                },
+                                "max_steps": {
+                                    "type": "number",
+                                    "title": "Max Steps"
+                                },
+                                "optimizer": {
+                                    "type": "string",
+                                    "title": "Optimizer"
+                                },
+                                "environment": {
+                                    "type": "string",
+                                    "title": "Environment"
+                                },
+                                "mpi_command": {
+                                    "type": "string",
+                                    "title": "MPI Command"
+                                },
+                                "spill_coefs": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "spill_guess": {
+                                    "type": "string",
+                                    "title": "Spill Guess"
+                                },
+                                "nthreads_rcut": {
+                                    "type": "number",
+                                    "title": "Nthreads Rcut"
+                                },
+                                "abacus_command": {
+                                    "type": "string",
+                                    "title": "Abacus Command"
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "abacus-siab",
+                    "type": "object",
+                    "source": {
+                        "jY_type": "reduced",
+                        "max_steps": 1000,
+                        "optimizer": "bfgs",
+                        "environment": "",
+                        "mpi_command": "mpirun -np 8",
+                        "spill_coefs": [
+                            0.0,
+                            1.0
+                        ],
+                        "spill_guess": "atomic",
+                        "nthreads_rcut": 4,
+                        "abacus_command": "abacus"
+                    },
+                    "title": "SIAB Config",
+                    "attachment": null
+                },
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "command": {
+                                    "type": "string",
+                                    "title": "Command"
+                                },
+                                "job_name": {
+                                    "type": "string",
+                                    "title": "Job Name"
+                                },
+                                "project_id": {
+                                    "type": "number",
+                                    "title": "Project ID"
+                                },
+                                "machine_type": {
+                                    "type": "string",
+                                    "title": "Machine Type"
+                                },
+                                "image_address": {
+                                    "type": "string",
+                                    "title": "Image Address"
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "bohrium-job-config",
+                    "type": "object",
+                    "source": {
+                        "command": "/opt/mamba/envs/orbgen/bin/python /root/deepmodeling/abacus_orbital_generation/SIAB/SIAB_nouvelle.py -i SIAB_INPUT.json 2>abacus_std.err",
+                        "job_name": "abacus_siab",
+                        "project_id": "",
+                        "machine_type": "c16_m32_cpu",
+                        "image_address": "registry.dp.tech/dptech/prod-16047/apns:orbgen"
+                    },
+                    "title": "Bohrium Job Config",
+                    "attachment": null
+                }
+            ],
+            "compile": [
+                {
+                    "id": 2,
+                    "key": "abacus-siab",
+                    "script": "abacus_siab",
+                    "type": "task",
+                    "source": "",
+                    "title": "ABACUS SIAB",
+                    "attachment": null,
+                    "node_id": 3,
+                    "bodies": [
+                        "abacus-siab",
+                        "bohrium-job-config"
+                    ]
+                }
+            ],
+            "header": "ABACUS SIAB",
+            "footer": "Version 0.0.2"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "SIAB_SYSTEM",
+        "description": "ABACUS \u8d5d\u52bf\u8f68\u9053\u751f\u6210 system \u90e8\u5206\u8f93\u5165\u53c2\u6570",
+        "version": "0.0.1",
+        "created_at": "2024-08-19T13:52:49.525048+08:00",
+        "updated_at": "2024-08-19T13:54:32.063173+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "siab-system",
+                    "type": "source",
+                    "label": null,
+                    "data_source": "compile",
+                    "data_key": "siab-system",
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nspin": {
+                                    "type": "number",
+                                    "title": "Number of spins",
+                                    "default": 1
+                                },
+                                "shape": {
+                                    "enum": [
+                                        "dimer",
+                                        "trimer"
+                                    ],
+                                    "type": "string",
+                                    "title": "Shape",
+                                    "default": "dimer"
+                                },
+                                "nbands": {
+                                    "type": "number",
+                                    "title": "Number of bands",
+                                    "default": 8
+                                },
+                                "bond_length": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "siab-system",
+                    "type": "object",
+                    "source": {
+                        "nspin": 1,
+                        "shape": "dimer",
+                        "nbands": 8,
+                        "bond_length": [
+                            8
+                        ]
+                    },
+                    "title": "SIAB SYSTEM",
+                    "attachment": null
+                }
+            ],
+            "compile": [
+                {
+                    "id": 3,
+                    "key": "siab-system",
+                    "script": "siab_system",
+                    "type": "file",
+                    "source": "",
+                    "title": "SIAB SYSTEM",
+                    "attachment": null,
+                    "node_id": 5,
+                    "bodies": [
+                        "siab-system"
+                    ]
+                }
+            ],
+            "header": "SIAB SYSTEM",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "ABACUS_SIAB",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-08-15T22:24:20.958933+08:00",
+        "updated_at": "2024-08-19T14:13:32.865373+08:00",
+        "public": true,
+        "type": "Solver",
+        "data": {
+            "handles": [],
+            "body": [],
+            "compile": [],
+            "header": "ABACUS SIAB",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "SIAB_Orbitals",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-08-19T14:38:58.353991+08:00",
+        "updated_at": "2024-08-19T15:00:19.667308+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "siab-orbitals",
+                    "type": "source",
+                    "label": null,
+                    "data_source": "compile",
+                    "data_key": "siab-orbitals",
+                    "rope": "ABACUS_SIAB"
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "shape": {
+                                    "enum": [
+                                        "dimer",
+                                        "trimer"
+                                    ],
+                                    "type": "string",
+                                    "title": "Shape"
+                                },
+                                "orb_ref": {
+                                    "type": "string",
+                                    "title": "Orbital Reference"
+                                },
+                                "nbands_ref": {
+                                    "type": "number",
+                                    "title": "Number of bands"
+                                },
+                                "zeta_notation": {
+                                    "type": "string",
+                                    "title": "Zeta Notation"
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "siab-orbitals",
+                    "type": "object",
+                    "source": {
+                        "shape": "dimer",
+                        "orb_ref": "",
+                        "nbands_ref": 4,
+                        "zeta_notation": "Z"
+                    },
+                    "title": "SIAB ORBITALS",
+                    "attachment": null
+                }
+            ],
+            "compile": [
+                {
+                    "id": 4,
+                    "key": "siab-orbitals",
+                    "script": "siab_orbitals",
+                    "type": "file",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 6,
+                    "bodies": [
+                        "siab-orbitals"
+                    ]
+                }
+            ],
+            "header": "SIAB ORBITALS",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "ILab_Grasp",
+        "description": "\u667a\u80fd\u5b9e\u9a8c\u5ba4\u9879\u76ee\u673a\u68b0\u81c2\u63a7\u5236\u8282\u70b9",
+        "version": "0.0.1",
+        "created_at": "2024-08-18T20:08:54.288095+08:00",
+        "updated_at": "2024-08-22T13:47:18.788852+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "z": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "device": {
+                                        "type": "string",
+                                        "description": "device id"
+                                    },
+                                    "gripper_distance": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    }
+                                }
+                            },
+                            "title": "Movement Endpoints"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "grasp-steps",
+                    "type": "object",
+                    "source": [
+                        {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "device": "Robot1",
+                            "gripper_distance": 0
+                        }
+                    ],
+                    "title": "Grasp Steps",
+                    "attachment": null
+                }
+            ],
+            "compile": [
+                {
+                    "id": 5,
+                    "key": "ilab-grasp",
+                    "script": "ilab_grasp",
+                    "type": "object",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 4,
+                    "bodies": []
+                }
+            ],
+            "header": "ILab Grasp",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/1/avatar/90-160315143555.jpg"
+        },
+        "name": "ILab_Pump",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-08-22T13:54:36.679107+08:00",
+        "updated_at": "2024-08-22T13:54:36.679149+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "device": {
+                                        "type": "string",
+                                        "description": "device id"
+                                    },
+                                    "flowrate": {
+                                        "type": "number",
+                                        "description": "in \u00b5l/s"
+                                    },
+                                    "valve_position": {
+                                        "enum": [
+                                            "Output",
+                                            "Input"
+                                        ],
+                                        "type": "string",
+                                        "default": "Output"
+                                    },
+                                    "plunger_position": {
+                                        "type": "number",
+                                        "description": "in \u00b5l"
+                                    }
+                                }
+                            },
+                            "title": "Pump Motion"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "pump-motion",
+                    "type": "object",
+                    "source": [],
+                    "title": "Pump Motion",
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Pump",
+            "footer": "Version 0.0.1"
+        }
+    }
+]

@@ -25,23 +25,23 @@ Protium 提供以下三种访问方式：
 
 1. 使用 Docker 部署【推荐】
 
-执行以下脚本一键部署 (该脚本仅涉及 Docker 镜像拉取与启动)
+在开始之前，请确保你的系统已经安装了以下软件：
 
-* Windows
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-打开 PowerShell 或 CMD，运行以下命令：
-
-```powershell
-curl -O https://raw.githubusercontent.com/mile-away/protium/main/deploy.sh
-bash deploy.sh
-```
-
-* Linux 和 macOS
-
-打开终端，运行以下命令：
+Docker 安装完毕后，执行以下命令拉取镜像并执行
 
 ```bash
-curl -O https://raw.githubusercontent.com/mile-away/protium/main/deploy.sh
-chmod +x deploy.sh
-bash deploy.sh
+mkdir PROTIUM && cd PROTIUM
+docker pull ghcr.io/mile-away/protium/backend:latest
+docker pull ghcr.io/mile-away/protium/frontend:latest
+docker pull ghcr.io/mile-away/protium/workflow:latest
+docker pull ghcr.io/mile-away/protium/docfront:latest
+curl -O https://raw.githubusercontent.com/Mile-Away/PROTIUM/main/.env.eaxmple
+mv .env.example .env
+docker compose up -d
 ```
+
+启动服务前你可以配置环境变量，`.env.example` 文件中提供了默认的环境变量便于一键启动服务，如有需要可自行修改。
+

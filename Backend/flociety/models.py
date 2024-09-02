@@ -138,3 +138,5 @@ class NodeBodySchemaTemplate(BaseNodeBodySchemaModel):
 
     def __str__(self):
         return f"{self.body}"
+
+

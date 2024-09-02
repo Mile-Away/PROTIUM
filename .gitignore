@@ -14,11 +14,8 @@ my-app/
 *.pyc
 
 elasticsearch/
-
 DFlow/
-
 @SandBox/
-
 example/
 
 # docker related
@@ -29,3 +26,4 @@ docker-compose.dev.yml
 docker-compose.prod.yml
 build.sh
 dev.sh
+prod.sh

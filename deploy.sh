@@ -15,6 +15,15 @@ fi
 
 echo "操作系统: $OS_TYPE"
 
+mkdir PROTIUM && cd PROTIUM
+docker pull ghcr.io/mile-away/protium/backend:latest
+docker pull ghcr.io/mile-away/protium/frontend:latest
+docker pull ghcr.io/mile-away/protium/workflow:latest
+docker pull ghcr.io/mile-away/protium/docfront:latest
+curl -O https://raw.githubusercontent.com/Mile-Away/PROTIUM/main/.env.eaxmple
+mv .env.example .env
+docker compose up -d
+
 # # 针对不同操作系统的安装步骤
 # install_docker() {
 #     if [[ "$OS_TYPE" == "linux" ]]; then
