@@ -12,18 +12,9 @@ my-app/
 
 # Ignore all .pyc files
 *.pyc
-
-elasticsearch/
-DFlow/
 @SandBox/
 example/
 
 # docker related
 .env
-docker-compose.yml
-docker-compose.override.yml
-docker-compose.dev.yml
-docker-compose.prod.yml
-build.sh
-dev.sh
-prod.sh
+scripts/

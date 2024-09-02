@@ -1,0 +1,78 @@
+services:
+  db:
+    image: postgres:16.4-bullseye
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  elasticsearch:
+    image: elasticsearch:8.15.0
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+      - xpack.security.http.ssl.enabled=false
+      - xpack.license.self_generated.type=trial
+    ports:
+      - "9200:9200"
+
+  backend:
+    build: 
+      context: ./Backend
+    image: ghcr.io/mile-away/protium/backend:latest
+    env_file:
+      - .env
+    environment:
+      - ENV=development
+    volumes:
+      - ./Backend:/app
+    command: ["/app/entrypoint.sh"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - elasticsearch
+      - db
+
+  frontend:
+    build: 
+      context: ./Frontend
+    image: ghcr.io/mile-away/protium/frontend:latest
+    command: ["yarn", "dev"]
+    volumes:
+      - ./Frontend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  workflow:
+    build: 
+      context: ./Protium
+    image: ghcr.io/mile-away/protium/workflow:latest
+    command: ["yarn", "dev"]
+    volumes:
+      - ./Protium:/app
+    ports:
+      - "3003:3003"
+    depends_on:
+      - frontend
+
+  docfront:
+    build:
+      context: ./DocFront
+    image: ghcr.io/mile-away/protium/docfront:latest
+    command: ["yarn", "dev"]
+    volumes:
+      - ./DocFront:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - frontend
+
+volumes:
+  pgdata:
