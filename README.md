@@ -4,9 +4,9 @@
 
 PROTIUM 是为科学研究人员设计的可视化工作流。
 
-# Features
+## Features
 
-# Quick Start
+## Quick Start
 
 Protium 提供以下三种访问方式：
 
@@ -15,11 +15,11 @@ Protium 提供以下三种访问方式：
     * 使用 Docker 部署
     * 使用源码部署
 
-## 1. Web
+### 1. Web
 
 随时随地访问 「[Protium 官网](https://protium.space)」立即开始。有关网站的任何使用帮助，请参阅：[Protium Docs](https://docs.protium.spoace/workflow)
 
-## 2. 本地部署
+### 2. 本地部署
 
 本地部署的为离线版本，所有数据将保存在你的本地，不与 Protium 发生通信。
 
@@ -45,3 +45,6 @@ docker compose up -d
 
 启动服务前你可以配置环境变量，`.env.example` 文件中提供了默认的环境变量便于一键启动服务，如有需要可自行修改。
 
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License. To view a copy of this license, visit [http://creativecommons.org/licenses/by-nc/4.0/](http://creativecommons.org/licenses/by-nc/4.0/) or see the `LICENSE` file for more details.
