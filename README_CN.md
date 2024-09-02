@@ -1,110 +1,59 @@
-# PROTIUM Web
+# PROTIUM
 
-## 启动项目
+> [Read Chinese Readme (查看中文文档) ->]("./README_CN.md")
 
-### 后端 Backend
+PROTIUM 是为科学研究人员设计的可视化工作流。
 
-0. 依赖：
+## Features
 
-`python >= 3.12.3`
+## Quick Start
 
-1. 安装
+Protium 提供以下三种访问方式：
+
+1. Web
+2. 本地部署
+    * 使用 Docker 部署
+    * 使用源码部署
+
+### 1. Web
+
+推荐访问 「[Protium 网站](https://protium.space)」立即开始。有关网站的任何使用帮助，请参阅：[Protium Docs](https://docs.protium.spoace/workflow)
+
+### 2. 本地部署
+
+本地部署的为离线版本，所有数据将保存在你的本地，不与 Protium 发生通信。
+
+1. 使用 Docker 部署【推荐】
+
+在开始之前，请确保你的系统已经安装了以下软件：
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+Docker 安装完毕后，执行以下命令拉取镜像并执行
 
 ```bash
-pip install -r requirements.txt
+mkdir PROTIUM && cd PROTIUM
+docker pull ghcr.io/mile-away/protium/backend:latest
+docker pull ghcr.io/mile-away/protium/frontend:latest
+docker pull ghcr.io/mile-away/protium/workflow:latest
+docker pull ghcr.io/mile-away/protium/docfront:latest
+curl -O https://raw.githubusercontent.com/Mile-Away/PROTIUM/main/.env.eaxmple
+mv .env.example .env
+docker compose up -d
 ```
 
-2. 启动
+启动服务前你需要配置环境变量，`.env.example` 文件中提供了默认的环境变量便于一键启动服务，如有需要可自行修改。
 
-```bash
-uvicorn backend.asgi:application --port 8000 --log-level debug --reload
-```
+创建一个新文件夹，在根目录下创建以下两个文件：
 
-#### 环境变量（不包含在仓库中）
-
-```bash
 - .env
-```
+- docker-compose.yml
 
-### 前端 Fronted/工作流 PROTIUM/文档 DocFront
+文件内容可以直接
 
-0. 依赖
+## License
 
-`node >= 20.12.1`
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for more details.
 
-1. 安装
 
-```bash
-cd Fronted
-npm install
-```
-
-2. 启动
-
-```bash
-npm run dev
-```
-
-#### 环境变量（不包含在仓库中）
-
-```bash
-- .env
-- next-env.d.ts
-- src/config.ts
-```
-
-## 其它需要依赖的项目
-
-### `docker`
-
-### `elasticSearch`
-
-### `PostgreSQL`
-
-### `redis`
-
-### `celery`
-
-1. 安装
-
-```bash
-pip install redis celery django-celery-beat django-celery-results
-```
-
-2. 运行
-
-1. 启动 Celery worker 服务:
-
-```bash
-# execute path: @/Backend/
-
-celery -A backend worker --loglevel=info
-```
-
-2. 启动 Celery beat 服务:
-
-```bash
-# execute path: @/Backend/
-
-celery -A backend beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-```
-
-## 本项目核心依赖的项目
-
-前端：
-
-* TailwindCSS
-* Next.js
-* react-redux
-* tiptap
-* ReactFlow
-* dnd-kit
-* react-json-schema
-* react-use-websocket
-
-后端
-
-* Django
-* django-rest-framework
-* django-simple-jwt
-* django-celery-beat, django-celery-results 
