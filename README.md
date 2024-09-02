@@ -47,4 +47,6 @@ docker compose up -d
 
 ## License
 
-This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License. To view a copy of this license, visit [http://creativecommons.org/licenses/by-nc/4.0/](http://creativecommons.org/licenses/by-nc/4.0/) or see the `LICENSE` file for more details.
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for more details.
+
+
