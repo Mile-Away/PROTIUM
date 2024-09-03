@@ -45,4 +45,6 @@ mv example.env .env
 
 # Start services
 echo -e "${BOLD}${CHAMPAGNE}Starting services with docker-compose...${RESET}"
-sudo docker compose up -d
+docker compose up -d
+
+rm ../deploy.sh
