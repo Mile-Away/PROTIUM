@@ -10,6 +10,13 @@ then
     exit 1
 fi
 
+# Check if Docker Compose is installed
+if ! command -v docker compose &> /dev/null
+then
+    echo -e "${BOLD}${CHAMPAGNE}Docker Compose is not installed. Please install Docker Compose from https://docs.docker.com/compose/install.${RESET}"
+    exit 1
+fi
+
 # Create and enter the PROTIUM directory
 echo -e "${BOLD}${CHAMPAGNE}Creating and entering the PROTIUM directory...${RESET}"
 mkdir -p PROTIUM && cd PROTIUM
@@ -24,13 +31,6 @@ then
     exit 1
 fi
 
-# Pull Docker images
-echo -e "${BOLD}${CHAMPAGNE}Pulling Docker images from ghcr.io...${RESET}"
-docker pull ghcr.io/mile-away/protium/backend:latest
-docker pull ghcr.io/mile-away/protium/frontend:latest
-docker pull ghcr.io/mile-away/protium/workflow:latest
-docker pull ghcr.io/mile-away/protium/docfront:latest
-
 # Download docker-compose.yml file
 echo -e "${BOLD}${CHAMPAGNE}Downloading docker-compose.yml file...${RESET}"
 curl -O https://protium.space/downloads/docker-compose.yml
@@ -40,9 +40,9 @@ echo -e "${BOLD}${CHAMPAGNE}Downloading .env.example file...${RESET}"
 curl -O https://protium.space/downloads/example.env
 
 # Rename .env.example to .env
-echo -e "${BOLD}${CHAMPAGNE}Renaming .env.example to .env...${RESET}"
-mv .env.example .env
+echo -e "${BOLD}${CHAMPAGNE}Renaming example.env to .env...${RESET}"
+mv example.env .env
 
 # Start services
 echo -e "${BOLD}${CHAMPAGNE}Starting services with docker-compose...${RESET}"
-docker compose up -d
+sudo docker compose up -d
