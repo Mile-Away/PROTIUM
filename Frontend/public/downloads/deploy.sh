@@ -37,7 +37,7 @@ curl -O https://protium.space/downloads/docker-compose.yml
 
 # Download .env.example file
 echo -e "${BOLD}${CHAMPAGNE}Downloading .env.example file...${RESET}"
-curl -O https://protium.space/downloads/.env.example
+curl -O https://protium.space/downloads/example.env
 
 # Rename .env.example to .env
 echo -e "${BOLD}${CHAMPAGNE}Renaming .env.example to .env...${RESET}"
