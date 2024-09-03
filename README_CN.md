@@ -30,17 +30,12 @@ Protium 提供以下三种访问方式：
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-Docker 安装完毕后，执行以下命令拉取镜像并执行
+Docker 安装完毕后，执行以下命令一键部署
 
 ```bash
-mkdir PROTIUM && cd PROTIUM
-docker pull ghcr.io/mile-away/protium/backend:latest
-docker pull ghcr.io/mile-away/protium/frontend:latest
-docker pull ghcr.io/mile-away/protium/workflow:latest
-docker pull ghcr.io/mile-away/protium/docfront:latest
-curl -O https://raw.githubusercontent.com/Mile-Away/PROTIUM/main/.env.eaxmple
-mv .env.example .env
-docker compose up -d
+curl -O https://protium.space/downloads/deploy.sh
+chmod +x deploy.sh
+./deploy.sh
 ```
 
 启动服务前你需要配置环境变量，`.env.example` 文件中提供了默认的环境变量便于一键启动服务，如有需要可自行修改。
