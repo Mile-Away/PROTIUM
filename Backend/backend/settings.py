@@ -252,10 +252,10 @@ SPECTACULAR_SETTINGS = {
 
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.feishu.cn")
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")  # 邮箱
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")  # 邮箱授权码
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "noreply@yourdomain.com")  # 邮箱
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "your-email-password")  # 邮箱授权码
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_SSL_CERTFILE = None
@@ -273,7 +273,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_COOKIE_NAME": "access_token",
     "JWT_COOKIE_SAMESITE": os.environ.get("JWT_COOKIE_SAMESITE", "Lax"),
     "JWT_COOKIE_SECURE": ast.literal_eval(os.environ.get("JWT_COOKIE_SECURE", "True")),
-    "JWT_COOKIE_DOMAIN": os.environ.get("JWT_COOKIE_DOMAIN", None),
+    "JWT_COOKIE_DOMAIN": os.environ.get("JWT_COOKIE_DOMAIN", "127.0.0.1"),
 }
 
 CHANNEL_LAYERS = {
