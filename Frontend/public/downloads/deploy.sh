@@ -40,16 +40,16 @@ echo "----------"
 printf "${BOLD}${CHAMPAGNE}>>> Creating and entering the PROTIUM directory...${RESET}\n"
 mkdir -p PROTIUM && cd PROTIUM
 
-# Prompt user to login to ghcr.io
-echo "----------"
-printf "${BOLD}${CHAMPAGNE}>>> Login to ghcr.io. You will need your username and a personal access token.${RESET}\n"
-printf "${COMMENT}For more information on how to create a personal access token, visit:${RESET}\n"
-printf "${COMMENT}https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-github-container-registry${RESET}\n"
-if ! docker login ghcr.io
-then
-    printf "${BOLD}${CHAMPAGNE}>>> Failed to login to ghcr.io. Please check your credentials.${RESET}\n"
-    exit 1
-fi
+# # Prompt user to login to ghcr.io
+# echo "----------"
+# printf "${BOLD}${CHAMPAGNE}>>> Login to ghcr.io. You will need your username and a personal access token.${RESET}\n"
+# printf "${COMMENT}For more information on how to create a personal access token, visit:${RESET}\n"
+# printf "${COMMENT}https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-github-container-registry${RESET}\n"
+# if ! docker login ghcr.io
+# then
+#     printf "${BOLD}${CHAMPAGNE}>>> Failed to login to ghcr.io. Please check your credentials.${RESET}\n"
+#     exit 1
+# fi
 
 # Download docker-compose.yml file
 echo "----------"

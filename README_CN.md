@@ -1,8 +1,8 @@
 # PROTIUM
 
-> [查看中文文档 (Read Chinese Readme) ->](./README_CN.md)
+> [查看英文文档 (Read English Readme) ->](./README.md)
 
-PROTIUM 是为科学研究人员设计的可视化工作流。
+PROTIUM 是为科学研究人员设计的可视化工作流 App/Web App。
 
 ## 特性
 

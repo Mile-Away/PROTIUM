@@ -24,7 +24,7 @@ services:
   backend:
     build:
       context: ./Backend
-    image: ghcr.io/mile-away/protium/backend:latest
+    image: mileaway/protium-backend:latest
     env_file:
       - .env
     environment:
@@ -39,7 +39,7 @@ services:
   frontend:
     build: 
       context: ./Frontend
-    image: ghcr.io/mile-away/protium/frontend:latest
+    image: mileaway/protium-frontend:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -48,7 +48,7 @@ services:
   workflow:
     build: 
       context: ./Protium
-    image: ghcr.io/mile-away/protium/workflow:latest
+    image: mileaway/protium-workflow:latest
     ports:
       - "3003:3003"
     depends_on:
@@ -57,7 +57,7 @@ services:
   docfront:
     build:
       context: ./DocFront
-    image: ghcr.io/mile-away/protium/docfront:latest
+    image: mileaway/protium-docfront:latest
     ports:
       - "4000:4000"
     depends_on:
