@@ -20,9 +20,13 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ast.literal_eval(os.environ.get("DEBUG", "False"))
 
-ALLOWED_HOSTS = ast.literal_eval(os.environ.get("ALLOWED_HOSTS", "[]"))
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = ast.literal_eval(os.environ.get("ALLOWED_HOSTS", "[]"))
 
-CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
+if os.environ.get("CSRF_TRUSTED_ORIGINS"):
+    CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
 
 # ILAB_HOST = os.environ.get("ILAB_HOST")
 ILAB_HOST = "http://172.21.4.200:8000"
@@ -77,13 +81,16 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",  # CORS middleware
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Add the account middleware:
     # "allauth.account.middleware.AccountMiddleware",
 ]
+
+if os.environ.get("CSRF_TRUSTED_ORIGINS"):
+    MIDDLEWARE.insert(3, "django.middleware.csrf.CsrfViewMiddleware")
 
 ROOT_URLCONF = "backend.urls"
 
@@ -262,8 +269,9 @@ EMAIL_SSL_CERTFILE = None
 EMAIL_SSL_KEYFILE = None
 EMAIL_FROM = "Protium"  # os.environ.get("EMAIL_HOST_USER")
 
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ORIGIN_WHITELIST = ast.literal_eval(os.environ.get("CORS_ORIGIN_WHITELIST", "[]"))
+CORS_ALLOW_ALL_ORIGINS = ast.literal_eval(os.environ.get("CORS_ALLOW_ALL_ORIGINS", "False"))
+if not CORS_ALLOW_ALL_ORIGINS:
+    CORS_ORIGIN_WHITELIST = ast.literal_eval(os.environ.get("CORS_ORIGIN_WHITELIST", "[]"))
 CORS_ALLOW_CREDENTIALS = True  # 允许携带 cookie
 
 SIMPLE_JWT = {
