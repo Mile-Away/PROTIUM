@@ -1,6 +1,6 @@
 services:
   db:
-    image: registry.cn-beijing.aliyuncs.com/protium/postgres:16.4
+    image: postgres:16.4-bullseye
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USER}
@@ -11,7 +11,7 @@ services:
       - "5433:5432"
 
   elasticsearch:
-    image: registry.cn-beijing.aliyuncs.com/protium/elasticsearch:8.15.0
+    image: elasticsearch:8.15.0
     environment:
       - discovery.type=single-node
       - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
@@ -22,7 +22,9 @@ services:
       - "9200:9200"
 
   backend:
-    image: registry.cn-beijing.aliyuncs.com/protium/backend
+    build:
+      context: ./Backend
+    image: ghcr.io/mile-away/protium/backend:latest
     env_file:
       - .env
     environment:
@@ -35,21 +37,27 @@ services:
       - db
 
   frontend:
-    image: registry.cn-beijing.aliyuncs.com/protium/frontend
+    build: 
+      context: ./Frontend
+    image: ghcr.io/mile-away/protium/frontend:latest
     ports:
       - "3000:3000"
     depends_on:
       - backend
 
   workflow:
-    image: registry.cn-beijing.aliyuncs.com/protium/workflow
+    build: 
+      context: ./Protium
+    image: ghcr.io/mile-away/protium/workflow:latest
     ports:
       - "3003:3003"
     depends_on:
       - frontend
 
   docfront:
-    image: registry.cn-beijing.aliyuncs.com/protium/docfront
+    build:
+      context: ./DocFront
+    image: ghcr.io/mile-away/protium/docfront:latest
     ports:
       - "4000:4000"
     depends_on:

@@ -22,8 +22,6 @@ services:
       - "9200:9200"
 
   backend:
-    build:
-      context: ./Backend
     image: ghcr.io/mile-away/protium/backend:latest
     env_file:
       - .env
@@ -37,8 +35,6 @@ services:
       - db
 
   frontend:
-    build: 
-      context: ./Frontend
     image: ghcr.io/mile-away/protium/frontend:latest
     ports:
       - "3000:3000"
@@ -46,8 +42,6 @@ services:
       - backend
 
   workflow:
-    build: 
-      context: ./Protium
     image: ghcr.io/mile-away/protium/workflow:latest
     ports:
       - "3003:3003"
@@ -55,8 +49,6 @@ services:
       - frontend
 
   docfront:
-    build:
-      context: ./DocFront
     image: ghcr.io/mile-away/protium/docfront:latest
     ports:
       - "4000:4000"
