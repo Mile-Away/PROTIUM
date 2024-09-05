@@ -29,14 +29,24 @@ Protium 提供以下三种访问方式：
 
 #### 1. 使用 Docker 部署【推荐】
 
-在开始之前，请确保你已经安装了 Docker 软件：
+请访问 [Docker 官方网站](https://docs.docker.com/get-docker/) 下载并安装 Docker。
 
-- [Docker](https://docs.docker.com/get-docker/)
+根据您的地理位置选择合适的部署脚本：
 
-Docker 安装完毕后，执行以下命令一键部署（访问 Docker Hub 拉取镜像需要科学上网）：
+* 适用于中国大陆用户
+
+中国大陆用户请使用以下脚本，该脚本使用阿里云镜像服务来优化下载速度和整体体验：
 
 ```bash
-curl -O https://protium.space/downloads/deploy.sh && chmod +x deploy.sh && ./deploy.sh
+curl -O https://protium.space/downloads/deploy-cn.sh && chmod +x deploy-cn.sh && ./deploy-cn.sh
+```
+
+* 适用于国际用户
+
+国际用户请使用以下脚本，该脚本使用 Docker 官方镜像服务以确保最佳性能：
+
+```bash
+curl -O https://protium.space/downloads/deploy-en.sh && chmod +x deploy-en.sh && ./deploy-en.sh
 ```
 
 以上脚本将新建一个 PROTIUM 文件夹并启动服务。

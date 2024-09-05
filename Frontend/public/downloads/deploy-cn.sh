@@ -54,7 +54,7 @@ mkdir -p PROTIUM && cd PROTIUM
 # Download docker-compose.yml file
 echo "----------"
 printf "${BOLD}${CHAMPAGNE}>>> Downloading docker-compose.yml file...${RESET}\n"
-curl --progress-bar -O https://protium.space/downloads/docker-compose.yml
+curl --progress-bar -O https://protium.space/downloads/docker-compose-cn.yml
 
 # Download .env.example file
 echo "----------"
@@ -65,9 +65,9 @@ mv example.env .env
 # Start services
 echo "----------"
 printf "${BOLD}${CHAMPAGNE}>>> Starting services with docker-compose...${RESET}\n"
-docker compose up -d
+docker compose -f docker-compose-cn.yml up -d
 
 # Remove the deploy script if --keep-deploy is not set
 if [ "$KEEP_DEPLOY" = false ]; then
-    rm ../deploy.sh
+    rm ../deploy-cn.sh
 fi

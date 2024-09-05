@@ -31,15 +31,25 @@ The local deployment is an offline version where all data will be stored locally
 
 Before starting, make sure you have Docker installed:
 
-- [Docker](https://docs.docker.com/get-docker/)
+Please visit the [Docker official website](https://docs.docker.com/get-docker/) to download and install Docker.
 
-Once Docker is installed, execute the following command to deploy:
+Choose the appropriate deployment script based on your geographic location:
+
+* For Users in Mainland China
+
+Mainland China users should use the following script, which utilizes Alibaba Cloud (Aliyun) mirror services to optimize download speeds and overall experience:
 
 ```bash
-curl -O https://protium.space/downloads/deploy.sh && chmod +x deploy.sh && ./deploy.sh
+curl -O https://protium.space/downloads/deploy-cn.sh && chmod +x deploy-cn.sh && ./deploy-cn.sh
 ```
 
-This script will create a PROTIUM folder and start the service.
+* For International Users
+
+International users should use the following script, which utilizes Docker's official mirror services for optimal performance:
+
+```bash
+curl -O https://protium.space/downloads/deploy-en.sh && chmod +x deploy-en.sh && ./deploy-en.sh
+```
 
 Before starting the service, you need to configure environment variables. A sample `.env` file is provided in the PROTIUM folder for easy setup, which you can modify as needed.
 
