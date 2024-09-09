@@ -25,8 +25,7 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = ast.literal_eval(os.environ.get("ALLOWED_HOSTS", "[]"))
 
-if os.environ.get("CSRF_TRUSTED_ORIGINS"):
-    CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
+CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
 
 ILAB_HOST = os.environ.get("ILAB_HOST", "http://172.21.4.200:8000")
 # # For Allauth
@@ -279,7 +278,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_COOKIE_NAME": "access_token",
     "JWT_COOKIE_SAMESITE": os.environ.get("JWT_COOKIE_SAMESITE", "Lax"),
     "JWT_COOKIE_SECURE": ast.literal_eval(os.environ.get("JWT_COOKIE_SECURE", "True")),
-    "JWT_COOKIE_DOMAIN": os.environ.get("JWT_COOKIE_DOMAIN", "127.0.0.1"),
+    "JWT_COOKIE_DOMAIN": os.environ.get("JWT_COOKIE_DOMAIN", None),
 }
 
 CHANNEL_LAYERS = {
