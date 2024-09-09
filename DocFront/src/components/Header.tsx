@@ -26,11 +26,11 @@ const navItems = [
     sub: [
       {
         name: 'Home',
-        href: `${DocumentSite}/tutorial/getting-started`,
+        href: `${DocumentSite}`,
       },
       {
         name: 'Workflow',
-        href: `${DocumentSite}/docs/case-studies`,
+        href: `${DocumentSite}/workflow`,
       },
     ],
   },
