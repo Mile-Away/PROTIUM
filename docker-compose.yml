@@ -22,7 +22,7 @@ services:
       - "9200:9200"
 
   backend:
-    image: ghcr.io/mile-away/protium/backend:latest
+    image: registry.cn-beijing.aliyuncs.com/protium/backend:latest
     env_file:
       - .env
     environment:
@@ -35,21 +35,21 @@ services:
       - db
 
   frontend:
-    image: ghcr.io/mile-away/protium/frontend:latest
+    image: registry.cn-beijing.aliyuncs.com/protium/frontend:latest
     ports:
       - "3000:3000"
     depends_on:
       - backend
 
   workflow:
-    image: ghcr.io/mile-away/protium/workflow:latest
+    image: registry.cn-beijing.aliyuncs.com/protium/workflow:latest
     ports:
       - "3003:3003"
     depends_on:
       - frontend
 
   docfront:
-    image: ghcr.io/mile-away/protium/docfront:latest
+    image: registry.cn-beijing.aliyuncs.com/protium/docfront:latest
     ports:
       - "4000:4000"
     depends_on:

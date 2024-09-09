@@ -55,7 +55,11 @@ Protium 提供以下三种访问方式：
 中国大陆用户请使用以下脚本，该脚本使用阿里云镜像服务来优化下载速度和整体体验：
 
 ```bash
-curl -O https://protium.space/downloads/deploy-cn.sh && chmod +x deploy-cn.sh && ./deploy-cn.sh
+mkdir -p PROTIUM
+cd PROTIUM
+curl -o docker-compose.yml -s https://protium.space/downloads/docker-compose-cn.yml
+curl -o .env -s https://protium.space/downloads/example.env
+docker compose up -d
 ```
 
 * 适用于国际用户
@@ -63,7 +67,11 @@ curl -O https://protium.space/downloads/deploy-cn.sh && chmod +x deploy-cn.sh &&
 国际用户请使用以下脚本，该脚本使用 Docker 官方镜像服务以确保最佳性能：
 
 ```bash
-curl -O https://protium.space/downloads/deploy-en.sh && chmod +x deploy-en.sh && ./deploy-en.sh
+mkdir -p PROTIUM
+cd PROTIUM
+curl -o docker-compose.yml -s https://protium.space/downloads/docker-compose-en.yml
+curl -o .env -s https://protium.space/downloads/example.env
+docker compose up -d
 ```
 
 以上脚本将新建一个 PROTIUM 文件夹并启动服务。
