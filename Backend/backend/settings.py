@@ -279,7 +279,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_COOKIE_NAME": "access_token",
     "JWT_COOKIE_SAMESITE": os.environ.get("JWT_COOKIE_SAMESITE", "Lax"),
     "JWT_COOKIE_SECURE": ast.literal_eval(os.environ.get("JWT_COOKIE_SECURE", "True")),
-    "JWT_COOKIE_DOMAIN": ast.literal_eval(os.environ.get("JWT_COOKIE_DOMAIN", "None")),
+    "JWT_COOKIE_DOMAIN": os.environ.get("JWT_COOKIE_DOMAIN", None),
 }
 
 CHANNEL_LAYERS = {
