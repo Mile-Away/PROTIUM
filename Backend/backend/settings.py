@@ -27,6 +27,7 @@ else:
 CSRF_TRUSTED_ORIGINS = ast.literal_eval(os.environ.get("CSRF_TRUSTED_ORIGINS", "[]"))
 
 ILAB_HOST = os.environ.get("ILAB_HOST", "http://172.21.4.200:8000")
+
 # # For Allauth
 # SITE_ID = 1
 # AUTHENTICATION_BACKENDS = [
@@ -75,6 +76,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",  # CORS middleware
     "django.middleware.common.CommonMiddleware",
@@ -272,7 +274,7 @@ CORS_ORIGIN_WHITELIST = ast.literal_eval(os.environ.get("CORS_ORIGIN_WHITELIST",
 CORS_ALLOW_CREDENTIALS = True  # 允许携带 cookie
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=ast.literal_eval(os.environ.get("ACCESS_TOKEN_LIFETIME", "3"))),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=ast.literal_eval(os.environ.get("ACCESS_TOKEN_LIFETIME", "30"))),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=ast.literal_eval(os.environ.get("REFRESH_TOKEN_LIFETIME", "14"))),
     "REFRESH_TOKEN_COOKIE_NAME": "refresh_token",
     "ACCESS_TOKEN_COOKIE_NAME": "access_token",

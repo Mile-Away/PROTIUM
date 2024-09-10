@@ -38,3 +38,4 @@ uvloop
 watchfiles
 websockets
 wheel
+whitenoise
