@@ -2,15 +2,6 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import {
-  enAboutJson,
-  enHomepageJson,
-  enManifestoJson,
-  zhAboutJson,
-  zhHomepageJson,
-  zhManifestoJson,
-} from '@/@brand/brand';
-
 import enDashboardJson from './en-us/dashboard.json';
 import enLoginJson from './en-us/login.json';
 
@@ -22,23 +13,17 @@ import zhUserPanelJson from './zh-cn/userPanel/userPanel.json';
 const resources = {
   en: {
     translation: {
-      ...enHomepageJson,
       ...enDashboardJson,
     },
 
-    about: {
-      ...enAboutJson,
-    },
+    about: {},
     login: {
       ...enLoginJson,
     },
-    manifesto: {
-      ...enManifestoJson,
-    },
+    manifesto: {},
   },
   zh: {
     translation: {
-      ...zhHomepageJson,
       ...zhDashboardJson,
     },
     login: {
@@ -47,12 +32,8 @@ const resources = {
     userPanel: {
       ...zhUserPanelJson,
     },
-    about: {
-      ...zhAboutJson,
-    },
-    manifesto: {
-      ...zhManifestoJson,
-    },
+    about: {},
+    manifesto: {},
   },
 };
 

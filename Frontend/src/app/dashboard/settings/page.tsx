@@ -226,6 +226,7 @@ export default function Example() {
                           className="form-input block flex-1 rounded border-0 bg-transparent p-1.5 pl-1 text-neutral-900 placeholder:text-neutral-400 dark:text-white sm:text-sm sm:leading-6"
                           placeholder="username"
                           autoFocus={false}
+                          autoComplete='off'
                         />
                       </div>
                     </div>
@@ -368,7 +369,7 @@ export default function Example() {
               className="bg-white shadow-sm ring-1 ring-neutral-900/5 dark:bg-neutral-900 dark:ring-white/10 sm:rounded-xl md:col-span-2"
             >
               <div className="px-4 py-6 sm:p-8">
-                <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="grid max-w-full grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="col-span-full">
                     <label
                       htmlFor="username"
@@ -390,6 +391,7 @@ export default function Example() {
                               onChange={(e) => setBohriumToken(e.target.value)}
                               className="form-input block flex-1 rounded border-0 bg-transparent py-2 text-neutral-900 placeholder:text-neutral-400 dark:text-white dark:placeholder:text-neutral-600 sm:text-sm"
                               placeholder="Bohrium Access Token"
+                              autoComplete='off'
                             />
                           </div>
                         </div>

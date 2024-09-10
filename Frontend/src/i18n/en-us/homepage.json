@@ -1,17 +1,17 @@
 {
   "Find our latest feature update.": "Find our latest feature update. ",
   "hero": {
-    "title": "Define the future of scientific computing",
-    "description": "Those who hope to extend the frontier of science and solve challenging practical problems through computational modeling are coming together in new ways never seen before.",
+    "title": "Explore a Novel Science World Together",
+    "description": "The core driving force of the Protium platform is to establish a set of scientific research workflows based on individual terminals, enabling immediate commencement of scientific research.",
     "button": {
       "primary": "Get Started",
-      "secondary": "Learn More"
+      "secondary": "About us"
     }
   },
   "about": {
     "title": "Protium is a community of such a group of people.",
     "button": {
-      "primary": "Read More"
+      "primary": "Community Manifesto"
     },
     "description": "The integration to machine learning and physical modeling is changing the paradigm of scientific research. This calls for a new infrastructure—new platforms for collaboration, new coding frameworks, new data processing schemes, and new ways of using the    computing power. It also calls for a new culture—the culture of    working together closely for the benefit of all, of free exchange    and sharing of knowledge and tools, of respect and appreciation of    each other's work, and of the pursuit of harmony among diversity."
   },
@@ -21,9 +21,9 @@
   "sponsor": "Suported by",
   "navbar": {
     "community": "Community",
-    "project": "Project",
+    "project": "Spaces",
     "publication": "Publication",
-    "tutorial": "Tutorial",
+    "tutorial": "Docs",
     "docs": "Docs",
     "certification": "Certification",
     "about": {

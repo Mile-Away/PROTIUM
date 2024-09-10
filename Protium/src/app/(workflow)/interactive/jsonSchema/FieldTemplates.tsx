@@ -69,8 +69,9 @@ export function DefaultFieldTemplate(props: FieldTemplateProps) {
 }
 
 export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
-
   const { schema, title, items, formData, onAddClick } = props;
+
+  console.log('ArrayFieldTemplate', props);
 
   const [minimized, setMinimized] = useState<string[]>([]);
 
@@ -109,9 +110,9 @@ export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
           <div
             key={element.key}
             className={clsx(
-              ' relative mt-2 w-full overflow-scroll border border-white/10 p-4 shadow',
-              'transition-all duration-500 ease-in-out',
-              minimized.includes(element.key) ? 'max-h-14' : 'max-h-screen',
+              'relative mt-2 w-full overflow-scroll border border-white/10 p-4 shadow',
+              // 'transition-all duration-500 ease-in-out',
+              minimized.includes(element.key) ? 'h-14' : 'h-fit',
             )}
           >
             {element.children}
@@ -126,23 +127,25 @@ export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
               </button>
             </div>
             {/* 减小宽度按钮 */}
-            <div
-              className=" absolute inset-x-0 bottom-0
-            z-10 flex items-center justify-center opacity-0  hover:bg-white/5 hover:opacity-100"
-            >
-              <button
-                type="button"
-                onClick={() => handleMinimizeOrExpand(element.key)}
+            {itemType === 'object' && (
+              <div
+                className=" absolute inset-x-0 bottom-0
+  z-10 flex items-center justify-center opacity-0  hover:bg-white/5 hover:opacity-100"
               >
-                <ChevronDoubleUpIcon
-                  className={clsx(
-                    'h-4 w-4',
-                    'transition-all duration-300 ease-in-out',
-                    minimized.includes(element.key) && 'rotate-180 transform',
-                  )}
-                />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => handleMinimizeOrExpand(element.key)}
+                >
+                  <ChevronDoubleUpIcon
+                    className={clsx(
+                      'h-4 w-4',
+                      'transition-all duration-300 ease-in-out',
+                      minimized.includes(element.key) && 'rotate-180 transform',
+                    )}
+                  />
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

@@ -7,7 +7,6 @@ import localFont from 'next/font/local';
 import { PrimarySite } from '@/config';
 
 import '@/styles/tailwind.css';
-import BRAND from '@/@brand/brand';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,11 +26,11 @@ const monaSans = localFont({
  */
 export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
-  title: BRAND.title,
-  description: BRAND.description,
+  title: 'Protium',
+  description: 'Together we explore scientific calculations.',
   openGraph: {
-    title: BRAND.title,
-    description: BRAND.description,
+    title: 'Protium',
+    description: 'Together we explore scientific calculations.',
     type: 'website',
     images: `/@brand/logo/og-image.png`,
     url: `/`,
@@ -57,7 +56,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html
       lang="en"

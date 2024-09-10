@@ -1,5 +1,8 @@
 import Logo from '@/@brand/Logo';
-import { Cog6ToothIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowTopRightOnSquareIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -113,11 +116,12 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ isSticky, setIsSticky }) => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
+                      target={item.href.startsWith('http') ? '_blank' : ''}
                       className={classNames(
                         item.current
                           ? 'bg-neutral-50 text-indigo-600 dark:bg-neutral-800 dark:text-white'
                           : 'text-gray-700 hover:bg-neutral-50 hover:text-indigo-600 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white',
-                        'group my-1 flex gap-x-3 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold leading-6',
+                        'group/link my-1 flex items-center gap-x-3 whitespace-nowrap rounded-xl px-3 py-2 text-sm font-semibold leading-6',
                       )}
                       onClick={() => {
                         const updatedNavigation = navigation.map((navItem) => {
@@ -134,12 +138,18 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ isSticky, setIsSticky }) => {
                         className={classNames(
                           item.current
                             ? 'text-indigo-600 dark:text-inherit'
-                            : 'text-gray-400 group-hover:text-indigo-600 dark:text-inherit dark:group-hover:text-inherit',
+                            : 'text-gray-400 group-hover/link:text-indigo-600 dark:text-inherit dark:group-hover/link:text-inherit',
                           ' h-6 w-6 shrink-0',
                         )}
                         aria-hidden="true"
                       />
                       {t(item.name)}
+                      {item.href.startsWith('http') && (
+                        <ArrowTopRightOnSquareIcon
+                          className="invisible ml-auto h-4 w-4 text-gray-400
+                         group-hover/link:visible group-hover/link:text-indigo-600 dark:text-inherit dark:group-hover/link:text-inherit"
+                        />
+                      )}
                     </Link>
                   </li>
                 ))}
