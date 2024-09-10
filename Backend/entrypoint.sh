@@ -1,5 +1,22 @@
 #!/bin/sh
 
+# Function to check PostgreSQL connection
+check_pg_connection() {
+    echo "Checking PostgreSQL connection on $DB_HOST:$DB_PORT..."
+    while ! nc -z $DB_HOST $DB_PORT; do
+        echo "Waiting for PostgreSQL to be available..."
+        sleep 1
+    done
+    echo "PostgreSQL is available!"
+}
+
+# Environment variables for PostgreSQL connection
+DB_HOST=${DB_HOST:-db}
+DB_PORT=${DB_PORT:-5432}
+
+# Check PostgreSQL connection
+check_pg_connection
+
 # Run database migrations
 echo "Running database migrations..."
 python manage.py migrate

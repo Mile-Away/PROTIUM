@@ -57,8 +57,8 @@ Protium 提供以下三种访问方式：
 ```bash
 mkdir -p PROTIUM
 cd PROTIUM
-curl -o docker-compose.yml -s https://protium.space/downloads/docker-compose-cn.yml
-curl -o .env -s https://protium.space/downloads/example.env
+curl -o docker-compose.yml https://protium.space/downloads/docker-compose-cn.yml
+curl -o .env https://protium.space/downloads/example.env
 docker compose up -d
 ```
 
@@ -69,8 +69,8 @@ docker compose up -d
 ```bash
 mkdir -p PROTIUM
 cd PROTIUM
-curl -o docker-compose.yml -s https://protium.space/downloads/docker-compose-en.yml
-curl -o .env -s https://protium.space/downloads/example.env
+curl -o docker-compose.yml https://protium.space/downloads/docker-compose-en.yml
+curl -o .env https://protium.space/downloads/example.env
 docker compose up -d
 ```
 
