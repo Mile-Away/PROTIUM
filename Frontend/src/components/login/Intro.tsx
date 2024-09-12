@@ -95,7 +95,6 @@ export function Intro() {
         </p>
 
         {isLogged ? <LoggedForm /> : <SignUpForm />}
-
         <ButtonGroup />
       </>
     );

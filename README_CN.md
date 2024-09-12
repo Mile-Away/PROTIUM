@@ -90,4 +90,4 @@ docker compose up -d
 
 ## 许可证
 
-此项目使用 Apache 2.0 许可证。有关更多详情，请参阅 [LICENSE](./LICENSE) 文件。
+此项目使用 GPLv3 许可证。有关更多详情，请参阅 [LICENSE](./LICENSE) 文件。

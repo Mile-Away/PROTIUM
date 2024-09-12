@@ -20,6 +20,14 @@ services:
       - xpack.license.self_generated.type=trial
     ports:
       - "9200:9200"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"  # 限制使用最多1个CPU
+          memory: "2G"  # 限制使用最多2GB内存
+        reservations:
+          cpus: "1.0"  # 保证至少有1个CPU可用
+          memory: "1G"  # 保证至少有1GB内存可用
 
   backend:
     build: 
