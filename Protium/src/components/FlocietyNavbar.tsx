@@ -20,8 +20,6 @@ const NavbarMenu = () => {
   const [open, setOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState<number | null>(null);
 
-  console.log(url);
-
   return (
     <div className='ml-8'>
       <div className="gap-x-4 flex">
@@ -33,13 +31,13 @@ const NavbarMenu = () => {
             'dark:hover:bg-white/10',
             // 如果 url 最开始是 /flociety/nodes, 则 'text-indigo-600' : 'text-gray-900',
             url.startsWith('/flociety/nodes')
-              ? ' bg-gradient-to-r bg-clip-text text-transparent dark:from-indigo-400 dark:via-violet-500 dark:to-fuchsia-400'
+              ? ' bg-gradient-to-r bg-clip-text text-transparent from-purple-600 via-pink-500 to-orange-600 dark:from-indigo-400 dark:via-violet-500 dark:to-fuchsia-400'
               : 'dark:text-white/50 dark:hover:text-white',
           )}
         >
           Nodes
         </Link>
-        {/* <Link
+        <Link
           href={'/flociety/workflows'}
           className={clsx(
             'select-none rounded p-2',
@@ -52,7 +50,7 @@ const NavbarMenu = () => {
           )}
         >
           Workflows
-        </Link> */}
+        </Link>
       </div>
     </div>
   );

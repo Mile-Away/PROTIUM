@@ -45,6 +45,7 @@ class NodeTemplateLibrary(models.Model):
             ),
             validate_node_name,
         ],
+        help_text="Name 只能包含字母，数字，下划线和短横线，不允许空格",
     )  # name 用于在 template 中指定的节点的 key，只能是字符，数字，下划线和短横线
     description = models.TextField(blank=True, null=True)
     version = models.CharField(max_length=50, default="0.0.0")

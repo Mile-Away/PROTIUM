@@ -23,11 +23,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "1.0"  # 限制使用最多1个CPU
-          memory: "2G"  # 限制使用最多2GB内存
+          cpus: "1.0"
+          memory: "2G"
         reservations:
-          cpus: "1.0"  # 保证至少有1个CPU可用
-          memory: "1G"  # 保证至少有1GB内存可用
+          cpus: "1.0"
+          memory: "512M"
 
   backend:
     image: registry.cn-beijing.aliyuncs.com/protium/backend

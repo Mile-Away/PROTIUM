@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
   title: 'Manifesto - Protium',
   description:
-    'People attracted by Protium for its openness, inclusive, and dedication to advancing scientific computing worldwide.',
+    'People attracted by Protium for its openness, inclusiveness, and dedication to advancing scientific computing worldwide.',
   openGraph: {
     images: `/logo/og-image.png`,
     url: `/manifesto`,

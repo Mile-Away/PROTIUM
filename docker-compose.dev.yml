@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - '5433:5432'
 
   elasticsearch:
     image: elasticsearch:8.15.0
@@ -19,18 +19,19 @@ services:
       - xpack.security.http.ssl.enabled=false
       - xpack.license.self_generated.type=trial
     ports:
-      - "9200:9200"
+      - '9200:9200'
+    # Limiting the resources for the elasticsearch container
     deploy:
       resources:
         limits:
-          cpus: "1.0"  # 限制使用最多1个CPU
-          memory: "2G"  # 限制使用最多2GB内存
+          cpus: '1.0'
+          memory: '2G'
         reservations:
-          cpus: "1.0"  # 保证至少有1个CPU可用
-          memory: "1G"  # 保证至少有1GB内存可用
+          cpus: '1.0'
+          memory: '1G'
 
   backend:
-    build: 
+    build:
       context: ./Backend
     image: ghcr.io/mile-away/protium/backend:latest
     env_file:
@@ -39,34 +40,34 @@ services:
       - ENV=development
     volumes:
       - ./Backend:/app
-    command: ["/app/entrypoint.sh"]
+    command: ['/app/entrypoint.sh']
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - elasticsearch
       - db
 
   frontend:
-    build: 
+    build:
       context: ./Frontend
     image: ghcr.io/mile-away/protium/frontend:latest
-    command: ["yarn", "dev"]
+    command: ['yarn', 'dev']
     volumes:
       - ./Frontend:/app
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - backend
 
   workflow:
-    build: 
+    build:
       context: ./Protium
     image: ghcr.io/mile-away/protium/workflow:latest
-    command: ["yarn", "dev"]
+    command: ['yarn', 'dev']
     volumes:
       - ./Protium:/app
     ports:
-      - "3003:3003"
+      - '3003:3003'
     depends_on:
       - frontend
 
@@ -74,11 +75,11 @@ services:
     build:
       context: ./DocFront
     image: ghcr.io/mile-away/protium/docfront:latest
-    command: ["yarn", "dev"]
+    command: ['yarn', 'dev']
     volumes:
       - ./DocFront:/app
     ports:
-      - "4000:4000"
+      - '4000:4000'
     depends_on:
       - frontend
 

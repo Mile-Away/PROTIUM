@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - '5433:5432'
 
   elasticsearch:
     image: elasticsearch:8.15.0
@@ -19,15 +19,16 @@ services:
       - xpack.security.http.ssl.enabled=false
       - xpack.license.self_generated.type=trial
     ports:
-      - "9200:9200"
+      - '9200:9200'
+    # Limiting the resources for the elasticsearch container
     deploy:
       resources:
         limits:
-          cpus: "1.0"  # 限制使用最多1个CPU
-          memory: "2G"  # 限制使用最多2GB内存
+          cpus: '1.0'
+          memory: '2G'
         reservations:
-          cpus: "1.0"  # 保证至少有1个CPU可用
-          memory: "1G"  # 保证至少有1GB内存可用
+          cpus: '1.0'
+          memory: '1G'
 
   backend:
     image: registry.cn-beijing.aliyuncs.com/protium/backend:latest
@@ -35,9 +36,9 @@ services:
       - .env
     environment:
       - ENV=production
-    command: ["/app/entrypoint.sh"]
+    command: ['/app/entrypoint.sh']
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - elasticsearch
       - db
@@ -45,21 +46,21 @@ services:
   frontend:
     image: registry.cn-beijing.aliyuncs.com/protium/frontend:latest
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - backend
 
   workflow:
     image: registry.cn-beijing.aliyuncs.com/protium/workflow:latest
     ports:
-      - "3003:3003"
+      - '3003:3003'
     depends_on:
       - frontend
 
   docfront:
     image: registry.cn-beijing.aliyuncs.com/protium/docfront:latest
     ports:
-      - "4000:4000"
+      - '4000:4000'
     depends_on:
       - frontend
 

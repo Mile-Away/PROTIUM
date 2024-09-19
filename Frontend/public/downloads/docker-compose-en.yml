@@ -20,6 +20,14 @@ services:
       - xpack.license.self_generated.type=trial
     ports:
       - "9200:9200"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "2G"
+        reservations:
+          cpus: "1.0"
+          memory: "512M"
 
   backend:
     image: mileaway/protium-backend:latest

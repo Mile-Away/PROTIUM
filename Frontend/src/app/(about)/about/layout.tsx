@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(PrimarySite),
   title: 'About - Protium',
   description:
-    'People attracted by Protium for its openness, inclusive, and dedication to advancing scientific computing worldwide.',
+    'People attracted by Protium for its openness, inclusiveness, and dedication to advancing scientific computing worldwide.',
   openGraph: {
     title: 'About - Protium',
     type: 'website',

@@ -37,9 +37,12 @@ class BaseNodeDataHandleModel(models.Model):
                 message="Name can only contain letters, numbers, and hyphens. underscores is not allowed.",
             ),
         ],
+        help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线",
     )
     type = models.CharField(max_length=10, choices=AS_CHOICES)
-    label = models.CharField(max_length=100, blank=True, null=True)
+    label = models.CharField(
+        max_length=100, blank=True, null=True, help_text="Label 暂时不生效，未来可能用于控制 handle 在节点上显示的内容"
+    )
 
     # source 储存这个作为 source handle，输出的数据的来源，只有三个选项，handle, body, result
     # source 的格式为 {"source": "handle", "key": "poscar"}
@@ -49,7 +52,7 @@ class BaseNodeDataHandleModel(models.Model):
     data_key = models.CharField(max_length=100, blank=True, null=True)
 
     # TODO：即将废弃 rope 记录从一端连线时自动连接的节点
-    rope = models.CharField(max_length=100, blank=True, null=True)
+    rope = models.CharField(max_length=100, blank=True, null=True, help_text="rope 即将失去作用，无需填写")
 
     class Meta:
         abstract = True
@@ -77,7 +80,7 @@ class BaseNodeDataCompileModel(models.Model):
     key = models.CharField(max_length=100)
     script = models.CharField(max_length=100)
     type = models.CharField(max_length=50)
-    
+
     # Optional
     source = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
