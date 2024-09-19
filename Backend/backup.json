@@ -683,7 +683,39 @@
             ],
             "body": [
                 {
-                    "schema": null,
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "z": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "device": {
+                                        "type": "string",
+                                        "description": "device id"
+                                    },
+                                    "gripper_distance": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    }
+                                }
+                            },
+                            "title": "Movement Endpoints"
+                        },
+                        "uiSchema": null
+                    },
                     "key": "ilab-add",
                     "type": "object",
                     "source": null,
@@ -729,7 +761,39 @@
             ],
             "body": [
                 {
-                    "schema": null,
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "z": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "device": {
+                                        "type": "string",
+                                        "description": "device id"
+                                    },
+                                    "gripper_distance": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    }
+                                }
+                            },
+                            "title": "Movement Endpoints"
+                        },
+                        "uiSchema": null
+                    },
                     "key": "ilab-set-temp",
                     "type": "object",
                     "source": null,
@@ -775,7 +839,39 @@
             ],
             "body": [
                 {
-                    "schema": null,
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "z": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    },
+                                    "device": {
+                                        "type": "string",
+                                        "description": "device id"
+                                    },
+                                    "gripper_distance": {
+                                        "type": "number",
+                                        "description": "in mm"
+                                    }
+                                }
+                            },
+                            "title": "Movement Endpoints"
+                        },
+                        "uiSchema": null
+                    },
                     "key": "ilab-evaporate",
                     "type": "object",
                     "source": null,
