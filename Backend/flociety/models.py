@@ -45,10 +45,9 @@ class NodeTemplateLibrary(models.Model):
             ),
             validate_node_name,
         ],
-        help_text="Name 只能包含字母，数字，下划线和短横线，不允许空格",
     )  # name 用于在 template 中指定的节点的 key，只能是字符，数字，下划线和短横线
     description = models.TextField(blank=True, null=True)
-    # version = models.CharField(max_length=50, default="0.0.0")
+    version = models.CharField(max_length=50, default="0.0.0")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,30 +68,14 @@ class NodeTemplateLibrary(models.Model):
         max_length=50,
         choices=nodeTypes,
     )  # type 只有几个可选项，取决于 nodeTypes
-
-    versions: models.QuerySet["NodeTemplateVersion"]
     node_data: models.OneToOneField["NodeDataTemplate"]
 
     # name 和 version 唯一确定一个节点模板
     class Meta:
-        unique_together = ("name", "creator")
+        unique_together = ("name", "version")
 
     def __str__(self):
-        return f"{self.name}"
-
-
-class NodeTemplateVersion(models.Model):
-    id = models.AutoField(primary_key=True)
-    node = models.ForeignKey(NodeTemplateLibrary, on_delete=models.CASCADE, related_name="versions")
-    version = models.CharField(max_length=50, default="0.0.0")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ("node", "version")
-
-    def __str__(self):
-        return f"{self.node.name}-{self.version}"
+        return f"{self.name}-{self.version}"
 
 
 class NodeDataTemplate(BaseNodeDataModel):
@@ -105,7 +88,7 @@ class NodeDataTemplate(BaseNodeDataModel):
     compile: models.QuerySet["NodeDataCompileTemplate"]
 
     def __str__(self):
-        return f"{self.node.versions.last()}"
+        return f"{self.node.name}-{self.node.version}"
 
 
 class NodeDataHandleTemplate(BaseNodeDataHandleModel):
