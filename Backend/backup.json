@@ -6,6 +6,7 @@
         },
         "name": "ABACUS_INPUT",
         "description": "",
+        "version": "0.0.0",
         "created_at": "2024-09-02T16:17:58.113410+08:00",
         "updated_at": "2024-09-02T16:17:58.113421+08:00",
         "public": true,
@@ -105,6 +106,7 @@
         },
         "name": "SIAB_SYSTEM",
         "description": "ABACUS \u8d5d\u52bf\u8f68\u9053\u751f\u6210 system \u90e8\u5206\u8f93\u5165\u53c2\u6570",
+        "version": "0.0.0",
         "created_at": "2024-09-02T16:17:58.137152+08:00",
         "updated_at": "2024-09-02T16:17:58.137159+08:00",
         "public": true,
@@ -196,6 +198,7 @@
         },
         "name": "ILab_Grasp",
         "description": "\u667a\u80fd\u5b9e\u9a8c\u5ba4\u9879\u76ee\u673a\u68b0\u81c2\u63a7\u5236\u8282\u70b9",
+        "version": "0.0.0",
         "created_at": "2024-09-02T16:17:58.146578+08:00",
         "updated_at": "2024-09-02T16:17:58.146586+08:00",
         "public": true,
@@ -293,6 +296,7 @@
         },
         "name": "ILab_Pump",
         "description": "",
+        "version": "0.0.0",
         "created_at": "2024-09-02T16:17:58.150968+08:00",
         "updated_at": "2024-09-02T16:17:58.150974+08:00",
         "public": true,
@@ -370,6 +374,7 @@
         },
         "name": "ILab_ADD",
         "description": "Add Action for IntelliLab",
+        "version": "0.0.0",
         "created_at": "2024-09-19T19:51:44.102735+08:00",
         "updated_at": "2024-09-19T19:51:44.102750+08:00",
         "public": true,
@@ -447,6 +452,7 @@
         },
         "name": "ILab_SetTemp",
         "description": "",
+        "version": "0.0.0",
         "created_at": "2024-09-19T20:19:10.518190+08:00",
         "updated_at": "2024-09-19T20:19:10.518203+08:00",
         "public": true,
@@ -522,85 +528,9 @@
             "username": "PROTIUM",
             "avatar": "/media/accounts/default_avatar.png"
         },
-        "name": "ILab_EVAPORATE",
-        "description": "",
-        "created_at": "2024-09-19T21:34:11.866671+08:00",
-        "updated_at": "2024-09-19T21:34:11.866688+08:00",
-        "public": false,
-        "type": "ILab",
-        "data": {
-            "handles": [
-                {
-                    "key": "ready",
-                    "type": "target",
-                    "label": null,
-                    "data_source": null,
-                    "data_key": null,
-                    "rope": null
-                },
-                {
-                    "key": "ready",
-                    "type": "source",
-                    "label": null,
-                    "data_source": null,
-                    "data_key": null,
-                    "rope": null
-                }
-            ],
-            "body": [
-                {
-                    "schema": {
-                        "panel_type": "default",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "x": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    },
-                                    "y": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    },
-                                    "z": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    },
-                                    "device": {
-                                        "type": "string",
-                                        "description": "device id"
-                                    },
-                                    "gripper_distance": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    }
-                                }
-                            },
-                            "title": "Movement Endpoints"
-                        },
-                        "uiSchema": null
-                    },
-                    "key": "ilab-evaporate",
-                    "type": "object",
-                    "source": null,
-                    "title": "EVAPORATE",
-                    "attachment": null
-                }
-            ],
-            "compile": [],
-            "header": "ILab EVAPORATE",
-            "footer": "Version 0.0.1"
-        }
-    },
-    {
-        "creator": {
-            "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
-        },
         "name": "ABACUS_SIAB",
         "description": "",
+        "version": "0.0.0",
         "created_at": "2024-09-02T16:17:59.130000+08:00",
         "updated_at": "2024-09-20T16:35:15.468540+08:00",
         "public": true,
@@ -778,6 +708,7 @@
         },
         "name": "SIAB_Orbitals",
         "description": "",
+        "version": "0.0.0",
         "created_at": "2024-09-03T16:17:58.142000+08:00",
         "updated_at": "2024-09-02T16:17:58.142213+08:00",
         "public": true,
