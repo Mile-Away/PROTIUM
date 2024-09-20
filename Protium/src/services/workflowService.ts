@@ -15,6 +15,7 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
   const { logout, userInfo, refreshAccessToken } = useAuthService();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [socketUrl, setSocketUrl] = useState(
     params.uuid ? WS_URL + `/ws/workflow/${params.uuid}/` : null,
   );
@@ -42,6 +43,7 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
       onOpen: async () => {
         console.log('Connected to: ' + socketUrl);
         fetchWorkflowDetail();
+        setIsError(false);
       },
       onClose: (event: CloseEvent) => {
         console.log('Close Event', event);
@@ -55,7 +57,10 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
         }
         console.log('Close');
       },
-      onError: () => alert('WebSocket Error'),
+      onError: () => {
+        setIsError(true);
+        setIsLoading(true);
+      },
       onMessage: (event) => {
         const data = JSON.parse(event.data);
         if (data.execute_status) {
@@ -124,6 +129,7 @@ const useWorkflowWebSocket = (params: { uuid: string }) => {
 
   return {
     isLoading,
+    isError,
     sendJsonMessage,
     sendMessage,
     getWebSocket,

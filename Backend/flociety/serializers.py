@@ -8,6 +8,7 @@ from .models import (
     NodeDataHandleTemplate,
     NodeDataTemplate,
     NodeTemplateLibrary,
+    NodeTemplateVersion,
 )
 
 
@@ -23,11 +24,7 @@ class NodeDataCompileTemplateSerializer(serializers.ModelSerializer):
         exclude = ["id", "node"]
 
     def to_representation(self, instance: NodeDataCompileTemplate):
-        ret = {
-            key: value
-            for key, value in instance.__dict__.items()
-            if key != "bodies" and not key.startswith("_")
-        }
+        ret = {key: value for key, value in instance.__dict__.items() if key != "bodies" and not key.startswith("_")}
 
         ret["bodies"] = [body.key for body in instance.bodies.all()]
 
@@ -70,3 +67,11 @@ class NodeTemplateLibrarySerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation["data"] = representation.pop("node_data")
         return representation
+
+
+class NodeTemplateVersionSerializer(serializers.ModelSerializer):
+    node = NodeTemplateLibrarySerializer()
+
+    class Meta:
+        model = NodeTemplateVersion
+        exclude = ["id"]

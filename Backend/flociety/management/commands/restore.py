@@ -56,7 +56,7 @@ class Command(BaseCommand):
 
                     # Create NodeDataBodyTemplate and NodeBodySchemaTemplate
                     for body in node_data["body"]:
-                        schema = body.pop("schema")
+
                         body_instance = NodeDataBodyTemplate.objects.create(
                             node=node_data_instance,
                             key=body["key"],
@@ -65,6 +65,7 @@ class Command(BaseCommand):
                             title=body.get("title"),
                             attachment=body.get("attachment"),
                         )
+                        schema = body.pop("schema")
                         NodeBodySchemaTemplate.objects.create(
                             body=body_instance,
                             panel_type=schema["panel_type"],

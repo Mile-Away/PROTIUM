@@ -8,6 +8,7 @@ import {
 } from '@/store/workflow/workflowSlice';
 import { CheckBadgeIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WorkflowFormSelect from '../formComponent/NodeFormSelect';
 import NodeFormTextarea from '../formComponent/NodeFormTextarea';
@@ -36,6 +37,7 @@ const machineSelectItems = [
 ];
 
 export default function SolverNode(props: BasicNodeProps) {
+  const randomId = useId();
   const { id, type, dragging, data } = props;
 
   const { sliderOverlayVisible, sliderOverlay } = useSelector(
@@ -102,7 +104,7 @@ export default function SolverNode(props: BasicNodeProps) {
       <div className="flex flex-col space-y-4 text-xs">
         {data.body.map((item, idx) => (
           <>
-            {item.key === 'potcarSelect' && (
+            {/* {item.key === 'potcarSelect' && (
               <WorkflowFormSelect
                 items={potcarSelectItems}
                 onSelectedIndexChange={onPotcarSelectedIndexChange}
@@ -113,10 +115,10 @@ export default function SolverNode(props: BasicNodeProps) {
                 items={machineSelectItems}
                 onSelectedIndexChange={onMachineSelectedIndexChange}
               />
-            )}
+            )} */}
             {item.type === 'object' && (
               <NodeFormTextarea
-                key={item.id}
+                key={randomId + item.id}
                 nodeId={id}
                 bodyItem={item}
                 idx={idx}

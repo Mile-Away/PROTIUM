@@ -1,13 +1,14 @@
 'use client';
 
 import Loading from '@/app/loading';
+import { WarningAlert } from '@/components/notification/WarningAlert';
 import useWorkflowWebSocket from '@/services/workflowService';
 import CommandPannel from './CommandPannel';
 import RootReactFlow from './RootReactFlow';
 import WorkflowTitleLabel from './WorkflowTitleLabel';
 
 export default function Page({ params }: { params: { uuid: string } }) {
-  const { saveWorkflow, isLoading } = useWorkflowWebSocket(params);
+  const { saveWorkflow, isLoading, isError } = useWorkflowWebSocket(params);
 
   const handleSaveWorkflow = () => {
     saveWorkflow();
@@ -19,8 +20,16 @@ export default function Page({ params }: { params: { uuid: string } }) {
 
   return (
     <>
+      {isError && (
+        <WarningAlert
+          title="Disconnect ..."
+          message="Lose the connection with server, reconnecting..."
+        />
+      )}
       <WorkflowTitleLabel handleSaveWorkflow={handleSaveWorkflow} />
       <div className="relative h-full w-full">
+        {/* Error Alert */}
+
         {/* Background */}
         <svg
           className="absolute inset-x-0 top-0 -z-10 h-[calc(100vh-4rem)] w-full stroke-neutral-100 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)] dark:stroke-neutral-800"

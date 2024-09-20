@@ -21,35 +21,35 @@ const NavbarMenu = () => {
   const [activeMenuItem, setActiveMenuItem] = useState<number | null>(null);
 
   return (
-    <div className='ml-8'>
-      <div className="gap-x-4 flex">
-        <Link
-          href={'/flociety/nodes'}
-          className={clsx(
-            'select-none rounded p-2',
-            'text-xl font-semibold transition-all duration-300 ease-in-out',
-            'dark:hover:bg-white/10',
-            // 如果 url 最开始是 /flociety/nodes, 则 'text-indigo-600' : 'text-gray-900',
-            url.startsWith('/flociety/nodes')
-              ? ' bg-gradient-to-r bg-clip-text text-transparent from-purple-600 via-pink-500 to-orange-600 dark:from-indigo-400 dark:via-violet-500 dark:to-fuchsia-400'
-              : 'dark:text-white/50 dark:hover:text-white',
-          )}
-        >
-          Nodes
-        </Link>
+    <div className="ml-8">
+      <div className="flex gap-x-4">
         <Link
           href={'/flociety/workflows'}
           className={clsx(
             'select-none rounded p-2',
             'text-xl font-semibold transition-all duration-300 ease-in-out',
-            'dark:hover:bg-white/10',
+            'dark:hover:bg-white/10 hover:bg-gray-50 text-gray-600',
             // 如果 url 最开始是 /flociety/nodes, 则 'text-indigo-600' : 'text-gray-900',
             url.startsWith('/flociety/workflows')
-              ? 'bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent dark:from-indigo-400 dark:via-sky-500 dark:to-teal-400'
+              ? 'bg-gradient-to-r from-purple-600 via-sky-500 to-teal-600 bg-clip-text text-transparent dark:from-indigo-400 dark:via-sky-500 dark:to-teal-400'
               : 'dark:text-white/50 dark:hover:text-white',
           )}
         >
           Workflows
+        </Link>
+        <Link
+          href={'/flociety/nodes'}
+          className={clsx(
+            'select-none rounded p-2',
+            'text-xl font-semibold transition-all duration-300 ease-in-out',
+            'dark:hover:bg-white/10 hover:bg-gray-50 text-gray-600',
+            // 如果 url 最开始是 /flociety/nodes, 则 'text-indigo-600' : 'text-gray-900',
+            url.startsWith('/flociety/nodes')
+              ? ' bg-gradient-to-r from-purple-600 via-pink-500 to-orange-600 bg-clip-text text-transparent dark:from-indigo-400 dark:via-violet-500 dark:to-fuchsia-400'
+              : 'dark:text-white/50 dark:hover:text-white',
+          )}
+        >
+          Nodes
         </Link>
       </div>
     </div>
@@ -79,7 +79,7 @@ const FlocietyNavbar = () => {
           <div className="flex items-center">
             <Link
               href="/flociety"
-              className="z-50 -m-1.5 flex items-center rounded-md fill-indigo-800 p-1.5 transition-opacity duration-150 ease-in-out hover:bg-neutral-300/20 dark:fill-white dark:hover:bg-neutral-800"
+              className="z-50 pointer-events-none -m-1.5 flex items-center rounded-md fill-indigo-800 p-1.5 transition-opacity duration-150 ease-in-out hover:bg-neutral-300/20 dark:fill-white dark:hover:bg-neutral-800"
             >
               <span className="sr-only">Protium - Flociety</span>
               <FlocietyLogo className="h-fit w-28" />

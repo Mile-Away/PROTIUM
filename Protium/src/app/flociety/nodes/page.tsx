@@ -2,8 +2,9 @@
 import { NodeTemplateProps } from '@/@types/flociety';
 import GridBackground from '@/components/GridBackground';
 import { useCRUD } from '@/hooks/useCrud';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import NodeTemplateCard from './NodeTemplateCard';
 
 export default function Page() {
@@ -11,7 +12,7 @@ export default function Page() {
     [],
     '/flociety/vs/nodes/library/',
   );
-
+  const id = useId();
   const [nodeTemplates, setNodeTemplates] = useState<NodeTemplateProps[]>([]);
   const [cardSizes, setCardSizes] = useState<
     { id: string; width: number; height: number }[]
@@ -22,7 +23,6 @@ export default function Page() {
   const [positions, setPositions] = useState<{ left: number; top: number }[]>(
     [],
   );
-  const [startPx, setStartPx] = useState(0);
 
   useEffect(() => {
     fetchData();
@@ -52,62 +52,51 @@ export default function Page() {
 
   // Get container width
   useEffect(() => {
-    if (containerRef.current) {
-      setContainerWidth(containerRef.current.offsetWidth);
-    }
-  }, [containerRef.current]);
+    const updateContainerWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    // Initial update
+    updateContainerWidth();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', updateContainerWidth);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', updateContainerWidth);
+    };
+  }, []);
 
   // Calculate positions
   useEffect(() => {
     if (containerWidth === 0 || cardSizes.length === 0) return;
 
     const gap = 16;
-
     const columnCount = Math.floor(containerWidth / cardSizes[0].width);
-
-    console.log(columnCount); // 5
-
-    const fullWidth =
-      columnCount * cardSizes[0].width + (columnCount - 1) * gap;
-
-    setStartPx((containerWidth - fullWidth) / 2);
-
     const columnHeights = Array(columnCount).fill(0);
-
-    console.log(columnHeights); // [0, 0, 0, 0, 0]
-
     const columnWidths = Array(columnCount).fill(0);
 
-    console.log(columnWidths); // [0, 0, 0, 0, 0]
-
     const newPositions = cardSizes.map((card, index) => {
-      console.log(card); // { id: 'start', width: 200, height: 200 }
-
       // 行内 columnIndex
       let columnIndex = index % columnCount;
       let rowIndex = Math.floor(index / columnCount);
 
-      console.log('columnIndex', rowIndex, columnIndex); // 0
-
       const left = columnWidths
         .slice(0, columnIndex)
         .reduce((acc, width) => acc + width, 0);
-
       const top = columnHeights[columnIndex];
 
       columnHeights[columnIndex] += card.height + gap;
-
-      console.log('columnHeights', columnHeights); // [200, 0, 0, 0, 0]
-
-      // 如果是新行，重置 columnWidths
       if (columnIndex === 0) {
+        // 如果是新行，重置 columnWidths
         columnWidths.fill(0);
         columnWidths[columnIndex] += card.width + gap;
       } else {
         columnWidths[columnIndex] += card.width + gap;
       }
-
-      console.log('columnWidths', columnWidths); // [200, 0, 0, 0, 0]
 
       return { left, top };
     });
@@ -116,35 +105,51 @@ export default function Page() {
   }, [containerWidth, cardSizes]);
 
   return (
-    <div ref={containerRef} className="relative py-8">
-      <GridBackground />
-      <div
-        className="relative"
-        style={{
-          position: 'relative',
-          height: Math.max(
-            ...positions.map(
-              (pos) => pos.top + cardSizes[positions.indexOf(pos)].height,
-            ),
-          ),
-          marginLeft: startPx,
-        }}
-      >
-        {nodeTemplates.map((node, index) => (
-          <div
-            key={node.name}
-            ref={(el) => {
-              cardRefs.current[node.name] = el;
-            }}
-            className={clsx(
-              'absolute h-fit max-w-64 cursor-pointer overflow-x-auto rounded-md',
-            )}
-            style={{ left: positions[index]?.left, top: positions[index]?.top }}
-          >
-            <NodeTemplateCard node={node} className="" />
-          </div>
-        ))}
+    <>
+
+      <div className="my-16 flex h-32 items-center justify-center border-b py-24 dark:border-white/10">
+        <div className=" relative w-1/2">
+          <input
+            type="text"
+            className="form-input w-full rounded-md border border-gray-300 p-2 dark:border-white/10 dark:bg-white/5 placeholder:dark:text-white/60"
+            placeholder="Search node template"
+          />
+          <MagnifyingGlassIcon className="absolute inset-y-0 right-2 h-6 w-6 translate-y-1/3 text-gray-400" />
+        </div>
       </div>
-    </div>
+      <div ref={containerRef} className="relative px-8 py-8">
+        <GridBackground />
+        <div
+          className="relative"
+          style={{
+            position: 'relative',
+            height: Math.max(
+              ...positions.map(
+                (pos) => pos.top + cardSizes[positions.indexOf(pos)].height,
+              ),
+            ),
+            // marginLeft: startPx,
+          }}
+        >
+          {nodeTemplates.map((node, index) => (
+            <div
+              key={id+node.name}
+              ref={(el) => {
+                cardRefs.current[node.name] = el;
+              }}
+              className={clsx(
+                'absolute h-fit max-w-64 cursor-pointer overflow-x-auto rounded-md',
+              )}
+              style={{
+                left: positions[index]?.left,
+                top: positions[index]?.top,
+              }}
+            >
+              <NodeTemplateCard node={node} className="" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

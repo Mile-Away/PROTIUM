@@ -30,7 +30,7 @@ const CommandPannel = ({ params }: { params: { uuid: string } }) => {
   return (
     <div
       className={clsx(
-        'absolute bottom-4 right-56 isolate z-10 min-w-fit rounded-xl border bg-white  shadow-lg dark:border-none dark:bg-black',
+        'absolute bottom-4 right-56 z-10 min-w-fit rounded-xl border bg-white  shadow-lg dark:border-none dark:bg-black',
         'transition-all duration-500 ease-in-out',
         isConsoleExpand ? 'h-[9.4rem]' : 'h-10',
         isConsoleVisible ? 'left-2' : 'left-1/2',

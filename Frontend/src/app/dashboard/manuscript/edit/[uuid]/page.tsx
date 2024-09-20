@@ -57,7 +57,7 @@ const Page = ({ params }: { params: { uuid: string } }) => {
   const formik = useFormik({
     initialValues: {
       title: '',
-      content: '' || null,
+      content: null,
       publish: true,
     },
 

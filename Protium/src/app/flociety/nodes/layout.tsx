@@ -1,5 +1,3 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -16,17 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           }}
         />
       </div>
-      <div className="my-16  flex h-32 items-center justify-center border-b py-24 dark:border-white/10">
-        <div className=" relative w-1/2">
-          <input
-            type="text"
-            className="form-input w-full rounded-md border border-gray-300 p-2 dark:border-white/10 dark:bg-white/5 placeholder:dark:text-white/60"
-            placeholder="Search node template"
-          />
-          <MagnifyingGlassIcon className="absolute inset-y-0 right-2 h-6 w-6 translate-y-1/3 text-gray-400" />
-        </div>
-      </div>
-      {children}
+      <div className="px-8">{children}</div>
     </>
   );
 }

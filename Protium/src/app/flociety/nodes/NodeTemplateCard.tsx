@@ -17,7 +17,7 @@ export default function NodeTemplateCard({
     >
       <div
         className="relative h-fit w-fit after:transition-colors after:duration-300 after:ease-in-out
-      hover:after:absolute hover:after:inset-0 hover:after:bg-white hover:after:opacity-5 hover:after:content-[''] "
+      hover:after:absolute hover:after:inset-0 hover:after:bg-neutral-400 dark:hover:after:bg-white hover:after:opacity-5 hover:after:content-[''] "
       >
         <div className=" pointer-events-none -z-[9999]">
           <NodeTypeComponent
