@@ -1,11 +1,11 @@
 from django.db.models import Max, Subquery
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from .models import NodeTemplateLibrary
-from .serializers import NodeTemplateLibrarySerializer
+from .models import NodeTemplateLibrary, WorkflowTemplateLibrary
+from .serializers import NodeTemplateLibrarySerializer, WorkflowTemplateLibrarySerializer
 
 
 class NodeTemplateLibraryViewSet(ViewSet):
@@ -27,3 +27,36 @@ class NodeTemplateLibraryViewSet(ViewSet):
 
         serializer = NodeTemplateLibrarySerializer(latest_node_template_libraries, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class WorkflowTemplateLibraryViewSet(viewsets.ViewSet):
+
+    serializer_class = WorkflowTemplateLibrarySerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        queryset = WorkflowTemplateLibrary.objects.all()
+        return queryset
+
+    def list(self, request):
+
+        by_user = request.query_params.get("by_user")
+
+        if by_user:
+            workflows = self.get_queryset().filter(creator=request.user)
+            serializer = self.serializer_class(workflows, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        workflows = self.get_queryset()
+        serializer = self.serializer_class(workflows, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+
+            serializer.save(creator=request.user, as_template=True)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

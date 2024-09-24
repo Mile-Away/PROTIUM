@@ -12,6 +12,10 @@ from flociety.abstract import (
 from flociety.models import NodeTemplateLibrary
 
 
+def workflow_cover_path(instance, filename):
+    return f"workflow/{instance.id}/cover/{filename}"
+
+
 class Workflow(models.Model):
     status_choices = (
         ("draft", "Draft"),
@@ -24,7 +28,7 @@ class Workflow(models.Model):
     id: int
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     creator: User = models.ForeignKey(  # type: ignore
@@ -32,6 +36,7 @@ class Workflow(models.Model):
     )
     status = models.CharField(max_length=50, choices=status_choices, default="draft")
     public = models.BooleanField(default=False)
+    as_template = models.BooleanField(default=False)
 
     """
     EXPLAIN:

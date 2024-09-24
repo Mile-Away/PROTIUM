@@ -71,12 +71,14 @@ export interface WorkflowProps {
   id: string;
   uuid: string;
   name: string;
+  cover?: string;
   description?: string;
   created_at: Date | string;
   updated_at: Date | string;
   creator: { username: string; avatar: string };
   status: 'draft' | 'pending' | 'running' | 'finished' | 'canceled' | 'failed';
   public?: boolean;
+  as_template?: boolean;
   nodes: WorkflowNodeProps[];
   edges: Edge[];
 }

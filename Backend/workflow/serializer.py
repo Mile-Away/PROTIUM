@@ -1,7 +1,11 @@
 from accounts.public_serializer import BasicUserSerializer
 from flociety.models import NodeTemplateLibrary
-from rest_framework import serializers
+
 from flociety.serializers import NodeBodySchemaTemplateSerializer, NodeDataBodyTemplate
+
+
+from rest_framework import serializers
+
 from .models import (
     Workflow,
     WorkflowEdge,
@@ -267,3 +271,11 @@ class WorkflowSerializer(serializers.ModelSerializer):
                 )
 
         return instance
+
+
+class WorkflowTemplateSerializer(serializers.ModelSerializer):
+    creator = BasicUserSerializer(read_only=True)
+
+    class Meta:
+        model = Workflow
+        fields = ["id", "uuid", "name", "created_at", "creator", "public", "as_template"]

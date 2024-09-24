@@ -13,6 +13,13 @@ from .models import (
 )
 
 
+class WorkflowAdmin(admin.ModelAdmin):
+
+    list_display = ("name", "creator", "public", "as_template", "uuid")
+    search_fields = ("name", "uuid")
+    ordering = ("id",)
+
+
 class WorkflowNodeAdmin(admin.ModelAdmin):
 
     list_display = ("workflow", "template", "status")
@@ -43,7 +50,7 @@ class WorkflowNodeCompileAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-admin.site.register(Workflow)
+admin.site.register(Workflow, WorkflowAdmin)
 admin.site.register(WorkflowNode, WorkflowNodeAdmin)
 admin.site.register(WorkflowNodeData)
 admin.site.register(WorkflowNodeHandle, WorkflowNodeHandleAdmin)

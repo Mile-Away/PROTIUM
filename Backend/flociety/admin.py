@@ -2,13 +2,18 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import (
+    NodeBodySchemaTemplate,
     NodeDataBodyTemplate,
     NodeDataCompileTemplate,
     NodeDataHandleTemplate,
     NodeDataTemplate,
     NodeTemplateLibrary,
-    NodeBodySchemaTemplate,
+    WorkflowTemplateLibrary,
 )
+
+
+class WorkflowTemplateLibraryAdmin(admin.ModelAdmin):
+    list_display = ("workflow",)
 
 
 class NodeTemplateLibraryAdmin(admin.ModelAdmin):
@@ -47,3 +52,4 @@ admin.site.register(NodeDataHandleTemplate, NodeDataHandleTemplateAdmin)
 admin.site.register(NodeDataBodyTemplate, NodeDataBodyTemplateAdmin)
 admin.site.register(NodeDataCompileTemplate, NodeDataCompileTemplateAdmin)
 admin.site.register(NodeBodySchemaTemplate)
+admin.site.register(WorkflowTemplateLibrary, WorkflowTemplateLibraryAdmin)

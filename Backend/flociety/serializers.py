@@ -8,6 +8,7 @@ from .models import (
     NodeDataHandleTemplate,
     NodeDataTemplate,
     NodeTemplateLibrary,
+    WorkflowTemplateLibrary,
 )
 
 
@@ -23,11 +24,7 @@ class NodeDataCompileTemplateSerializer(serializers.ModelSerializer):
         exclude = ["id", "node"]
 
     def to_representation(self, instance: NodeDataCompileTemplate):
-        ret = {
-            key: value
-            for key, value in instance.__dict__.items()
-            if key != "bodies" and not key.startswith("_")
-        }
+        ret = {key: value for key, value in instance.__dict__.items() if key != "bodies" and not key.startswith("_")}
 
         ret["bodies"] = [body.key for body in instance.bodies.all()]
 
@@ -70,3 +67,16 @@ class NodeTemplateLibrarySerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation["data"] = representation.pop("node_data")
         return representation
+
+
+class WorkflowTemplateLibrarySerializer(serializers.ModelSerializer):
+    workflow = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WorkflowTemplateLibrary
+        exclude = ["id"]
+
+    def get_workflow(self, obj):
+        from workflow.serializer import WorkflowTemplateSerializer
+
+        return WorkflowTemplateSerializer(obj.workflow).data

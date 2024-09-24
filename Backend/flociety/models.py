@@ -1,7 +1,4 @@
-import re
-
 from accounts.models import User
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -12,25 +9,22 @@ from .abstract import (
     BaseNodeDataHandleModel,
     BaseNodeDataModel,
 )
+from .validates import validate_node_name
 
 
-def validate_node_name(username):
-    if len(username) > 20:
-        raise ValidationError("Node Name should be < 20 characters.")
-    if len(username) < 2:
-        raise ValidationError("Node Name should be > 2 characters.")
+def workflow_cover_path(instance, filename):
+    return f"workflow/{instance.id}/cover/{filename}"
 
-    # 用户名不允许中文
-    if re.search(r"[\u4e00-\u9fa5]", username):
-        raise ValidationError("Name should not contain Chinese characters.")
 
-    # 第一位不能是数字
-    if username[0].isdigit():
-        raise ValidationError("Node Name should not start with a number.")
+class WorkflowTemplateLibrary(models.Model):
+    workflow = models.OneToOneField("workflow.Workflow", on_delete=models.CASCADE, related_name="template")
+    description = models.TextField(blank=True, null=True)
 
-    forbidden_usernames = ["admin", "administrator", "moderator", "mod", "owner", "root", "superuser", "su"]
-    if username.lower() in forbidden_usernames:
-        raise ValidationError("Name is forbidden")
+    # 用于工作流模版展示封面
+    cover = models.FileField(blank=True, null=True, upload_to=workflow_cover_path)
+
+    def __str__(self) -> str:
+        return f"{self.workflow}"
 
 
 class NodeTemplateLibrary(models.Model):

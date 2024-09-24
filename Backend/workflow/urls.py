@@ -10,5 +10,5 @@ router.register("workflow", WorkflowViewSet, basename="workflow")
 urlpatterns = [
     path("vs/", include(router.urls)),
     path("workflow/<uuid:uuid>/", WorkflowDetailAPIView.as_view(), name="workflow_detail"),
-    path("workflow/start/<uuid:uuid>/", StartWorkflowAPIView.as_view(), name="start_workflow"),
+    # path("workflow/start/<uuid:uuid>/", StartWorkflowAPIView.as_view(), name="start_workflow"),
 ]
