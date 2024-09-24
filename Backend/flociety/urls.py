@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import NodeTemplateDetailView
+from .views import NodeTemplateDetailView, WorkflowTemplateDetailView
 from .viewsets import NodeTemplateLibraryViewSet, WorkflowTemplateLibraryViewSet
 
 router = DefaultRouter()
@@ -11,4 +11,5 @@ router.register("workflows/library", WorkflowTemplateLibraryViewSet, basename="w
 urlpatterns = [
     path("vs/", include(router.urls)),
     path("node/<str:name>/", NodeTemplateDetailView.as_view(), name="node_template_detail"),
+    path("workflow/<str:uuid>/", WorkflowTemplateDetailView.as_view(), name="workflow_template_detail"),
 ]

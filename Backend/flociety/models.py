@@ -18,8 +18,8 @@ def workflow_cover_path(instance, filename):
 
 class WorkflowTemplateLibrary(models.Model):
     workflow = models.OneToOneField("workflow.Workflow", on_delete=models.CASCADE, related_name="template")
+    title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-
     # 用于工作流模版展示封面
     cover = models.FileField(blank=True, null=True, upload_to=workflow_cover_path)
 

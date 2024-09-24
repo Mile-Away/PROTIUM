@@ -1,15 +1,10 @@
 from accounts.public_serializer import BasicUserSerializer
 from rest_framework import serializers
 
-from .models import (
-    NodeBodySchemaTemplate,
-    NodeDataBodyTemplate,
-    NodeDataCompileTemplate,
-    NodeDataHandleTemplate,
-    NodeDataTemplate,
-    NodeTemplateLibrary,
-    WorkflowTemplateLibrary,
-)
+from .models import (NodeBodySchemaTemplate, NodeDataBodyTemplate,
+                     NodeDataCompileTemplate, NodeDataHandleTemplate,
+                     NodeDataTemplate, NodeTemplateLibrary,
+                     WorkflowTemplateLibrary)
 
 
 class NodeBodySchemaTemplateSerializer(serializers.ModelSerializer):
@@ -78,5 +73,5 @@ class WorkflowTemplateLibrarySerializer(serializers.ModelSerializer):
 
     def get_workflow(self, obj):
         from workflow.serializer import WorkflowTemplateSerializer
-
+        
         return WorkflowTemplateSerializer(obj.workflow).data

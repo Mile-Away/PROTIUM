@@ -1,5 +1,6 @@
 services:
   db:
+    restart: unless-stopped
     image: postgres:16.4-bullseye
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
@@ -11,6 +12,7 @@ services:
       - '5433:5432'
 
   elasticsearch:
+    restart: unless-stopped
     image: elasticsearch:8.15.0
     environment:
       - discovery.type=single-node
@@ -31,6 +33,7 @@ services:
           memory: '1G'
 
   backend:
+    restart: unless-stopped
     build:
       context: ./Backend
     image: ghcr.io/mile-away/protium/backend:latest
@@ -48,6 +51,7 @@ services:
       - db
 
   frontend:
+    restart: unless-stopped
     build:
       context: ./Frontend
     image: ghcr.io/mile-away/protium/frontend:latest
@@ -60,6 +64,7 @@ services:
       - backend
 
   workflow:
+    restart: unless-stopped
     build:
       context: ./Protium
     image: ghcr.io/mile-away/protium/workflow:latest
@@ -72,6 +77,7 @@ services:
       - frontend
 
   docfront:
+    restart: unless-stopped
     build:
       context: ./DocFront
     image: ghcr.io/mile-away/protium/docfront:latest

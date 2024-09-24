@@ -4,6 +4,7 @@ import { formatTime } from '@/lib/formatDate';
 import Link from 'next/link';
 
 export interface PostProps {
+  title: string;
   cover: string;
   description: string;
   workflow: {

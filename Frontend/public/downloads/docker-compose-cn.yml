@@ -1,5 +1,6 @@
 services:
   db:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/postgres:16.4
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
@@ -11,6 +12,7 @@ services:
       - "5433:5432"
 
   elasticsearch:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/elasticsearch:8.15.0
     environment:
       - discovery.type=single-node
@@ -30,6 +32,7 @@ services:
           memory: "512M"
 
   backend:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/backend
     env_file:
       - .env
@@ -43,6 +46,7 @@ services:
       - db
 
   frontend:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/frontend
     ports:
       - "3000:3000"
@@ -50,6 +54,7 @@ services:
       - backend
 
   workflow:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/workflow
     ports:
       - "3003:3003"
@@ -57,6 +62,7 @@ services:
       - frontend
 
   docfront:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/docfront
     ports:
       - "4000:4000"
