@@ -7,8 +7,8 @@ export interface InteractivePanelProps extends BasicNodeProps {
   tabItems: {
     name: string;
     jsonSchema?: {
-      schema: object;
-      uiSchema: object;
+      schema: any;
+      uiSchema: any;
     };
   }[];
 }

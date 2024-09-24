@@ -294,84 +294,6 @@
             "username": "PROTIUM",
             "avatar": "/media/accounts/default_avatar.png"
         },
-        "name": "ILab_Pump",
-        "description": "",
-        "version": "0.0.0",
-        "created_at": "2024-09-02T16:17:58.150968+08:00",
-        "updated_at": "2024-09-02T16:17:58.150974+08:00",
-        "public": true,
-        "type": "ILab",
-        "data": {
-            "handles": [
-                {
-                    "key": "ready",
-                    "type": "target",
-                    "label": null,
-                    "data_source": null,
-                    "data_key": null,
-                    "rope": null
-                },
-                {
-                    "key": "ready",
-                    "type": "source",
-                    "label": null,
-                    "data_source": null,
-                    "data_key": null,
-                    "rope": null
-                }
-            ],
-            "body": [
-                {
-                    "schema": {
-                        "panel_type": "default",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "device": {
-                                        "type": "string",
-                                        "description": "device id"
-                                    },
-                                    "flowrate": {
-                                        "type": "number",
-                                        "description": "in \u00b5l/s"
-                                    },
-                                    "valve_position": {
-                                        "enum": [
-                                            "Output",
-                                            "Input"
-                                        ],
-                                        "type": "string",
-                                        "default": "Output"
-                                    },
-                                    "plunger_position": {
-                                        "type": "number",
-                                        "description": "in \u00b5l"
-                                    }
-                                }
-                            },
-                            "title": "Pump Motion"
-                        },
-                        "uiSchema": null
-                    },
-                    "key": "pump-motion",
-                    "type": "object",
-                    "source": [],
-                    "title": "Pump Motion",
-                    "attachment": null
-                }
-            ],
-            "compile": [],
-            "header": "ILab Pump",
-            "footer": "Version 0.0.1"
-        }
-    },
-    {
-        "creator": {
-            "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
-        },
         "name": "ILab_ADD",
         "description": "Add Action for IntelliLab",
         "version": "0.0.0",
@@ -783,6 +705,97 @@
                 }
             ],
             "header": "SIAB ORBITALS",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_PumpTransfer",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-09-02T16:17:58.150968+08:00",
+        "updated_at": "2024-09-24T16:05:30.465760+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "volume": {
+                                        "type": "number",
+                                        "order": 3,
+                                        "description": "in \u00b5l"
+                                    },
+                                    "viscous": {
+                                        "type": "boolean",
+                                        "order": 5,
+                                        "description": "is the flow viscous?"
+                                    },
+                                    "flowrate": {
+                                        "type": "number",
+                                        "order": 4,
+                                        "description": "in \u00b5l/s"
+                                    },
+                                    "to_vessel": {
+                                        "type": "string",
+                                        "order": 2,
+                                        "description": "vessel id"
+                                    },
+                                    "from_vessel": {
+                                        "type": "string",
+                                        "order": 1,
+                                        "description": "vessel id"
+                                    }
+                                }
+                            },
+                            "title": "Pump Transfer"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "pump-transfer",
+                    "type": "object",
+                    "source": [
+                        {
+                            "volume": 25,
+                            "viscous": false,
+                            "flowrate": 1,
+                            "to_vessel": "flaskB",
+                            "from_vessel": "flaskA"
+                        }
+                    ],
+                    "title": "Pump Transfer",
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab PumpTransfer",
             "footer": "Version 0.0.1"
         }
     }

@@ -1,0 +1,22 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "from_vessel": {
+        "type": "string",
+        "description": "vessel id",
+        "order": 1
+      },
+      "to_vessel": { "type": "string", "description": "vessel id", "order": 2 },
+      "volume": { "type": "number", "description": "in µl", "order": 3 },
+      "flowrate": { "type": "number", "description": "in µl/s", "order": 4 },
+      "viscous": {
+        "type": "boolean",
+        "description": "is the flow viscous?",
+        "order": 5
+      }
+    }
+  },
+  "title": "Pump Transfer"
+}

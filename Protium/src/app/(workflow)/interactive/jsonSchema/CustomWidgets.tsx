@@ -21,6 +21,19 @@ export const DefaultTextWidget: React.FC<WidgetProps> = (props) => {
   );
 };
 
+export const DefaultCheckboxWidget: React.FC<WidgetProps> = (props) => {
+  console.log(props)
+  return (
+    <input
+      type="checkbox"
+      className="form-checkbox h-4 w-4 "
+      checked={props.value}
+      required={props.required}
+      onChange={(event) => props.onChange(event.target.checked)}
+    />
+  );
+}
+
 export const DefaultTextareaWidget: React.FC<WidgetProps> = (props) => {
   return (
     <textarea
@@ -75,7 +88,7 @@ const widgets: RegistryWidgetsType = {
   TextWidget: DefaultTextWidget,
   TextareaWidget: DefaultTextareaWidget,
   SelectWidget: DefaultSelectWidget,
-  // CheckboxWidget: CustomCheckbox,
+  CheckboxWidget: DefaultCheckboxWidget,
 };
 
 export default widgets;

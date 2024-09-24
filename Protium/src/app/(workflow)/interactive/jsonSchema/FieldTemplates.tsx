@@ -71,8 +71,6 @@ export function DefaultFieldTemplate(props: FieldTemplateProps) {
 export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
   const { schema, title, items, formData, onAddClick } = props;
 
-  console.log('ArrayFieldTemplate', props);
-
   const [minimized, setMinimized] = useState<string[]>([]);
 
   const handleMinimizeOrExpand = (key: string) => {

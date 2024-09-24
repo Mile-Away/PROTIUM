@@ -22,6 +22,7 @@ import { JsonSchemaThemedForm } from './jsonSchema/JsonSchemaThemed';
 import Editors from './Editor';
 
 import { InteractivePanelProps } from '@/@types/interactive';
+import reorderProperties from '@/lib/reorderSchema';
 
 const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
   const { id, open, setOpen, data, idx, tabItems } = props;
@@ -114,7 +115,7 @@ const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className=" flex h-full flex-col ">
-                          <TabGroup as='div' className="h-full">
+                          <TabGroup as="div" className="h-full">
                             <TabList className="flex gap-4">
                               {tabItems.map((item) => (
                                 <Tab
@@ -129,9 +130,9 @@ const InteractivePanel: React.FC<InteractivePanelProps> = (props) => {
                               {tabItems.map((item) => (
                                 <div key={item.name}>
                                   {item.jsonSchema ? (
-                                    <TabPanel className="rounded-md p-4 h-full w-full bg-white/2.5">
+                                    <TabPanel className="h-full w-full rounded-md bg-white/2.5 p-4">
                                       <JsonSchemaThemedForm
-                                        schema={item.jsonSchema.schema}
+                                        schema={reorderProperties(item.jsonSchema.schema)}
                                         uiSchema={item.jsonSchema.uiSchema}
                                         validator={validator}
                                         formData={data.body[idx]?.source || ''}

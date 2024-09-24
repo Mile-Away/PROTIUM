@@ -199,9 +199,9 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
       },
       {
         action: 'pump',
-        label: 'Pump',
+        label: 'Pump Transfer',
         icon: PlusIcon,
-        onClick: () => handleMenuItemClick('ILab_Pump'),
+        onClick: () => handleMenuItemClick('ILab_PumpTransfer'),
       },
     ],
   },

@@ -60,7 +60,16 @@ class BaseNodeDataHandleModel(models.Model):
 
 class BaseNodeDataBodyModel(models.Model):
     id: int
-    key = models.CharField(max_length=100)
+    key = models.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=r"^[a-zA-Z0-9-]+$",
+                message="Name can only contain letters, numbers, and hyphens. underscores is not allowed.",
+            ),
+        ],
+        help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线",
+    )
     type = models.CharField(max_length=50)
 
     # Optional
@@ -77,7 +86,16 @@ class BaseNodeDataCompileModel(models.Model):
 
     type_chocies = (("File", "File"),)
 
-    key = models.CharField(max_length=100)
+    key = models.CharField(
+        max_length=100,
+        validators=[
+            RegexValidator(
+                regex=r"^[a-zA-Z0-9-]+$",
+                message="Name can only contain letters, numbers, and hyphens. underscores is not allowed.",
+            ),
+        ],
+        help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线",
+    )
     script = models.CharField(max_length=100)
     type = models.CharField(max_length=50)
 

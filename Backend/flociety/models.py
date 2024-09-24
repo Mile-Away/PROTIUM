@@ -23,6 +23,9 @@ class WorkflowTemplateLibrary(models.Model):
     # 用于工作流模版展示封面
     cover = models.FileField(blank=True, null=True, upload_to=workflow_cover_path)
 
+    created_at = models.DateTimeField(auto_now_add=True)  # 发布为模版的时间
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self) -> str:
         return f"{self.workflow}"
 
