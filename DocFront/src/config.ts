@@ -7,4 +7,4 @@ export {
   PrimarySite,
   WS_URL,
   WorkflowSite,
-} from '../../Frontend/src/config';
+} from '../../Protium/src/config';
