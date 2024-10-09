@@ -215,7 +215,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         # "rest_framework.authentication.SessionAuthentication",
         "accounts.authentication.APITokenAuthentication",  # Need to be the first
-        "accounts.authentication.BohriumAppTokenAuthentication",
+        # "accounts.authentication.BohriumAppTokenAuthentication",
         "accounts.authentication.JWTCookieAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
