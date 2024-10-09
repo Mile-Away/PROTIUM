@@ -214,7 +214,8 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
     "DEFAULT_AUTHENTICATION_CLASSES": (
         # "rest_framework.authentication.SessionAuthentication",
-        "accounts.authentication.APITokenAuthentication",  # Add this line
+        "accounts.authentication.APITokenAuthentication",  # Need to be the first
+        "accounts.authentication.BohriumAppTokenAuthentication",
         "accounts.authentication.JWTCookieAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),

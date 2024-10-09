@@ -43,7 +43,7 @@ class JWTSetCookieMixin:
             response.set_cookie(
                 settings.SIMPLE_JWT["ACCESS_TOKEN_COOKIE_NAME"],
                 response.data["access"],
-                domain=settings.SIMPLE_JWT["JWT_COOKIE_DOMAIN"],  # `domain`属性可以限制 cookie 只能发送到指定域名
+                domain=settings.SIMPLE_JWT["JWT_COOKIE_DOMAIN"],  # `domain`限制 cookie 只能发送到指定域名
                 max_age=settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
                 samesite=settings.SIMPLE_JWT["JWT_COOKIE_SAMESITE"],
                 secure=settings.SIMPLE_JWT["JWT_COOKIE_SECURE"],
@@ -410,6 +410,7 @@ class RegisterView(APIView):
                             status=status.HTTP_401_UNAUTHORIZED,
                         )
 
+        # 未找到 Authorization 头，说明是普通注册
         except KeyError:
             (email, username, password, captcha, captcha_id) = (
                 request.data.get("email"),
