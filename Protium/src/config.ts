@@ -7,7 +7,8 @@ enum Environment {
   Protium = 'Protium',
 }
 
-export const ENV: Environment = Environment.Protium;
+export const ENV: Environment =
+  (process.env.ENV as Environment) || Environment.Protium;
 
 export const IS_CLIENT = typeof window !== 'undefined';
 
