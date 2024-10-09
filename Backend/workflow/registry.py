@@ -6,6 +6,7 @@ from .nodes.AbacusInputExecutor import AbacusInputExecutor
 from .nodes.AbacusSiabExecutor import AbacusSiabExecutor
 from .nodes.AbacusSystemExecutor import AbacusSystemExecutor
 from .nodes.ILabGraspExecutor import ILabGraspExecutor
+from .nodes.ILabPumpTransferExecutor import ILabPumpTransferExecutor
 from .nodes.IncarNodeExecutor import IncarNodeExecutor
 from .nodes.KpointsNodeExecutor import KpointsNodeExecutor
 from .nodes.OrbitalsNodeExecutor import OribitalNodeExecutor
@@ -33,6 +34,7 @@ class NodeExecutorRegistry:
             "siab_system": AbacusSystemExecutor,
             "siab_orbitals": OribitalNodeExecutor,
             "ilab_grasp": ILabGraspExecutor,
+            "ilab_pump_transfer": ILabPumpTransferExecutor,
         }
 
     def register(self, node_type, executor):

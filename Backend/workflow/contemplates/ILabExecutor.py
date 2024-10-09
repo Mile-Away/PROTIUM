@@ -30,7 +30,7 @@ class ILabExecutor(NodeExecutor, ABC):
     # 轮询设备状态
     async def poll_device_status(self, device: str):
         while True:
-            res = requests.get(f"{settings.ILAB_HOST}/api/v1/devices/{self.job_id}/status/")
+            res = requests.get(f"{settings.ILAB_HOST}/api/v1/job/{self.job_id}/status/")
             await asyncio.sleep(1)
             data = res.json().get("data")
             message = res.json().get("message")

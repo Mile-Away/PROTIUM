@@ -3,26 +3,41 @@ import Loading from '@/app/loading';
 import { UserInfoButton } from '@/components/UserInfoButton';
 import { useDictCRUD } from '@/hooks/useCrud';
 import useWorkflowWebSocket from '@/services/workflowService';
-import {
-  InboxArrowDownIcon,
-  PencilIcon,
-  StarIcon,
-} from '@heroicons/react/24/outline';
+import { InboxArrowDownIcon, StarIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Menu, MenuButton } from '@headlessui/react';
+
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import clsx from 'clsx';
 import { PostProps } from '../WorkflowPost';
 import TempReactFlow from './TempReactFlow';
+import { useRouter } from 'next/navigation';
 
 export default function Page({ params }: { params: { uuid: string } }) {
   //   const [workflow, setWorkflow] = useState<WorkflowProps | null>(null);
   const {} = useWorkflowWebSocket(params);
+  const jwtAxios = createAxiosWithInterceptors();
+  const router = useRouter();
   const [post, setPost] = useState<PostProps>();
+  const [stared, setStared] = useState(false);
 
   const { fetchData, dataCRUD } = useDictCRUD(
     {} as PostProps,
     `/flociety/workflow/${params.uuid}/`,
   );
+
+  const onFork = async () => {
+    try {
+      const res = await jwtAxios.post(`/flociety/workflow/${params.uuid}/fork/`);
+      if (res.status === 201) {
+        window.open(`/workflow/${res.data.uuid}/`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    console.log('fork');
+  };
 
   useEffect(() => {
     fetchData();
@@ -33,8 +48,6 @@ export default function Page({ params }: { params: { uuid: string } }) {
       setPost(dataCRUD);
     }
   }, [dataCRUD]);
-
-  console.log(dataCRUD);
 
   if (!post) {
     return <Loading />;
@@ -55,14 +68,28 @@ export default function Page({ params }: { params: { uuid: string } }) {
               username={post.workflow.creator.username}
             />
             <div className="flex gap-4 rounded p-2">
-              <button className="rounded px-2 py-1 hover:bg-neutral-100 dark:hover:bg-white/10">
-                <StarIcon className="size-5" />
+              <button
+                type="button"
+                onClick={() => setStared(!stared)}
+                className="rounded px-2 py-1 hover:bg-neutral-100 dark:hover:bg-white/10"
+              >
+                <StarIcon
+                  className={clsx(
+                    'size-5',
+                    stared ? 'fill-yellow-400 text-yellow-400' : 'text-white',
+                  )}
+                />
               </button>
               <Menu
                 as="div"
                 className=" rounded px-2 py-1 hover:bg-neutral-100 dark:hover:bg-white/10"
               >
-                <MenuButton as="div" className=" flex w-fit ">
+                <MenuButton
+                  name="fork"
+                  as="button"
+                  className="flex w-fit"
+                  onClick={onFork}
+                >
                   <InboxArrowDownIcon className="size-5 text-white" />
                 </MenuButton>
                 {/* <MenuItems transition anchor="bottom end">

@@ -234,13 +234,13 @@ class WorkflowSerializer(serializers.ModelSerializer):
                     defaults=body,
                 )
 
-            for result in node_compile:
-                result_bodies = result.pop("bodies", [])
+            for compile in node_compile:
+                result_bodies = compile.pop("bodies", [])
 
                 Result, _ = WorkflowNodeCompile.objects.update_or_create(
-                    uuid=result["uuid"],
+                    uuid=compile["uuid"],
                     node=Node_Data,
-                    defaults=result,
+                    defaults=compile,
                 )
                 for body_key in result_bodies:
                     try:
