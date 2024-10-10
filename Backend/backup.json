@@ -358,12 +358,12 @@
                     "key": "ilab-set-temp",
                     "type": "object",
                     "source": null,
-                    "title": "SETTEMP",
+                    "title": "Set Temp",
                     "attachment": null
                 }
             ],
             "compile": [],
-            "header": "ILab_SetTemp",
+            "header": "ILab Set Temp",
             "footer": "Version 0.0.1"
         }
     },
