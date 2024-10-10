@@ -217,6 +217,9 @@ class WorkflowTemplateForkView(APIView):
                     )
 
                 for compile in node.node_data.compile.all():
+
+                    print("》〉》〉》〉》〉》〉》正在处理：", node.node_data.header)
+                    print("》〉》〉》〉》〉》〉》正在处理：", compile)
                     compile_bodies = model_to_dict(compile).pop("bodies")
 
                     Compile, _ = WorkflowNodeCompile.objects.update_or_create(
@@ -229,7 +232,6 @@ class WorkflowTemplateForkView(APIView):
                     )
 
                     for body_key in compile_bodies:
-
                         try:
                             body = WorkflowNodeBody.objects.get(node=Node_Data, key=body_key)
                             Compile.bodies.add(body)

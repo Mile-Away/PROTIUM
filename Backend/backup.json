@@ -272,19 +272,7 @@
                     "attachment": null
                 }
             ],
-            "compile": [
-                {
-                    "id": 5,
-                    "key": "ilab-grasp",
-                    "script": "ilab_grasp",
-                    "type": "object",
-                    "source": "",
-                    "title": null,
-                    "attachment": null,
-                    "node_id": 6,
-                    "bodies": []
-                }
-            ],
+            "compile": [],
             "header": "ILab Grasp",
             "footer": "Version 0.0.1"
         }
@@ -716,21 +704,7 @@
                     "attachment": null
                 }
             ],
-            "compile": [
-                {
-                    "id": 6,
-                    "key": "ilab-pump-transfer",
-                    "script": "ilab_pump_transfer",
-                    "type": "object",
-                    "source": "",
-                    "title": null,
-                    "attachment": null,
-                    "node_id": 7,
-                    "bodies": [
-                        "pump-transfer"
-                    ]
-                }
-            ],
+            "compile": [],
             "header": "ILab Pump Transfer",
             "footer": "Version 0.0.1"
         }
