@@ -190,6 +190,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
     label: 'IntelliLab',
     icon: CodeBracketIcon,
     arrow: true,
+
     subContextMenuItems: [
       {
         action: 'grasp',
@@ -198,10 +199,65 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         onClick: () => handleMenuItemClick('ILab_Grasp'),
       },
       {
-        action: 'pump',
-        label: 'Pump Transfer',
+        action: 'liquid_handling',
+        label: 'Liquid Handling',
         icon: PlusIcon,
-        onClick: () => handleMenuItemClick('ILab_PumpTransfer'),
+        arrow: true,
+        subContextMenuItems: [
+          {
+            action: 'add',
+            label: 'Add',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_Add'),
+          },
+          {
+            action: 'separate',
+            label: 'Separate',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_Separate'),
+          },
+
+          {
+            action: 'transfer',
+            label: 'Transfer',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_PumpTransfer'),
+          },
+        ],
+      },
+      {
+        action: 'stirring',
+        label: 'Stirring',
+        icon: PlusIcon,
+        arrow: true,
+        subContextMenuItems: [
+          {
+            action: 'stir',
+            label: 'Stir',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_Stir'),
+          },
+        ],
+      },
+      {
+        action: 'temperature_control',
+        label: 'Temperature Control',
+        icon: PlusIcon,
+        arrow: true,
+        subContextMenuItems: [
+          {
+            action: 'heating',
+            label: 'Heating',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_SetTemp'),
+          },
+          {
+            action: 'cooling',
+            label: 'Cooling',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_SetTemp'),
+          },
+        ],
       },
     ],
   },
@@ -268,5 +324,5 @@ export const sideContextMenuItems: ContextMenuItemProps[] = [
     label: 'Export',
     icon: ArrowUpOnSquareIcon,
     arrow: false,
-  }
+  },
 ];

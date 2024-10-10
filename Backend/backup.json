@@ -294,84 +294,6 @@
             "username": "PROTIUM",
             "avatar": "/media/accounts/default_avatar.png"
         },
-        "name": "ILab_ADD",
-        "description": "Add Action for IntelliLab",
-        "version": "0.0.0",
-        "created_at": "2024-09-19T19:51:44.102735+08:00",
-        "updated_at": "2024-09-19T19:51:44.102750+08:00",
-        "public": true,
-        "type": "ILab",
-        "data": {
-            "handles": [
-                {
-                    "key": "ready",
-                    "type": "source",
-                    "label": null,
-                    "data_source": null,
-                    "data_key": null,
-                    "rope": null
-                },
-                {
-                    "key": "ready",
-                    "type": "target",
-                    "label": null,
-                    "data_source": null,
-                    "data_key": null,
-                    "rope": null
-                }
-            ],
-            "body": [
-                {
-                    "schema": {
-                        "panel_type": "default",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "x": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    },
-                                    "y": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    },
-                                    "z": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    },
-                                    "device": {
-                                        "type": "string",
-                                        "description": "device id"
-                                    },
-                                    "gripper_distance": {
-                                        "type": "number",
-                                        "description": "in mm"
-                                    }
-                                }
-                            },
-                            "title": "Movement Endpoints"
-                        },
-                        "uiSchema": null
-                    },
-                    "key": "ilab-add",
-                    "type": "object",
-                    "source": null,
-                    "title": "ADD",
-                    "attachment": null
-                }
-            ],
-            "compile": [],
-            "header": "ILab ADD",
-            "footer": "0.0.1"
-        }
-    },
-    {
-        "creator": {
-            "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
-        },
         "name": "ILab_SetTemp",
         "description": "",
         "version": "0.0.0",
@@ -407,29 +329,29 @@
                             "items": {
                                 "type": "object",
                                 "properties": {
-                                    "x": {
-                                        "type": "number",
-                                        "description": "in mm"
+                                    "stir": {
+                                        "type": "boolean",
+                                        "description": "Optional. If True, stir while heating or chilling."
                                     },
-                                    "y": {
+                                    "temp": {
                                         "type": "number",
-                                        "description": "in mm"
+                                        "description": "Temperature to heat or chill vessel to."
                                     },
-                                    "z": {
+                                    "time": {
                                         "type": "number",
-                                        "description": "in mm"
+                                        "description": "Time to heat or chill vessel for."
                                     },
-                                    "device": {
+                                    "vessel": {
                                         "type": "string",
-                                        "description": "device id"
+                                        "description": "Vessel to heat or chill."
                                     },
-                                    "gripper_distance": {
+                                    "stir_speed": {
                                         "type": "number",
-                                        "description": "in mm"
+                                        "description": "Optional. Speed in RPM at which to stir at if stir is True."
                                     }
                                 }
                             },
-                            "title": "Movement Endpoints"
+                            "title": "Heating or Chilling Process"
                         },
                         "uiSchema": null
                     },
@@ -717,7 +639,7 @@
         "description": "",
         "version": "0.0.1",
         "created_at": "2024-09-02T16:17:58.150968+08:00",
-        "updated_at": "2024-09-24T16:05:30.465760+08:00",
+        "updated_at": "2024-10-10T16:16:54.660461+08:00",
         "public": true,
         "type": "ILab",
         "data": {
@@ -794,9 +716,345 @@
                     "attachment": null
                 }
             ],
-            "compile": [],
-            "header": "ILab PumpTransfer",
+            "compile": [
+                {
+                    "id": 6,
+                    "key": "ilab-pump-transfer",
+                    "script": "ilab_pump_transfer",
+                    "type": "object",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 7,
+                    "bodies": [
+                        "pump-transfer"
+                    ]
+                }
+            ],
+            "header": "ILab Pump Transfer",
             "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_Add",
+        "description": "Add Action for IntelliLab",
+        "version": "0.0.0",
+        "created_at": "2024-09-19T19:51:44.102735+08:00",
+        "updated_at": "2024-10-10T16:21:02.726753+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "mass": {
+                                        "type": "number",
+                                        "description": "Optional. Mass of reagent to add."
+                                    },
+                                    "stir": {
+                                        "type": "boolean",
+                                        "description": "Optional. If True, stir vessel while adding reagent."
+                                    },
+                                    "time": {
+                                        "type": "number",
+                                        "description": "Optional. Time to add reagent over."
+                                    },
+                                    "amount": {
+                                        "type": "string",
+                                        "description": "Optional. amount of reagent to add in moles, grams or equivalents. Sanitisation occurs on call of on_prepare_for_execution for this prop. This will change in future."
+                                    },
+                                    "vessel": {
+                                        "type": "string",
+                                        "description": "Vessel to add reagent to."
+                                    },
+                                    "volume": {
+                                        "type": "number",
+                                        "description": "Optional. Volume of reagent to add."
+                                    },
+                                    "reagent": {
+                                        "type": "string",
+                                        "description": "Reagent to add."
+                                    },
+                                    "viscous": {
+                                        "type": "boolean",
+                                        "description": "Optional. If True, adapt process to handle viscous reagent, e.g. use slower addition speeds."
+                                    },
+                                    "dropwise": {
+                                        "type": "boolean",
+                                        "description": "Optional. If True, use dropwise addition speed."
+                                    },
+                                    "stir_speed": {
+                                        "type": "number",
+                                        "description": "Optional. Speed in RPM at which to stir at if stir is True."
+                                    }
+                                }
+                            },
+                            "title": "Reagent Addition Properties"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-add",
+                    "type": "object",
+                    "source": [
+                        {
+                            "mass": 0.0,
+                            "stir": false,
+                            "time": 0.0,
+                            "amount": "0 moles",
+                            "vessel": "vessel_1",
+                            "volume": 0.0,
+                            "reagent": "reagent_1",
+                            "viscous": false,
+                            "dropwise": false,
+                            "stir_speed": 0.0
+                        }
+                    ],
+                    "title": "Add",
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab ADD",
+            "footer": "0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_Separate",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-10T16:40:07.490525+08:00",
+        "updated_at": "2024-10-10T16:40:07.490536+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "purpose",
+                                    "product_phase",
+                                    "from_vessel",
+                                    "separation_vessel",
+                                    "to_vessel"
+                                ],
+                                "properties": {
+                                    "purpose": {
+                                        "type": "string",
+                                        "description": "'wash' or 'extract'"
+                                    },
+                                    "repeats": {
+                                        "type": "number",
+                                        "description": "Number of separations"
+                                    },
+                                    "solvent": {
+                                        "type": "string",
+                                        "description": "Solvent"
+                                    },
+                                    "through": {
+                                        "type": "string",
+                                        "description": "Solid chemical"
+                                    },
+                                    "stir_time": {
+                                        "type": "number",
+                                        "description": "Stir time"
+                                    },
+                                    "to_vessel": {
+                                        "type": "string",
+                                        "description": "Destination vessel"
+                                    },
+                                    "stir_speed": {
+                                        "type": "number",
+                                        "description": "Stir speed"
+                                    },
+                                    "from_vessel": {
+                                        "type": "string",
+                                        "description": "Source vessel"
+                                    },
+                                    "product_phase": {
+                                        "type": "string",
+                                        "description": "'top' or 'bottom'"
+                                    },
+                                    "settling_time": {
+                                        "type": "number",
+                                        "description": "Settling time"
+                                    },
+                                    "solvent_volume": {
+                                        "type": "number",
+                                        "description": "Volume of solvent"
+                                    },
+                                    "separation_vessel": {
+                                        "type": "string",
+                                        "description": "Separation vessel"
+                                    },
+                                    "waste_phase_to_vessel": {
+                                        "type": "string",
+                                        "description": "Waste vessel"
+                                    }
+                                }
+                            },
+                            "title": "Separation Process"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-separate",
+                    "type": "object",
+                    "source": [
+                        {
+                            "purpose": "extract",
+                            "repeats": 2,
+                            "solvent": "hexane",
+                            "through": "celite",
+                            "stir_time": 10.0,
+                            "to_vessel": "vessel_3",
+                            "stir_speed": 300.0,
+                            "from_vessel": "vessel_1",
+                            "product_phase": "top",
+                            "settling_time": 15.0,
+                            "solvent_volume": 50.0,
+                            "separation_vessel": "vessel_2",
+                            "waste_phase_to_vessel": "vessel_4"
+                        }
+                    ],
+                    "title": "ILab Separate",
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Separate",
+            "footer": "0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_Stir",
+        "description": "Stir vessel for given time.",
+        "version": "0.0.0",
+        "created_at": "2024-10-10T16:49:00.413666+08:00",
+        "updated_at": "2024-10-10T16:49:00.413676+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "time": {
+                                        "type": "number",
+                                        "description": "Time to stir vessel for."
+                                    },
+                                    "vessel": {
+                                        "type": "string",
+                                        "description": "Vessel to stir."
+                                    },
+                                    "purpose": {
+                                        "type": "string",
+                                        "description": "Optional. Purpose of stirring. Can be None or 'dissolve'. If None, assumed stirring is just to mix reagents."
+                                    },
+                                    "stir_speed": {
+                                        "type": "number",
+                                        "description": "Optional. Speed in RPM at which to stir at."
+                                    },
+                                    "continue_stirring": {
+                                        "type": "boolean",
+                                        "description": "Optional. If True, leave stirring on at end of step. Otherwise stop stirring at end of step."
+                                    }
+                                }
+                            },
+                            "title": "Stirring Process"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-stir",
+                    "type": "object",
+                    "source": null,
+                    "title": "ILab Stir",
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Stir",
+            "footer": "Version 0.0.0"
         }
     }
 ]

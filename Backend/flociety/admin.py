@@ -17,7 +17,7 @@ class WorkflowTemplateLibraryAdmin(admin.ModelAdmin):
 
 
 class NodeTemplateLibraryAdmin(admin.ModelAdmin):
-    list_display = ("name", "version", "creator", "created_at", "updated_at")
+    list_display = ("name", "version", "creator", "created_at", "type")
     list_filter = ("name", "version", "creator", "created_at", "updated_at")
     search_fields = ("name", "version", "creator")
 

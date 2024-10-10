@@ -3,20 +3,47 @@
   "items": {
     "type": "object",
     "properties": {
-      "from_vessel": {
+      "vessel": {
         "type": "string",
-        "description": "vessel id",
-        "order": 1
+        "description": "Vessel to add reagent to."
       },
-      "to_vessel": { "type": "string", "description": "vessel id", "order": 2 },
-      "volume": { "type": "number", "description": "in µl", "order": 3 },
-      "flowrate": { "type": "number", "description": "in µl/s", "order": 4 },
+      "reagent": {
+        "type": "string",
+        "description": "Reagent to add."
+      },
+      "volume": {
+        "type": "number",
+        "description": "Optional. Volume of reagent to add."
+      },
+      "mass": {
+        "type": "number",
+        "description": "Optional. Mass of reagent to add."
+      },
+      "amount": {
+        "type": "string",
+        "description": "Optional. amount of reagent to add in moles, grams or equivalents. Sanitisation occurs on call of on_prepare_for_execution for this prop. This will change in future."
+      },
+      "dropwise": {
+        "type": "boolean",
+        "description": "Optional. If True, use dropwise addition speed."
+      },
+      "time": {
+        "type": "number",
+        "description": "Optional. Time to add reagent over."
+      },
+      "stir": {
+        "type": "boolean",
+        "description": "Optional. If True, stir vessel while adding reagent."
+      },
+      "stir_speed": {
+        "type": "number",
+        "description": "Optional. Speed in RPM at which to stir at if stir is True."
+      },
       "viscous": {
         "type": "boolean",
-        "description": "is the flow viscous?",
-        "order": 5
+        "description": "Optional. If True, adapt process to handle viscous reagent, e.g. use slower addition speeds."
       }
     }
   },
-  "title": "Pump Transfer"
+  "title": "Reagent Addition Properties"
 }
