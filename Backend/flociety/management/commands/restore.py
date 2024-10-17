@@ -66,12 +66,14 @@ class Command(BaseCommand):
                             attachment=body.get("attachment"),
                         )
                         schema = body.pop("schema")
-                        NodeBodySchemaTemplate.objects.create(
-                            body=body_instance,
-                            panel_type=schema["panel_type"],
-                            schema=schema["schema"],
-                            uiSchema=schema.get("uiSchema"),
-                        )
+
+                        if schema:
+                            NodeBodySchemaTemplate.objects.create(
+                                body=body_instance,
+                                panel_type=schema["panel_type"],
+                                schema=schema["schema"],
+                                uiSchema=schema.get("uiSchema"),
+                            )
 
                     # Create NodeDataCompileTemplate
                     for compile_item in node_data["compile"]:
