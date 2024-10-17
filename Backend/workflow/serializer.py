@@ -1,9 +1,6 @@
 from accounts.public_serializer import BasicUserSerializer
 from flociety.models import NodeTemplateLibrary
-
-from flociety.serializers import NodeBodySchemaTemplateSerializer, NodeDataBodyTemplate
-
-
+from flociety.serializers import NodeBodySchemaTemplate, NodeBodySchemaTemplateSerializer, NodeDataBodyTemplate
 from rest_framework import serializers
 
 from .models import (
@@ -26,7 +23,7 @@ class WorkflowNodeHandleSerializer(serializers.ModelSerializer):
 
 
 class WorkflowNodeBodySerializer(serializers.ModelSerializer):
-    schema = serializers.SerializerMethodField(read_only=True)
+    schema = serializers.SerializerMethodField(read_only=True, required=False)
     uuid = serializers.UUIDField()
 
     class Meta:
@@ -34,9 +31,14 @@ class WorkflowNodeBodySerializer(serializers.ModelSerializer):
         exclude = ["id", "node"]
 
     def get_schema(self, obj: WorkflowNodeBody):
-        schema = NodeDataBodyTemplate.objects.get(node=obj.node.node.template.node_data, key=obj.key).schema
 
-        return NodeBodySchemaTemplateSerializer(schema).data
+        body_template = NodeDataBodyTemplate.objects.get(node=obj.node.node.template.node_data, key=obj.key)
+        try:
+            schema = body_template.schema
+            return NodeBodySchemaTemplateSerializer(schema).data
+        # 如果 body_template 没有 schema，那么就返回 None
+        except NodeBodySchemaTemplate.DoesNotExist:
+            return None
 
     def to_internal_value(self, data):
         if "id" in data:
@@ -53,6 +55,7 @@ class WorkflowNodeCompileSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
     bodies = serializers.ListField(child=serializers.CharField())
     script = serializers.CharField(required=False)
+    type = serializers.CharField()
 
     class Meta:
         model = WorkflowNodeBody

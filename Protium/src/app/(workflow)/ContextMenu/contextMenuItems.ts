@@ -26,25 +26,25 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
             action: 'poscar',
             label: 'POSCAR',
             icon: PlusIcon,
-            onClick: () => handleMenuItemClick('poscar'),
+            onClick: () => handleMenuItemClick('POSCAR'),
           },
-          {
-            action: 'potcar',
-            label: 'POTCAR',
-            icon: PlusIcon,
-            onClick: () => handleMenuItemClick('potcar'),
-          },
+          // {
+          //   action: 'potcar',
+          //   label: 'POTCAR',
+          //   icon: PlusIcon,
+          //   onClick: () => handleMenuItemClick('potcar'),
+          // },
           {
             action: 'incar',
             label: 'INCAR',
             icon: PlusIcon,
-            onClick: () => handleMenuItemClick('incar'),
+            onClick: () => handleMenuItemClick('INCAR'),
           },
           {
             action: 'kpoints',
             label: 'KPOINTS',
             icon: PlusIcon,
-            onClick: () => handleMenuItemClick('kpoints'),
+            onClick: () => handleMenuItemClick('KPOINTS'),
           },
         ],
       },
@@ -151,13 +151,13 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         action: 'vasp',
         label: 'VASP',
         icon: VASPIcon,
-        onClick: () => handleMenuItemClick('vasp'),
+        onClick: () => handleMenuItemClick('VASP'),
       },
       {
         action: 'abacus',
         label: 'ABACUS',
         icon: ABACUSIcon,
-        onClick: () => handleMenuItemClick('abacus'),
+        onClick: () => handleMenuItemClick('ABACUS'),
       },
       {
         action: 'ABACUS_SIAB',
@@ -198,6 +198,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         icon: PlusIcon,
         onClick: () => handleMenuItemClick('ILab_Grasp'),
       },
+      
       {
         action: 'liquid_handling',
         label: 'Liquid Handling',
@@ -232,10 +233,22 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         arrow: true,
         subContextMenuItems: [
           {
+            action: 'start_stir',
+            label: 'Start Stir',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_StartStir'),
+          },
+          {
             action: 'stir',
             label: 'Stir',
             icon: PlusIcon,
             onClick: () => handleMenuItemClick('ILab_Stir'),
+          },
+          {
+            action: 'stop_stir',
+            label: 'Stop Stir',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_StopStir'),
           },
         ],
       },
@@ -246,19 +259,38 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         arrow: true,
         subContextMenuItems: [
           {
-            action: 'heating',
-            label: 'Heating',
+            action: 'start_tempctl',
+            label: 'Start Temp Control',
+            icon: PlusIcon,
+            onClick: () => handleMenuItemClick('ILab_StartSetTemp'),
+          },
+          {
+            action: 'temp_control',
+            label: 'Temp Control',
             icon: PlusIcon,
             onClick: () => handleMenuItemClick('ILab_SetTemp'),
           },
           {
-            action: 'cooling',
-            label: 'Cooling',
+            action: 'stop_tempctl',
+            label: 'Stop Temp Control',
             icon: PlusIcon,
-            onClick: () => handleMenuItemClick('ILab_SetTemp'),
+            onClick: () => handleMenuItemClick('ILab_StopSetTemp'),
           },
         ],
       },
+      {
+        action: 'clean',
+        label: 'Clean',
+        icon: PlusIcon,
+        onClick: () => handleMenuItemClick('ILab_Clean'),
+      },
+      {
+        action: 'evaporate',
+        label: 'Evaporate',
+        icon: PlusIcon,
+        onClick: () => handleMenuItemClick('ILab_Evaporate'),
+      }
+      
     ],
   },
   // {

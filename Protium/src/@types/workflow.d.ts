@@ -19,8 +19,9 @@ export interface WorkflowNodeDataHandlesProps {
 
 export interface WorkflowNodeDataBodyProps {
   id: string;
-  type: 'input' | 'select' | 'textarea' | 'file' | 'object';
   key: string;
+  type: 'DEFAULT' | 'FILE' | 'TEXTAREA' | 'SELECT';
+  select_choices?: { name: string; value: string }[];
   source: string | object;
   compile?: string[]; // 记录这个 Body 运行的 Result 的 key
   title?: string;

@@ -61,7 +61,8 @@
                         }
                     },
                     "key": "abacus-input",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "ABACUS INPUT",
                     "source": {
                         "ecutwfc": 60,
                         "pseudo_dir": "/root/abacus-develop/pseudopotentials/sg15_oncv_upf_2020-02-06/1.0",
@@ -76,7 +77,7 @@
                         ],
                         "bessel_nao_smooth": 0
                     },
-                    "title": "ABACUS INPUT",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -85,7 +86,7 @@
                     "id": 1,
                     "key": "abacus-input",
                     "script": "abacus_input",
-                    "type": "file",
+                    "type": "Artifact",
                     "source": "",
                     "title": "ABACUS INPUT",
                     "attachment": null,
@@ -159,7 +160,8 @@
                         "uiSchema": null
                     },
                     "key": "siab-system",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "SIAB SYSTEM",
                     "source": {
                         "nspin": 1,
                         "shape": "dimer",
@@ -168,7 +170,7 @@
                             8
                         ]
                     },
-                    "title": "SIAB SYSTEM",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -177,7 +179,7 @@
                     "id": 3,
                     "key": "siab-system",
                     "script": "siab_system",
-                    "type": "file",
+                    "type": "Artifact",
                     "source": "",
                     "title": "SIAB SYSTEM",
                     "attachment": null,
@@ -258,7 +260,8 @@
                         "uiSchema": null
                     },
                     "key": "grasp-steps",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "Grasp Steps",
                     "source": [
                         {
                             "x": 0,
@@ -268,7 +271,7 @@
                             "gripper_distance": 0
                         }
                     ],
-                    "title": "Grasp Steps",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -344,9 +347,10 @@
                         "uiSchema": null
                     },
                     "key": "ilab-set-temp",
-                    "type": "object",
-                    "source": null,
+                    "type": "DEFAULT",
                     "title": "Set Temp",
+                    "source": null,
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -452,7 +456,8 @@
                         "uiSchema": null
                     },
                     "key": "abacus-siab",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "SIAB Config",
                     "source": {
                         "jY_type": "reduced",
                         "max_steps": 1000,
@@ -467,7 +472,7 @@
                         "nthreads_rcut": 4,
                         "abacus_command": "abacus"
                     },
-                    "title": "SIAB Config",
+                    "select_choices": null,
                     "attachment": null
                 },
                 {
@@ -501,7 +506,8 @@
                         "uiSchema": null
                     },
                     "key": "bohrium-job-config",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "Bohrium Job Config",
                     "source": {
                         "command": "/opt/mamba/envs/orbgen/bin/python /root/deepmodeling/abacus_orbital_generation/SIAB/SIAB_nouvelle.py -i SIAB_INPUT.json 2>abacus_std.err",
                         "job_name": "abacus_siab",
@@ -509,7 +515,7 @@
                         "machine_type": "c16_m32_cpu",
                         "image_address": "registry.dp.tech/dptech/prod-16047/apns:orbgen"
                     },
-                    "title": "Bohrium Job Config",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -518,7 +524,7 @@
                     "id": 2,
                     "key": "abacus-siab",
                     "script": "abacus_siab",
-                    "type": "task",
+                    "type": "Artifact",
                     "source": "",
                     "title": "ABACUS SIAB",
                     "attachment": null,
@@ -588,14 +594,15 @@
                         "uiSchema": null
                     },
                     "key": "siab-orbitals",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "SIAB ORBITALS",
                     "source": {
                         "shape": "dimer",
                         "orb_ref": "",
                         "nbands_ref": 4,
                         "zeta_notation": "Z"
                     },
-                    "title": "SIAB ORBITALS",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -604,7 +611,7 @@
                     "id": 4,
                     "key": "siab-orbitals",
                     "script": "siab_orbitals",
-                    "type": "file",
+                    "type": "Parameter",
                     "source": "",
                     "title": null,
                     "attachment": null,
@@ -690,7 +697,8 @@
                         "uiSchema": null
                     },
                     "key": "pump-transfer",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "Pump Transfer",
                     "source": [
                         {
                             "volume": 25,
@@ -700,7 +708,7 @@
                             "from_vessel": "flaskA"
                         }
                     ],
-                    "title": "Pump Transfer",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -796,7 +804,8 @@
                         "uiSchema": null
                     },
                     "key": "ilab-add",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "Add",
                     "source": [
                         {
                             "mass": 0.0,
@@ -811,7 +820,7 @@
                             "stir_speed": 0.0
                         }
                     ],
-                    "title": "Add",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -926,7 +935,8 @@
                         "uiSchema": null
                     },
                     "key": "ilab-separate",
-                    "type": "object",
+                    "type": "DEFAULT",
+                    "title": "ILab Separate",
                     "source": [
                         {
                             "purpose": "extract",
@@ -944,7 +954,7 @@
                             "waste_phase_to_vessel": "vessel_4"
                         }
                     ],
-                    "title": "ILab Separate",
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
@@ -1020,15 +1030,652 @@
                         "uiSchema": null
                     },
                     "key": "ilab-stir",
-                    "type": "object",
-                    "source": null,
+                    "type": "DEFAULT",
                     "title": "ILab Stir",
+                    "source": null,
+                    "select_choices": null,
                     "attachment": null
                 }
             ],
             "compile": [],
             "header": "ILab Stir",
             "footer": "Version 0.0.0"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "POSCAR",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-15T15:38:40.995561+08:00",
+        "updated_at": "2024-10-15T15:38:40.995571+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "poscar",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": null,
+                    "key": "poscar",
+                    "type": "TEXTAREA",
+                    "title": "POSCAR",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [
+                {
+                    "id": 7,
+                    "key": "poscar",
+                    "script": "poscar",
+                    "type": "Artifact",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 13,
+                    "bodies": []
+                }
+            ],
+            "header": "POSCAR",
+            "footer": "VASP"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "KPOINTS",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-15T16:19:28.592496+08:00",
+        "updated_at": "2024-10-15T16:19:28.592510+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "kpoints",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": null,
+                    "key": "kpoints",
+                    "type": "TEXTAREA",
+                    "title": "KPOINTS",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "KPOINTS",
+            "footer": "VASP"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "INCAR",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-15T16:22:40.267135+08:00",
+        "updated_at": "2024-10-15T16:22:40.267150+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "incar",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": null,
+                    "key": "incar",
+                    "type": "TEXTAREA",
+                    "title": "INCAR",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "INCAR",
+            "footer": "VASP"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "VASP",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-15T16:25:22.484334+08:00",
+        "updated_at": "2024-10-15T16:25:22.484347+08:00",
+        "public": true,
+        "type": "Solver",
+        "data": {
+            "handles": [
+                {
+                    "key": "poscar",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "incar",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "kpoints",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "outcar",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": null,
+                    "key": "potcarSelect",
+                    "type": "SELECT",
+                    "title": null,
+                    "source": null,
+                    "select_choices": [
+                        {
+                            "name": "POTCAR - Default",
+                            "value": "default"
+                        },
+                        {
+                            "name": "POTCAR - Custom",
+                            "value": "custom"
+                        }
+                    ],
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "VASP",
+            "footer": "5.4.4"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_Clean",
+        "description": "ILab Clean Vessel",
+        "version": "0.0.0",
+        "created_at": "2024-10-17T11:52:37.611141+08:00",
+        "updated_at": "2024-10-17T11:52:37.611153+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "temp": {
+                                        "type": "number",
+                                        "description": "Optional. Temperature to heat vessel to while cleaning."
+                                    },
+                                    "vessel": {
+                                        "type": "string",
+                                        "description": "Vessel to clean."
+                                    },
+                                    "volume": {
+                                        "type": "number",
+                                        "description": "Optional. Volume of solvent to clean vessel with."
+                                    },
+                                    "repeats": {
+                                        "type": "integer",
+                                        "description": "Optional. Number of cleaning cycles to perform."
+                                    },
+                                    "solvent": {
+                                        "type": "string",
+                                        "description": "Solvent to clean vessel with."
+                                    }
+                                }
+                            },
+                            "title": "Cleaning Process"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-clean",
+                    "type": "DEFAULT",
+                    "title": "Clean Vessel",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Clean",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_Evaporate",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-10-17T12:01:46.156427+08:00",
+        "updated_at": "2024-10-17T12:01:46.156436+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "temp": {
+                                        "type": "number",
+                                        "description": "Optional. Temperature to heat contents of vessel to for evaporation."
+                                    },
+                                    "time": {
+                                        "type": "number",
+                                        "description": "Optional. Time to evaporate for."
+                                    },
+                                    "vessel": {
+                                        "type": "string",
+                                        "description": "Vessel to evaporate solvent from."
+                                    },
+                                    "pressure": {
+                                        "type": "number",
+                                        "description": "Optional. Vacuum pressure to use for evaporation."
+                                    },
+                                    "stir_speed": {
+                                        "type": "number",
+                                        "description": "Optional. Speed at which to stir mixture during evaporation. If using traditional rotavap, speed in RPM at which to rotate evaporation flask."
+                                    }
+                                }
+                            },
+                            "title": "Evaporation Process"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-evaporate",
+                    "type": "DEFAULT",
+                    "title": "Evaporate Solvent",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Evaporate",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_StartStir",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-17T12:08:10.452248+08:00",
+        "updated_at": "2024-10-17T12:08:10.452257+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "vessel": {
+                                        "type": "string",
+                                        "description": "Vessel to start stirring."
+                                    },
+                                    "purpose": {
+                                        "type": "string",
+                                        "description": "Optional. Purpose of stirring. Can be None or \u2018dissolve\u2019. If None, assumed stirring is just to mix reagents."
+                                    },
+                                    "stir_speed": {
+                                        "type": "number",
+                                        "description": "Optional. Speed in RPM at which to stir at."
+                                    }
+                                }
+                            },
+                            "title": "Stirring Process"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-start-stir",
+                    "type": "DEFAULT",
+                    "title": "Start Stir",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Start Stir",
+            "footer": "Version 0.0.1"
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab-StopStir",
+        "description": "",
+        "version": "0.0.1",
+        "created_at": "2024-10-17T12:14:45.879481+08:00",
+        "updated_at": "2024-10-17T12:14:45.879491+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "title": "Stop Heating/Chilling Process",
+                            "required": [
+                                "vessel"
+                            ],
+                            "properties": {
+                                "vessel": {
+                                    "type": "string",
+                                    "description": "Vessel to stop heating/chilling."
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-stop-stir",
+                    "type": "DEFAULT",
+                    "title": "Stop Stir",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Stop Stir",
+            "footer": ""
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_StartSetTemp",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-17T12:15:58.864091+08:00",
+        "updated_at": "2024-10-17T12:15:58.864103+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "vessel",
+                                    "temp"
+                                ],
+                                "properties": {
+                                    "temp": {
+                                        "type": "number",
+                                        "description": "Temperature to heat or chill vessel to."
+                                    },
+                                    "vessel": {
+                                        "type": "string",
+                                        "description": "Vessel to start heating/chilling."
+                                    },
+                                    "purpose": {
+                                        "enum": [
+                                            "reaction",
+                                            "control-exotherm",
+                                            "unstable-reagent"
+                                        ],
+                                        "type": "string",
+                                        "description": "Optional. Purpose of heating/chilling. One of 'reaction', 'control-exotherm', 'unstable-reagent'."
+                                    }
+                                }
+                            },
+                            "title": "Heating/Chilling Process"
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-start-tempctl",
+                    "type": "DEFAULT",
+                    "title": "Start Temp Control",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Start SetTemp",
+            "footer": ""
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/default_avatar.png"
+        },
+        "name": "ILab_StopSetTemp",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-17T12:16:23.132672+08:00",
+        "updated_at": "2024-10-17T12:16:23.132709+08:00",
+        "public": true,
+        "type": "ILab",
+        "data": {
+            "handles": [
+                {
+                    "key": "ready",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "ready",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "title": "Stop Heating/Chilling Process",
+                            "required": [
+                                "vessel"
+                            ],
+                            "properties": {
+                                "vessel": {
+                                    "type": "string",
+                                    "description": "Vessel to stop heating/chilling."
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "ilab-stop-tempctl",
+                    "type": "DEFAULT",
+                    "title": "Stop Temp Control",
+                    "source": null,
+                    "select_choices": null,
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "ILab Stop Temp Control",
+            "footer": ""
         }
     }
 ]

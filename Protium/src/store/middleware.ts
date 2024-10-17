@@ -16,7 +16,7 @@ export const fetchNodeTemplate = createAsyncThunk<
 
   const data = response.data as NodeTemplateProps;
 
-  console.log('fetchNodeTemplate', data);
+  // console.log('fetchNodeTemplate', data);
 
   if (id) {
     return { ...data, id };

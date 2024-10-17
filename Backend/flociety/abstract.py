@@ -59,6 +59,14 @@ class BaseNodeDataHandleModel(models.Model):
 
 
 class BaseNodeDataBodyModel(models.Model):
+
+    body_type_choices = (
+        ("DEFAULT", "Default"),
+        ("FILE", "File"),
+        ("TEXTAREA", "Textarea"),
+        ("SELECT", "Select"),
+    )
+
     id: int
     key = models.CharField(
         max_length=100,
@@ -68,13 +76,22 @@ class BaseNodeDataBodyModel(models.Model):
                 message="Name can only contain letters, numbers, and hyphens. underscores is not allowed.",
             ),
         ],
-        help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线",
+        help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线，优先推荐小写字母与横杠",
     )
-    type = models.CharField(max_length=50)
+
+    type = models.CharField(
+        max_length=50,
+        choices=body_type_choices,
+        default="Default",
+        help_text="Default 使用 jsonSchema 控制用户输入内容，Textarea 使用纯文本框控制用户输入内容，File 为让用户上传文件, Select 为选择框",
+    )
 
     # Optional
-    source = models.JSONField(blank=True, null=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True, help_text="建议填写，控制输入框的 placeholder")
+    source = models.JSONField(blank=True, null=True, help_text="source 为 body 的实际数据")
+    select_choices = models.JSONField(
+        blank=True, null=True, help_text="select_choices 为选择框的选项，为对象列表，包含 name，value 两个字段"
+    )
     attachment = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
@@ -84,7 +101,10 @@ class BaseNodeDataBodyModel(models.Model):
 class BaseNodeDataCompileModel(models.Model):
     id: int
 
-    type_chocies = (("File", "File"),)
+    compile_type_chocies = (
+        ("Parameter", "Parameter"),
+        ("Artifact", "Artifact"),
+    )
 
     key = models.CharField(
         max_length=100,
@@ -97,7 +117,12 @@ class BaseNodeDataCompileModel(models.Model):
         help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线",
     )
     script = models.CharField(max_length=100)
-    type = models.CharField(max_length=50)
+    type = models.CharField(
+        max_length=50,
+        choices=compile_type_chocies,
+        default="Parameter",
+        help_text="Parameter 为参数，Artifact 为输出文件路径",
+    )
 
     # Optional
     source = models.TextField(blank=True, null=True)

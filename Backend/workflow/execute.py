@@ -59,10 +59,7 @@ class WorkflowExecuter:
         )
 
         status = await asyncio.gather(
-            *(
-                node_executor(node).execute()  # type: ignore
-                for node_executor in node_executors
-            )
+            *(node_executor(node).execute() for node_executor in node_executors)  # type: ignore
         )
 
         return status

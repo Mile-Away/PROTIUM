@@ -10,8 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { InteractivePanelProps } from '@/@types/interactive';
 import InteractivePanel from '../interactive/InteractivePanel';
+import TextArea from '../interactive/TextArea';
 
-const NodeFormTextarea = ({
+const NodeFormDefault = ({
   nodeId,
   bodyItem,
   idx,
@@ -27,7 +28,8 @@ const NodeFormTextarea = ({
 
   const dispatch = useDispatch();
 
-  const Interactive: React.FC<InteractivePanelProps> = InteractivePanel;
+  const Interactive: React.FC<InteractivePanelProps> =
+    bodyItem.type === 'DEFAULT' ? InteractivePanel : TextArea;
 
   const tabItems = [
     {
@@ -89,4 +91,4 @@ const NodeFormTextarea = ({
   );
 };
 
-export default NodeFormTextarea;
+export default NodeFormDefault;

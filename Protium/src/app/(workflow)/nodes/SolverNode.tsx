@@ -6,12 +6,10 @@ import {
   setNodeDataBodyContent,
   setSliderOverlayVisible,
 } from '@/store/workflow/workflowSlice';
-import { CheckBadgeIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
 import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import NodeFormDefault from '../formComponent/NodeFormDefault';
 import WorkflowFormSelect from '../formComponent/NodeFormSelect';
-import NodeFormTextarea from '../formComponent/NodeFormTextarea';
 import BasicNode from './BasicNode';
 
 const potcarSelectItems = [
@@ -116,8 +114,15 @@ export default function SolverNode(props: BasicNodeProps) {
                 onSelectedIndexChange={onMachineSelectedIndexChange}
               />
             )} */}
-            {item.type === 'object' && (
-              <NodeFormTextarea
+            {item.type === 'SELECT' && item.key === 'potcarSelect' && (
+              <WorkflowFormSelect
+                key={randomId + item.id}
+                items={item.select_choices || []}
+                onSelectedIndexChange={onPotcarSelectedIndexChange}
+              />
+            )}
+            {item.type === 'DEFAULT' && (
+              <NodeFormDefault
                 key={randomId + item.id}
                 nodeId={id}
                 bodyItem={item}
@@ -130,7 +135,7 @@ export default function SolverNode(props: BasicNodeProps) {
 
         {/* 当有 jobID 时，显示最近的一次任务 */}
 
-        <ul
+        {/* <ul
           className={clsx(
             'flex h-32 items-start justify-between rounded pt-8 ',
             'transition-all duration-300 ease-in-out',
@@ -185,7 +190,7 @@ export default function SolverNode(props: BasicNodeProps) {
               </div>
             </div>
           </li>
-        </ul>
+        </ul> */}
       </div>
     </BasicNode>
   );

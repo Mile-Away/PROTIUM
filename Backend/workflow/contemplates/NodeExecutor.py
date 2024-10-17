@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 from accounts.models import User
 from asgiref.sync import sync_to_async
+from dflow import Step
 from django.conf import settings
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
@@ -70,5 +71,5 @@ class NodeExecutor(ABC):
         await sync_to_async(compile.save)()
 
     @abstractmethod
-    async def execute(self) -> str:
+    async def execute(self) -> Step:
         pass

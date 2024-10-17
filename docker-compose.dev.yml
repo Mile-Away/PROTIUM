@@ -49,6 +49,8 @@ services:
     depends_on:
       - elasticsearch
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Add host permission in container
 
   frontend:
     restart: unless-stopped
