@@ -58,6 +58,8 @@ services:
       context: ./Frontend
     image: ghcr.io/mile-away/protium/frontend:latest
     command: ['yarn', 'dev']
+    env_file:
+      - .env
     volumes:
       - ./Frontend:/app
     ports:
@@ -71,6 +73,8 @@ services:
       context: ./Protium
     image: ghcr.io/mile-away/protium/workflow:latest
     command: ['yarn', 'dev']
+    env_file:
+      - .env
     volumes:
       - ./Protium:/app
     ports:
@@ -84,6 +88,8 @@ services:
       context: ./DocFront
     image: ghcr.io/mile-away/protium/docfront:latest
     command: ['yarn', 'dev']
+    env_file:
+      - .env
     volumes:
       - ./DocFront:/app
     ports:
