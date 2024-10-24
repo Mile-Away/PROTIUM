@@ -1,25 +1,55 @@
-import os
+import asyncio
 from abc import ABC
+
+from asgiref.sync import sync_to_async
+from dflow import Task, Workflow
+from dflow.python import PythonOPTemplate
+from ops.write_file import WriteFile
 
 from ..contemplates.IOExecutor import IOExecutor
 
 
 class KpointsNodeExecutor(IOExecutor, ABC):
 
-    # async def execute(self, compile) -> str:
+    async def execute(self) -> Workflow:
 
-    #     body_source = await self.get_body_source_from_compile(compile, "kpoints")
+        # 由于 __init__ 方法中不支持异步，因此必须使用异步方法来获取数据
+        content = await self.get_body_source("kpoints")
 
-    #     dir_path = await self.create_dir_path()
+        make_kpoints = Task(
+            name="make-kpoints",
+            template=PythonOPTemplate(
+                WriteFile,
+                image="python:3.12",
+                output_artifact_archive={"file": None},
+            ),
+            parameters={
+                "source": content,
+                "file_name": "/tmp/KPOINTS",
+            },
+            artifacts={},
+        )
 
-    #     file_path = os.path.join(dir_path, "KPOINTS")
+        wf = Workflow(name=self.node_uuid)
+        wf.add(make_kpoints)
+        wf.submit()
 
-    #     # await asyncio.sleep(1)
-    #     await self.write(file_path, body_source)
+        while True:
+            await asyncio.sleep(1)
+            status = wf.query_status()
 
-    #     compile.source = file_path
+            match status:
+                case "Succeeded":
 
-    #     await self.save_compile(compile)
+                    # 将输出的文件路径记录到 compile 的 source 中
+                    compile = await self.get_compile("kpoints")
+                    outputs_s3_file_path = wf.query_step("make-kpoints")[0].outputs.artifacts["file"].s3.key
+                    compile.source = outputs_s3_file_path
+                    await sync_to_async(compile.save)()
+                    break
+                case "Failed":
+                    raise Exception("Container Failed")
+                case _:
+                    continue
 
-    #     return "success"
-    pass
+        return wf

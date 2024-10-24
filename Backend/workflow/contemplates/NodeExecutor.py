@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 from accounts.models import User
 from asgiref.sync import sync_to_async
-from dflow import Step
+from dflow import Task, Workflow as DFlowWorkflow
 from django.conf import settings
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
@@ -16,9 +16,8 @@ class NodeExecutor(ABC):
     def __init__(self, node: WorkflowNode):
         self.node = node
         self.node_uuid = str(node.uuid)
-        self.compile = node.node_data.compile.all()
-        self.body = node.node_data.body.all()
-        self.handles = node.node_data.handles.all()
+        # self.compile = node.node_data.compile.all()
+        # self.handles = node.node_data.handles.all()
 
     @sync_to_async
     def get_creator(self) -> User:
@@ -42,6 +41,10 @@ class NodeExecutor(ABC):
     async def get_body_source(self, key: str) -> str | dict | None:
         body = await sync_to_async(self.node.node_data.body.get)(key=key)
         return body.source
+    
+    async def get_compile(self, key: str) -> WorkflowNodeCompile:
+        compile = await sync_to_async(self.node.node_data.compile.get)(key=key)
+        return compile
 
     async def get_body_source_from_compile(self, compile: WorkflowNodeCompile, key: str) -> str:
         # 这里compile.bodies 在上传的时候就已经被指定了，要求输入 key 是因为可能有多个对应的 body，获取其中某个的 source
@@ -71,5 +74,5 @@ class NodeExecutor(ABC):
         await sync_to_async(compile.save)()
 
     @abstractmethod
-    async def execute(self) -> Step:
+    async def execute(self) -> DFlowWorkflow:
         pass

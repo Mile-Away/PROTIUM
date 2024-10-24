@@ -1,20 +1,52 @@
-import os
+import asyncio
 from abc import ABC
+
+from asgiref.sync import sync_to_async
+from dflow import Task, Workflow
+from dflow.python import PythonOPTemplate
+from ops.write_file import WriteFile
 
 from ..contemplates.IOExecutor import IOExecutor
 
 
 class IncarNodeExecutor(IOExecutor, ABC):
 
-    async def execute(self) -> str:
+    async def execute(self) -> Workflow:
 
-        body_source = await self.get_body_source_from_compile(self.compile[0], "incar")
-        dir_path = await self.create_dir_path()
+        # 由于 __init__ 方法中不支持异步，因此必须使用异步方法来获取数据
+        content = await self.get_body_source("incar")
 
-        file_path = os.path.join(dir_path, "INCAR")
-        # await asyncio.sleep(10)
-        await self.write(file_path, body_source)
+        make_incar = Task(
+            name="make-incar",
+            template=PythonOPTemplate(WriteFile, image="python:3.12"),
+            parameters={
+                "source": content,
+                "file_name": "/tmp/INCAR",
+            },
+            artifacts={},
+        )
 
-        self.compile[0].source = file_path
-        await self.save_compile(self.compile[0])
-        return "success"
+        wf = Workflow(name=self.node_uuid)
+        wf.add(make_incar)
+        wf.submit()
+
+        while True:
+            await asyncio.sleep(1)
+            status = wf.query_status()
+
+            match status:
+                case "Succeeded":
+
+                    # 将输出的文件路径记录到 compile 的 source 中
+                    compile = await self.get_compile("incar")
+                    outputs_s3_file_path = wf.query_step("make-incar")[0].outputs.artifacts["file"].s3.key
+                    compile.source = outputs_s3_file_path
+                    await sync_to_async(compile.save)()
+
+                    break
+                case "Failed":
+                    raise Exception("Container Failed")
+                case _:
+                    continue
+
+        return wf

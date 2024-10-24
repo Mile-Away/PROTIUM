@@ -405,6 +405,8 @@ const workflowSlice = createSlice({
       state,
       action: PayloadAction<ExecutedNodeMessageProps>,
     ) => {
+      console.log('setNodeExecutedCompile:', action.payload);
+      
       const node = state.nodes.find((node) => node.id === action.payload.id);
 
       if (node) {

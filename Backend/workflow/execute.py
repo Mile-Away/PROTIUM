@@ -1,6 +1,7 @@
 import asyncio
 
 from asgiref.sync import sync_to_async
+from dflow.python import upload_packages
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
 from .registry import NodeExecutorRegistry
@@ -8,6 +9,8 @@ from .typed import NodeStatus
 from .utils.handles import check_handle_connected, filter_target_handles
 from .utils.nodes import get_node_header
 from .utils.utils import channel_send_node_result
+
+upload_packages.append("ops")
 
 
 class WorkflowExecuter:
@@ -173,6 +176,7 @@ class WorkflowExecuter:
 
             # 可以在这里添加其他的处理逻辑，如记录日志、发送通知等
             # node.status = "draft"
+            return None
 
     async def execute(self) -> bool:
         try:
@@ -193,6 +197,14 @@ class WorkflowExecuter:
             # 从没有依赖的节点开始执行
             no_dependency_nodes = [node for node, dependencies in self.node_dependencies.items() if not dependencies]
             await asyncio.gather(*(self.execute_node(node) for node in no_dependency_nodes))
+
+            # 在这里获取所有的 tasks，然后 workflow.add([...steps]),
+            # 这样的话每个 step ，例如对于 poscar，它的 step 名字就叫 make_poscar，我就可以从 make_poscar 这个 step 的 outputs.parameters
+            # 取我需要的参数，对于 vasp 节点，定义它的步骤的时候只需要从 poscar 这个 step 的 outputs.parameters 中取出 poscar 的路径，
+            # 这样的话，就是可以被定义的，然后我同时轮询所有没有依赖的节点，向前端返回状态
+            # 这样的话，如果让用户定义模版，它只需要定义一个 Step 模版，但是这个模版的输入输出参数必须是固定的，比如对于，比如对于连接点是 poscar 的行为
+            # 它的输入输出参数的关键词也应该是 poscar
+            # 不合适，返回的 node 并非是按顺序的。
 
             return True
 
