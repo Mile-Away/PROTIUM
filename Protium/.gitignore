@@ -41,10 +41,6 @@ storybook-static/
 # Ignore Prettier config
 .prettierignore
 .prettierrc
-prettier.config.js
-
-
-next-env.d.ts
 
 # debug
 npm-debug.log*
