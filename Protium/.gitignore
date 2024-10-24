@@ -56,5 +56,4 @@ db.sqlite3
 # Ignore all .pyc files
 *.pyc
 
-Dockerfile
 .dockerignore

@@ -67,5 +67,4 @@ DocFront/src/app/doc/
 # Ignore all .pyc files
 *.pyc
 
-Dockerfile
 .dockerignore

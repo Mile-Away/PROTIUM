@@ -2,5 +2,4 @@ media/
 library/
 
 PyPI.txt
-Dockerfile
 .dockerignore
