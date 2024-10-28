@@ -1,12 +1,11 @@
 from abc import ABC
 
 from ..contemplates.ILabExecutor import ILabExecutor
-from ..typed import NodeStatus
 
 
 class ILabGraspExecutor(ILabExecutor, ABC):
 
-    async def execute(self) -> NodeStatus:
+    async def execute(self) -> None:
 
         # print(">>>>>>>>>> body", self.body)
 
@@ -19,4 +18,4 @@ class ILabGraspExecutor(ILabExecutor, ABC):
         else:
             device_status = await self.poll_device_status("add")
 
-        return "success"
+            print(">>>>>>>>>> device_status", device_status)

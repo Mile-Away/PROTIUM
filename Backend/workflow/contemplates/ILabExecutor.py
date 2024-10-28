@@ -20,6 +20,9 @@ class ILabExecutor(NodeExecutor, ABC):
     ) -> requests.Response:
         try:
             res = requests.post(f"{url}", json=data)
+
+            print(">>>>>>>>>> res", res.json())
+
             res.raise_for_status()
         except Exception as e:
             raise Exception(f"Error sending request to ILab: {e}")
@@ -34,8 +37,10 @@ class ILabExecutor(NodeExecutor, ABC):
             await asyncio.sleep(1)
             data = res.json().get("data")
             message = res.json().get("message")
+
             if data is None:
-                raise Exception("ILabGraspExecutor: No Response from ILab")
+                raise Exception("ILabExecutor: No Response from ILab")
+
             elif data["status"] == "running":
                 continue
             else:

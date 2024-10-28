@@ -13,7 +13,7 @@ from .nodes.OrbitalsNodeExecutor import OribitalNodeExecutor
 from .nodes.PoscarNodeExecutor import PoscarNodeExecutor
 from .nodes.PotcarNodeExecutor import PotcarNodeExecutor
 from .nodes.VaspNodeExecutor import VaspNodeExecutor
-
+from .nodes.ILabAddExecutor import ILabAddExecutor
 NodeExecutorsTypes: TypeAlias = Union[
     IOExecutor,
     SolverExecutor,
@@ -34,6 +34,7 @@ class NodeExecutorRegistry:
             "siab_system": AbacusSystemExecutor,
             "siab_orbitals": OribitalNodeExecutor,
             "ilab_grasp": ILabGraspExecutor,
+            "ilab_add": ILabAddExecutor,
             "ilab_pump_transfer": ILabPumpTransferExecutor,
         }
 

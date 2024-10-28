@@ -1,10 +1,11 @@
 import json
 import os
 from abc import ABC, abstractmethod
+from typing import Any
 
 from accounts.models import User
 from asgiref.sync import sync_to_async
-from dflow import Task, Workflow as DFlowWorkflow
+from dflow import Step, Steps, Task
 from django.conf import settings
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
 
@@ -38,10 +39,10 @@ class NodeExecutor(ABC):
     def get_workflow_uuid(self, node: WorkflowNode) -> str:
         return str(node.workflow.uuid)
 
-    async def get_body_source(self, key: str) -> str | dict | None:
+    async def get_body_source(self, key: str) -> Any:
         body = await sync_to_async(self.node.node_data.body.get)(key=key)
         return body.source
-    
+
     async def get_compile(self, key: str) -> WorkflowNodeCompile:
         compile = await sync_to_async(self.node.node_data.compile.get)(key=key)
         return compile
@@ -74,5 +75,5 @@ class NodeExecutor(ABC):
         await sync_to_async(compile.save)()
 
     @abstractmethod
-    async def execute(self) -> DFlowWorkflow:
+    async def execute(self) -> Step | Steps | None:
         pass

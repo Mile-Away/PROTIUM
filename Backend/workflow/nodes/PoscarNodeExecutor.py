@@ -15,7 +15,7 @@ class PoscarNodeExecutor(IOExecutor, ABC):
     #     super().__init__(node)
 
     # 其实这个 execute 不是对应于 Node 的，而是对应于 Node 中的每个 Compile 的。
-    async def execute(self) -> Workflow:
+    async def execute(self) -> Task:
 
         # 由于 __init__ 方法中不支持异步，因此必须使用异步方法来获取数据
         content = await self.get_body_source("poscar")
@@ -59,69 +59,4 @@ class PoscarNodeExecutor(IOExecutor, ABC):
                 case _:
                     continue
 
-        return wf
-
-
-# di = [
-#     {
-#         "id": "d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2-4031889348",
-#         "name": "d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2.make-poscar",
-#         "displayName": "make-poscar",
-#         "type": "Pod",
-#         "templateName": "writefile-pwufh",
-#         "templateScope": "local/d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2",
-#         "phase": "Succeeded",
-#         "boundaryID": "d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2",
-#         "startedAt": "2024-10-18T09:24:54Z",
-#         "finishedAt": "2024-10-18T09:25:00Z",
-#         "progress": "1/1",
-#         "resourcesDuration": {"cpu": 6, "memory": 3},
-#         "inputs": {
-#             "parameters": {
-#                 "source": {
-#                     "name": "source",
-#                     "value": "Fe BCC\n1.0\n2.866 0.000 0.000\n0.000 2.866 0.000\n0.000 0.000 2.866\nFe\n2\nCartesian\n0.000 0.000 0.000\n1.433 1.433 1.433\n",
-#                     "description": '{"type": "str"}',
-#                 },
-#                 "file_name": {"name": "file_name", "value": "/tmp/POSCAR", "description": '{"type": "str"}'},
-#             },
-#             "artifacts": {
-#                 "dflow_python_packages": {
-#                     "name": "dflow_python_packages",
-#                     "path": "/tmp/inputs/artifacts/dflow_python_packages",
-#                     "s3": {"key": "upload/6c7cf43d-2915-46a0-8caa-e4851df554fa/tmp3epqxx2v.tgz"},
-#                 }
-#             },
-#         },
-#         "outputs": {
-#             "parameters": {
-#                 "source": {
-#                     "name": "source",
-#                     "value": "Fe BCC\n1.0\n2.866 0.000 0.000\n0.000 2.866 0.000\n0.000 0.000 2.866\nFe\n2\nCartesian\n0.000 0.000 0.000\n1.433 1.433 1.433",
-#                     "valueFrom": {"path": "/tmp/outputs/parameters/source", "default": "null"},
-#                     "description": '{"type": "str"}',
-#                 }
-#             },
-#             "artifacts": {
-#                 "file": {
-#                     "name": "file",
-#                     "path": "/tmp/outputs/artifacts/file",
-#                     "s3": {
-#                         "key": "d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2/d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2-writefile-pwufh-4031889348/file.tgz"
-#                     },
-#                 },
-#                 "main-logs": {
-#                     "name": "main-logs",
-#                     "s3": {
-#                         "key": "d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2/d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2-writefile-pwufh-4031889348/main.log"
-#                     },
-#                 },
-#             },
-#             "exitCode": "0",
-#         },
-#         "hostNodeName": "minikube",
-#         "workflow": "d7fd1b71-7eed-4c3c-924b-9a6010319214-j76n2",
-#         "pod": None,
-#         "key": None,
-#     }
-# ]
+        return make_poscar

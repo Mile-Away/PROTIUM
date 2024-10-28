@@ -11,7 +11,7 @@ from ..contemplates.IOExecutor import IOExecutor
 
 class KpointsNodeExecutor(IOExecutor, ABC):
 
-    async def execute(self) -> Workflow:
+    async def execute(self) -> Task:
 
         # 由于 __init__ 方法中不支持异步，因此必须使用异步方法来获取数据
         content = await self.get_body_source("kpoints")
@@ -52,4 +52,4 @@ class KpointsNodeExecutor(IOExecutor, ABC):
                 case _:
                     continue
 
-        return wf
+        return make_kpoints

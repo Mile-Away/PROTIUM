@@ -1,3 +1,6 @@
+import os
+import shutil
+import subprocess
 from pathlib import Path
 
 from dflow.python import OP, OPIO, Artifact, OPIOSign
@@ -14,6 +17,7 @@ class RunVasp(OP):
                 "poscar": Artifact(Path),
                 "incar": Artifact(Path),
                 "kpoints": Artifact(Path),
+                "potcar": Artifact(Path),
             }
         )
 
@@ -32,23 +36,23 @@ class RunVasp(OP):
         op_in: OPIO,
     ) -> OPIO:
 
-        with open(op_in["poscar"], "r") as file:
-            print("poscar", op_in["poscar"])
-            content = file.read()
+        # 创建一个新的文件夹
+        new_folder = "/tmp/vasp"  # 请替换为你希望创建的文件夹路径
+        os.makedirs(new_folder, exist_ok=True)
 
-        print(content)
+        # 移动文件到新的文件夹
+        for file_key in ["poscar", "incar", "kpoints", "potcar"]:
+            src = op_in[file_key]
+            dst = os.path.join(new_folder, os.path.basename(src))
 
-        with open(op_in["incar"], "r") as file:
-            print("incar", op_in["incar"])
-            content = file.read()
+            shutil.move(src, dst)
 
-        print(content)
+        # 切换到新的文件夹并运行命令
+        os.chdir(new_folder)
 
-        with open(op_in["kpoints"], "r") as file:
-            print("kpoints", op_in["kpoints"])
-            content = file.read()
-
-        print(content)
+        # 使用 bash -c 执行命令
+        command = "source /opt/intel/oneapi/setvars.sh && mpirun -n 2 /opt/vasp.5.4.4/bin/vasp_std"
+        subprocess.run(f"bash -c '{command}'", shell=True, check=True)
 
         # with open(sub_file_path, "r") as f:
         #     content = f.read()

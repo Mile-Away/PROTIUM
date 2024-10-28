@@ -3,16 +3,17 @@ from abc import ABC
 from ..contemplates.ILabExecutor import ILabExecutor
 
 
-class ILabPumpTransferExecutor(ILabExecutor, ABC):
+class ILabAddExecutor(ILabExecutor, ABC):
 
     async def execute(self):
 
         # print(">>>>>>>>>> body", self.body)
-        user_data = self.get_body_source(key="ilab-pump-transfer")
+        user_data: list = await self.get_body_source(key="ilab-add")
 
-        print(">>>>>>>>>> data", user_data)
-
-        data = {"device_id": "PumpBackbone", "data": user_data}
+        # 在 user_data[0] 中添加 action 字段
+        user_data[0]["action"] = "push_to"
+        print(">>>>>>>>>> data", user_data[0])
+        data = {"device_id": "PumpBackbone", "data": user_data[0]}
 
         # data = {
         #     "device_id": "PumpBackbone",
@@ -26,7 +27,7 @@ class ILabPumpTransferExecutor(ILabExecutor, ABC):
         #     },
         # }
 
-        res = await self.send_request(device="add", data=data)
+        res = await self.send_request(device="Gripper", data=data)
 
         if res.status_code != 200:
             raise Exception(f"Error sending request to ILab: {res.text}")

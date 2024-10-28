@@ -38,8 +38,8 @@ export interface WorkflowNodeCompileProps {
   source: string; // 记录 Result 的结果
   script: string; // 运行用户输入的脚本
   bodies: string[]; // 记录这个 Result 运行所需要的 Body 的 key
-  type: string;
-  title: string; // 前端展示的标题
+  type: 'Parameter' | 'Artifact';
+  title?: string; // 前端展示的标题
   attachment?: string;
 }
 
@@ -92,7 +92,8 @@ export interface WorkflowStateProps {
   sliderOverlayVisible: boolean;
   sliderOverlay?: {
     nodeId: string;
-    bodyId: string;
+    bodyId?: string;
+    compileId?: string;
   };
   nodes: WorkflowNodeProps[];
   edges: Edge[];

@@ -6,8 +6,9 @@ import {
   setNodeDataBodyContent,
   setSliderOverlayVisible,
 } from '@/store/workflow/workflowSlice';
-import { useId } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import NodeCompileDefault from '../formComponent/NodeCompileDefault';
 import NodeFormDefault from '../formComponent/NodeFormDefault';
 import WorkflowFormSelect from '../formComponent/NodeFormSelect';
 import BasicNode from './BasicNode';
@@ -48,8 +49,11 @@ export default function SolverNode(props: BasicNodeProps) {
     dispatch(setSliderOverlayVisible(value));
   };
 
-  const shoudleOpen = (bodyItemId: string) => {
-    return sliderOverlayVisible && sliderOverlay?.bodyId === bodyItemId;
+  const shoudleOpen = (itemId: string) => {
+    return (
+      (sliderOverlayVisible && sliderOverlay?.bodyId === itemId) ||
+      sliderOverlay?.compileId === itemId
+    );
   };
 
   const onPotcarSelectedIndexChange = (index: number) => {
@@ -94,8 +98,19 @@ export default function SolverNode(props: BasicNodeProps) {
   };
 
   const jobId = data.compile
-    .find((item) => item.type === 'task')
+    .find((item) => item.type === 'Parameter')
     ?.source?.toString();
+
+  const [compileResults, setCompileResults] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (data.compile) {
+      const compile = data.compile.find((item) => item.key === 'vasp');
+      if (compile) {
+        setCompileResults(compile.source);
+      }
+    }
+  }, [data.compile]);
 
   return (
     <BasicNode {...props}>
@@ -130,6 +145,17 @@ export default function SolverNode(props: BasicNodeProps) {
                 {...props}
               />
             )}
+          </>
+        ))}
+        {data.compile.map((item, idx) => (
+          <>
+            <NodeCompileDefault
+              key={randomId + item.id}
+              nodeId={id}
+              compileItem={item}
+              idx={idx}
+              {...props}
+            />
           </>
         ))}
 

@@ -12,3 +12,10 @@ export interface InteractivePanelProps extends BasicNodeProps {
     };
   }[];
 }
+
+
+export interface ResultsPanelProps extends BasicNodeProps {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+  idx: number;
+}

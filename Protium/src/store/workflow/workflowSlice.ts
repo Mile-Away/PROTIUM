@@ -25,7 +25,7 @@ const initialStateWorkflow: WorkflowStateProps = {
   contextMenuY: 0,
   activeMenuItems: [],
   sliderOverlayVisible: false,
-  sliderOverlay: { nodeId: '', bodyId: '' },
+  sliderOverlay: { nodeId: '', bodyId: '', compileId: '' },
   nodes: [],
   edges: [],
   // CASE 1: 将 nodes 和 edges 移动到 workflows 中，
@@ -405,7 +405,6 @@ const workflowSlice = createSlice({
       state,
       action: PayloadAction<ExecutedNodeMessageProps>,
     ) => {
-      console.log('setNodeExecutedCompile:', action.payload);
       
       const node = state.nodes.find((node) => node.id === action.payload.id);
 
