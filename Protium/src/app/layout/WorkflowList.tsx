@@ -5,6 +5,7 @@ import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
+import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import { FolderArrowDownIcon, PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
@@ -173,15 +174,20 @@ const WorkflowList: React.FC = () => {
                   <span className="line-clamp-1 font-semibold">
                     {workflow.name || 'Untitled'}
                   </span>
-                  <img
-                    src={
-                      workflow.creator.avatar.startsWith('http')
-                        ? workflow.creator.avatar
-                        : `${MEDIA_URL}${workflow.creator.avatar}`
-                    }
-                    alt="avatar"
-                    className="h-5 w-5 rounded-full"
-                  />
+                  <div className=' flex items-center justify-center gap-2'>
+                    {workflow.as_template && (
+                      <CloudArrowUpIcon className="h-4 w-4 text-green-400 dark:text-green-300" />
+                    )}
+                    <img
+                      src={
+                        workflow.creator.avatar.startsWith('http')
+                          ? workflow.creator.avatar
+                          : `${MEDIA_URL}${workflow.creator.avatar}`
+                      }
+                      alt="avatar"
+                      className="h-5 w-5 rounded-full"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

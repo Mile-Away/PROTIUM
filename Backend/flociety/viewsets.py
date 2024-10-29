@@ -3,6 +3,7 @@ from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from workflow.models import Workflow
 
 from .models import NodeTemplateLibrary, WorkflowTemplateLibrary
 from .serializers import NodeTemplateLibrarySerializer, WorkflowTemplateLibrarySerializer
@@ -53,10 +54,18 @@ class WorkflowTemplateLibraryViewSet(viewsets.ViewSet):
 
     def create(self, request):
 
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
+        print(request.data)
 
-            serializer.save(creator=request.user, as_template=True)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        workflow = Workflow.objects.get(uuid=request.data.get("workflow_uuid"))
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        workflow.as_template = True
+        workflow.save()
+        template = WorkflowTemplateLibrary.objects.create(
+            workflow=workflow,
+            title=request.data.get("title"),
+            description=request.data.get("description"),
+        )
+
+        serializer = self.serializer_class(template)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

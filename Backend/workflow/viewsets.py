@@ -12,7 +12,8 @@ class WorkflowViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Workflow.objects.filter(as_template=False)
+        # queryset = Workflow.objects.filter(as_template=False)
+        queryset = Workflow.objects.all()
         return queryset
 
     def list(self, request):

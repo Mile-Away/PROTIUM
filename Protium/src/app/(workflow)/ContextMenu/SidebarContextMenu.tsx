@@ -1,9 +1,8 @@
 import { ContextMenuButton } from '@/components/elements/buttons/ContextMenuButton';
 import clsx from 'clsx';
-import { useReactFlow } from 'reactflow';
 
 import { RootReducerProps } from '@/app/store';
-import { BASE_URL } from '@/config';
+import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import convertWorkflow from '@/lib/convertWorkflow';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
@@ -33,7 +32,6 @@ export default function SidebarContextMenu({
 }: SidebarContextMenuProps & React.HTMLProps<HTMLDivElement>) {
   const router = useRouter();
   const jwtAxios = createAxiosWithInterceptors();
-  const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
 
   const { workflow, nodes, edges, workflowList } = useSelector(
     (state: RootReducerProps) => state.workflow,
@@ -56,8 +54,6 @@ export default function SidebarContextMenu({
       edges,
     });
     const outputs = convertWorkflow({ ...workflow, nodes, edges });
-
-    console.log('exportWorkflow', outputs);
 
     const blob = new Blob([JSON.stringify(outputs, null, 2)], {
       type: 'application/json',
@@ -99,13 +95,38 @@ export default function SidebarContextMenu({
 
   const handleDuplicateWorkflow = useCallback(async () => {
     try {
-      const res = await jwtAxios.post(
-        `${BASE_URL}/workflow/workflow/${id}/duplicate/`,
-      );
-      if (res.status === 201) {
-        router.push(`/workflow/${res.data.uuid}`);
-      }
+      const content = convertWorkflow({ ...workflow, nodes, edges });
+
+      const res = await jwtAxios.post(`${MEDIA_URL}/v1/workflow/`, content);
+
+      dispatch(setWorkflowList([...workflowList, res.data]));
+      router.push(`/workflow/${res.data.uuid}`);
     } catch (error) {
+      console.error(error);
+    }
+
+    handleCloseContextMenu(new MouseEvent('click') as any);
+  }, [id]);
+
+  const handlePublishWorkflow = useCallback(async () => {
+    console.log('Publishing workflow', {
+      workflow: id,
+      title: workflow.name,
+    });
+    try {
+      const res = await jwtAxios.post(
+        `${BASE_URL}/flociety/vs/workflows/library/`,
+        {
+          workflow_uuid: id,
+          title: workflow.name,
+        },
+      );
+      alert('Workflow published successfully');
+
+      
+      
+    } catch (error) {
+      alert('Failed to publish workflow, please try again');
       console.error(error);
     }
 
@@ -115,7 +136,7 @@ export default function SidebarContextMenu({
   return (
     <div
       className={clsx(
-        'fixed z-[9999] p-1 ',
+        'fixed z-[9999] p-1',
         'rounded-md border border-neutral-200 bg-white  dark:border-neutral-700 dark:bg-neutral-800',
         'shadow-lg dark:shadow-black',
         'h-fit w-28 min-w-fit',
@@ -131,7 +152,10 @@ export default function SidebarContextMenu({
         {sideContextMenuItems.map((item) => (
           <div key={item.label} className="relative w-full">
             <ContextMenuButton
-              className="w-full"
+              className={clsx(
+                'w-full',
+                item.action === 'delete' && 'text-red-500',
+              )}
               type="button"
               arrow={item.arrow}
               onClick={() =>
@@ -141,7 +165,9 @@ export default function SidebarContextMenu({
                     ? handleDeleteWorkflow()
                     : item.action === 'duplicate'
                       ? handleDuplicateWorkflow()
-                      : null
+                      : item.action === 'publish'
+                        ? handlePublishWorkflow()
+                        : undefined
               }
             >
               <div className="flex items-center">

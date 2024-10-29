@@ -3,9 +3,9 @@ import { ABACUSIcon, VASPIcon } from '@/components/Icons';
 import {
   ArrowUpOnSquareIcon,
   CheckBadgeIcon,
+  CloudArrowUpIcon,
   CodeBracketIcon,
   DocumentDuplicateIcon,
-  FireIcon,
   PlusIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
@@ -341,12 +341,6 @@ export const nodeContextMenuItems: ContextMenuItemProps[] = [
 
 export const sideContextMenuItems: ContextMenuItemProps[] = [
   {
-    action: 'delete',
-    label: 'Delete',
-    icon: TrashIcon,
-    arrow: false,
-  },
-  {
     action: 'duplicate',
     label: 'Duplicate',
     icon: DocumentDuplicateIcon,
@@ -361,7 +355,13 @@ export const sideContextMenuItems: ContextMenuItemProps[] = [
   {
     action: 'publish',
     label: 'Publish',
-    icon: CheckBadgeIcon,
+    icon: CloudArrowUpIcon,
+    arrow: false,
+  },
+  {
+    action: 'delete',
+    label: 'Delete',
+    icon: TrashIcon,
     arrow: false,
   },
 ];

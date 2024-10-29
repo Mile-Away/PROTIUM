@@ -63,7 +63,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = request.user
 
         if user:
-            self.queryset = self.queryset.get(id=user.id)
+            self.queryset = self.queryset.get(id=user.id)  # type: ignore
             # 为该用户设置最近 last_login 时间
             user.last_login = timezone.now()
             user.save()
