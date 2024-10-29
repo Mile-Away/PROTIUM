@@ -4,6 +4,7 @@ import {
   ArrowUpOnSquareIcon,
   CodeBracketIcon,
   DocumentDuplicateIcon,
+  FireIcon,
   PlusIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
@@ -198,7 +199,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         icon: PlusIcon,
         onClick: () => handleMenuItemClick('ILab_Grasp'),
       },
-      
+
       {
         action: 'liquid_handling',
         label: 'Liquid Handling',
@@ -289,8 +290,7 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         label: 'Evaporate',
         icon: PlusIcon,
         onClick: () => handleMenuItemClick('ILab_Evaporate'),
-      }
-      
+      },
     ],
   },
   // {
@@ -355,6 +355,12 @@ export const sideContextMenuItems: ContextMenuItemProps[] = [
     action: 'export',
     label: 'Export',
     icon: ArrowUpOnSquareIcon,
+    arrow: false,
+  },
+  {
+    action: 'publish',
+    label: 'Publish',
+    icon: FireIcon,
     arrow: false,
   },
 ];

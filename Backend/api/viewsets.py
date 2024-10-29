@@ -77,11 +77,14 @@ class WorkflowApiViewSet(viewsets.ViewSet):
             # 2. 创建 Node
             node_dict = {"uuid": uuid.uuid4(), "workflow": workflow_instance, "template": Template}
 
-            # 生成有序位置
-            node_dict["position"] = {"x": node_position_x, "y": node_position_y}
+            if "position" in value:
+                node_dict["position"] = value["position"]
+            else:
+                # 生成有序位置
+                node_dict["position"] = {"x": node_position_x, "y": node_position_y}
 
-            node_position_x += 50
-            node_position_y += 15
+                node_position_x += 50
+                node_position_y += 15
 
             Node = WorkflowNode.objects.create(
                 uuid=node_dict["uuid"],

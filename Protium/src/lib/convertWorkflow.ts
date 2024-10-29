@@ -2,8 +2,11 @@ import { WorkflowProps } from '@/@types/workflow';
 
 interface OutputNode {
   template: string;
+  version?: string;
   params: Record<string, any>;
   handles?: Record<string, string[]>;
+  position: { x: number; y: number };
+  positionAbsolute: { x: number; y: number };
 }
 
 interface OutputFormat {
@@ -23,7 +26,11 @@ function convertWorkflow(input: WorkflowProps): OutputFormat {
 
     outputNodes[index.toString()] = {
       template: node.template,
+      version: node.version,
+      position: node.position,
+      positionAbsolute: node.positionAbsolute,
       params: params,
+      handles: {},
     };
   });
 
