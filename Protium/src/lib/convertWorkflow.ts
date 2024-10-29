@@ -6,7 +6,7 @@ interface OutputNode {
   params: Record<string, any>;
   handles?: Record<string, string[]>;
   position: { x: number; y: number };
-  positionAbsolute: { x: number; y: number };
+  positionAbsolute?: { x: number; y: number };
 }
 
 interface OutputFormat {
