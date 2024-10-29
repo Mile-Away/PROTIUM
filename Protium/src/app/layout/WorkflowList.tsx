@@ -70,8 +70,6 @@ const WorkflowList: React.FC = () => {
         try {
           const json = JSON.parse(e.target?.result as string);
           const res = await jwtAxios.post(`${MEDIA_URL}/v1/workflow/`, json);
-
-          console.log('Imported workflow:', res.data);
           dispatch(setWorkflowList([...workflowList, res.data]));
           router.push(`/workflow/${res.data.uuid}`);
         } catch (error) {

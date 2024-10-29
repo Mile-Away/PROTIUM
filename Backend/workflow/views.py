@@ -50,6 +50,11 @@ class WorkflowDetailAPIView(APIView):
         print("Errors : >>>>>>>>", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request: Request, uuid: str) -> Response:
+        workflow = self.get_object(uuid)
+        workflow.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class StartWorkflowAPIView(APIView):
 

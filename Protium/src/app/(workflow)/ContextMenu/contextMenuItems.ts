@@ -2,6 +2,7 @@ import { ContextMenuItemProps } from '@/@types/workflow';
 import { ABACUSIcon, VASPIcon } from '@/components/Icons';
 import {
   ArrowUpOnSquareIcon,
+  CheckBadgeIcon,
   CodeBracketIcon,
   DocumentDuplicateIcon,
   FireIcon,
@@ -360,7 +361,7 @@ export const sideContextMenuItems: ContextMenuItemProps[] = [
   {
     action: 'publish',
     label: 'Publish',
-    icon: FireIcon,
+    icon: CheckBadgeIcon,
     arrow: false,
   },
 ];

@@ -62,7 +62,7 @@ export interface WorkflowNodeProps
   data: WorkflowNodeDataProps;
   dragHandle?: string | '.drag-handle';
   position: { x: number; y: number };
-  positionAbsolute: { x: number; y: number };
+  positionAbsolute?: { x: number; y: number };
 }
 
 export type addNodeProps = Omit<WorkflowNodeProps, 'id' | 'position'> & {

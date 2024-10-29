@@ -3,8 +3,12 @@ import clsx from 'clsx';
 import { useReactFlow } from 'reactflow';
 
 import { RootReducerProps } from '@/app/store';
+import { BASE_URL } from '@/config';
+import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import convertWorkflow from '@/lib/convertWorkflow';
+import { setWorkflowList } from '@/store/workflow/workflowSlice';
 import { Dispatch } from '@reduxjs/toolkit';
+import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sideContextMenuItems } from './contextMenuItems';
@@ -27,9 +31,11 @@ export default function SidebarContextMenu({
   handleCloseContextMenu,
   ...props
 }: SidebarContextMenuProps & React.HTMLProps<HTMLDivElement>) {
+  const router = useRouter();
+  const jwtAxios = createAxiosWithInterceptors();
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
 
-  const { workflow, nodes, edges } = useSelector(
+  const { workflow, nodes, edges, workflowList } = useSelector(
     (state: RootReducerProps) => state.workflow,
   );
 
@@ -68,6 +74,44 @@ export default function SidebarContextMenu({
     handleCloseContextMenu(new MouseEvent('click') as any);
   }, [workflow, nodes, edges, handleCloseContextMenu]);
 
+  const handleDeleteWorkflow = useCallback(async () => {
+    const ensure = window.confirm(
+      'Are you sure you want to delete this workflow?',
+    );
+    if (ensure) {
+      try {
+        const res = await jwtAxios.delete(
+          `${BASE_URL}/workflow/workflow/${id}/`,
+        );
+        if (res.status === 204) {
+          const newWorkflowList = workflowList.filter(
+            (item) => item.uuid !== id,
+          );
+          dispatch(setWorkflowList(newWorkflowList));
+        }
+        router.push('/');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    handleCloseContextMenu(new MouseEvent('click') as any);
+  }, [id]);
+
+  const handleDuplicateWorkflow = useCallback(async () => {
+    try {
+      const res = await jwtAxios.post(
+        `${BASE_URL}/workflow/workflow/${id}/duplicate/`,
+      );
+      if (res.status === 201) {
+        router.push(`/workflow/${res.data.uuid}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    handleCloseContextMenu(new MouseEvent('click') as any);
+  }, [id]);
+
   return (
     <div
       className={clsx(
@@ -91,7 +135,13 @@ export default function SidebarContextMenu({
               type="button"
               arrow={item.arrow}
               onClick={() =>
-                item.action === 'export' ? handleExportWorkflow() : undefined
+                item.action === 'export'
+                  ? handleExportWorkflow()
+                  : item.action === 'delete'
+                    ? handleDeleteWorkflow()
+                    : item.action === 'duplicate'
+                      ? handleDuplicateWorkflow()
+                      : null
               }
             >
               <div className="flex items-center">

@@ -77,7 +77,6 @@ const workflowSlice = createSlice({
       state.sideMenuVisible = action.payload;
     },
 
-
     // 控制画布菜单栏是否可见
     setContextMenuVisible: (state, action) => {
       state.contextMenuVisible = action.payload;
@@ -119,6 +118,7 @@ const workflowSlice = createSlice({
           })),
         },
         position: { x: state.contextMenuX, y: state.contextMenuY },
+
         dragHandle: '.drag-handle',
       });
       state.consoleInfo.push({
@@ -152,7 +152,6 @@ const workflowSlice = createSlice({
 
     // 控制线条拖拽
     setEdges: (state, action: PayloadAction<EdgeChange[]>) => {
-
       // console.log('setEdges:', action.payload);
       action.payload.map((item) => {
         if (item.type === 'remove') {
@@ -405,7 +404,6 @@ const workflowSlice = createSlice({
       state,
       action: PayloadAction<ExecutedNodeMessageProps>,
     ) => {
-      
       const node = state.nodes.find((node) => node.id === action.payload.id);
 
       if (node) {
