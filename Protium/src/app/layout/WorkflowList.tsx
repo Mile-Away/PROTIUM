@@ -1,7 +1,6 @@
 'use client';
 import { WorkflowProps } from '@/@types/workflow';
 import { RootReducerProps } from '@/app/store';
-import { ContextMenuButton } from '@/components/elements/buttons/ContextMenuButton';
 import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
@@ -11,7 +10,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sideContextMenuItems } from '../(workflow)/ContextMenu/contextMenuItems';
+import SidebarContextMenu from '../(workflow)/ContextMenu/SidebarContextMenu';
 
 export default function WorkflowList() {
   const jwtAxios = createAxiosWithInterceptors();
@@ -74,42 +73,12 @@ export default function WorkflowList() {
   return (
     <>
       {contextMenuVisible && (
-        <div
-          className={clsx(
-            'fixed z-[9999] p-1 ',
-            'rounded-md border border-neutral-200 bg-white  dark:border-neutral-700 dark:bg-neutral-800',
-            'shadow-lg dark:shadow-black',
-            'h-fit w-28 min-w-fit',
-            'select-none',
-          )}
-          style={{
-            top: contextMenuPos.y,
-            left: contextMenuPos.x,
-          }}
-        >
-          <div className="flex flex-col items-start justify-around space-y-2 text-xs">
-            {sideContextMenuItems.map((item) => (
-              <div key={item.label} className="relative w-full">
-                <ContextMenuButton
-                  className="w-full"
-                  type="button"
-                  arrow={item.arrow}
-                >
-                  <div className="flex items-center">
-                    <item.icon className="mr-1 h-3 w-3" />
-                    <span>{item.label}</span>
-                  </div>
-                </ContextMenuButton>
-              </div>
-            ))}
-          </div>
-          {/* <div className='pt-2 border-t dark:border-t-white/5 text-2xs/6 ml-auto w-full text-right'>{selectedItem?.name}</div> */}
-          <div
-            className="fixed inset-0 z-[-1] bg-transparent"
-            onClick={(e) => handleCloseContextMenu(e)}
-            onContextMenu={(e) => handleCloseContextMenu(e)}
-          />
-        </div>
+        <SidebarContextMenu
+          id={selectedItem?.uuid || ''}
+          top={contextMenuPos.y}
+          left={contextMenuPos.x}
+          handleCloseContextMenu={handleCloseContextMenu}
+        />
       )}
       <div className={clsx('inert flex w-full flex-col gap-y-4 px-2')}>
         <div

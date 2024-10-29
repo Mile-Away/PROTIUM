@@ -17,7 +17,7 @@ from workflow.models import (
 from .serializers import WorkflowApiSerializer
 
 
-class WorkflowViewSet(viewsets.ViewSet):
+class WorkflowApiViewSet(viewsets.ViewSet):
     queryset = Workflow.objects.all()
     serializer_class = WorkflowApiSerializer
     permission_classes = [IsAuthenticated]
@@ -47,7 +47,7 @@ class WorkflowViewSet(viewsets.ViewSet):
 
         # Workflow Init
         workflow_name = request.data.get("name") or "untitled"
-        workflow_description = request.data.get("description") or ""
+        workflow_description = request.data.get("description") or None
 
         workflow_instance = Workflow.objects.create(
             name=workflow_name,

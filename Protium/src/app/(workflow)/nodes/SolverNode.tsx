@@ -39,67 +39,67 @@ export default function SolverNode(props: BasicNodeProps) {
   const randomId = useId();
   const { id, type, dragging, data } = props;
 
-  const { sliderOverlayVisible, sliderOverlay } = useSelector(
-    (state: RootReducerProps) => state.workflow,
-  );
+  // const { sliderOverlayVisible, sliderOverlay } = useSelector(
+  //   (state: RootReducerProps) => state.workflow,
+  // );
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const setOpen = (value: boolean) => {
-    dispatch(setSliderOverlayVisible(value));
-  };
+  // const setOpen = (value: boolean) => {
+  //   dispatch(setSliderOverlayVisible(value));
+  // };
 
-  const shoudleOpen = (itemId: string) => {
-    return (
-      (sliderOverlayVisible && sliderOverlay?.bodyId === itemId) ||
-      sliderOverlay?.compileId === itemId
-    );
-  };
+  // const shoudleOpen = (itemId: string) => {
+  //   return (
+  //     (sliderOverlayVisible && sliderOverlay?.bodyId === itemId) ||
+  //     sliderOverlay?.compileId === itemId
+  //   );
+  // };
 
-  const onPotcarSelectedIndexChange = (index: number) => {
-    dispatch(
-      setNodeDataBodyContent({
-        nodeId: id,
-        bodyKey: 'potcarSelect',
-        source: potcarSelectItems[index].value,
-      }),
-    );
-    if (potcarSelectItems[index].value === 'custom') {
-      dispatch(
-        addHandle({
-          nodeId: id,
-          handle: {
-            type: 'target',
-            key: 'potcar',
-            rope: 'potcar',
-            data_source: 'compile',
-            data_key: 'potcar',
-          },
-        }),
-      );
-    } else {
-      dispatch(
-        deleteHandle({
-          nodeId: id,
-          handleKey: 'potcar',
-        }),
-      );
-    }
-  };
+  // const onPotcarSelectedIndexChange = (index: number) => {
+  //   dispatch(
+  //     setNodeDataBodyContent({
+  //       nodeId: id,
+  //       bodyKey: 'potcarSelect',
+  //       source: potcarSelectItems[index].value,
+  //     }),
+  //   );
+  //   if (potcarSelectItems[index].value === 'custom') {
+  //     dispatch(
+  //       addHandle({
+  //         nodeId: id,
+  //         handle: {
+  //           type: 'target',
+  //           key: 'potcar',
+  //           rope: 'potcar',
+  //           data_source: 'compile',
+  //           data_key: 'potcar',
+  //         },
+  //       }),
+  //     );
+  //   } else {
+  //     dispatch(
+  //       deleteHandle({
+  //         nodeId: id,
+  //         handleKey: 'potcar',
+  //       }),
+  //     );
+  //   }
+  // };
 
-  const onMachineSelectedIndexChange = (index: number) => {
-    dispatch(
-      setNodeDataBodyContent({
-        nodeId: id,
-        bodyKey: 'machineSelect',
-        source: machineSelectItems[index].value,
-      }),
-    );
-  };
+  // const onMachineSelectedIndexChange = (index: number) => {
+  //   dispatch(
+  //     setNodeDataBodyContent({
+  //       nodeId: id,
+  //       bodyKey: 'machineSelect',
+  //       source: machineSelectItems[index].value,
+  //     }),
+  //   );
+  // };
 
-  const jobId = data.compile
-    .find((item) => item.type === 'Parameter')
-    ?.source?.toString();
+  // const jobId = data.compile
+  //   .find((item) => item.type === 'Parameter')
+  //   ?.source?.toString();
 
   const [compileResults, setCompileResults] = useState<string | null>(null);
 
@@ -129,13 +129,13 @@ export default function SolverNode(props: BasicNodeProps) {
                 onSelectedIndexChange={onMachineSelectedIndexChange}
               />
             )} */}
-            {item.type === 'SELECT' && item.key === 'potcarSelect' && (
+            {/* {item.type === 'SELECT' && item.key === 'potcarSelect' && (
               <WorkflowFormSelect
                 key={randomId + item.id}
                 items={item.select_choices || []}
                 onSelectedIndexChange={onPotcarSelectedIndexChange}
               />
-            )}
+            )} */}
             {item.type === 'DEFAULT' && (
               <NodeFormDefault
                 key={randomId + item.id}

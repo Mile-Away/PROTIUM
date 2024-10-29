@@ -31,6 +31,7 @@ services:
           memory: '1G'
 
   backend:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/backend:latest
     env_file:
       - .env
@@ -42,23 +43,34 @@ services:
     depends_on:
       - elasticsearch
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Add host permission in container
 
   frontend:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/frontend:latest
+    env_file:
+      - .env
     ports:
       - '3000:3000'
     depends_on:
       - backend
 
   workflow:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/workflow:latest
+    env_file:
+      - .env
     ports:
       - '3003:3003'
     depends_on:
       - frontend
 
   docfront:
+    restart: unless-stopped
     image: registry.cn-beijing.aliyuncs.com/protium/docfront:latest
+    env_file:
+      - .env
     ports:
       - '4000:4000'
     depends_on:

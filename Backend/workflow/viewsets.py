@@ -30,10 +30,6 @@ class WorkflowViewSet(viewsets.ViewSet):
 
     def create(self, request):
 
-        print("Print Cookiies >>>>>>>>")
-        for key, value in request.COOKIES.items():
-            print(key, value)
-
         serializer = WorkflowSerializer(data=request.data)
         if serializer.is_valid():
 

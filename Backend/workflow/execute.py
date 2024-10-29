@@ -51,7 +51,9 @@ class WorkflowExecuter:
     def get_all_compile(self, node: WorkflowNode) -> list[WorkflowNodeCompile]:
         return list(node.node_data.compile.all())
 
-    async def execute_compile_script(self, node: WorkflowNode, compiles: list[WorkflowNodeCompile]) -> list[NodeStatus]:
+    async def execute_compile_script(
+        self, node: WorkflowNode, compiles: list[WorkflowNodeCompile]
+    ) -> list[NodeStatus]:
         scripts = [item.script for item in compiles]
 
         if not scripts:
@@ -64,8 +66,6 @@ class WorkflowExecuter:
         status = await asyncio.gather(
             *(node_executor(node).execute() for node_executor in node_executors)  # type: ignore
         )
-
-        print("Node Status >>>>>>>>", status)
 
         return status
 

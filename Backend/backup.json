@@ -824,7 +824,19 @@
                     "attachment": null
                 }
             ],
-            "compile": [],
+            "compile": [
+                {
+                    "id": 11,
+                    "key": "ilab-add",
+                    "script": "ilab_add",
+                    "type": "Parameter",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 8,
+                    "bodies": []
+                }
+            ],
             "header": "ILab ADD",
             "footer": "0.0.1"
         }
@@ -878,55 +890,73 @@
                                 "properties": {
                                     "purpose": {
                                         "type": "string",
-                                        "description": "'wash' or 'extract'"
+                                        "order": 1,
+                                        "description": "'wash' or 'extract'. 'wash' means that product phase will not be the added solvent phase, 'extract' means product phase will be the added solvent phase. If no solvent is added just use 'extract'."
                                     },
                                     "repeats": {
-                                        "type": "number",
-                                        "description": "Number of separations"
+                                        "type": "integer",
+                                        "order": 10,
+                                        "format": "int32",
+                                        "description": "Optional. Number of separations to perform."
                                     },
                                     "solvent": {
                                         "type": "string",
-                                        "description": "Solvent"
+                                        "order": 7,
+                                        "description": "Optional. Solvent to add to separation vessel after contents of from_vessel has been transferred to create two phases."
                                     },
                                     "through": {
                                         "type": "string",
-                                        "description": "Solid chemical"
+                                        "order": 9,
+                                        "description": "Optional. Solid chemical to send product phase through on way to to_vessel, e.g. 'celite'."
                                     },
                                     "stir_time": {
                                         "type": "number",
-                                        "description": "Stir time"
+                                        "order": 11,
+                                        "format": "float64",
+                                        "description": "Optional. Time to stir for after adding solvent, before separation of phases."
                                     },
                                     "to_vessel": {
                                         "type": "string",
-                                        "description": "Destination vessel"
+                                        "order": 5,
+                                        "description": "Vessel to send product phase to."
                                     },
                                     "stir_speed": {
                                         "type": "number",
-                                        "description": "Stir speed"
+                                        "order": 12,
+                                        "format": "float64",
+                                        "description": "Optional. Speed to stir at after adding solvent, before separation of phases."
                                     },
                                     "from_vessel": {
                                         "type": "string",
-                                        "description": "Source vessel"
+                                        "order": 3,
+                                        "description": "Contents of from_vessel are transferred to separation_vessel and separation is performed."
                                     },
                                     "product_phase": {
                                         "type": "string",
-                                        "description": "'top' or 'bottom'"
+                                        "order": 2,
+                                        "description": "'top' or 'bottom'. Phase that product will be in."
                                     },
                                     "settling_time": {
                                         "type": "number",
-                                        "description": "Settling time"
+                                        "order": 13,
+                                        "format": "float64",
+                                        "description": "Optional. Time to allow phases to settle before separation."
                                     },
                                     "solvent_volume": {
                                         "type": "number",
-                                        "description": "Volume of solvent"
+                                        "order": 8,
+                                        "format": "float64",
+                                        "description": "Optional. Volume of solvent to add."
                                     },
                                     "separation_vessel": {
                                         "type": "string",
-                                        "description": "Separation vessel"
+                                        "order": 4,
+                                        "description": "Vessel in which separation of phases will be carried out."
                                     },
                                     "waste_phase_to_vessel": {
                                         "type": "string",
-                                        "description": "Waste vessel"
+                                        "order": 6,
+                                        "description": "Optional. Vessel to send waste phase to."
                                     }
                                 }
                             },
@@ -1060,8 +1090,8 @@
                     "key": "poscar",
                     "type": "source",
                     "label": null,
-                    "data_source": null,
-                    "data_key": null,
+                    "data_source": "compile",
+                    "data_key": "poscar",
                     "rope": null
                 }
             ],
@@ -1111,8 +1141,8 @@
                     "key": "kpoints",
                     "type": "source",
                     "label": null,
-                    "data_source": null,
-                    "data_key": null,
+                    "data_source": "compile",
+                    "data_key": "kpoints",
                     "rope": null
                 }
             ],
@@ -1127,7 +1157,19 @@
                     "attachment": null
                 }
             ],
-            "compile": [],
+            "compile": [
+                {
+                    "id": 8,
+                    "key": "kpoints",
+                    "script": "kpoints",
+                    "type": "Artifact",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 14,
+                    "bodies": []
+                }
+            ],
             "header": "KPOINTS",
             "footer": "VASP"
         }
@@ -1150,8 +1192,8 @@
                     "key": "incar",
                     "type": "source",
                     "label": null,
-                    "data_source": null,
-                    "data_key": null,
+                    "data_source": "compile",
+                    "data_key": "incar",
                     "rope": null
                 }
             ],
@@ -1166,7 +1208,19 @@
                     "attachment": null
                 }
             ],
-            "compile": [],
+            "compile": [
+                {
+                    "id": 9,
+                    "key": "incar",
+                    "script": "incar",
+                    "type": "Artifact",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 15,
+                    "bodies": []
+                }
+            ],
             "header": "INCAR",
             "footer": "VASP"
         }
@@ -1238,7 +1292,19 @@
                     "attachment": null
                 }
             ],
-            "compile": [],
+            "compile": [
+                {
+                    "id": 10,
+                    "key": "vasp",
+                    "script": "vasp",
+                    "type": "Parameter",
+                    "source": "",
+                    "title": null,
+                    "attachment": null,
+                    "node_id": 16,
+                    "bodies": []
+                }
+            ],
             "header": "VASP",
             "footer": "5.4.4"
         }
@@ -1282,25 +1348,37 @@
                             "type": "array",
                             "items": {
                                 "type": "object",
+                                "required": [
+                                    "vessel",
+                                    "solvent"
+                                ],
                                 "properties": {
                                     "temp": {
                                         "type": "number",
+                                        "order": 4,
+                                        "format": "float64",
                                         "description": "Optional. Temperature to heat vessel to while cleaning."
                                     },
                                     "vessel": {
                                         "type": "string",
+                                        "order": 1,
                                         "description": "Vessel to clean."
                                     },
                                     "volume": {
                                         "type": "number",
+                                        "order": 3,
+                                        "format": "float64",
                                         "description": "Optional. Volume of solvent to clean vessel with."
                                     },
                                     "repeats": {
                                         "type": "integer",
+                                        "order": 5,
+                                        "format": "int32",
                                         "description": "Optional. Number of cleaning cycles to perform."
                                     },
                                     "solvent": {
                                         "type": "string",
+                                        "order": 2,
                                         "description": "Solvent to clean vessel with."
                                     }
                                 }

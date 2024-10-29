@@ -43,7 +43,7 @@ const NodeFormSelect = ({
         <ChevronLeftIcon className="h-4 w-4" />
       </div>
       <div className="flex h-auto flex-1 items-center justify-center text-center text-xs font-semibold capitalize">
-        <span className="">{items[selectedIndex].name}</span>
+        <span className="">{items[selectedIndex]?.name}</span>
       </div>
       <div
         className={clsx(

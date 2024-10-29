@@ -108,7 +108,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
 
     async def execute(self) -> Task:
         """
-        poscar = get
+        poscar
         """
 
         # 从 Edge 获取 Source handle
@@ -171,7 +171,16 @@ class VaspNodeExecutor(SolverExecutor, ABC):
             # print(">>>>>>>>> Status", status)
             match status:
                 case "Succeeded":
-                    print(">>>>>>>>> Succeeded")
+
+                    await channel_send_node_result(
+                        workflow=await self.get_workflow(self.node),
+                        execute_status={
+                            "uuid": str(self.node.uuid),
+                            "header": await get_node_header(self.node),
+                            "status": "success",
+                        },
+                    )
+
                     break
 
                 case "Running":
@@ -220,7 +229,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                             execute_status={
                                 "uuid": str(self.node.uuid),
                                 "header": await get_node_header(self.node),
-                                "status": "success",
+                                "status": "running",
                                 "compile": [{"key": "vasp", "source": source}],
                             },
                         )

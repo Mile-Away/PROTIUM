@@ -14,7 +14,7 @@ export interface WorkflowNodeDataHandlesProps {
   required?: boolean;
   data_source?: HandleDataSourceProps;
   data_key?: string;
-  rope: string;
+  rope?: string;
 }
 
 export interface WorkflowNodeDataBodyProps {
