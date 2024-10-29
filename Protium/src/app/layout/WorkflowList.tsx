@@ -5,14 +5,14 @@ import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
-import { PlusIcon } from '@heroicons/react/24/solid';
+import { FolderArrowDownIcon, PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SidebarContextMenu from '../(workflow)/ContextMenu/SidebarContextMenu';
 
-export default function WorkflowList() {
+const WorkflowList: React.FC = () => {
   const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -30,8 +30,6 @@ export default function WorkflowList() {
   }>({ x: 0, y: 0 });
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<WorkflowProps | null>(null);
-
-  // const [workflows, setWorkflows] = useState<WorkflowProps[]>([]);
 
   const fetchWorkflows = async () => {
     try {
@@ -64,7 +62,30 @@ export default function WorkflowList() {
     createWorkflows();
   };
 
-  const handleCloseContextMenu = (e: any) => {
+  const handleImportWorkflow = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const json = JSON.parse(e.target?.result as string);
+          const res = await jwtAxios.post(`${MEDIA_URL}/v1/workflow/`, json);
+
+          console.log('Imported workflow:', res.data);
+          dispatch(setWorkflowList([...workflowList, res.data]));
+          router.push(`/workflow/${res.data.uuid}`);
+        } catch (error) {
+          alert('Invalid Workflow File');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Reset the input value to allow re-uploading the same file
+    event.target.value = '';
+  };
+
+  const handleCloseContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     setContextMenuVisible(false);
     setSelectedItem(null);
@@ -87,14 +108,36 @@ export default function WorkflowList() {
           )}
         >
           <span className=" font-display text-sm font-bold">Workflows</span>
-          <PrimaryButton
-            onClick={handleCreateWorkflow}
-            size="sm"
-            className="flex items-center gap-1 bg-transparent hover:bg-neutral-300/30 dark:hover:bg-neutral-700/30"
-          >
-            <PlusIcon className="h-4 w-4 dark:text-white" />
-            {/* <span className=" text-sm">New</span> */}
-          </PrimaryButton>
+          <div className="flex items-center justify-center">
+            <PrimaryButton
+              onClick={handleCreateWorkflow}
+              size="sm"
+              className="flex items-center gap-1 bg-transparent hover:bg-neutral-300/30 dark:hover:bg-neutral-700/30"
+            >
+              <PlusIcon className="h-4 w-4 dark:text-white" />
+              <span className="sr-only">New</span>
+            </PrimaryButton>
+            <PrimaryButton
+              size="sm"
+              className="flex items-center gap-1 bg-transparent hover:bg-neutral-300/30 dark:hover:bg-neutral-700/30"
+            >
+              <label
+                htmlFor="import-workflow"
+                className=" pointer-events-auto cursor-pointer"
+              >
+                <FolderArrowDownIcon className="h-4 w-4 dark:text-white" />
+              </label>
+            </PrimaryButton>
+            <input
+              id="import-workflow"
+              name="import-workflow"
+              aria-label="import-workflow"
+              type="file"
+              accept="application/json"
+              onChange={handleImportWorkflow}
+              style={{ display: 'none' }}
+            />
+          </div>
         </div>
       </div>
       <div className="inert flex flex-col items-center gap-4 p-1">
@@ -132,37 +175,22 @@ export default function WorkflowList() {
                   <span className="line-clamp-1 font-semibold">
                     {workflow.name || 'Untitled'}
                   </span>
-
                   <img
-                    src={`${MEDIA_URL}${workflow.creator.avatar}`}
+                    src={
+                      workflow.creator.avatar.startsWith('http')
+                        ? workflow.creator.avatar
+                        : `${MEDIA_URL}${workflow.creator.avatar}`
+                    }
                     alt="avatar"
                     className="h-5 w-5 rounded-full"
                   />
                 </div>
-                {
-                  // <div className="text-neutral-200">
-                  //   {workflow.description && (
-                  //     <span className="text-xs font-normal">
-                  //       {workflow.description}
-                  //     </span>
-                  //   )}
-                  // </div>
-                  // <div className="flex w-full items-center justify-between text-2xs text-neutral-500">
-                  //   {/* <span>{formatTime(workflow.created_at)}</span> */}
-                  //   <span
-                  //     className={clsx(
-                  //       'text-nowrap',
-                  //       workflow.uuid === uuid && 'dark:text-neutral-100',
-                  //     )}
-                  //   >
-                  //     {formatTime(workflow.updated_at)}
-                  //   </span>
-                  // </div>
-                }
               </div>
             </div>
           ))}
       </div>
     </>
   );
-}
+};
+
+export default WorkflowList;

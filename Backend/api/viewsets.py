@@ -31,15 +31,6 @@ class WorkflowApiViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        # 先根据 Node 中的 handles 构建连接关系 connection[]
-
-        # ConnectionProps = {
-        #     "source": "node-1",
-        #     "target": "node-2",
-        #     "handle": "right",
-        # }
-
-        # print(request.data)
 
         connections = []
 
