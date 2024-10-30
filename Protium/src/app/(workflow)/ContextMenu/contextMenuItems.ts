@@ -10,6 +10,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import handleMenuItemClick from './handleMenuItemClick';
+import { GoRepoTemplate } from "react-icons/go";
 
 export const paneContextMenuItems: ContextMenuItemProps[] = [
   {
@@ -355,7 +356,7 @@ export const sideContextMenuItems: ContextMenuItemProps[] = [
   {
     action: 'publish',
     label: 'Publish',
-    icon: CloudArrowUpIcon,
+    icon: GoRepoTemplate,
     arrow: false,
   },
   {

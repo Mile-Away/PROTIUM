@@ -109,10 +109,6 @@ export default function SidebarContextMenu({
   }, [id]);
 
   const handlePublishWorkflow = useCallback(async () => {
-    console.log('Publishing workflow', {
-      workflow: id,
-      title: workflow.name,
-    });
     try {
       const res = await jwtAxios.post(
         `${BASE_URL}/flociety/vs/workflows/library/`,
@@ -122,9 +118,11 @@ export default function SidebarContextMenu({
         },
       );
       alert('Workflow published successfully');
-
-      
-      
+      // update as_template for workflow instance
+      const newWorkflowList = workflowList.map((item) =>
+        item.uuid === id ? { ...item, as_template: true } : item,
+      );
+      dispatch(setWorkflowList(newWorkflowList));
     } catch (error) {
       alert('Failed to publish workflow, please try again');
       console.error(error);

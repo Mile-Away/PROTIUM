@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SidebarContextMenu from '../(workflow)/ContextMenu/SidebarContextMenu';
+import { GoRepoTemplate } from 'react-icons/go';
 
 const WorkflowList: React.FC = () => {
   const jwtAxios = createAxiosWithInterceptors();
@@ -176,7 +177,7 @@ const WorkflowList: React.FC = () => {
                   </span>
                   <div className=' flex items-center justify-center gap-2'>
                     {workflow.as_template && (
-                      <CloudArrowUpIcon className="h-4 w-4 text-green-400 dark:text-green-300" />
+                      <GoRepoTemplate className="h-4 w-4 text-green-400 dark:text-green-300" />
                     )}
                     <img
                       src={
