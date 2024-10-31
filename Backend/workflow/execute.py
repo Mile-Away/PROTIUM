@@ -49,18 +49,25 @@ class WorkflowExecuter:
 
     @sync_to_async
     def get_all_compile(self, node: WorkflowNode) -> list[WorkflowNodeCompile]:
-        return list(node.node_data.compile.all())
+        compiles = node.node_data.compile.all()
+
+        return list(compiles)
 
     async def execute_compile_script(
         self, node: WorkflowNode, compiles: list[WorkflowNodeCompile]
     ) -> list[NodeStatus]:
-        scripts = [item.script for item in compiles]
+
+        scripts: list[str | None] = [item.script for item in compiles]
 
         if not scripts:
             return ["skipped"]
 
         node_executors = await asyncio.gather(
-            *(self.node_executor_registry.get_executor(script) for script in scripts)
+            *(
+                self.node_executor_registry.get_executor(script)
+                for script in scripts
+                if script is not None and script != ""
+            )
         )
 
         status = await asyncio.gather(
@@ -131,9 +138,9 @@ class WorkflowExecuter:
             # TODO 这个逻辑待删除，所有情况都要允许被运行，除非被用户指定 diabeled。
             elif all(connected_target_results) or any(connected_source_results):
                 # 所有的 results 都会被执行，只要有一个执行失败，就会标记为 failed
-                compile = await self.get_all_compile(node)
+                compiles = await self.get_all_compile(node)
                 # 执行这个 Node 中的所有 compile
-                status = await self.execute_compile_script(node, compile)
+                status = await self.execute_compile_script(node, compiles)
                 # 只要有一个 failed，就返回 failed
                 if "failed" in status:
                     raise Exception("Error Executing Node Compiling")

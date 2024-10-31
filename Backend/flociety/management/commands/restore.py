@@ -84,7 +84,6 @@ class Command(BaseCommand):
                             type=compile_item["type"],
                             source=compile_item.get("source"),
                             title=compile_item.get("title"),
-                            attachment=compile_item.get("attachment"),
                         )
                         if "bodies" in compile_item:
                             compile_instance.bodies.set(

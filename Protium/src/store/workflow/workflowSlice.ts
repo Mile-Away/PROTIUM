@@ -150,6 +150,13 @@ const workflowSlice = createSlice({
       ) as WorkflowNodeProps[];
     },
 
+    minimizedNode: (state, action) => {
+      const node = state.nodes.find((node) => node.id === action.payload);
+      if (node) {
+        node.minimized = !node.minimized;
+      }
+    },
+
     // 控制线条拖拽
     setEdges: (state, action: PayloadAction<EdgeChange[]>) => {
       // console.log('setEdges:', action.payload);
@@ -468,6 +475,7 @@ export const {
   setWorkflowList,
   addNode,
   setNodes,
+  minimizedNode,
   setEdges,
   connectEdges,
   setNodeDataBodyContent,

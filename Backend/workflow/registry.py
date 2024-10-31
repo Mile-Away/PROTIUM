@@ -42,7 +42,7 @@ class NodeExecutorRegistry:
         self.executors[node_type] = executor
 
     async def get_executor(self, node_type) -> NodeExecutorsTypes | None:
-
+        
         node_executor = self.executors.get(node_type)
 
         if node_executor is None:

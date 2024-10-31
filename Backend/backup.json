@@ -2,7 +2,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ABACUS_INPUT",
         "description": "",
@@ -87,7 +87,7 @@
                     "key": "abacus-input",
                     "script": "abacus_input",
                     "type": "Artifact",
-                    "source": "",
+                    "source": null,
                     "title": "ABACUS INPUT",
                     "attachment": null,
                     "node_id": 1,
@@ -103,7 +103,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "SIAB_SYSTEM",
         "description": "ABACUS \u8d5d\u52bf\u8f68\u9053\u751f\u6210 system \u90e8\u5206\u8f93\u5165\u53c2\u6570",
@@ -180,7 +180,7 @@
                     "key": "siab-system",
                     "script": "siab_system",
                     "type": "Artifact",
-                    "source": "",
+                    "source": null,
                     "title": "SIAB SYSTEM",
                     "attachment": null,
                     "node_id": 3,
@@ -196,7 +196,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_Grasp",
         "description": "\u667a\u80fd\u5b9e\u9a8c\u5ba4\u9879\u76ee\u673a\u68b0\u81c2\u63a7\u5236\u8282\u70b9",
@@ -283,7 +283,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_SetTemp",
         "description": "",
@@ -362,7 +362,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ABACUS_SIAB",
         "description": "",
@@ -525,7 +525,7 @@
                     "key": "abacus-siab",
                     "script": "abacus_siab",
                     "type": "Artifact",
-                    "source": "",
+                    "source": null,
                     "title": "ABACUS SIAB",
                     "attachment": null,
                     "node_id": 2,
@@ -542,7 +542,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "SIAB_Orbitals",
         "description": "",
@@ -612,7 +612,7 @@
                     "key": "siab-orbitals",
                     "script": "siab_orbitals",
                     "type": "Parameter",
-                    "source": "",
+                    "source": null,
                     "title": null,
                     "attachment": null,
                     "node_id": 5,
@@ -628,7 +628,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_PumpTransfer",
         "description": "",
@@ -720,7 +720,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_Add",
         "description": "Add Action for IntelliLab",
@@ -830,7 +830,7 @@
                     "key": "ilab-add",
                     "script": "ilab_add",
                     "type": "Parameter",
-                    "source": "",
+                    "source": null,
                     "title": null,
                     "attachment": null,
                     "node_id": 8,
@@ -844,7 +844,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_Separate",
         "description": "",
@@ -996,7 +996,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_Stir",
         "description": "Stir vessel for given time.",
@@ -1075,7 +1075,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "POSCAR",
         "description": "",
@@ -1112,7 +1112,7 @@
                     "key": "poscar",
                     "script": "poscar",
                     "type": "Artifact",
-                    "source": "",
+                    "source": null,
                     "title": null,
                     "attachment": null,
                     "node_id": 13,
@@ -1126,7 +1126,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "KPOINTS",
         "description": "",
@@ -1163,7 +1163,7 @@
                     "key": "kpoints",
                     "script": "kpoints",
                     "type": "Artifact",
-                    "source": "",
+                    "source": null,
                     "title": null,
                     "attachment": null,
                     "node_id": 14,
@@ -1177,7 +1177,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "INCAR",
         "description": "",
@@ -1214,7 +1214,7 @@
                     "key": "incar",
                     "script": "incar",
                     "type": "Artifact",
-                    "source": "",
+                    "source": null,
                     "title": null,
                     "attachment": null,
                     "node_id": 15,
@@ -1228,7 +1228,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "VASP",
         "description": "",
@@ -1264,15 +1264,62 @@
                     "rope": null
                 },
                 {
-                    "key": "outcar",
+                    "key": "vasp-out",
                     "type": "source",
                     "label": null,
                     "data_source": null,
                     "data_key": null,
                     "rope": null
+                },
+                {
+                    "key": "logs",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "poscar",
+                    "type": "source",
+                    "label": "CONTCAR",
+                    "data_source": "compile",
+                    "data_key": "vasp",
+                    "rope": null
                 }
             ],
             "body": [
+                {
+                    "schema": {
+                        "panel_type": "default",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "machine": {
+                                    "enum": [
+                                        "c16m32",
+                                        "c32m64",
+                                        "c64m128"
+                                    ],
+                                    "type": "string"
+                                },
+                                "version": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "uiSchema": null
+                    },
+                    "key": "machine-config",
+                    "type": "DEFAULT",
+                    "title": "Machine Config",
+                    "source": {
+                        "machine": "c32m64",
+                        "version": "5.4.4"
+                    },
+                    "select_choices": null,
+                    "attachment": null
+                },
                 {
                     "schema": null,
                     "key": "potcarSelect",
@@ -1298,7 +1345,7 @@
                     "key": "vasp",
                     "script": "vasp",
                     "type": "Parameter",
-                    "source": "",
+                    "source": null,
                     "title": null,
                     "attachment": null,
                     "node_id": 16,
@@ -1312,7 +1359,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_Clean",
         "description": "ILab Clean Vessel",
@@ -1403,7 +1450,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_Evaporate",
         "description": "",
@@ -1482,7 +1529,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_StartStir",
         "description": "",
@@ -1553,7 +1600,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab-StopStir",
         "description": "",
@@ -1616,7 +1663,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_StartSetTemp",
         "description": "",
@@ -1696,7 +1743,7 @@
     {
         "creator": {
             "username": "PROTIUM",
-            "avatar": "/media/accounts/default_avatar.png"
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
         },
         "name": "ILab_StopSetTemp",
         "description": "",
@@ -1754,6 +1801,62 @@
             "compile": [],
             "header": "ILab Stop Temp Control",
             "footer": ""
+        }
+    },
+    {
+        "creator": {
+            "username": "PROTIUM",
+            "avatar": "/media/accounts/2/avatar/IMG_6208_41v6YQI.jpeg"
+        },
+        "name": "Convert_VASP",
+        "description": "",
+        "version": "0.0.0",
+        "created_at": "2024-10-31T17:06:02.677484+08:00",
+        "updated_at": "2024-10-31T17:34:20.386645+08:00",
+        "public": true,
+        "type": "Input",
+        "data": {
+            "handles": [
+                {
+                    "key": "vasp-out",
+                    "type": "target",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                },
+                {
+                    "key": "POSCAR",
+                    "type": "source",
+                    "label": null,
+                    "data_source": null,
+                    "data_key": null,
+                    "rope": null
+                }
+            ],
+            "body": [
+                {
+                    "schema": null,
+                    "key": "convert-vasp",
+                    "type": "SELECT",
+                    "title": "Convert",
+                    "source": null,
+                    "select_choices": [
+                        {
+                            "name": "POTCAR - Default",
+                            "value": "default"
+                        },
+                        {
+                            "name": "POTCAR - Custom",
+                            "value": "custom"
+                        }
+                    ],
+                    "attachment": null
+                }
+            ],
+            "compile": [],
+            "header": "Convert VASP",
+            "footer": "Convert IO"
         }
     }
 ]

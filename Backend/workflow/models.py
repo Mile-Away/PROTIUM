@@ -89,6 +89,7 @@ class WorkflowNode(models.Model):
     height = models.IntegerField(default=250)
     dragHandle = models.CharField(max_length=50, blank=True, null=True, default=".drag-handle")
     status = models.CharField(max_length=10, choices=status_choices, default="draft")
+    minimized = models.BooleanField(default=False)
 
     # 一个节点对应一个节点数据
     node_data: models.OneToOneField["WorkflowNodeData"]

@@ -1,16 +1,7 @@
 import { BasicNodeProps } from '@/@types/workflow';
-import { RootReducerProps } from '@/app/store';
-import {
-  addHandle,
-  deleteHandle,
-  setNodeDataBodyContent,
-  setSliderOverlayVisible,
-} from '@/store/workflow/workflowSlice';
 import { useEffect, useId, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import NodeCompileDefault from '../formComponent/NodeCompileDefault';
 import NodeFormDefault from '../formComponent/NodeFormDefault';
-import WorkflowFormSelect from '../formComponent/NodeFormSelect';
 import BasicNode from './BasicNode';
 
 const potcarSelectItems = [
@@ -116,7 +107,7 @@ export default function SolverNode(props: BasicNodeProps) {
     <BasicNode {...props}>
       <div className="flex flex-col space-y-4 text-xs">
         {data.body.map((item, idx) => (
-          <>
+          <div key={idx}>
             {/* {item.key === 'potcarSelect' && (
               <WorkflowFormSelect
                 items={potcarSelectItems}
@@ -145,19 +136,20 @@ export default function SolverNode(props: BasicNodeProps) {
                 {...props}
               />
             )}
-          </>
+          </div>
         ))}
-        {data.compile.map((item, idx) => (
-          <>
-            <NodeCompileDefault
-              key={randomId + item.id}
-              nodeId={id}
-              compileItem={item}
-              idx={idx}
-              {...props}
-            />
-          </>
-        ))}
+        {data.compile.map(
+          (item, idx) =>
+            item.readable && (
+              <NodeCompileDefault
+                key={randomId + item.id}
+                nodeId={id}
+                compileItem={item}
+                idx={idx}
+                {...props}
+              />
+            ),
+        )}
 
         {/* 当有 jobID 时，显示最近的一次任务 */}
 

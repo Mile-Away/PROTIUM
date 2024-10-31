@@ -115,13 +115,8 @@ class VaspNodeExecutor(SolverExecutor, ABC):
         connected_target_handles = await filter_target_handles(self.node, connected=True)
         source_handles = [await get_bound_handle_from_target(handle) for handle in connected_target_handles]
 
-        # 如果走 DFlow
-        # handle make_poscar.outputs.poscar
-
         sources = [get_handle_data_source_content(source_handle) for source_handle in source_handles]
         sub_file_path = await asyncio.gather(*sources)
-
-        # print(sub_file_path)
 
         potcar = upload_artifact(["/app/ops/POTCAR"])
 
@@ -181,6 +176,11 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                         },
                     )
 
+                    compile = await self.get_compile("contcar")
+                    outputs_s3_file_path = step_dict["outputs"]["artifacts"]["contcar"]["s3"]["key"]
+
+                    compile.source = outputs_s3_file_path
+                    await sync_to_async(compile.save)()
                     break
 
                 case "Running":
@@ -218,11 +218,12 @@ class VaspNodeExecutor(SolverExecutor, ABC):
 
                             messages.append({"type": "info", "message": content})
 
-                        comp = await self.get_compile("vasp")
+                        comp = await self.get_compile("logs")
 
                         source = extract_result(response)
 
                         comp.source = source
+                        await sync_to_async(comp.save)()
 
                         await channel_send_node_result(
                             workflow=await self.get_workflow(self.node),
@@ -230,7 +231,7 @@ class VaspNodeExecutor(SolverExecutor, ABC):
                                 "uuid": str(self.node.uuid),
                                 "header": await get_node_header(self.node),
                                 "status": "running",
-                                "compile": [{"key": "vasp", "source": source}],
+                                "compile": [{"key": "logs", "source": source}],
                             },
                         )
 

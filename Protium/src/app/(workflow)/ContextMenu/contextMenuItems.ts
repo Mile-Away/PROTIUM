@@ -2,15 +2,13 @@ import { ContextMenuItemProps } from '@/@types/workflow';
 import { ABACUSIcon, VASPIcon } from '@/components/Icons';
 import {
   ArrowUpOnSquareIcon,
-  CheckBadgeIcon,
-  CloudArrowUpIcon,
   CodeBracketIcon,
   DocumentDuplicateIcon,
   PlusIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
+import { GoRepoTemplate } from 'react-icons/go';
 import handleMenuItemClick from './handleMenuItemClick';
-import { GoRepoTemplate } from "react-icons/go";
 
 export const paneContextMenuItems: ContextMenuItemProps[] = [
   {
@@ -189,6 +187,20 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
     ],
   },
   {
+    action: 'convert',
+    label: 'Convert',
+    icon: CodeBracketIcon,
+    arrow: true,
+    subContextMenuItems: [
+      {
+        action: 'convertVasp',
+        label: 'Convert VASP',
+        icon: VASPIcon,
+        onClick: () => handleMenuItemClick('Convert_Vasp'),
+      }
+    ]
+  },
+  {
     action: 'ilab',
     label: 'IntelliLab',
     icon: CodeBracketIcon,
@@ -201,7 +213,6 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
         icon: PlusIcon,
         onClick: () => handleMenuItemClick('ILab_Grasp'),
       },
-
       {
         action: 'liquid_handling',
         label: 'Liquid Handling',
@@ -220,7 +231,6 @@ export const paneContextMenuItems: ContextMenuItemProps[] = [
             icon: PlusIcon,
             onClick: () => handleMenuItemClick('ILab_Separate'),
           },
-
           {
             action: 'transfer',
             label: 'Transfer',

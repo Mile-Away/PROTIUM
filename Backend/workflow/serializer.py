@@ -54,7 +54,8 @@ class WorkflowNodeBodySerializer(serializers.ModelSerializer):
 class WorkflowNodeCompileSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
     bodies = serializers.ListField(child=serializers.CharField())
-    script = serializers.CharField(required=False)
+    script = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    readable = serializers.BooleanField()
     type = serializers.CharField()
 
     class Meta:

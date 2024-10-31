@@ -6,12 +6,11 @@ import SelectNode from './SelectNode';
 import SolverNode from './SolverNode';
 
 const nodeTypes = {
-  ILab: InputNode,
-  Step: InputNode,
-  Solver: SolverNode,
-  Basic: BasicNode,
-  Select: SelectNode,
   Input: InputNode,
+  ILab: InputNode,
+  Solver: SolverNode,
+  // Interactive: InteractiveNode,  // 交互式节点
+  // batch: BatchNode,  // 高通量任务类型节点
   // default: DefaultNode, // ReactFlow 中的默认节点类型，不能重复定义，否则发生未知错误且无提醒！！！
   // input: InputNode,  // ReactFlow 中的默认节点类型，不能重复定义，否则发生未知错误且无提醒！！！
 };

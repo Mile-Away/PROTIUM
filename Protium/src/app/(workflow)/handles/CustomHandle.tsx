@@ -148,7 +148,7 @@ const CustomHandle = ({
               <div
                 key={handle.key}
                 className={clsx(
-                  'flex items-center',
+                  'flex items-center justify-end',
                   minimized
                     ? 'absolute -translate-x-full'
                     : 'relative mb-2 h-6',
@@ -163,7 +163,7 @@ const CustomHandle = ({
                   )}
                 >
                   <span className="pr-3 font-display text-2xs font-semibold">
-                    {handle.key.toUpperCase()}
+                    {handle.label?.toUpperCase() || handle.key.toUpperCase()}
                   </span>
                   <svg
                     id="start"

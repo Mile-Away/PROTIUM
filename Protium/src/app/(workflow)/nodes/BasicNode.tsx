@@ -1,26 +1,30 @@
 import clsx from 'clsx';
-import { Node, useReactFlow } from 'reactflow';
+import { useReactFlow } from 'reactflow';
 
-import { BasicNodeProps } from '@/@types/workflow';
+import { BasicNodeProps, WorkflowNodeProps } from '@/@types/workflow';
 import { RootReducerProps } from '@/app/store';
+import { minimizedNode } from '@/store/workflow/workflowSlice';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { BsDash, BsInfo } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomHandle from '../handles/CustomHandle';
 
 export default function BasicNode(props: BasicNodeProps) {
-  const { id, type, dragging, data, children } = props;
 
-  const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
-  const node: Node<any> | undefined = getNode(id);
+  const { id, type, dragging, data, children} = props;
 
+  const { setNodes, setEdges } = useReactFlow();
 
+  const dispatch = useDispatch();
   const { nodes } = useSelector((state: RootReducerProps) => state.workflow);
 
-  const [minimized, setMinimized] = useState(false);
+  const node = useMemo(() => {
+    return nodes.find((node) => node.id === id);
+  }, [id, nodes]);
+
 
   const template = useMemo(() => {
     return nodes.find((node) => node.id === id)?.template;
@@ -32,6 +36,14 @@ export default function BasicNode(props: BasicNodeProps) {
   }, [id, setNodes, setEdges]);
 
   const router = useRouter();
+
+  const handleMinimizeNode = useCallback(
+    (id: string) => {
+      dispatch(minimizedNode(id));
+    },
+    [id],
+  );
+
   return (
     <>
       <div
@@ -43,13 +55,13 @@ export default function BasicNode(props: BasicNodeProps) {
           'transition-transform duration-300 ease-in-out',
           ' overflow-clip',
           dragging && ' opacity-75',
-          minimized ? 'h-10' : 'h-auto',
-          data.status === 'running' && 'ring-1 dark:ring-yellow-500/80 ring-yellow-300 before:-z-1 before:animate-gradient-conic before:rounded-lg before:pointer-events-none before:dark:bg-conic-gradient before:absolute before:-top-full before:-left-full before:w-[300%] before:h-[300%]',
+          node?.minimized ? 'h-10' : 'h-auto',
+          data.status === 'running' &&
+            'before:-z-1 ring-1 ring-yellow-300 before:pointer-events-none before:absolute before:-left-full before:-top-full before:h-[300%] before:w-[300%] before:animate-gradient-conic before:rounded-lg dark:ring-yellow-500/80 before:dark:bg-conic-gradient',
           data.status === 'failed' && 'ring-1 dark:ring-red-500 ',
           data.status === 'success' && 'ring-1 dark:ring-teal-500 ',
           data.status === 'skipped' && 'opacity-60',
         )}
-        
       >
         {/* <div className="absolute inset-0 rounded-md bg-gradient-to-tr from-sky-600 via-sky-600/70 to-blue-600 opacity-10 blur-lg"></div> */}
         {/* <div className="absolute inset-0 rounded-md bg-gradient-to-tr from-sky-600 via-sky-600/70 to-blue-600 opacity-10"></div> */}
@@ -100,7 +112,7 @@ export default function BasicNode(props: BasicNodeProps) {
                 <button
                   name="minimize"
                   type="button"
-                  onClick={() => setMinimized(!minimized)}
+                  onClick={() => handleMinimizeNode(id)}
                   className="absolute left-4 top-0 flex h-2.5 w-2.5 items-center justify-center opacity-0 transition-all duration-300  ease-in-out hover:scale-125 group-hover:opacity-100"
                 >
                   <BsDash className="h-2 w-2 text-black" />
@@ -119,7 +131,7 @@ export default function BasicNode(props: BasicNodeProps) {
 
             {/* Edge Control */}
 
-            <CustomHandle handles={data.handles} minimized={minimized} />
+            <CustomHandle handles={data.handles} minimized={node?.minimized} />
 
             {/* Card Body */}
             <div className="my-4">{children}</div>

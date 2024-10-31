@@ -27,6 +27,7 @@ class RunVasp(OP):
             {
                 # "outcar": Artifact(Path),
                 # "log": Artifact(Path),
+                "contcar": Artifact(Path),
             }
         )
 
@@ -43,9 +44,13 @@ class RunVasp(OP):
         # 移动文件到新的文件夹
         for file_key in ["poscar", "incar", "kpoints", "potcar"]:
             src = op_in[file_key]
-            dst = os.path.join(new_folder, os.path.basename(src))
-
-            shutil.move(src, dst)
+            if os.path.basename(src) == "CONTCAR":
+                # 如果是 CONTCAR 文件，改名为 POSCAR
+                dst = os.path.join(new_folder, "POSCAR")
+                shutil.move(src, dst)
+            else:
+                dst = os.path.join(new_folder, os.path.basename(src))
+                shutil.move(src, dst)
 
         # 切换到新的文件夹并运行命令
         os.chdir(new_folder)
@@ -87,6 +92,7 @@ class RunVasp(OP):
             {
                 # "outcar": task_subdir / ofile,
                 # "log": task_subdir / logfile,
+                "contcar": Path(os.path.join(new_folder, "CONTCAR")),
             }
         )
         return op_out

@@ -40,19 +40,25 @@ def handle_has_connected(handle: WorkflowNodeHandle):
 
 
 @sync_to_async
-def get_handle_data_source_content(handle: WorkflowNodeHandle) -> str | None:
+def get_handle_data_source_content(handle: WorkflowNodeHandle) -> str:
     data_source = handle.data_source
     data_key = handle.data_key
     if data_source == "compile":
-        source = handle.node.compile.get(key=data_key).source
-        print(">>>>>>>>>>>>", source)
+        compile = handle.node.compile.get(key=data_key)
+        if compile.source is None:
+            raise Exception("No source found")
+        source = compile.source
         return source
 
     elif data_source == "body":
-        return handle.node.body.get(key=data_key).source
+        body = handle.node.body.get(key=data_key)
+        if body.source is None:
+            raise Exception("No source found")
+        source = body.source
+        return source
     else:
         # TODO: data_source == "handle"
-        return None
+        raise NotImplementedError
 
 
 async def check_handle_connected(node: WorkflowNode, handle_type: str | None) -> list[bool]:

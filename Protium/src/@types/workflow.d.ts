@@ -40,7 +40,7 @@ export interface WorkflowNodeCompileProps {
   bodies: string[]; // 记录这个 Result 运行所需要的 Body 的 key
   type: 'Parameter' | 'Artifact';
   title?: string; // 前端展示的标题
-  attachment?: string;
+  readable?: boolean; // 是否在节点中展示
 }
 
 export interface WorkflowNodeDataProps {
@@ -63,6 +63,7 @@ export interface WorkflowNodeProps
   dragHandle?: string | '.drag-handle';
   position: { x: number; y: number };
   positionAbsolute?: { x: number; y: number };
+  minimized?: boolean;
 }
 
 export type addNodeProps = Omit<WorkflowNodeProps, 'id' | 'position'> & {
@@ -120,6 +121,7 @@ export interface ContextMenuItemProps {
 export interface BasicNodeProps extends NodeProps {
   data: WorkflowNodeDataProps;
   children?: React.ReactNode;
+  // minimized?: boolean;
 }
 
 export interface ExecutedNodeMessageProps {

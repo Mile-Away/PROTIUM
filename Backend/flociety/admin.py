@@ -29,9 +29,10 @@ class NodeDataTemplateAdmin(admin.ModelAdmin):
 
 
 class NodeDataHandleTemplateAdmin(admin.ModelAdmin):
-    list_display = ("node", "type", "key")
+    list_display = ("node", "type", "key", "label", "data_source", "data_key")
     list_filter = ("node", "type", "key")
     search_fields = ("node", "type", "key")
+    sortable_by = ("node", "type", "key")
 
 
 class NodeDataBodyTemplateAdmin(admin.ModelAdmin):
@@ -41,7 +42,7 @@ class NodeDataBodyTemplateAdmin(admin.ModelAdmin):
 
 
 class NodeDataCompileTemplateAdmin(admin.ModelAdmin):
-    list_display = ("node", "key")
+    list_display = ("node", "key", "script", "readable")
     list_filter = ("node", "key")
     search_fields = ("node", "key")
 

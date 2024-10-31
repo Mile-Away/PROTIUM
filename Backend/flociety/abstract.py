@@ -41,7 +41,7 @@ class BaseNodeDataHandleModel(models.Model):
     )
     type = models.CharField(max_length=10, choices=AS_CHOICES)
     label = models.CharField(
-        max_length=100, blank=True, null=True, help_text="Label 暂时不生效，未来可能用于控制 handle 在节点上显示的内容"
+        max_length=100, blank=True, null=True, help_text="Label 控制显示的文本，若为空则显示 key 的大写值"
     )
 
     # source 储存这个作为 source handle，输出的数据的来源，只有三个选项，handle, body, result
@@ -116,7 +116,6 @@ class BaseNodeDataCompileModel(models.Model):
         ],
         help_text="Key 只能包含字母，数字和横杠，不允许空格和下划线",
     )
-    script = models.CharField(max_length=100)
     type = models.CharField(
         max_length=50,
         choices=compile_type_chocies,
@@ -125,9 +124,10 @@ class BaseNodeDataCompileModel(models.Model):
     )
 
     # Optional
+    script = models.TextField(blank=True, null=True, max_length=100)
     source = models.TextField(blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
-    attachment = models.CharField(max_length=100, blank=True, null=True)
+    readable = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
