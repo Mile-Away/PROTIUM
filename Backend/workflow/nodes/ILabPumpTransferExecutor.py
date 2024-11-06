@@ -14,18 +14,6 @@ class ILabPumpTransferExecutor(ILabExecutor, ABC):
 
         data = {"device_id": "PumpBackbone", "data": user_data}
 
-        # data = {
-        #     "device_id": "PumpBackbone",
-        #     "data": {
-        #         "action": "PumpTransferProtocol",
-        #         "from_vessel": "flask_acetone",
-        #         "to_vessel": "reactor",
-        #         "volume": 2000.0,
-        #         "flowrate": 100.0,
-        #         "viscous": False,
-        #     },
-        # }
-
         res = await self.send_request(device="add", data=data)
 
         if res.status_code != 200:
