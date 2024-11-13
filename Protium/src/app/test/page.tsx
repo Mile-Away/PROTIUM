@@ -1,20 +1,34 @@
-// RainbowCard.tsx
-import React from 'react';
+'use client';
+import { DndContext } from '@dnd-kit/core';
+import { useState } from 'react';
 
-const RainbowCard: React.FC = () => {
+import { Draggable } from './Draggable';
+import { Droppable } from './Droppable';
+
+export default function Page() {
+  const containers = ['A', 'B', 'C'];
+  const [parent, setParent] = useState(null);
+  const draggableMarkup = <Draggable id="draggable">Drag me</Draggable>;
+
   return (
-    <div className="relative h-48 w-72 overflow-hidden rounded-lg bg-white p-1">
-      <div
-        className="animate-spin-slow absolute inset-0 rounded-lg bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500"
-        style={{ backgroundSize: '400% 400%' }}
-      ></div>
-      <div className="absolute inset-0 m-1 rounded-lg bg-white"></div>
-      <div className="relative h-full w-full rounded-lg bg-white p-4">
-        {/* 这里放置卡片内容 */}
-        <p>Card Content</p>
-      </div>
-    </div>
-  );
-};
+    <DndContext onDragEnd={handleDragEnd}>
+      {parent === null ? draggableMarkup : null}
 
-export default RainbowCard;
+      {containers.map((id) => (
+        // We updated the Droppable component so it would accept an `id`
+        // prop and pass it to `useDroppable`
+        <Droppable key={id} id={id}>
+          {parent === id ? draggableMarkup : 'Drop here'}
+        </Droppable>
+      ))}
+    </DndContext>
+  );
+
+  function handleDragEnd(event: any) {
+    const { over } = event;
+
+    // If the item is dropped over a container, set it as the parent
+    // otherwise reset the parent to `null`
+    setParent(over ? over.id : null);
+  }
+}

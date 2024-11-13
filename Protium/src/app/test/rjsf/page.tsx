@@ -1,6 +1,6 @@
 'use client';
-import Editors from '@/app/(workflow)/interactive/Editor';
-import { JsonSchemaThemedForm } from '@/app/(workflow)/interactive/jsonSchema/JsonSchemaThemed';
+import Editors from '@/app/(dashboard)/workflow/interactive/Editor';
+import { JsonSchemaThemedForm } from '@/app/(dashboard)/workflow/interactive/jsonSchema/JsonSchemaThemed';
 import validator from '@rjsf/validator-ajv8';
 import { useState } from 'react';
 

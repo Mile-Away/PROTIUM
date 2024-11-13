@@ -1,7 +1,7 @@
 import { WorkflowNodeDataHandlesProps } from '@/@types/workflow';
-import { NodeContextMenuProps } from '@/app/(workflow)/ContextMenu/NodeContextMenu';
-import { PaneContextMenuProps } from '@/app/(workflow)/ContextMenu/RootContextMenu';
-import nodeTypes from '@/app/(workflow)/nodes/nodeTypes';
+import { NodeContextMenuProps } from '@/app/(dashboard)/workflow/ContextMenu/NodeContextMenu';
+import { PaneContextMenuProps } from '@/app/(dashboard)/workflow/ContextMenu/RootContextMenu';
+import nodeTypes from '@/app/(dashboard)/workflow/nodes/nodeTypes';
 import { RootReducerProps } from '@/app/store';
 import {
   connectEdges,

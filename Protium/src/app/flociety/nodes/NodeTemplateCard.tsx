@@ -1,5 +1,5 @@
 import { NodeTemplateProps } from '@/@types/flociety';
-import nodeTypes from '@/app/(workflow)/nodes/nodeTypes';
+import nodeTypes from '@/app/(dashboard)/workflow/nodes/nodeTypes';
 import { useRouter } from 'next/navigation';
 
 export default function NodeTemplateCard({
@@ -11,13 +11,10 @@ export default function NodeTemplateCard({
   const router = useRouter();
   const NodeTypeComponent = nodeTypes[node.type];
   return (
-    <div
-      onClick={() => router.push(`/flociety/nodes/${node.name}`)}
-      {...props}
-    >
+    <div onClick={() => router.push(`/flociety/nodes/${node.name}`)} {...props}>
       <div
         className="relative h-fit w-fit after:transition-colors after:duration-300 after:ease-in-out
-      hover:after:absolute hover:after:inset-0 hover:after:bg-neutral-400 dark:hover:after:bg-white hover:after:opacity-5 hover:after:content-[''] "
+      hover:after:absolute hover:after:inset-0 hover:after:bg-neutral-400 hover:after:opacity-5 hover:after:content-[''] dark:hover:after:bg-white "
       >
         <div className=" pointer-events-none -z-[9999]">
           <NodeTypeComponent

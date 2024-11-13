@@ -1,4 +1,4 @@
-import nodeTypes from '@/app/(workflow)/nodes/nodeTypes.ts';
+import nodeTypes from '@/app/(dashboard)/workflow/nodes/nodeTypes';
 import { Dispatch } from '@reduxjs/toolkit';
 import { Edge, NodeProps } from 'reactflow';
 // Workflow

@@ -1,7 +1,7 @@
 'use client';
 import { NodeTemplateProps } from '@/@types/flociety';
 import { WorkflowNodeDataProps } from '@/@types/workflow';
-import InputNode from '@/app/(workflow)/nodes/InputNode';
+import InputNode from '@/app/(dashboard)/workflow/nodes/InputNode';
 import { useDictCRUD } from '@/hooks/useCrud';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import MonacoEditor from '@monaco-editor/react';
@@ -75,13 +75,12 @@ export default function Page({ params }: { params: { name: string } }) {
   }
   return (
     <>
-
-      <NodeTemplateHeader {...dataCRUD}/>
+      <NodeTemplateHeader {...dataCRUD} />
       <div className="relative my-4">
         <div className="absolute bottom-0 left-0 h-0.5 w-full bg-white/5"></div>
       </div>
       <div className="mt-8 flex h-full gap-4">
-        <div className="w-2/3 h-full lg:w-1/2">
+        <div className="h-full w-2/3 lg:w-1/2">
           <TabGroup as="div" className="h-full">
             <TabList className="flex gap-4">
               {tabItems.map((item) => (
@@ -119,7 +118,7 @@ export default function Page({ params }: { params: { name: string } }) {
           </TabGroup>
         </div>
 
-        <div className="relative flex w-1/3 lg:w-1/2 min-w-fit items-center justify-center rounded px-4 dark:bg-black/10">
+        <div className="relative flex w-1/3 min-w-fit items-center justify-center rounded px-4 dark:bg-black/10 lg:w-1/2">
           <div className="z-10 w-fit">
             {nodeStru?.type && (
               <InputNode

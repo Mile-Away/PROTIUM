@@ -220,6 +220,7 @@ const BoardNavbar = () => {
             placeholder="Search..."
             type="search"
             name="search"
+            autoComplete='off'
             onClick={() => setOpenSearch(true)}
           />
         </form>

@@ -16,11 +16,32 @@ const resources = {
       ...enDashboardJson,
     },
 
-    about: {},
     login: {
       ...enLoginJson,
     },
+    about: {},
     manifesto: {},
+    environment: {
+      details: {
+        hero: {
+          readDoc: 'Read Docs',
+          viewGithub: 'View Github',
+        },
+        navbar: {
+          Overview: 'Overview',
+          Materials: 'Materials',
+          Discussion: 'Discussion',
+          Releases: 'Releases',
+          Insights: 'Insights',
+          Benchmark: 'Benchmark',
+          Setting: 'Setting',
+        },
+        overview: {
+          release: 'Release',
+          pinnedArticle: 'Pinned Articles',
+        },
+      },
+    },
   },
   zh: {
     translation: {
@@ -34,6 +55,27 @@ const resources = {
     },
     about: {},
     manifesto: {},
+    environment: {
+      details: {
+        hero: {
+          readDoc: '阅读文档',
+          viewGithub: '查看 Github',
+        },
+        navbar: {
+          Overview: '概览',
+          Materials: '物料',
+          Discussion: '讨论',
+          Releases: '发布',
+          Insights: '数据',
+          Benchmark: '基准测试',
+          Setting: '设置',
+        },
+        overview: {
+          release: '发布',
+          pinnedArticle: '置顶文章',
+        },
+      },
+    },
   },
 };
 
