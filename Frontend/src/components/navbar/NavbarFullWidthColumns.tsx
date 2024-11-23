@@ -77,7 +77,7 @@ export default function NavbarFullWidthColumns({
             className=" absolute inset-x-0 top-0 -z-10 w-full bg-white/40 pt-16 shadow-lg ring-1
            ring-neutral-900/5 backdrop-blur-2xl dark:bg-black/40"
           >
-            <div className="mx-auto flex  max-w-8xl 2xl:max-w-screen-2xl gap-x-8 gap-y-10 px-6 py-10 lg:px-8">
+            <div className="mx-auto flex  max-w-8xl gap-x-8 gap-y-10 px-6 py-10 lg:px-8 2xl:max-w-screen-2xl">
               <div className=" w-1/4 gap-x-6 sm:gap-x-8">
                 <div>
                   <h3
@@ -140,7 +140,7 @@ export default function NavbarFullWidthColumns({
                   >
                     <div className="relative flex-none">
                       <img
-                        className="aspect-[2/1] w-full rounded-lg bg-gray-100 object-cover dark:bg-gray-800 sm:aspect-[16/9] sm:h-32 lg:h-auto"
+                        className="aspect-[2/1] w-full rounded-lg bg-neutral-100 object-cover dark:bg-neutral-800 sm:aspect-[16/9] sm:h-32 lg:h-auto"
                         src={post.imageUrl}
                         alt=""
                       />
@@ -156,7 +156,7 @@ export default function NavbarFullWidthColumns({
                         </time>
                         <Link
                           href={post.category.href}
-                          className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800"
+                          className="bg-neutralral-50 hovbg-neutraleutral-100bg-neutralg-neutral-900 dabg-neutralr:bg-neutral-800 relative z-10 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-400"
                         >
                           {post.category.title}
                         </Link>

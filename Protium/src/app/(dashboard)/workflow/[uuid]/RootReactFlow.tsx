@@ -245,7 +245,7 @@ export default function RootReactFlow() {
         onNodeClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
         onNodeContextMenu={onNodeContextMenu}
-        zoomOnScroll={false}
+        // zoomOnScroll={false}
         // fitView
         className="z-0"
       >

@@ -11,7 +11,7 @@ import {
   KeyboardSensor,
   MeasuringStrategy,
   Modifier,
-  PointerSensor,
+  MouseSensor,
   UniqueIdentifier,
   closestCenter,
   defaultDropAnimation,
@@ -42,27 +42,26 @@ import {
 
 const initialItems: TreeItems = [
   {
-    id: 'Home',
+    id: 'Repository 1',
     children: [],
   },
   {
-    id: 'Collections',
+    id: 'Repository 3',
     children: [
-      { id: 'Spring', children: [] },
-      { id: 'Summer', children: [] },
-      { id: 'Fall', children: [] },
-      { id: 'Winter', children: [] },
+      { id: 'Plate 2B', children: [] },
+      { id: 'Plate 3C', children: [] },
+      { id: 'Container 4D', children: [] },
     ],
   },
   {
-    id: 'About Us',
+    id: 'Repository 2',
     children: [],
   },
   {
-    id: 'My Account',
+    id: 'Plate 1A',
     children: [
-      { id: 'Addresses', children: [] },
-      { id: 'Order History', children: [] },
+      { id: 'NMP 400ml', children: [] },
+      { id: 'THF', children: [] },
     ],
   },
 ];
@@ -108,7 +107,7 @@ export default function SortableTree({
   collapsible,
   defaultItems = initialItems,
   indicator = false,
-  indentationWidth = 50,
+  indentationWidth = 24,
   removable,
 }: Props) {
   const [items, setItems] = useState(() => defaultItems);
@@ -120,19 +119,32 @@ export default function SortableTree({
     overId: UniqueIdentifier;
   } | null>(null);
 
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
   const flattenedItems = useMemo(() => {
+    console.log('flattenedItems', items);
     const flattenedTree = flattenTree(items);
+    console.log('flattenedTree', flattenedTree);
     const collapsedItems = flattenedTree.reduce<string[]>(
       (acc, { children, collapsed, id }) =>
         collapsed && children.length ? [...acc, id.toString()] : acc,
       [],
     );
 
+    console.log('collapsedItems', collapsedItems);
+
     return removeChildrenOf(
       flattenedTree,
       activeId ? [activeId, ...collapsedItems] : collapsedItems,
     );
   }, [activeId, items]);
+
+
+  // projected is the item that is being dragged
   const projected =
     activeId && overId
       ? getProjection(
@@ -143,15 +155,32 @@ export default function SortableTree({
           indentationWidth,
         )
       : null;
+
   const sensorContext: SensorContext = useRef({
     items: flattenedItems,
     offset: offsetLeft,
   });
+
+  console.log('sensorContext', sensorContext);
+
+
+  // coordinateGetter is a function that returns the coordinates of the sortable tree
   const [coordinateGetter] = useState(() =>
     sortableTreeKeyboardCoordinates(sensorContext, indicator, indentationWidth),
   );
+
+  console.log('coordinateGetter', coordinateGetter);
+
+  const activationConstraint = {
+    delay: 250,
+    distance: 3,
+    tolerance: 5,
+  };
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint,
+  });
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    mouseSensor,
     useSensor(KeyboardSensor, {
       coordinateGetter,
     }),
@@ -220,7 +249,7 @@ export default function SortableTree({
             onRemove={removable ? () => handleRemove(id) : undefined}
           />
         ))}
-        {createPortal(
+        {isBrowser && createPortal(
           <DragOverlay
             dropAnimation={dropAnimationConfig}
             modifiers={indicator ? [adjustTranslate] : undefined}

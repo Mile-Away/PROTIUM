@@ -125,67 +125,67 @@ function App() {
   }, []);
   const resize = useCallback(() => echart?.current?.resize(), []);
 
-  useEffect(() => {
-    // @ts-ignore
-    const ws = new WebSocket(window._SERVER_IP);
-    ws.onopen = function (evt) {
-      ws.send(JSON.stringify({ op: 'subscribe', topic: '/dev_data' }));
-    };
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   const ws = new WebSocket(window._SERVER_IP);
+  //   ws.onopen = function (evt) {
+  //     ws.send(JSON.stringify({ op: 'subscribe', topic: '/dev_data' }));
+  //   };
 
-    ws.onmessage = function (evt) {
-      const rep = JSON.parse(evt.data);
-      const maxPoint = 1000;
-      if (rep.msg.data) {
-        const data = JSON.parse(rep.msg.data);
-        setProcess(+data.PumpBackbone.process.percentage);
-        setPumps(data.PumpBackbone.pumps);
-        setRotavap(data.PumpBackbone.rotavap_controller);
-        setSeparator(data.PumpBackbone.separator_controller);
-        const [date, time] = data.data_time.split(',');
-        ecahrtsData.current.times.push(time);
-        ecahrtsData.current.times.splice(
-          0,
-          ecahrtsData.current.times.length > maxPoint ? maxPoint / 2 : 0,
-        );
-        ecahrtsData.current.material.push(
-          data.PumpBackbone.temperatures.temperature_material.value,
-        );
-        ecahrtsData.current.material.splice(
-          0,
-          ecahrtsData.current.material.length > maxPoint ? maxPoint / 2 : 0,
-        );
-        ecahrtsData.current.reactor.push(
-          data.PumpBackbone.temperatures.temperature_reactor.value,
-        );
-        ecahrtsData.current.reactor.splice(
-          0,
-          ecahrtsData.current.reactor.length > maxPoint ? maxPoint / 2 : 0,
-        );
-        ecahrtsData.current.materialWarning =
-          data.PumpBackbone.temperatures.temperature_material.warning;
-        ecahrtsData.current.reactorWarning =
-          data.PumpBackbone.temperatures.temperature_reactor.warning;
-        ecahrtsData.current.max = +data.max_temp;
+  //   ws.onmessage = function (evt) {
+  //     const rep = JSON.parse(evt.data);
+  //     const maxPoint = 1000;
+  //     if (rep.msg.data) {
+  //       const data = JSON.parse(rep.msg.data);
+  //       setProcess(+data.PumpBackbone.process.percentage);
+  //       setPumps(data.PumpBackbone.pumps);
+  //       setRotavap(data.PumpBackbone.rotavap_controller);
+  //       setSeparator(data.PumpBackbone.separator_controller);
+  //       const [date, time] = data.data_time.split(',');
+  //       ecahrtsData.current.times.push(time);
+  //       ecahrtsData.current.times.splice(
+  //         0,
+  //         ecahrtsData.current.times.length > maxPoint ? maxPoint / 2 : 0,
+  //       );
+  //       ecahrtsData.current.material.push(
+  //         data.PumpBackbone.temperatures.temperature_material.value,
+  //       );
+  //       ecahrtsData.current.material.splice(
+  //         0,
+  //         ecahrtsData.current.material.length > maxPoint ? maxPoint / 2 : 0,
+  //       );
+  //       ecahrtsData.current.reactor.push(
+  //         data.PumpBackbone.temperatures.temperature_reactor.value,
+  //       );
+  //       ecahrtsData.current.reactor.splice(
+  //         0,
+  //         ecahrtsData.current.reactor.length > maxPoint ? maxPoint / 2 : 0,
+  //       );
+  //       ecahrtsData.current.materialWarning =
+  //         data.PumpBackbone.temperatures.temperature_material.warning;
+  //       ecahrtsData.current.reactorWarning =
+  //         data.PumpBackbone.temperatures.temperature_reactor.warning;
+  //       ecahrtsData.current.max = +data.max_temp;
 
-        refreshEcharts(ecahrtsData.current);
-      }
-    };
+  //       refreshEcharts(ecahrtsData.current);
+  //     }
+  //   };
 
-    ws.onclose = function (evt) {
-      console.log('Connection closed.');
-    };
+  //   ws.onclose = function (evt) {
+  //     console.log('Connection closed.');
+  //   };
 
-    if (echartDom.current) {
-      echart.current = echarts.init(echartDom.current);
-    }
+  //   if (echartDom.current) {
+  //     echart.current = echarts.init(echartDom.current);
+  //   }
 
-    window.addEventListener('resize', resize);
+  //   window.addEventListener('resize', resize);
 
-    return () => {
-      ws.close();
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
+  //   return () => {
+  //     ws.close();
+  //     window.removeEventListener('resize', resize);
+  //   };
+  // }, []);
 
   return (
     <div className="app">

@@ -5,22 +5,21 @@ import SpaceNavigation from './Navigation';
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: { name: string };
+  params: { uuid: string };
 }
 
 export default function Layout({ children, params }: LayoutProps) {
-  const { name } = params;
 
   return (
-    <div className="relative mx-auto px-4 py-8 sm:px-6 lg:px-8">
-      <div className="flex flex-col">
+    <div className="relative mx-auto h-full px-4 pt-8  sm:px-6 lg:px-8">
+      <div className="flex flex-col h-full">
         {/* <div className="">
           <SpaceHero name={name} />
         </div> */}
 
         <LabHeader />
 
-        <SpaceNavigation name={name} />
+        <SpaceNavigation params={params} />
 
         {children}
       </div>

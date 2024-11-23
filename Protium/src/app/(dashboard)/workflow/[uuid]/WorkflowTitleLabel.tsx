@@ -56,7 +56,7 @@ const WorkflowTitleLabel = ({
   return (
     <div
       className={clsx(
-        'absolute left-4 top-4 z-[30] rounded bg-transparent px-2 py-1 shadow backdrop-blur-2xl ',
+        'absolute left-4 top-4 z-10 rounded bg-transparent px-2 py-1 shadow backdrop-blur-2xl ',
         'overflow-hidden transition-all duration-500 ease-in-out',
         ' bg-neutral-100/30 dark:bg-black/10 ',
         showInput ? '' : 'max-w-96 ',

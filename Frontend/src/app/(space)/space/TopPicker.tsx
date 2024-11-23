@@ -26,7 +26,7 @@ const TopPicker: React.FC<CourseProps> = ({
   originalPrice,
 }) => {
   return (
-    <div className="rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+    <div className="rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-800">
       <div className="mb-4 flex items-center">
         <img
           src="/hero4-horizen.png"

@@ -68,7 +68,7 @@ const DiscussionList = ({
                   {discussion.commenters.map((commenter) => (
                     <dd key={commenter.id}>
                       <img
-                        className="h-6 w-6 rounded-full bg-gray-50 ring-2 ring-white"
+                        className="h-6 w-6 rounded-full bg-neutral-50 ring-2 ring-white"
                         src={commenter.imageUrl}
                         alt={commenter.name}
                       />

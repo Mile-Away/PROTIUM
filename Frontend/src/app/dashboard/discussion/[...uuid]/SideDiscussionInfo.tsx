@@ -228,13 +228,13 @@ const DiscussionInfo = ({
                     'absolute left-0 top-0 flex w-6 justify-center',
                   )}
                 >
-                  <div className="w-px bg-gray-200 dark:bg-gray-700" />
+                  <div className="w-px bg-neutral-200 dark:bg-neutral-700" />
                 </div>
 
                 <img
                   src={activityItem.person.imageUrl}
                   alt=""
-                  className="relative mt-3 h-6 w-6 flex-none rounded-full bg-gray-50"
+                  className="bg-neutralral-50 relative mt-3 h-6 w-6 flex-none rounded-full"
                 />
                 <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200 dark:ring-neutral-700">
                   <div className="flex justify-between gap-x-4">

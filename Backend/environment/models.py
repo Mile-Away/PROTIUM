@@ -13,8 +13,9 @@ class Environment(models.Model):
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    description = models.TextField()
+    name = models.CharField(max_length=255, default="Default")
+    description = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=False)
     # active_experiment_env = models.OneToOneField(ExperimentEnv, null=True, blank=True, on_delete=models.SET_NULL)
     # active_calculation_env = models.OneToOneField(CalculationEnv, null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -25,7 +26,7 @@ class Environment(models.Model):
     #     else:  # Existing instance
     #         Environment.objects.exclude(pk=self.pk).update(active_experiment_env=None, active_calculation_env=None)
     #     super().save(*args, **kwargs)
-    
+
     experiment_envs: models.QuerySet["ExperimentEnv"]
     calculation_envs: models.QuerySet["CalculationEnv"]
 
@@ -37,10 +38,13 @@ class ExperimentEnv(models.Model):
     """
     实验室环境配置
     """
-
+    id: int
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name="experiment_envs")
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    ip_address = models.URLField(default="localhost")
+    address = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
 
 
@@ -49,6 +53,7 @@ class CalculationEnv(models.Model):
     计算环境配置
     """
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name="calculation_envs")
     name = models.CharField(max_length=255)
     description = models.TextField()

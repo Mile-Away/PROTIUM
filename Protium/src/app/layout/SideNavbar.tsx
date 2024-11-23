@@ -63,12 +63,14 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ isSticky, setIsSticky }) => {
           isSticky
             ? 'bg-white dark:bg-neutral-900 lg:w-64'
             : 'w-0 bg-transparent',
+
           'z-50 hidden transition-all duration-300 ease-in-out lg:fixed lg:inset-y-0 lg:flex lg:flex-col lg:overflow-hidden ',
         )}
       >
         <div
           className={clsx(
             'flex grow flex-col gap-y-5 overflow-y-auto px-2 pb-4',
+            "scrollbar-w-2",
             isSticky
               ? 'border-r border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800/50'
               : 'bg-transparent',

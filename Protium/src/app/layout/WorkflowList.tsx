@@ -13,7 +13,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { FolderArrowDownIcon, PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { GoRepoTemplate } from 'react-icons/go';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ import SidebarContextMenu from '../(dashboard)/workflow/ContextMenu/SidebarConte
 
 const WorkflowList: React.FC = () => {
   const jwtAxios = createAxiosWithInterceptors();
+  const url = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
   const { workflowList } = useSelector(
@@ -43,7 +44,7 @@ const WorkflowList: React.FC = () => {
   const fetchWorkflows = async () => {
     try {
       const res = await jwtAxios.get(
-        `${BASE_URL}/workflow/vs/workflow/?by_user=true`,
+        `/workflow/vs/workflow/?by_user=true`,
       );
       dispatch(setWorkflowList(res.data));
     } catch (error) {
@@ -112,7 +113,7 @@ const WorkflowList: React.FC = () => {
           handleCloseContextMenu={handleCloseContextMenu}
         />
       )}
-      <DisclosureButton
+      <div
         className={clsx('inert group/expand flex w-full flex-col gap-y-4 px-2')}
       >
         <div
@@ -122,7 +123,7 @@ const WorkflowList: React.FC = () => {
         >
           <div className=" flex items-center justify-center gap-2">
             <span className=" font-display text-sm font-bold">Workflows</span>
-            <button
+            <DisclosureButton
               onClick={() => setExpanded(!expanded)}
               name="button"
               type="button"
@@ -134,7 +135,7 @@ const WorkflowList: React.FC = () => {
                   expanded && '-rotate-90 transform ',
                 )}
               />
-            </button>
+            </DisclosureButton>
           </div>
           <div className="flex items-center justify-center">
             <PrimaryButton
@@ -167,7 +168,7 @@ const WorkflowList: React.FC = () => {
             />
           </div>
         </div>
-      </DisclosureButton>
+      </div>
       <DisclosurePanel
         transition
         className="inert flex origin-top flex-col items-center gap-4 pb-2
@@ -195,7 +196,7 @@ const WorkflowList: React.FC = () => {
               }}
               className={clsx(
                 'group relative flex h-fit w-full flex-shrink-0 cursor-pointer select-none items-center justify-between rounded shadow-sm ring-1 ring-neutral-50 hover:ring-0 dark:ring-neutral-800/40',
-                workflow.uuid === uuid &&
+                workflow.uuid === url.split("/")[2] &&
                   ' bg-gradient-to-r  from-sky-100 to-teal-100 dark:from-sky-600  dark:to-indigo-600',
               )}
             >

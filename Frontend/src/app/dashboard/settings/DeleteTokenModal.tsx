@@ -65,7 +65,7 @@ export default function DeleteTokenModal({
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 px-4 py-3 dark:bg-neutral-900/80 sm:flex sm:flex-row-reverse sm:px-6">
+              <div className="bg-neutral-50 px-4 py-3 dark:bg-neutral-900/80 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
                   onClick={handleDelete}
@@ -76,7 +76,7 @@ export default function DeleteTokenModal({
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:ring-white/5 dark:hover:bg-white/15 sm:mt-0 sm:w-auto"
+                  className="hover:bg-neutralral-50 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:bg-white/10 dark:text-white dark:ring-white/5 dark:hover:bg-white/15 sm:mt-0 sm:w-auto"
                 >
                   Cancel
                 </button>

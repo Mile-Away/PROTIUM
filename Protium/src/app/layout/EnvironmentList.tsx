@@ -6,6 +6,7 @@ import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
 import {
+  Button,
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
@@ -14,16 +15,45 @@ import {
   ArrowsUpDownIcon,
   BeakerIcon,
   ChevronDownIcon,
-  ChevronRightIcon,
   CpuChipIcon,
 } from '@heroicons/react/24/outline';
-import { FolderArrowDownIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import EnvironmentModalButton from '../(dashboard)/environment/CreateNew';
+
+export interface ExperimentEnvProps {
+  id: number;
+  uuid: string;
+  name: string;
+  address: string;
+  ip_address: string;
+  description: string;
+}
+
+export interface CalculationEnvProps {
+  id: number;
+  uuid: string;
+  name: string;
+  ip_address: string;
+  description: string;
+}
+
+export interface EnvironmentListProps {
+  experiment_env: ExperimentEnvProps;
+  calculation_env: CalculationEnvProps;
+}
 
 const EnvironmentList: React.FC = () => {
+  const url = usePathname();
+  // 判断这个用户是否已有 environment 配置
+  const [experimentEnv, setExperimentEnv] = useState<ExperimentEnvProps | null>(
+    null,
+  );
+  const [calculationEnv, setCalculationEnv] =
+    useState<CalculationEnvProps | null>(null);
   const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
   const dispatch = useDispatch();
@@ -44,19 +74,28 @@ const EnvironmentList: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<WorkflowProps | null>(null);
   const [expanded, setExpanded] = useState(false);
 
-  const fetchWorkflows = async () => {
+  const fetchEnv = async () => {
     try {
-      const res = await jwtAxios.get(
-        `${BASE_URL}/workflow/vs/workflow/?by_user=true`,
+      const res = await jwtAxios.get<EnvironmentListProps>(
+        '/environment/judge/',
       );
-      dispatch(setWorkflowList(res.data));
+
+      console.log(res);
+      if (res.status === 200) {
+        if (res.data.experiment_env) {
+          setExperimentEnv(res.data.experiment_env);
+        }
+        if (res.data.calculation_env) {
+          setCalculationEnv(res.data.calculation_env);
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchWorkflows();
+    fetchEnv();
   }, []);
 
   const createWorkflows = async () => {
@@ -108,7 +147,7 @@ const EnvironmentList: React.FC = () => {
       as="div"
       className="-mt-5 flex h-fit flex-col border-t pt-4 dark:border-white/10"
     >
-      <DisclosureButton
+      <div
         className={clsx('inert group/expand flex w-full flex-col gap-y-4 px-2')}
       >
         <div
@@ -118,7 +157,7 @@ const EnvironmentList: React.FC = () => {
         >
           <div className=" flex items-center justify-center gap-2">
             <span className=" font-display text-sm font-bold">Environment</span>
-            <button
+            <DisclosureButton
               onClick={() => setExpanded(!expanded)}
               name="button"
               type="button"
@@ -130,7 +169,7 @@ const EnvironmentList: React.FC = () => {
                   expanded && '-rotate-90 transform ',
                 )}
               />
-            </button>
+            </DisclosureButton>
           </div>
           <div className="flex items-center justify-center">
             <PrimaryButton
@@ -163,49 +202,52 @@ const EnvironmentList: React.FC = () => {
             />
           </div>
         </div>
-      </DisclosureButton>
+      </div>
       <DisclosurePanel
         transition
         className="inert flex origin-top flex-col items-center gap-4 pb-2 transition duration-200 ease-in-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
       >
-        <div>
-          <button
+        {experimentEnv ? (
+          <Button
             type="button"
-            onClick={() => router.push('/environment/laboratory')}
-            className="relative flex w-full items-center rounded-lg border-2 border-dashed border-gray-300 px-8 py-4 text-center hover:border-gray-400 focus:outline-none dark:border-gray-500 hover:dark:border-gray-300"
+            onClick={() =>
+              router.push(`/environment/laboratory/${experimentEnv.uuid}`)
+            }
+            className={clsx(
+              'relative flex h-20 w-full items-center justify-center rounded-lg border-neutral-300 px-8 py-4 focus:outline-none',
+              url.includes(experimentEnv.uuid) &&
+                ' bg-gradient-to-r  from-sky-100 to-teal-100 dark:from-sky-600  dark:to-indigo-600',
+            )}
           >
+            <div className="absolute -inset-px -z-10 rounded-lg border border-transparent opacity-100 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
+            <div className="absolute -inset-px -z-10 rounded-lg border border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
+            <div className=" mr-4 w-8">
+              <BeakerIcon className="h-fit w-full text-gray-400 dark:text-gray-300" />
+            </div>
+
+            <div className="flex flex-1 flex-col justify-center py-2 text-start">
+              <p className="text line-clamp-1 font-semibold text-gray-900 dark:text-white">
+                {experimentEnv.name}
+              </p>
+              <p className=" line-clamp-1 text-xs ">
+                {experimentEnv.address} ({experimentEnv.ip_address})
+              </p>
+            </div>
+          </Button>
+        ) : (
+          <EnvironmentModalButton>
             <BeakerIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-300" />
             <span className="ml-2 block text-xs font-semibold text-gray-900 dark:text-white">
               Create Laboratory Environment
             </span>
-          </button>
-        </div>
-        <div>
-          <button
-            type="button"
-            onClick={() => router.push('/environment/calculation')}
-            className="relative flex w-full items-center rounded-lg border-2 border-dashed border-gray-300 px-8 py-4 text-center hover:border-gray-400 focus:outline-none dark:border-gray-500 hover:dark:border-gray-300"
-          >
-            {/* <svg
-              className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-300"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
-              />
-            </svg> */}
-            <CpuChipIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-300" />
-            <span className="ml-2 block text-xs font-semibold text-gray-900 dark:text-white">
-              Create Calculation Environment
-            </span>
-          </button>
-        </div>
+          </EnvironmentModalButton>
+        )}
+        <EnvironmentModalButton>
+          <CpuChipIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-300" />
+          <span className="ml-2 block text-xs font-semibold text-gray-900 dark:text-white">
+            Create Calculation Environment
+          </span>
+        </EnvironmentModalButton>
       </DisclosurePanel>
     </Disclosure>
   );

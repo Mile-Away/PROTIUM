@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div
             className={clsx(
               isSticky ? 'lg:left-64' : 'lg:left-0',
-              'fixed left-0 right-0 top-0 z-20 transition-all duration-300 ease-in-out',
+              'fixed left-0 right-0 top-0 z-10 transition-all duration-300 ease-in-out',
             )}
           >
             <BoardNavbar />

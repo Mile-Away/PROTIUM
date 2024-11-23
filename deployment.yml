@@ -1,0 +1,337 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DEBUG: 'True'
+  ALLOWED_HOSTS: '47.101.223.251,127.0.0.1,localhost,192.168.205.49,backend'
+  CORS_ALLOW_ALL_ORIGINS: 'True'
+  ACCESS_TOKEN_LIFETIME: '30'
+  REFRESH_TOKEN_LIFETIME: '14'
+  DATABASE_ENGINE: 'django.db.backends.postgresql'
+  DATABASE_HOST: 'db'
+  DATABASE_NAME: 'protium'
+  DATABASE_PORT: '5432'
+  ELASTICSEARCH_HOST: 'http://elasticsearch:9200'
+  EMAIL_HOST: 'smtp.feishu.cn'
+  EMAIL_HOST_USER: 'noreply@deepmodeling.com'
+  JWT_COOKIE_SECURE: 'False'
+  ILAB_HOST: 'http://192.168.1.203:8000'
+  DFLOW_HOST: 'https://host.docker.internal:2746'
+  DFLOW_S3_ENDPOINT: 'host.docker.internal:9000'
+  DFLOW_S3_CONSOLE: 'http://host.docker.internal:9001'
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  SECRET_KEY: ZGphbmdvLWluc2VjdXJlLXdeODdyZ19AaTlzZ2gkbmp6YmhpNDctdHp3M2MzeWlhd2Ep # base64 encoded value of 'django-insecure-w^87rg_@i9sgh$njzbhi47-tzw3c3yiawa)&i=9__g!e#ops9@'
+  DATABASE_USER: cHJvdGl1bQ== # base64 encoded value of 'protium'
+  DATABASE_PASSWORD: cHJvdGl1bQ== # base64 encoded value of 'protium'
+  ELASTICSEARCH_USERNAME: ZWxhc3RpYw== # base64 encoded value of 'elastic'
+  ELASTICSEARCH_PASSWORD: cUcxcHk1Y0loNnR3cjBQcWpKNGY= # base64 encoded value of 'qG1py5cIh6twr0PqvJ4f'
+  EMAIL_HOST_PASSWORD: Vko1akc0dzJjNHdY # base64 encoded value of 'VJ5jG2C4wMjYzDbY'
+
+
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: db-pvc
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: db-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: db
+#   template:
+#     metadata:
+#       labels:
+#         app: db
+#     spec:
+#       containers:
+#         - name: db
+#           image: postgres:16.4-bullseye
+#           volumeMounts:
+#             - name: db-storage
+#               mountPath: /var/lib/postgresql/data
+#           env:
+#             - name: POSTGRES_DB
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_NAME
+#             - name: POSTGRES_USER
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: DATABASE_USER
+#             - name: POSTGRES_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: DATABASE_PASSWORD
+#             - name: POSTGRES_HOST
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_HOST
+#             - name: POSTGRES_PORT
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_PORT
+#           resources:
+#             requests:
+#               memory: '64Mi'
+#               cpu: '250m'
+#             limits:
+#               memory: '128Mi'
+#               cpu: '500m'
+#       volumes:
+#         - name: db-storage
+#           persistentVolumeClaim:
+#             claimName: db-pvc
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: db-service
+# spec:
+#   selector:
+#     app: db
+#   type: LoadBalancer
+#   ports:
+#     - protocol: TCP
+#       port: 5433
+#       targetPort: 5432
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: elasticsearch-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: elasticsearch
+#   template:
+#     metadata:
+#       labels:
+#         app: elasticsearch
+#     spec:
+#       containers:
+#         - name: elasticsearch
+#           image: elasticsearch:8.15.0
+#           env:
+#             - name: discovery.type
+#               value: 'single-node'
+#             - name: ELASTIC_USERNAME
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: ELASTICSEARCH_USERNAME
+#             - name: ELASTIC_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: ELASTICSEARCH_PASSWORD
+#             - name: xpack.security.http.ssl.enabled
+#               value: 'false'
+#             - name: xpack.license.self_generated.type
+#               value: 'trial'
+#           ports:
+#             - containerPort: 9200
+#           resources:
+#             limits:
+#               cpu: '1'
+#               memory: '2Gi'
+#             requests:
+#               cpu: '1'
+#               memory: '1Gi'
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: elasticsearch-service
+# spec:
+#   selector:
+#     app: elasticsearch
+#   type: LoadBalancer
+#   ports:
+#     - protocol: TCP
+#       port: 9200
+#       targetPort: 9200
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: backend-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: backend
+#   template:
+#     metadata:
+#       labels:
+#         app: backend
+#     spec:
+#       containers:
+#         - name: backend
+#           image: registry.cn-beijing.aliyuncs.com/protium/backend:latest
+#           ports:
+#             - containerPort: 8000
+#           env:
+#             - name: ENV
+#               value: 'production'
+#             - name: DEBUG
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DEBUG
+#             - name: ALLOWED_HOSTS
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: ALLOWED_HOSTS
+#             - name: CORS_ALLOW_ALL_ORIGINS
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: CORS_ALLOW_ALL_ORIGINS
+#             - name: ACCESS_TOKEN_LIFETIME
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: ACCESS_TOKEN_LIFETIME
+#             - name: REFRESH_TOKEN_LIFETIME
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: REFRESH_TOKEN_LIFETIME
+#             - name: DATABASE_ENGINE
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_ENGINE
+#             - name: DATABASE_HOST
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_HOST
+#             - name: DATABASE_NAME
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_NAME
+#             - name: DATABASE_PORT
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DATABASE_PORT
+#             - name: ELASTICSEARCH_HOST
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: ELASTICSEARCH_HOST
+#             - name: EMAIL_HOST
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: EMAIL_HOST
+#             - name: EMAIL_HOST_USER
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: EMAIL_HOST_USER
+#             - name: JWT_COOKIE_SECURE
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: JWT_COOKIE_SECURE
+#             - name: ILAB_HOST
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: ILAB_HOST
+#             - name: DFLOW_HOST
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DFLOW_HOST
+#             - name: DFLOW_S3_ENDPOINT
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DFLOW_S3_ENDPOINT
+#             - name: DFLOW_S3_CONSOLE
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: app-config
+#                   key: DFLOW_S3_CONSOLE
+#             - name: SECRET_KEY
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: SECRET_KEY
+#             - name: DATABASE_USER
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: DATABASE_USER
+#             - name: DATABASE_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: DATABASE_PASSWORD
+#             - name: ELASTICSEARCH_USERNAME
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: ELASTICSEARCH_USERNAME
+#             - name: ELASTICSEARCH_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: ELASTICSEARCH_PASSWORD
+#             - name: EMAIL_HOST_PASSWORD
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: app-secret
+#                   key: EMAIL_HOST_PASSWORD
+#           command: ['/app/entrypoint.sh']
+#           resources:
+#             limits:
+#               memory: '1Gi'
+#               cpu: '500m'
+#             requests:
+#               memory: '512Mi'
+#               cpu: '250m'
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: backend-service
+# spec:
+#   selector:
+#     app: backend
+#   ports:
+#     - protocol: TCP
+#       port: 8000
+#       targetPort: 8000
+#   type: LoadBalancer

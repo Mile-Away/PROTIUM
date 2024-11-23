@@ -47,7 +47,7 @@
           background-color: #ffffff;
         }
 
-        > * {
+        >* {
           /* Items are hidden using height and opacity to retain focus */
           opacity: 0;
           height: 0;
@@ -59,7 +59,7 @@
       opacity: 0.5;
     }
 
-    .TreeItem > * {
+    .TreeItem>* {
       box-shadow: none;
       background-color: transparent;
     }
@@ -70,21 +70,12 @@
   --vertical-padding: 10px;
 
   position: relative;
-  display: flex;
-  align-items: center;
   padding: var(--vertical-padding) 10px;
-  background-color: #fff;
-  border: 1px solid #dedede;
-  color: #222;
   box-sizing: border-box;
 }
 
 .Text {
   flex-grow: 1;
-  padding-left: 0.5rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .Count {
@@ -109,6 +100,7 @@
 
 .disableSelection,
 .clone {
+
   .Text,
   .Count {
     user-select: none;

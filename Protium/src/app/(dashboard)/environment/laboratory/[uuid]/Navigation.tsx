@@ -19,11 +19,11 @@ interface TabProps {
   icon: React.ComponentType<React.ComponentPropsWithoutRef<'svg'>>;
 }
 
-const SpaceNavigation = ({ name }: { name: string }) => {
+const SpaceNavigation = ({params}:{params:{uuid:string}}) => {
   const { t } = useTranslation('environment');
   const id = useId();
   const { userInfo } = useAuthService();
-  const url = usePathname().split('/')[3]
+  const url = usePathname().split('/')[4]
 
   //   const { fetchData, dataCRUD, isLoading, error } = useCRUD<any>(
   //     [],
@@ -38,8 +38,6 @@ const SpaceNavigation = ({ name }: { name: string }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  console.log('url', url);
 
   const [tabs, setTabs] = useState<TabProps[]>([
     {
@@ -150,7 +148,7 @@ const SpaceNavigation = ({ name }: { name: string }) => {
           {tabs.map((tab) => (
             <Link
               key={tab.name}
-              href={`/environment/laboratory/${tab.href}`}
+              href={`/environment/laboratory/${params.uuid}/${tab.href}`}
               target={tab.href.startsWith('http') ? '_blank' : undefined}
               className={clsx(
                 'flex gap-2 items-center',

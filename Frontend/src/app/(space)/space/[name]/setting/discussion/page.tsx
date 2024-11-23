@@ -77,7 +77,7 @@ export default function Page({ params }: { params: { name: string } }) {
               checked={enabled}
               onChange={handleCheckSwitch}
               className={clsx(
-                enabled ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-neutral-700',
+                enabled ? 'bg-indigo-600' : 'bg-neutral-200 dark:bg-neutral-700',
                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none',
               )}
             >

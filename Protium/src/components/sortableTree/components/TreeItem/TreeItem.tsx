@@ -1,9 +1,8 @@
-import React, {forwardRef, HTMLAttributes} from 'react';
+import React, { forwardRef, HTMLAttributes } from 'react';
 
-
-import {Action, Handle, Remove} from '../components';
-import styles from './TreeItem.module.css';
 import clsx from 'clsx';
+import { Action, Remove } from '../components';
+import styles from './TreeItem.module.css';
 
 export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
   childCount?: number;
@@ -42,17 +41,17 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
       wrapperRef,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <li
         className={clsx(
           styles.Wrapper,
           clone && styles.clone,
-          ghost && styles.ghost,
+          ghost && (styles.ghost, 'opacity-50'),
           indicator && styles.indicator,
           disableSelection && styles.disableSelection,
-          disableInteraction && styles.disableInteraction
+          disableInteraction && styles.disableInteraction,
         )}
         ref={wrapperRef}
         style={
@@ -62,20 +61,32 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
         }
         {...props}
       >
-        <div className={styles.TreeItem} ref={ref} style={style}>
-          <Handle {...handleProps} />
+        <div
+          className={clsx(
+            styles.TreeItem,
+            'flex items-center select-none text-neutral-900 bg-transparent dark:hover:bg-white/10 dark:text-white',
+          )}
+          ref={ref}
+          style={style}
+          {...handleProps}
+        >
+          {/* <Handle {...handleProps} /> */}
           {onCollapse && (
             <Action
               onClick={onCollapse}
-              className={clsx(
-                styles.Collapse,
-                collapsed && styles.collapsed
-              )}
+              className={clsx(styles.Collapse, collapsed && styles.collapsed)}
             >
               {collapseIcon}
             </Action>
           )}
-          <span className={styles.Text}>{value}</span>
+          <span
+            className={clsx(
+              styles.Text,
+              'flex-grow overflow-hidden overflow-ellipsis whitespace-nowrap pl-2 text-xs',
+            )}
+          >
+            {value}
+          </span>
           {!clone && onRemove && <Remove onClick={onRemove} />}
           {clone && childCount && childCount > 1 ? (
             <span className={styles.Count}>{childCount}</span>
@@ -83,7 +94,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
         </div>
       </li>
     );
-  }
+  },
 );
 
 const collapseIcon = (
