@@ -1,48 +1,16 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
-import type {DraggableSyntheticListeners} from '@dnd-kit/core';
-import type {Transform} from '@dnd-kit/utilities';
+import { Handle, Remove } from './components';
 
-import {Handle, Remove} from './components';
-
-import styles from './Item.module.css';
+import { setShowingSetMaterialModal } from '@/store/environment/laboratorySlice';
 import clsx from 'clsx';
-
-export interface Props {
-  dragOverlay?: boolean;
-  color?: string;
-  disabled?: boolean;
-  dragging?: boolean;
-  handle?: boolean;
-  handleProps?: any;
-  height?: number;
-  index?: number;
-  fadeIn?: boolean;
-  transform?: Transform | null;
-  listeners?: DraggableSyntheticListeners;
-  sorting?: boolean;
-  style?: React.CSSProperties;
-  transition?: string | null;
-  wrapperStyle?: React.CSSProperties;
-  value: React.ReactNode;
-  onRemove?(): void;
-  renderItem?(args: {
-    dragOverlay: boolean;
-    dragging: boolean;
-    sorting: boolean;
-    index: number | undefined;
-    fadeIn: boolean;
-    listeners: DraggableSyntheticListeners;
-    ref: React.Ref<HTMLElement>;
-    style: React.CSSProperties | undefined;
-    transform: Props['transform'];
-    transition: Props['transition'];
-    value: Props['value'];
-  }): React.ReactElement;
-}
+import { useDispatch } from 'react-redux';
+import { TreeItemProps } from '../../TreeSortable/types';
+import { ItemProps } from '../types';
+import styles from './Item.module.css';
 
 export const Item = React.memo(
-  React.forwardRef<HTMLLIElement, Props>(
+  React.forwardRef<HTMLLIElement, ItemProps>(
     (
       {
         color,
@@ -61,11 +29,11 @@ export const Item = React.memo(
         style,
         transition,
         transform,
-        value,
+        data,
         wrapperStyle,
         ...props
       },
-      ref
+      ref,
     ) => {
       useEffect(() => {
         if (!dragOverlay) {
@@ -79,6 +47,18 @@ export const Item = React.memo(
         };
       }, [dragOverlay]);
 
+      function isTreeItemProps(data: any): data is TreeItemProps {
+        return (
+          data && Array.isArray(data.children) && typeof data.id !== 'undefined'
+        );
+      }
+      const isOccupied = isTreeItemProps(data);
+      const dispath = useDispatch();
+
+      const handleClick = () => {
+        dispath(setShowingSetMaterialModal(true));
+      };
+
       return renderItem ? (
         renderItem({
           dragOverlay: Boolean(dragOverlay),
@@ -91,16 +71,18 @@ export const Item = React.memo(
           style,
           transform,
           transition,
-          value,
         })
       ) : (
         <li
           className={clsx(
-            "dark:bg-white/5 dark:text-white dark:hover:bg-white/10",
+            isOccupied
+              ? 'dark:bg-indigo-600/80 dark:hover:bg-indigo-600'
+              : 'dark:bg-white/5 dark:hover:bg-white/10',
+            ' shadow dark:text-white rounded ',
             styles.Wrapper,
             fadeIn && styles.fadeIn,
             sorting && styles.sorting,
-            dragOverlay && styles.dragOverlay
+            dragOverlay && styles.dragOverlay,
           )}
           style={
             {
@@ -127,13 +109,15 @@ export const Item = React.memo(
           ref={ref}
         >
           <div
+            onClick={handleClick}
             className={clsx(
               styles.Item,
+              'relative box-border flex flex-grow items-center justify-center p-4 outline-none',
               dragging && styles.dragging,
               handle && styles.withHandle,
               dragOverlay && styles.dragOverlay,
               disabled && styles.disabled,
-              color && styles.color
+              color && styles.color,
             )}
             style={style}
             data-cypress="draggable-item"
@@ -141,7 +125,7 @@ export const Item = React.memo(
             {...props}
             tabIndex={!handle ? 0 : undefined}
           >
-            {value}
+            <span className="w-full text-center">{data?.id}</span>
             <span className={styles.Actions}>
               {onRemove ? (
                 <Remove className={styles.Remove} onClick={onRemove} />
@@ -151,6 +135,6 @@ export const Item = React.memo(
           </div>
         </li>
       );
-    }
-  )
+    },
+  ),
 );

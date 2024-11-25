@@ -70,7 +70,7 @@
   --vertical-padding: 10px;
 
   position: relative;
-  padding: var(--vertical-padding) 10px;
+  /* padding: var(--vertical-padding) 10px; */
   box-sizing: border-box;
 }
 

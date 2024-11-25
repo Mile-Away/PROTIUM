@@ -20,24 +20,18 @@ export default function LabHeader() {
           </div>
         </h1>
       </div>
-      {/* <div className="flex items-center gap-x-4 sm:gap-x-6">
+      <div className="flex items-center gap-x-4 sm:gap-x-6">
         <button
           type="button"
-          className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
+          className="hidden text-sm font-semibold leading-6 text-gray-900 dark:text-white sm:block"
         >
           Copy URL
         </button>
         <a
           href="#"
-          className="hidden text-sm font-semibold leading-6 text-gray-900 dark:text-white sm:block"
-        >
-          Edit
-        </a>
-        <a
-          href="#"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Send
+          Invite
         </a>
 
         <Menu as="div" className="relative sm:hidden">
@@ -88,7 +82,7 @@ export default function LabHeader() {
             </Menu.Items>
           </Transition>
         </Menu>
-      </div> */}
+      </div>
     </div>
   );
 }

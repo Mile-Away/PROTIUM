@@ -26,10 +26,13 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { RootReducerProps } from '@/app/store';
+import { setActiveId, setItems, setOverId } from '@/store/environment/laboratorySlice';
 import { CSS } from '@dnd-kit/utilities';
+import { useDispatch, useSelector } from 'react-redux';
 import { SortableTreeItem } from './components';
 import { sortableTreeKeyboardCoordinates } from './keyboardCoordinates';
-import type { FlattenedItem, SensorContext, TreeItems } from './types';
+import type { FlattenedItemProps, SensorContext, TreeItems } from './types';
 import {
   buildTree,
   flattenTree,
@@ -39,32 +42,6 @@ import {
   removeItem,
   setProperty,
 } from './utilities';
-
-const initialItems: TreeItems = [
-  {
-    id: 'Repository 1',
-    children: [],
-  },
-  {
-    id: 'Repository 3',
-    children: [
-      { id: 'Plate 2B', children: [] },
-      { id: 'Plate 3C', children: [] },
-      { id: 'Container 4D', children: [] },
-    ],
-  },
-  {
-    id: 'Repository 2',
-    children: [],
-  },
-  {
-    id: 'Plate 1A',
-    children: [
-      { id: 'NMP 400ml', children: [] },
-      { id: 'THF', children: [] },
-    ],
-  },
-];
 
 const measuring = {
   droppable: {
@@ -105,19 +82,21 @@ interface Props {
 
 export default function SortableTree({
   collapsible,
-  defaultItems = initialItems,
   indicator = false,
   indentationWidth = 24,
   removable,
 }: Props) {
-  const [items, setItems] = useState(() => defaultItems);
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  const [overId, setOverId] = useState<UniqueIdentifier | null>(null);
+  const { items, activeId, overId, flattenedItems } = useSelector(
+    (state: RootReducerProps) => state.laboratory,
+  );
+
   const [offsetLeft, setOffsetLeft] = useState(0);
   const [currentPosition, setCurrentPosition] = useState<{
     parentId: UniqueIdentifier | null;
     overId: UniqueIdentifier;
   } | null>(null);
+
+  const dispatch = useDispatch();
 
   const [isBrowser, setIsBrowser] = useState(false);
 
@@ -125,23 +104,6 @@ export default function SortableTree({
     setIsBrowser(true);
   }, []);
 
-  const flattenedItems = useMemo(() => {
-    console.log('flattenedItems', items);
-    const flattenedTree = flattenTree(items);
-    console.log('flattenedTree', flattenedTree);
-    const collapsedItems = flattenedTree.reduce<string[]>(
-      (acc, { children, collapsed, id }) =>
-        collapsed && children.length ? [...acc, id.toString()] : acc,
-      [],
-    );
-
-    console.log('collapsedItems', collapsedItems);
-
-    return removeChildrenOf(
-      flattenedTree,
-      activeId ? [activeId, ...collapsedItems] : collapsedItems,
-    );
-  }, [activeId, items]);
 
 
   // projected is the item that is being dragged
@@ -156,25 +118,21 @@ export default function SortableTree({
         )
       : null;
 
+  // sensorContext is a ref that holds the items and the offset of the sortable tree
   const sensorContext: SensorContext = useRef({
     items: flattenedItems,
     offset: offsetLeft,
   });
-
-  console.log('sensorContext', sensorContext);
-
 
   // coordinateGetter is a function that returns the coordinates of the sortable tree
   const [coordinateGetter] = useState(() =>
     sortableTreeKeyboardCoordinates(sensorContext, indicator, indentationWidth),
   );
 
-  console.log('coordinateGetter', coordinateGetter);
-
   const activationConstraint = {
-    delay: 250,
-    distance: 3,
-    tolerance: 5,
+    // delay: 250,
+    distance: 1,
+    // tolerance: 5,
   };
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint,
@@ -232,48 +190,54 @@ export default function SortableTree({
       onDragCancel={handleDragCancel}
     >
       <SortableContext items={sortedIds} strategy={verticalListSortingStrategy}>
-        {flattenedItems.map(({ id, children, collapsed, depth }) => (
-          <SortableTreeItem
-            key={id}
-            id={id}
-            value={id.toString()}
-            depth={id === activeId && projected ? projected.depth : depth}
-            indentationWidth={indentationWidth}
-            indicator={indicator}
-            collapsed={Boolean(collapsed && children.length)}
-            onCollapse={
-              collapsible && children.length
-                ? () => handleCollapse(id)
-                : undefined
-            }
-            onRemove={removable ? () => handleRemove(id) : undefined}
-          />
-        ))}
-        {isBrowser && createPortal(
-          <DragOverlay
-            dropAnimation={dropAnimationConfig}
-            modifiers={indicator ? [adjustTranslate] : undefined}
-          >
-            {activeId && activeItem ? (
-              <SortableTreeItem
-                id={activeId}
-                depth={activeItem.depth}
-                clone
-                childCount={getChildCount(items, activeId) + 1}
-                value={activeId.toString()}
-                indentationWidth={indentationWidth}
-              />
-            ) : null}
-          </DragOverlay>,
-          document.body,
+        {flattenedItems.map(
+          ({ id, children, collapsed, depth, dirs, type }) => (
+            <SortableTreeItem
+              key={id}
+              id={id}
+              type={type}
+              value={id.toString()}
+              depth={id === activeId && projected ? projected.depth : depth}
+              indentationWidth={indentationWidth}
+              indicator={indicator}
+              collapsed={Boolean(collapsed && children.length)}
+              onCollapse={
+                collapsible && children.length
+                  ? () => handleCollapse(id)
+                  : undefined
+              }
+              onRemove={removable ? () => handleRemove(id) : undefined}
+              dirs={dirs}
+            />
+          ),
         )}
+        {isBrowser &&
+          createPortal(
+            // DragOverlay is a component that renders the item that is being dragged
+            <DragOverlay
+              dropAnimation={dropAnimationConfig}
+              modifiers={indicator ? [adjustTranslate] : undefined}
+            >
+              {activeId && activeItem ? (
+                <SortableTreeItem
+                  id={activeId}
+                  depth={activeItem.depth}
+                  clone
+                  childCount={getChildCount(items, activeId) + 1}
+                  value={activeId.toString()}
+                  indentationWidth={indentationWidth}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body,
+          )}
       </SortableContext>
     </DndContext>
   );
 
   function handleDragStart({ active: { id: activeId } }: DragStartEvent) {
-    setActiveId(activeId);
-    setOverId(activeId);
+    dispatch(setActiveId(activeId));
+    dispatch(setOverId(activeId));
 
     const activeItem = flattenedItems.find(({ id }) => id === activeId);
 
@@ -292,7 +256,7 @@ export default function SortableTree({
   }
 
   function handleDragOver({ over }: DragOverEvent) {
-    setOverId(over?.id ?? null);
+    dispatch(setOverId(over?.id ?? null));
   }
 
   function handleDragEnd({ active, over }: DragEndEvent) {
@@ -300,7 +264,7 @@ export default function SortableTree({
 
     if (projected && over) {
       const { depth, parentId } = projected;
-      const clonedItems: FlattenedItem[] = JSON.parse(
+      const clonedItems: FlattenedItemProps[] = JSON.parse(
         JSON.stringify(flattenTree(items)),
       );
       const overIndex = clonedItems.findIndex(({ id }) => id === over.id);
@@ -312,7 +276,7 @@ export default function SortableTree({
       const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
       const newItems = buildTree(sortedItems);
 
-      setItems(newItems);
+      dispatch(setItems(newItems))
     }
   }
 
@@ -321,8 +285,8 @@ export default function SortableTree({
   }
 
   function resetState() {
-    setOverId(null);
-    setActiveId(null);
+    dispatch(setOverId(null));
+    dispatch(setActiveId(null));
     setOffsetLeft(0);
     setCurrentPosition(null);
 
@@ -330,14 +294,16 @@ export default function SortableTree({
   }
 
   function handleRemove(id: UniqueIdentifier) {
-    setItems((items) => removeItem(items, id));
+    dispatch(setItems(removeItem(items, id)));
   }
 
   function handleCollapse(id: UniqueIdentifier) {
-    setItems((items) =>
-      setProperty(items, id, 'collapsed', (value) => {
-        return !value;
-      }),
+    dispatch(
+      setItems(
+        setProperty(items, id, 'collapsed', (value) => {
+          return !value;
+        }),
+      ),
     );
   }
 
@@ -362,7 +328,7 @@ export default function SortableTree({
         }
       }
 
-      const clonedItems: FlattenedItem[] = JSON.parse(
+      const clonedItems: FlattenedItemProps[] = JSON.parse(
         JSON.stringify(flattenTree(items)),
       );
       const overIndex = clonedItems.findIndex(({ id }) => id === overId);
@@ -382,7 +348,7 @@ export default function SortableTree({
         if (projected.depth > previousItem.depth) {
           announcement = `${activeId} was ${nestedVerb} under ${previousItem.id}.`;
         } else {
-          let previousSibling: FlattenedItem | undefined = previousItem;
+          let previousSibling: FlattenedItemProps | undefined = previousItem;
           while (previousSibling && projected.depth < previousSibling.depth) {
             const parentId: UniqueIdentifier | null = previousSibling.parentId;
             previousSibling = sortedItems.find(({ id }) => id === parentId);

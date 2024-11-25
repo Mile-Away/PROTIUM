@@ -17,7 +17,10 @@ export const Action = forwardRef<HTMLButtonElement, Props>(
       <button
         ref={ref}
         {...props}
-        className={clsx(styles.Action, className)}
+        className={clsx(styles.Action,
+          "flex w-3 py-4 ml-2 items-center justify-center cursor-pointer rounded outline-none border-none bg-transparent",
+          
+          className)}
         tabIndex={0}
         style={
           {

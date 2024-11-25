@@ -110,20 +110,7 @@ export default function WithStickyFooter({
                       </div>
                     </div>
 
-                    {/* <button
-                        type="button"
-                        className="rounded-md  bg-inherit px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 hover:ring-neutral-400 dark:text-white dark:ring-neutral-700 dark:hover:ring-neutral-500"
-                        onClick={() => setOpen(false)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        onClick={() => {}}
-                        className="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                      >
-                        Save
-                      </button> */}
+
                   </div>
                 </DialogPanel>
               </TransitionChild>

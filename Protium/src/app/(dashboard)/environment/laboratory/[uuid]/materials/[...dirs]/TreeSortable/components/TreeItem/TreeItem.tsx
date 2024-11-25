@@ -1,6 +1,16 @@
 import React, { forwardRef, HTMLAttributes } from 'react';
 
+import { RootReducerProps } from '@/app/store';
+import { UniqueIdentifier } from '@dnd-kit/core';
+import {
+  BeakerIcon,
+  InboxIcon,
+  Squares2X2Icon,
+} from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { usePathname, useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { genClickMaterialDir } from '../../utilities';
 import { Action, Remove } from '../components';
 import styles from './TreeItem.module.css';
 
@@ -16,6 +26,8 @@ export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
   indicator?: boolean;
   indentationWidth: number;
   value: string;
+  dirs?: UniqueIdentifier[];
+  type?: 'Repository' | 'Plate' | 'Container';
   onCollapse?(): void;
   onRemove?(): void;
   wrapperRef?(node: HTMLLIElement): void;
@@ -38,11 +50,27 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
       onRemove,
       style,
       value,
+      type,
       wrapperRef,
+      dirs,
       ...props
     },
     ref,
   ) => {
+    const router = useRouter();
+    const currentUrl = usePathname();
+
+    const handleClickDir = (e: React.MouseEvent) => {
+      const newUrl = genClickMaterialDir(currentUrl, dirs);
+
+      // 使用 router.push 导航到新的 URL
+      newUrl && router.push(newUrl);
+    };
+
+    const { activeItem } = useSelector(
+      (state: RootReducerProps) => state.laboratory,
+    );
+
     return (
       <li
         className={clsx(
@@ -64,7 +92,8 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
         <div
           className={clsx(
             styles.TreeItem,
-            'flex items-center select-none text-neutral-900 bg-transparent dark:hover:bg-white/10 dark:text-white',
+            activeItem?.id === value && 'bg-white/10',
+            'flex select-none items-center bg-transparent px-1 text-neutral-900 dark:text-white dark:hover:bg-white/5',
           )}
           ref={ref}
           style={style}
@@ -74,19 +103,35 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
           {onCollapse && (
             <Action
               onClick={onCollapse}
-              className={clsx(styles.Collapse, collapsed && styles.collapsed)}
+              className={clsx(
+                'transition-transform duration-300 ease-in-out',
+                collapsed && '-rotate-90',
+              )}
             >
               {collapseIcon}
             </Action>
           )}
-          <span
-            className={clsx(
-              styles.Text,
-              'flex-grow overflow-hidden overflow-ellipsis whitespace-nowrap pl-2 text-xs',
-            )}
+          <div
+            onClick={handleClickDir}
+            className="flex w-full items-center justify-center gap-1 pl-2"
           >
-            {value}
-          </span>
+            {type === 'Repository' ? (
+              <Squares2X2Icon className="h-3 w-3 opacity-75" />
+            ) : type === 'Plate' ? (
+              <InboxIcon className="h-3 w-3 opacity-75" />
+            ) : type === 'Container' ? (
+              <BeakerIcon className="h-3 w-3 opacity-75" />
+            ) : null}
+            <span
+              className={clsx(
+                styles.Text,
+                'flex-grow overflow-hidden overflow-ellipsis whitespace-nowrap py-2  text-xs',
+              )}
+            >
+              {value}
+            </span>
+          </div>
+
           {!clone && onRemove && <Remove onClick={onRemove} />}
           {clone && childCount && childCount > 1 ? (
             <span className={styles.Count}>{childCount}</span>

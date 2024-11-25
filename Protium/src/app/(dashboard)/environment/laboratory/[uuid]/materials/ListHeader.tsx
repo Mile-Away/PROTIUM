@@ -6,7 +6,11 @@ import {
   SquaresPlusIcon,
 } from '@heroicons/react/24/outline';
 
-export default function ListHeader() {
+export default function ListHeader({
+  addBlankRepo,
+}: {
+  addBlankRepo: () => void;
+}) {
   return (
     <div className=" flex gap-2 px-2 pb-2 pt-1">
       <div className=" group/search relative w-full">
@@ -26,7 +30,10 @@ export default function ListHeader() {
           className="w-52  origin-top-right rounded-xl border border-white/10 bg-neutral-900 p-1 text-sm/6 text-white shadow transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
         >
           <MenuItem>
-            <button className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-white/10">
+            <button
+              onClick={addBlankRepo}
+              className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-white/10"
+            >
               <SquaresPlusIcon className="size-4 fill-white/30" />
               Blank Repository
               <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">
@@ -44,9 +51,7 @@ export default function ListHeader() {
           <MenuItem>
             <button className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-white/10">
               <BeakerIcon className="size-4 fill-white/30" />
-              <span className="line-clamp-1 text-start">
-                Bioyond A1
-              </span>
+              <span className="line-clamp-1 text-start">Bioyond A1</span>
               <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">
                 ⌘D
               </kbd>
@@ -55,9 +60,7 @@ export default function ListHeader() {
           <MenuItem>
             <button className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-white/10">
               <BeakerIcon className="size-4 fill-white/30" />
-              <span className="line-clamp-1 text-start">
-                Biaozhi A2
-              </span>
+              <span className="line-clamp-1 text-start">Biaozhi A2</span>
               <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">
                 ⌘A
               </kbd>
@@ -66,9 +69,7 @@ export default function ListHeader() {
           <MenuItem>
             <button className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-[focus]:bg-white/10">
               <BeakerIcon className="size-4 fill-white/30" />
-              <span className="line-clamp-1 text-start">
-                Jingtai A3
-              </span>
+              <span className="line-clamp-1 text-start">Jingtai A3</span>
               <kbd className="ml-auto hidden font-sans text-xs text-white/50 group-data-[focus]:inline">
                 ⌘D
               </kbd>
