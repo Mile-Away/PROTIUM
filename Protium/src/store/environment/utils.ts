@@ -9,29 +9,74 @@ export const generateItems = (
   itemCount: number,
   gridContainerColumns: number,
   childItems: TreeItemProps[],
-): (BlankItemProps | TreeItemProps)[] => {
+): { gridItems: (BlankItemProps | TreeItemProps)[]; hasConflict: boolean } => {
   // 创建初始的 items 列表
   const initialItems = createRange<BlankItemProps>(itemCount, (index) => {
     const row = String.fromCharCode(
       65 + Math.floor(index / gridContainerColumns),
     );
     const column = (index % gridContainerColumns) + 1;
-    return { id: `${row}${column}` };
+    return {
+      id: `${row}${column}`,
+      position: { x: Math.floor(index / gridContainerColumns), y: column - 1 },
+    };
   });
 
-  // 根据 children 的位置更新 initialItems
+  let hasConflict = false;
+
+  // 创建一个 Map 来存储每个位置的 childItems
+  const positionMap: Map<string, TreeItemProps[]> = new Map();
+
+  // 填充 positionMap
   for (const child of childItems) {
     if (child.position) {
       const { x, y } = child.position;
-      const index = x * gridContainerColumns + y;
+      const key = `${x},${y}`;
+      if (!positionMap.has(key)) {
+        positionMap.set(key, []);
+      }
+      positionMap.get(key)!.push(child);
+    }
+  }
+
+  // 根据 positionMap 更新 initialItems
+  for (const [key, items] of positionMap.entries()) {
+    const [x, y] = key.split(',').map(Number);
+    const index = x * gridContainerColumns + y;
+
+    if (items.length > 1) {
+      initialItems[index].conflict = true;
+      initialItems[index].conflictItems = items;
+      initialItems[index].msg =
+        `Conflict detected: ${items.length} items already exists at Position (${x}, ${y})`;
+      hasConflict = true;
+    } else {
       initialItems[index] = {
-        ...initialItems[index],
-        ...child,
+        ...items[0],
+        position: { x, y },
       };
     }
   }
 
-  return initialItems;
+  return { gridItems: initialItems, hasConflict };
+};
+
+export const checkIsBlankItem = (
+  item: BlankItemProps | TreeItemProps,
+): boolean => {
+  // Type guard to check if item is TreeItemProps
+  const isTreeItem = (
+    item: BlankItemProps | TreeItemProps,
+  ): item is TreeItemProps => {
+    return 'type' in item;
+  };
+
+  // Use the type guard to determine the type of item
+  if (isTreeItem(item)) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // 根据 dir 找到唯一的文件

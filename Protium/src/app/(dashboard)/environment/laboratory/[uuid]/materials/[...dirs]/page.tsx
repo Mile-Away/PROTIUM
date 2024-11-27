@@ -1,6 +1,7 @@
 'use client';
 import { RootReducerProps } from '@/app/store';
-import { setActiveItem, setItems } from '@/store/environment/laboratorySlice';
+import { setActiveItem } from '@/store/environment/laboratorySlice';
+
 import {
   InformationCircleIcon,
   PaperClipIcon,
@@ -9,116 +10,28 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MatHeader from './MatHeader';
-import MatTabs from './MatTabs';
+import MatTabs, { MatTabProps } from './MatTabs';
 import MaterialModal from './MaterialModal';
-import { TreeItemProps } from './TreeSortable/types';
-
-const initCategories = [
+import InfoTab from './tabs/InfoTab';
+import LayoutTab from './tabs/LayoutTab';
+import LogsTab from './tabs/LogsTab';
+const initCategories: MatTabProps[] = [
   {
     icon: RectangleGroupIcon,
     name: 'Layout',
-    posts: [
-      {
-        id: 1,
-        title: 'Does drinking coffee make you smarter?',
-        date: '5h ago',
-        commentCount: 5,
-        shareCount: 2,
-      },
-      {
-        id: 2,
-        title: "So you've bought coffee... now what?",
-        date: '2h ago',
-        commentCount: 3,
-        shareCount: 2,
-      },
-    ],
+    panel: <LayoutTab gridContainerColumns={5} />,
   },
   {
     icon: InformationCircleIcon,
     name: 'Info',
-    posts: [
-      {
-        id: 1,
-        title: 'Is tech making coffee better or worse?',
-        date: 'Jan 7',
-        commentCount: 29,
-        shareCount: 16,
-      },
-      {
-        id: 2,
-        title: 'The most innovative things happening in coffee',
-        date: 'Mar 19',
-        commentCount: 24,
-        shareCount: 12,
-      },
-      {
-        id: 3,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-      {
-        id: 4,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-      {
-        id: 5,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-    ],
+    panel: <InfoTab />,
   },
   {
     icon: PaperClipIcon,
     name: 'Logs',
-    posts: [
-      {
-        id: 1,
-        title: 'Ask Me Anything: 10 answers to your questions about coffee',
-        date: '2d ago',
-        commentCount: 9,
-        shareCount: 5,
-      },
-      {
-        id: 2,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-      {
-        id: 3,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-      {
-        id: 4,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-      {
-        id: 5,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-    ],
+    panel: <LogsTab />,
   },
 ];
-
-
 
 export default function Page({
   params,
@@ -130,13 +43,13 @@ export default function Page({
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setActiveItem(dirs));
-  }, [dirs]);
-
   const { activeItem } = useSelector(
     (state: RootReducerProps) => state.laboratory,
   );
+
+  useEffect(() => {
+    dispatch(setActiveItem(dirs));
+  }, [dirs]);
 
   useEffect(() => {
     if (activeItem?.type === 'Container') {
@@ -153,7 +66,7 @@ export default function Page({
 
       <MatHeader />
 
-      <MatTabs categories={categories} />
+      <MatTabs tabs={categories} />
       <MaterialModal />
     </div>
   );

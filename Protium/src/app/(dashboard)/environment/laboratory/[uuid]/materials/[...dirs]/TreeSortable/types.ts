@@ -20,7 +20,16 @@ export interface TreeItemProps {
 }
 
 export interface BlankItemProps {
+  // children is not allowed in BlankItemProps, it is used as a type guard
   id: UniqueIdentifier;
+  dirs?: UniqueIdentifier[];
+  position?: {
+    x: number;
+    y: number;
+  };
+  conflict?: boolean;
+  conflictItems?: TreeItemProps[];
+  msg?: string;
 }
 
 export type TreeItems = TreeItemProps[];

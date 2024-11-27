@@ -30,9 +30,7 @@ export const fetchNodeTemplate = createAsyncThunk<
 
 export const fetchMaterials = createAsyncThunk<
   TreeItemProps[],
-  {uuid: string;
-  }
-    
+  { uuid: string }
 >('laboratory/fetchMaterials', async ({ uuid }: { uuid: string }) => {
   // const jwtAxios = createAxiosWithInterceptors();
 
@@ -69,8 +67,16 @@ export const fetchMaterials = createAsyncThunk<
       id: 'Repository 3',
       type: 'Repository',
       children: [
-        { id: 'Plate 3C', type: 'Plate', children: [], status: 'active' },
-        { id: 'Container 5E', type: 'Container', children: [], status: 'idle' },
+        {
+          id: 'Plate 3C',
+          type: 'Plate',
+          children: [],
+          position: { x: 2, y: 3 },
+          status: 'active',
+        },
+        { id: 'Container 5E', type: 'Container',
+          position: { x: 1, y: 1 },
+          children: [], status: 'idle' },
       ],
       status: 'active',
     },

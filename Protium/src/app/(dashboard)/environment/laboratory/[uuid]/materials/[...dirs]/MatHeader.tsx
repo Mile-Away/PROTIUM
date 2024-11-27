@@ -59,7 +59,7 @@ export default function MatHeader() {
             <BeakerIcon className="mr-2 h-6 w-6 dark:text-white" />
           ) : null}
           <h2 className=" text-xl font-bold leading-7 text-white sm:truncate sm:text-2xl sm:tracking-tight">
-            {activeItem?.id}
+            {activeItem?.id || decodeURIComponent(currentUrl.split('/').pop()!)}
           </h2>
         </div>
         <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">

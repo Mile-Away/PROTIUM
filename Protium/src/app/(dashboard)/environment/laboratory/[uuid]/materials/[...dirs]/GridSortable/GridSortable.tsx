@@ -30,7 +30,10 @@ import { Wrapper } from './Wrapper';
 import { SortableProps } from './types';
 
 import { RootReducerProps } from '@/app/store';
-import { setGridItems } from '@/store/environment/laboratorySlice';
+import {
+  setGridItems,
+  updatePosition,
+} from '@/store/environment/laboratorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { GridContainer } from './GridContainer';
 
@@ -154,10 +157,10 @@ export function GridSortable({
 
   return (
     <DndContext
-      accessibility={{
-        announcements,
-        screenReaderInstructions,
-      }}
+      // accessibility={{
+      //   announcements,
+      //   screenReaderInstructions,
+      // }}
       sensors={sensors}
       collisionDetection={collisionDetection}
       onDragStart={({ active }) => {
@@ -173,7 +176,8 @@ export function GridSortable({
         if (over) {
           const overIndex = getIndex(over.id);
           if (activeIndex !== overIndex) {
-            dispatch(setGridItems(reorderItems(items, activeIndex, overIndex)));
+            // dispatch(setGridItems(reorderItems(items, activeIndex, overIndex)));
+            dispatch(updatePosition({ activeIndex, overIndex }));
           }
         }
       }}

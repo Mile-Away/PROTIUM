@@ -20,7 +20,7 @@ services:
       - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
       - xpack.security.http.ssl.enabled=false
       - xpack.license.self_generated.type=trial
-      - logger.level=DEBUG
+      - logger.level=ERROR
     ports:
       - '9200:9200'
     # Limiting the resources for the elasticsearch container
