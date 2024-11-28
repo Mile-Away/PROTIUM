@@ -22,7 +22,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@headlessui/react": "^2.0.4",
+    "@headlessui/react": "^2.2.0",
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.1.1",
     "@mdx-js/loader": "^2.3.0",
