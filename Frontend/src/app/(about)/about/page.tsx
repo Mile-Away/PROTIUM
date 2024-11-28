@@ -81,7 +81,7 @@ export default function About() {
                   </svg>
                   {t(item.date)}
                   <div
-                    className="absolute -ml-2 h-px w-screen -translate-x-full bg-gray-900/10 dark:bg-white/20 sm:-ml-4 lg:static lg:-mr-6 lg:ml-8 lg:w-auto lg:flex-auto lg:translate-x-0"
+                    className="absolute -ml-2 h-px w-screen -translate-x-full bg-neutral-900/10 dark:bg-white/20 sm:-ml-4 lg:static lg:-mr-6 lg:ml-8 lg:w-auto lg:flex-auto lg:translate-x-0"
                     aria-hidden="true"
                   />
                 </time>
@@ -119,7 +119,7 @@ export default function About() {
                   <img
                     src="/hero11.png"
                     alt=""
-                    className="aspect-[7/5] w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover"
+                    className="bg-neutralral-50 aspect-[7/5] w-[37rem] max-w-none rounded-2xl object-cover"
                   />
                 </div>
                 <div className="contents lg:col-span-2 lg:col-end-2 lg:ml-auto lg:flex lg:w-[37rem] lg:items-start lg:justify-end lg:gap-x-8">
@@ -127,21 +127,21 @@ export default function About() {
                     <img
                       src="/hero5.png"
                       alt=""
-                      className="aspect-[4/3] w-[24rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
+                      className="bg-neutralral-50 aspect-[4/3] w-[24rem] max-w-none flex-none rounded-2xl object-cover"
                     />
                   </div>
                   <div className="flex w-96 flex-auto justify-end lg:w-auto lg:flex-none">
                     <img
                       src="/hero4-horizen.png"
                       alt=""
-                      className="aspect-[7/5] w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
+                      className="bg-neutralral-50 aspect-[7/5] w-[37rem] max-w-none flex-none rounded-2xl object-cover"
                     />
                   </div>
                   <div className="hidden sm:block sm:w-0 sm:flex-auto lg:w-auto lg:flex-none">
                     <img
                       src="/hero2.png"
                       alt=""
-                      className="aspect-[4/3] w-[24rem] max-w-none rounded-2xl bg-gray-50 object-cover"
+                      className="bg-neutralral-50 aspect-[4/3] w-[24rem] max-w-none rounded-2xl object-cover"
                     />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function About() {
             </p>
           </div>
           <div className="mx-auto mt-16 flex max-w-2xl flex-col gap-8 lg:mx-0 lg:mt-20 lg:max-w-none lg:flex-row lg:items-end">
-            <div className="flex flex-col-reverse justify-between gap-x-16 gap-y-8 rounded-2xl bg-gray-50 p-8 sm:w-3/4 sm:max-w-md sm:flex-row-reverse sm:items-end lg:w-72 lg:max-w-none lg:flex-none lg:flex-col lg:items-start">
+            <div className="bg-neutralral-50 flex flex-col-reverse justify-between gap-x-16 gap-y-8 rounded-2xl p-8 sm:w-3/4 sm:max-w-md sm:flex-row-reverse sm:items-end lg:w-72 lg:max-w-none lg:flex-none lg:flex-col lg:items-start">
               <p className="flex-none text-3xl font-bold tracking-tight text-gray-900">
                 6.7k
               </p>
@@ -175,7 +175,7 @@ export default function About() {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col-reverse justify-between gap-x-16 gap-y-8 rounded-2xl bg-gray-900 p-8 sm:flex-row-reverse sm:items-end lg:w-full lg:max-w-sm lg:flex-auto lg:flex-col lg:items-start lg:gap-y-44">
+            <div className="bg-neutralral-900 flex flex-col-reverse justify-between gap-x-16 gap-y-8 rounded-2xl p-8 sm:flex-row-reverse sm:items-end lg:w-full lg:max-w-sm lg:flex-auto lg:flex-col lg:items-start lg:gap-y-44">
               <p className="flex-none text-3xl font-bold tracking-tight text-white">
                 652k
               </p>
@@ -259,7 +259,7 @@ export default function About() {
 
         {/* Github Ad */}
         <div className="mx-auto max-w-8xl pb-32 pt-24 sm:px-6 lg:px-8 2xl:max-w-screen-2xl">
-          <div className="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+          <div className="bg-neutralral-900 relative isolate overflow-hidden px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
             <svg
               viewBox="0 0 1024 1024"
               className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0"
@@ -295,7 +295,7 @@ export default function About() {
                 <a
                   target="_blank"
                   href="https://github.com/Protium"
-                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="hover:bg-neutralral-100 rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {t('GithubAd.button.primary')}
                 </a>

@@ -81,7 +81,7 @@ export default function Layout({ children, params }: LayoutProps) {
             }}
           />
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gray-900/5" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-neutral-900/5" />
       </div>
     </div>
   );

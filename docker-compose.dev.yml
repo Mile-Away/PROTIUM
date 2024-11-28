@@ -20,6 +20,7 @@ services:
       - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
       - xpack.security.http.ssl.enabled=false
       - xpack.license.self_generated.type=trial
+      - logger.level=ERROR
     ports:
       - '9200:9200'
     # Limiting the resources for the elasticsearch container
@@ -72,6 +73,7 @@ services:
     build:
       context: ./Protium
     image: ghcr.io/mile-away/protium/workflow:latest
+    # command: sh -c "yarn dev && tail -f /dev/null"
     command: ['yarn', 'dev']
     env_file:
       - .env

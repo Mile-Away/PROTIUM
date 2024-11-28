@@ -3,7 +3,7 @@
 export default function reorderProperties(schema: {
   type: string;
   items: { type: string; properties: any[] };
-}): any {
+}): object {
   if (schema.type === 'array') {
     if (schema.items.type === 'object') {
       const properties = schema.items.properties;

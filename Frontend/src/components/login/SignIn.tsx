@@ -183,7 +183,7 @@ const SignIn = ({ Email }: SignInProps) => {
                   }
                 }}
                 name="forget"
-                className="-m-2 rounded-lg p-2 text-xs text-indigo-950 transition-opacity hover:bg-gray-200/50 hover:text-indigo-600  dark:text-indigo-50 dark:hover:bg-gray-50/5 dark:hover:text-indigo-300"
+                className="-m-2 rounded-lg p-2 text-xs text-indigo-950 transition-opacity hover:bg-neutral-200/50 hover:text-indigo-600  dark:text-indigo-50 dark:hover:bg-neutral-50/5 dark:hover:text-indigo-300"
               >
                 Forget Password ?
               </button>

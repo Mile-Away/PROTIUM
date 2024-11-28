@@ -5,17 +5,23 @@ import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
 import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
 import { setWorkflowList } from '@/store/workflow/workflowSlice';
-import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { FolderArrowDownIcon, PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import SidebarContextMenu from '../(workflow)/ContextMenu/SidebarContextMenu';
 import { GoRepoTemplate } from 'react-icons/go';
+import { useDispatch, useSelector } from 'react-redux';
+import SidebarContextMenu from '../(dashboard)/workflow/ContextMenu/SidebarContextMenu';
 
 const WorkflowList: React.FC = () => {
   const jwtAxios = createAxiosWithInterceptors();
+  const url = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
   const { workflowList } = useSelector(
@@ -30,13 +36,15 @@ const WorkflowList: React.FC = () => {
     x: number;
     y: number;
   }>({ x: 0, y: 0 });
+
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<WorkflowProps | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   const fetchWorkflows = async () => {
     try {
       const res = await jwtAxios.get(
-        `${BASE_URL}/workflow/vs/workflow/?by_user=true`,
+        `/workflow/vs/workflow/?by_user=true`,
       );
       dispatch(setWorkflowList(res.data));
     } catch (error) {
@@ -92,7 +100,11 @@ const WorkflowList: React.FC = () => {
   };
 
   return (
-    <>
+    <Disclosure
+      defaultOpen
+      as="div"
+      className="-mt-5 flex h-fit flex-col border-t pt-4 dark:border-white/10"
+    >
       {contextMenuVisible && (
         <SidebarContextMenu
           id={selectedItem?.uuid || ''}
@@ -101,13 +113,30 @@ const WorkflowList: React.FC = () => {
           handleCloseContextMenu={handleCloseContextMenu}
         />
       )}
-      <div className={clsx('inert flex w-full flex-col gap-y-4 px-2')}>
+      <div
+        className={clsx('inert group/expand flex w-full flex-col gap-y-4 px-2')}
+      >
         <div
           className={clsx(
             'mb-4 flex w-full items-center justify-between gap-x-2',
           )}
         >
-          <span className=" font-display text-sm font-bold">Workflows</span>
+          <div className=" flex items-center justify-center gap-2">
+            <span className=" font-display text-sm font-bold">Workflows</span>
+            <DisclosureButton
+              onClick={() => setExpanded(!expanded)}
+              name="button"
+              type="button"
+              className="flex items-center rounded bg-transparent p-0.5 opacity-0 transition-opacity duration-300 ease-in-out hover:bg-neutral-300/20 group-hover/expand:opacity-100 dark:hover:bg-neutral-700/20"
+            >
+              <ChevronDownIcon
+                className={clsx(
+                  'h-4 w-4 transition-transform duration-300 ease-in-out dark:text-white',
+                  expanded && '-rotate-90 transform ',
+                )}
+              />
+            </DisclosureButton>
+          </div>
           <div className="flex items-center justify-center">
             <PrimaryButton
               onClick={handleCreateWorkflow}
@@ -140,7 +169,12 @@ const WorkflowList: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="inert flex flex-col items-center gap-4 p-1">
+      <DisclosurePanel
+        transition
+        className="inert flex origin-top flex-col items-center gap-4 pb-2
+      transition duration-200 ease-in-out data-[closed]:-translate-y-6 data-[closed]:opacity-0
+      "
+      >
         {workflowList
           .slice()
           .sort(
@@ -162,7 +196,7 @@ const WorkflowList: React.FC = () => {
               }}
               className={clsx(
                 'group relative flex h-fit w-full flex-shrink-0 cursor-pointer select-none items-center justify-between rounded shadow-sm ring-1 ring-neutral-50 hover:ring-0 dark:ring-neutral-800/40',
-                workflow.uuid === uuid &&
+                workflow.uuid === url.split("/")[2] &&
                   ' bg-gradient-to-r  from-sky-100 to-teal-100 dark:from-sky-600  dark:to-indigo-600',
               )}
             >
@@ -170,12 +204,12 @@ const WorkflowList: React.FC = () => {
                 <div className="absolute -inset-px -z-10 rounded border border-transparent opacity-100 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
               )}
               <div className="absolute -inset-px -z-10 rounded border border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
-              <div className="flex h-full w-full flex-col items-start justify-between gap-y-2 px-3 py-4 text-sm">
+              <div className="flex h-full w-full flex-col items-start justify-between gap-y-2 px-3 py-2 text-sm">
                 <div className="flex w-full items-center justify-between">
-                  <span className="line-clamp-1 font-semibold">
+                  <span className="line-clamp-1 text-xs">
                     {workflow.name || 'Untitled'}
                   </span>
-                  <div className=' flex items-center justify-center gap-2'>
+                  <div className=" flex items-center justify-center gap-2">
                     {workflow.as_template && (
                       <GoRepoTemplate className="h-4 w-4 text-green-400 dark:text-green-300" />
                     )}
@@ -193,8 +227,8 @@ const WorkflowList: React.FC = () => {
               </div>
             </div>
           ))}
-      </div>
-    </>
+      </DisclosurePanel>
+    </Disclosure>
   );
 };
 

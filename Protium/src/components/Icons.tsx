@@ -519,3 +519,4 @@ export function VASPIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
     </svg>
   );
 }
+

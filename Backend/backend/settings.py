@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "integration.apps.IntegrationConfig",
     "api.apps.ApiConfig",
     "flociety.apps.FlocietyConfig",
+    "environment.apps.EnvironmentConfig",
 ]
 
 MIDDLEWARE = [

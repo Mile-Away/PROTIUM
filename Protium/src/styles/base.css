@@ -12,11 +12,6 @@ mark {
 }
 
 /* 隐藏滚动条 */
-.scrollbar-w-2::-webkit-scrollbar {
-    width: 2px;
-
-}
-
 .scrollbar-w-0::-webkit-scrollbar {
     width: 0px;
 }
@@ -29,6 +24,16 @@ mark {
     display: none;
 }
 
+/* 减少滑动条的宽度，并设置其透明度为50% */
+
+.inert-opacity::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2); /* 设置透明度为50% */
+}
+
+.scrollbar-w-2::-webkit-scrollbar {
+    width: 4px;
+}
+
 .scrollbar-w-2::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.3);
 }

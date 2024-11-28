@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-full w-full bg-gray-50 dark:bg-black">
+    <div className="flex h-full w-full bg-neutral-50 dark:bg-black">
       <div className="fixed inset-0 flex justify-center sm:px-8">
         <div className="flex w-full max-w-7xl lg:px-8">
           <div className="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20" />

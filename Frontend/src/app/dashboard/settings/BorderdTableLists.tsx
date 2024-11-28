@@ -1,11 +1,11 @@
 import copyToClipboard from '@/lib/copyToClipboard';
 import { formatTime } from '@/lib/formatDate';
+import formatToken from '@/lib/formatToken';
 import { DocumentDuplicateIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useState } from 'react';
 import DeleteTokenModal from './DeleteTokenModal';
 import { TokenListProps } from './page';
-import formatToken from '@/lib/formatToken';
 export default function BorderdTableLists({
   tokens,
   handleDeleteToken,
@@ -74,7 +74,7 @@ export default function BorderdTableLists({
                       <span>{}</span>
                     </div>
                     {tokenIdx !== 0 ? (
-                      <div className="absolute -top-px left-6 right-0 h-px bg-gray-200 dark:bg-white/10" />
+                      <div className="absolute -top-px left-6 right-0 h-px bg-neutral-200 dark:bg-white/10" />
                     ) : null}
                   </td>
                   <td
@@ -122,12 +122,12 @@ export default function BorderdTableLists({
                     <button
                       type="button"
                       onClick={() => onDeleteToken(token.id)}
-                      className="inline-flex items-center rounded-md bg-neutral-900/10 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm disabled:cursor-not-allowed disabled:opacity-30  disabled:hover:bg-white dark:bg-white/5 dark:text-neutral-400 dark:hover:text-red-600 dark:hover:bg-white/10 transition-colors"
+                      className="inline-flex items-center rounded-md bg-neutral-900/10 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm transition-colors disabled:cursor-not-allowed  disabled:opacity-30 disabled:hover:bg-white dark:bg-white/5 dark:text-neutral-400 dark:hover:bg-white/10 dark:hover:text-red-600"
                     >
                       Delete<span className="sr-only">, {token.name}</span>
                     </button>
                     {tokenIdx !== 0 ? (
-                      <div className="absolute -top-px left-0 right-6 h-px bg-gray-200 dark:bg-white/10" />
+                      <div className="bg-neutralral-200 absolute -top-px left-0 right-6 h-px dark:bg-white/10" />
                     ) : null}
                   </td>
                 </tr>

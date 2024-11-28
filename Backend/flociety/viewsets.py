@@ -2,14 +2,13 @@ from django.db.models import Max, Subquery
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
 from workflow.models import Workflow
 
 from .models import NodeTemplateLibrary, WorkflowTemplateLibrary
 from .serializers import NodeTemplateLibrarySerializer, WorkflowTemplateLibrarySerializer
 
 
-class NodeTemplateLibraryViewSet(ViewSet):
+class NodeTemplateLibraryViewSet(viewsets.ViewSet):
     queryset = NodeTemplateLibrary.objects.all()
     serializer_class = NodeTemplateLibrarySerializer
     permission_classes = [AllowAny]

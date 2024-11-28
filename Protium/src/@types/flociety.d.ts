@@ -1,8 +1,8 @@
-import nodeTypes from '@/app/(workflow)/nodes/nodeTypes';
+import nodeTypes from '@/app/(dashboard)/workflow/nodes/nodeTypes';
 import { WorkflowNodeDataProps } from './workflow';
 
 export interface NodeTemplateProps {
-  id?: string;  // 由前端添加的 uuid，用于标识节点
+  id?: string; // 由前端添加的 uuid，用于标识节点
   name: string;
   description: string;
   version: string;

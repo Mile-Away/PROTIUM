@@ -50,6 +50,7 @@ urlpatterns = [
     path("api/workflow/", include("workflow.urls")),
     path("api/integration/", include("integration.urls")),
     path("api/flociety/", include("flociety.urls")),
+    path("api/environment/", include("environment.urls")),
     # Social Login
     # path("accounts/", include("allauth.urls")),
 ] + router.urls + apipatterns

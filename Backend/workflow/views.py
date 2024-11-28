@@ -1,5 +1,3 @@
-from uuid import uuid4 as uuidv4
-
 from django.http import Http404
 from rest_framework import status
 from rest_framework.request import Request

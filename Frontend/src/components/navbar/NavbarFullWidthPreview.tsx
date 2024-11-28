@@ -99,7 +99,7 @@ export default function NavbarFullWidthPreview({
                         'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
                         'focus:outline-none',
                         selected
-                          ? 'bg-gray-100/80 text-indigo-700 shadow dark:bg-neutral-800/80 dark:text-white'
+                          ? 'bg-neutral-100/80 text-indigo-700 shadow dark:bg-neutral-800/80 dark:text-white'
                           : 'text-gray-800 hover:text-indigo-600 dark:text-indigo-100  dark:hover:text-white',
                       )
                     }
