@@ -61,23 +61,11 @@ export const generateItems = (
   return { gridItems: initialItems, hasConflict };
 };
 
-export const checkIsBlankItem = (
-  item: BlankItemProps | TreeItemProps,
-): boolean => {
-  // Type guard to check if item is TreeItemProps
-  const isTreeItem = (
-    item: BlankItemProps | TreeItemProps,
-  ): item is TreeItemProps => {
-    return 'type' in item;
-  };
-
-  // Use the type guard to determine the type of item
-  if (isTreeItem(item)) {
-    return true;
-  } else {
-    return false;
-  }
-};
+export function isTreeItem(
+  data: any,
+): data is TreeItemProps {
+  return data && Array.isArray(data.children) && typeof data.id !== 'undefined';
+}
 
 // 根据 dir 找到唯一的文件
 export const findItemByDir = (

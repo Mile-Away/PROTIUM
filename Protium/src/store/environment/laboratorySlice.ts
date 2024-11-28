@@ -1,5 +1,5 @@
 import { ItemDataProps } from '@/app/(dashboard)/environment/laboratory/[uuid]/materials/[...dirs]/GridSortable/types';
-import { FormDataProps } from '@/app/(dashboard)/environment/laboratory/[uuid]/materials/[...dirs]/MaterialModal';
+import { FormDataProps } from '@/app/(dashboard)/environment/laboratory/[uuid]/materials/[...dirs]/modals/CreateForm';
 import {
   BlankItemProps,
   FlattenedItemProps,
@@ -20,7 +20,7 @@ import {
 } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { fetchMaterials } from '../middleware';
-import { findItemByDir, generateItems } from './utils';
+import { findItemByDir, generateItems, isTreeItem } from './utils';
 
 export interface LaboratoryStateProps {
   currentPath?: UniqueIdentifier[];
@@ -68,10 +68,13 @@ const laboratorySlice = createSlice({
     ) => {
       const { activeIndex, overIndex } = action.payload;
       const tmpOverPosition = state.gridItems[overIndex].position;
-      
+
       console.log('tmpOverPosition', current(tmpOverPosition));
       state.gridItems[activeIndex].position = tmpOverPosition;
-      console.log('state.gridItems[activeIndex].position', current(state.gridItems[activeIndex]));
+      console.log(
+        'state.gridItems[activeIndex].position',
+        current(state.gridItems[activeIndex]),
+      );
       // 更新 items 中对应项目的 position
       const parentItem = findItemByDir(state.items, state.currentPath);
       const activeItem = parentItem?.children.find(
@@ -89,7 +92,7 @@ const laboratorySlice = createSlice({
       const syncState = syncGridAndFlattenedItems(state);
       state.gridItems = syncState.gridItems;
     },
-    
+
     setGridItems: (state, action: PayloadAction<ItemDataProps[]>) => {
       // 到这里，我得到了一个更新后的 gridItems 列表，但是其中 activeID 的 position 并没有更新
 
@@ -116,31 +119,15 @@ const laboratorySlice = createSlice({
       const dirs = action.payload?.map((dir) =>
         decodeURIComponent(dir.toString()),
       );
-      let activeItem = null;
 
       if (dirs) {
-        let currentItems = state.items;
-        let currentItem = null;
-
-        for (const dir of dirs) {
-          currentItem = currentItems.find((item) => item.id === dir);
-
-          if (!currentItem) {
-            break;
-          }
-
-          currentItems = currentItem.children;
-        }
-
-        activeItem = currentItem;
-        activeItem && (activeItem.dirs = dirs);
+        state.activeItem = findItemByDir(state.items, dirs);
         state.currentPath = dirs;
-      }
 
-      state.activeItem = activeItem || null;
-      const syncState = syncGridAndFlattenedItems(state);
-      state.gridItems = syncState.gridItems;
-      state.flattenedItems = syncState.flattenedItems;
+        const syncState = syncGridAndFlattenedItems(state);
+        state.gridItems = syncState.gridItems;
+        state.flattenedItems = syncState.flattenedItems;
+      }
     },
 
     setShowingSetMaterialModal: (state, action: PayloadAction<boolean>) => {
@@ -155,7 +142,19 @@ const laboratorySlice = createSlice({
         return isEqual(item.position, action.payload);
       });
 
-      state.isShowingSetMaterialModalFor = foundItem;
+      // 如果找到的项目是 TreeItem，则从 items 中找到对应的 TreeItem
+      if (isTreeItem(foundItem)) {
+        const parentItem = findItemByDir(state.items, state.currentPath);
+        const foundTreeItem = parentItem?.children.find(
+          (item) => item.id === foundItem.id,
+        );
+        state.isShowingSetMaterialModalFor = {
+          ...foundTreeItem!,
+          dirs: [...state.currentPath!, foundTreeItem?.id!],
+        };
+      } else {
+        state.isShowingSetMaterialModalFor = foundItem;
+      }
     },
 
     addChildren: (state, action: PayloadAction<FormDataProps>) => {

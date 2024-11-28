@@ -11,6 +11,7 @@ export interface TreeItemProps {
   position?: {
     x: number;
     y: number;
+    z?: number;
   };
   layout?: {
     gridContainerColumns?: number;
@@ -26,6 +27,7 @@ export interface BlankItemProps {
   position?: {
     x: number;
     y: number;
+    z?: number;
   };
   conflict?: boolean;
   conflictItems?: TreeItemProps[];

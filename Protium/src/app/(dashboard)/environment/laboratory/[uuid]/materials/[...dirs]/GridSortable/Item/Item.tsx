@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TreeItemProps } from '../../TreeSortable/types';
 import { ItemProps } from '../types';
 import styles from './Item.module.css';
+import { isTreeItem } from '@/store/environment/utils';
 
 export const Item = React.memo(
   React.forwardRef<HTMLLIElement, ItemProps>(
@@ -61,13 +62,9 @@ export const Item = React.memo(
         useSelector((status: RootReducerProps) => status.laboratory);
 
       // 判断是否是 TreeItem，如果是，则渲染为 TreeItem
-      function isTreeItemProps(data: any): data is TreeItemProps {
-        return (
-          data && Array.isArray(data.children) && typeof data.id !== 'undefined'
-        );
-      }
+ 
 
-      const isOccupied = isTreeItemProps(data);
+      const isOccupied = isTreeItem(data);
       const dispatch = useDispatch();
 
       const handleClick = () => {
