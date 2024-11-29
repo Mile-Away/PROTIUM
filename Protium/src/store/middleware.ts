@@ -31,7 +31,7 @@ export const fetchNodeTemplate = createAsyncThunk<
 export const fetchMaterials = createAsyncThunk<
   TreeItemProps[],
   { uuid: string }
->('laboratory/fetchMaterials', async ({ uuid }: { uuid: string }) => {
+>('material/fetchMaterials', async ({ uuid }: { uuid: string }) => {
   // const jwtAxios = createAxiosWithInterceptors();
 
   // const response = await jwtAxios.get('/materials/');

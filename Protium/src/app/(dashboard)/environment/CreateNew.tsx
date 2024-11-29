@@ -1,5 +1,10 @@
-import { BASE_URL } from '@/config';
+import { RootReducerProps, useAppDispatch } from '@/app/store';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
+import {
+  LaboratoryStateProps,
+  setLaboratoryData,
+} from '@/store/environment/laboratorySlice';
+import { createLaboratoryEnv } from '@/store/environment/middleware';
 import {
   Button,
   Description,
@@ -24,17 +29,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 interface PanelProps {
   close: () => void;
 }
 
-interface FormDataProps {
-  name: string;
-  ip_address: string;
-  address: string;
-  description?: string;
-}
+type FormDataProps = Omit<LaboratoryStateProps, 'uuid'>;
 
 const CreateLabEnvPanel: React.FC<PanelProps> = ({ close }) => {
   const jwtAxios = createAxiosWithInterceptors();
@@ -55,18 +56,31 @@ const CreateLabEnvPanel: React.FC<PanelProps> = ({ close }) => {
     },
   } = useForm<FormDataProps>();
 
+  const dispatch = useAppDispatch();
+
+  const { uuid } = useSelector((state: RootReducerProps) => state.environment.laboratory);
+
   const onSubmit = async (data: FormDataProps) => {
-    console.log(data);
+    dispatch(setLaboratoryData(data));
 
     try {
-      const res = await jwtAxios.post(`${BASE_URL}/environment/vs/experiment/`, data);
-      console.log(res);
-      if (res.status === 201) {
-        router.push(`/environment/laboratory/${res.data.uuid}`);
+      const resultAction = await dispatch(createLaboratoryEnv(data));
+
+      if (createLaboratoryEnv.fulfilled.match(resultAction)) {
         close();
+        router.push(`/environment/laboratory/${resultAction.payload.uuid}`);
+      } else {
+        // Handle the error case, e.g., show an error message
+        console.error(
+          'Failed to create laboratory environment:',
+          resultAction.payload,
+        );
       }
     } catch (error) {
-      console.error(error);
+      console.error('An error occurred:', error);
+    } finally {
+      console.log('finally');
+      console.log(uuid);
     }
   };
 
@@ -99,7 +113,9 @@ const CreateLabEnvPanel: React.FC<PanelProps> = ({ close }) => {
           Use your real name so people will recognize you.
         </Description>
         <Input
-          {...register('ip_address', { required: 'Server IP Address Required' })}
+          {...register('ip_address', {
+            required: 'Server IP Address Required',
+          })}
           className={clsx(
             'mt-3 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm/6 text-white',
             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
@@ -112,9 +128,7 @@ const CreateLabEnvPanel: React.FC<PanelProps> = ({ close }) => {
         )}
       </Field>
       <Field>
-        <Label className="text-sm/6 font-medium text-white">
-          Lab Address
-        </Label>
+        <Label className="text-sm/6 font-medium text-white">Lab Address</Label>
         <Description className="text-sm/6 text-white/50">
           Real Address in the world
         </Description>
@@ -126,9 +140,7 @@ const CreateLabEnvPanel: React.FC<PanelProps> = ({ close }) => {
           )}
         />
         {errors.address && (
-          <p className=" mt-2 text-xs text-red-400">
-            {errors.address.message}
-          </p>
+          <p className=" mt-2 text-xs text-red-400">{errors.address.message}</p>
         )}
       </Field>
       <Field>

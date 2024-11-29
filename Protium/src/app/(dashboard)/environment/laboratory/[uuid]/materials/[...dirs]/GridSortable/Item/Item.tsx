@@ -6,7 +6,8 @@ import { RootReducerProps } from '@/app/store';
 import {
   setShowingSetMaterialModal,
   setShowingSetMaterialModalFor,
-} from '@/store/environment/laboratorySlice';
+} from '@/store/environment/materialSlice';
+import { isTreeItem } from '@/store/environment/utils';
 import {
   BeakerIcon,
   ExclamationTriangleIcon,
@@ -15,10 +16,8 @@ import {
 } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { TreeItemProps } from '../../TreeSortable/types';
 import { ItemProps } from '../types';
 import styles from './Item.module.css';
-import { isTreeItem } from '@/store/environment/utils';
 
 export const Item = React.memo(
   React.forwardRef<HTMLLIElement, ItemProps>(
@@ -59,10 +58,9 @@ export const Item = React.memo(
       }, [dragOverlay]);
 
       const { isShowingSetMaterialModal, isShowingSetMaterialModalFor } =
-        useSelector((status: RootReducerProps) => status.laboratory);
+        useSelector((state: RootReducerProps) => state.material);
 
       // 判断是否是 TreeItem，如果是，则渲染为 TreeItem
- 
 
       const isOccupied = isTreeItem(data);
       const dispatch = useDispatch();
@@ -148,14 +146,17 @@ export const Item = React.memo(
                 </div>
                 <div className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2  -translate-y-2 group-hover:block">
                   <div className="relative w-[16rem] text-wrap rounded p-2 dark:bg-red-600">
-                    <div className="flex items-center mb-4">
+                    <div className="mb-4 flex items-center">
                       <ExclamationTriangleIcon className="h-5 w-5 text-red-600 dark:text-white/80" />
                       <span className="ml-2 whitespace-nowrap text-lg font-semibold text-red-600 dark:text-white/80">
                         Position Conflict
                       </span>
                     </div>
                     {data?.conflictItems?.map((item) => (
-                      <div key={item.id} className="flex items-center gap-2 ml-1 mb-1">
+                      <div
+                        key={item.id}
+                        className="mb-1 ml-1 flex items-center gap-2"
+                      >
                         {item.type === 'Repository' ? (
                           <Squares2X2Icon className="h-4 w-4" />
                         ) : item.type === 'Plate' ? (

@@ -1,5 +1,5 @@
 'use client';
-import { setActiveItem } from '@/store/environment/laboratorySlice';
+import { setActiveItem } from '@/store/environment/materialSlice';
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';

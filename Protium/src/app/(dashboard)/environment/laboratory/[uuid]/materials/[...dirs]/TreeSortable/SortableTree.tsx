@@ -27,7 +27,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { RootReducerProps } from '@/app/store';
-import { setActiveId, setItems, setOverId } from '@/store/environment/laboratorySlice';
+import {
+  setActiveId,
+  setItems,
+  setOverId,
+} from '@/store/environment/materialSlice';
 import { CSS } from '@dnd-kit/utilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { SortableTreeItem } from './components';
@@ -38,7 +42,6 @@ import {
   flattenTree,
   getChildCount,
   getProjection,
-  removeChildrenOf,
   removeItem,
   setProperty,
 } from './utilities';
@@ -87,7 +90,7 @@ export default function SortableTree({
   removable,
 }: Props) {
   const { items, activeId, overId, flattenedItems } = useSelector(
-    (state: RootReducerProps) => state.laboratory,
+    (state: RootReducerProps) => state.material,
   );
 
   const [offsetLeft, setOffsetLeft] = useState(0);
@@ -103,8 +106,6 @@ export default function SortableTree({
   useEffect(() => {
     setIsBrowser(true);
   }, []);
-
-
 
   // projected is the item that is being dragged
   const projected =
@@ -276,7 +277,7 @@ export default function SortableTree({
       const sortedItems = arrayMove(clonedItems, activeIndex, overIndex);
       const newItems = buildTree(sortedItems);
 
-      dispatch(setItems(newItems))
+      dispatch(setItems(newItems));
     }
   }
 

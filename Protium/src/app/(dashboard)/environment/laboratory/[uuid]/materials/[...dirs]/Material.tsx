@@ -1,6 +1,5 @@
 'use client';
 import { RootReducerProps } from '@/app/store';
-import { setActiveItem } from '@/store/environment/laboratorySlice';
 
 import { UniqueIdentifier } from '@dnd-kit/core';
 import {
@@ -46,7 +45,7 @@ export const Material = ({
   const dispatch = useDispatch();
 
   const { activeItem } = useSelector(
-    (state: RootReducerProps) => state.laboratory,
+    (state: RootReducerProps) => state.material,
   );
 
   useEffect(() => {

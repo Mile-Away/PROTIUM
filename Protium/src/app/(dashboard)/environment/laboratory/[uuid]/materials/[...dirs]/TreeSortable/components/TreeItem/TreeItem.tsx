@@ -68,7 +68,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
     };
 
     const { activeItem } = useSelector(
-      (state: RootReducerProps) => state.laboratory,
+      (state: RootReducerProps) => state.material,
     );
 
     return (

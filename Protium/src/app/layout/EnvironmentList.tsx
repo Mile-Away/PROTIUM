@@ -1,10 +1,9 @@
 'use client';
 import { WorkflowProps } from '@/@types/workflow';
-import { RootReducerProps } from '@/app/store';
+import { RootReducerProps, useAppDispatch } from '@/app/store';
 import PrimaryButton from '@/components/elements/buttons/PrimaryButtons';
-import { BASE_URL, MEDIA_URL } from '@/config';
 import createAxiosWithInterceptors from '@/helpers/jwtinterceptor';
-import { setWorkflowList } from '@/store/workflow/workflowSlice';
+import { fetchEnvironmentConfig } from '@/store/environment/middleware';
 import {
   Button,
   Disclosure,
@@ -20,8 +19,8 @@ import {
 import { PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import EnvironmentModalButton from '../(dashboard)/environment/CreateNew';
 
 export interface ExperimentEnvProps {
@@ -49,20 +48,13 @@ export interface EnvironmentListProps {
 const EnvironmentList: React.FC = () => {
   const url = usePathname();
   // 判断这个用户是否已有 environment 配置
-  const [experimentEnv, setExperimentEnv] = useState<ExperimentEnvProps | null>(
-    null,
-  );
-  const [calculationEnv, setCalculationEnv] =
-    useState<CalculationEnvProps | null>(null);
+
   const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { workflowList } = useSelector(
-    (state: RootReducerProps) => state.workflow,
-  );
+  const dispatch = useAppDispatch();
 
-  const { name, uuid } = useSelector(
-    (state: RootReducerProps) => state.workflow.workflow,
+  const { uuid, name, ip_address, address, description } = useSelector(
+    (state: RootReducerProps) => state.environment.laboratory,
   );
 
   const [contextMenuPos, setContextMenuPos] = useState<{
@@ -74,66 +66,29 @@ const EnvironmentList: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<WorkflowProps | null>(null);
   const [expanded, setExpanded] = useState(false);
 
-  const fetchEnv = async () => {
-    try {
-      const res = await jwtAxios.get<EnvironmentListProps>(
-        '/environment/judge/',
-      );
+  // const fetchEnv = async () => {
+  //   try {
+  //     const res = await jwtAxios.get<EnvironmentListProps>(
+  //       '/environment/judge/',
+  //     );
 
-      console.log(res);
-      if (res.status === 200) {
-        if (res.data.experiment_env) {
-          setExperimentEnv(res.data.experiment_env);
-        }
-        if (res.data.calculation_env) {
-          setCalculationEnv(res.data.calculation_env);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     console.log(res);
+  //     if (res.status === 200) {
+  //       if (res.data.experiment_env) {
+  //         setExperimentEnv(res.data.experiment_env);
+  //       }
+  //       if (res.data.calculation_env) {
+  //         setCalculationEnv(res.data.calculation_env);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchEnv();
+    dispatch(fetchEnvironmentConfig());
   }, []);
-
-  const createWorkflows = async () => {
-    try {
-      const res = await jwtAxios.post(`${BASE_URL}/workflow/vs/workflow/`, {
-        name: 'Untitled',
-      });
-      dispatch(setWorkflowList([...workflowList, res.data]));
-      router.push(`/workflow/${res.data.uuid}`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleCreateWorkflow = () => {
-    createWorkflows();
-  };
-
-  const handleImportWorkflow = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        try {
-          const json = JSON.parse(e.target?.result as string);
-          const res = await jwtAxios.post(`${MEDIA_URL}/v1/workflow/`, json);
-          dispatch(setWorkflowList([...workflowList, res.data]));
-          router.push(`/workflow/${res.data.uuid}`);
-        } catch (error) {
-          alert('Invalid Workflow File');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    // Reset the input value to allow re-uploading the same file
-    event.target.value = '';
-  };
 
   const handleCloseContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -173,7 +128,7 @@ const EnvironmentList: React.FC = () => {
           </div>
           <div className="flex items-center justify-center">
             <PrimaryButton
-              onClick={handleCreateWorkflow}
+              onClick={() => {}}
               size="sm"
               className="flex items-center gap-1 bg-transparent hover:bg-neutral-300/30 dark:hover:bg-neutral-700/30"
             >
@@ -197,7 +152,7 @@ const EnvironmentList: React.FC = () => {
               aria-label="import-workflow"
               type="file"
               accept="application/json"
-              onChange={handleImportWorkflow}
+              onChange={() => {}}
               style={{ display: 'none' }}
             />
           </div>
@@ -207,15 +162,13 @@ const EnvironmentList: React.FC = () => {
         transition
         className="inert flex origin-top flex-col items-center gap-4 pb-2 transition duration-200 ease-in-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
       >
-        {experimentEnv ? (
+        {uuid ? (
           <Button
             type="button"
-            onClick={() =>
-              router.push(`/environment/laboratory/${experimentEnv.uuid}`)
-            }
+            onClick={() => router.push(`/environment/laboratory/${uuid}`)}
             className={clsx(
               'relative flex h-20 w-full items-center justify-center rounded-lg border-neutral-300 px-8 py-4 focus:outline-none',
-              url.includes(experimentEnv.uuid) &&
+              url.includes(uuid) &&
                 ' bg-gradient-to-r  from-sky-100 to-teal-100 dark:from-sky-600  dark:to-indigo-600',
             )}
           >
@@ -227,10 +180,10 @@ const EnvironmentList: React.FC = () => {
 
             <div className="flex flex-1 flex-col justify-center py-2 text-start">
               <p className="text line-clamp-1 font-semibold text-gray-900 dark:text-white">
-                {experimentEnv.name}
+                {name}
               </p>
               <p className=" line-clamp-1 text-xs ">
-                {experimentEnv.address} ({experimentEnv.ip_address})
+                {address} ({ip_address})
               </p>
             </div>
           </Button>

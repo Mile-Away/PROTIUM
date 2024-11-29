@@ -1,5 +1,5 @@
 import { RootReducerProps } from '@/app/store';
-import { setShowingSetMaterialModal } from '@/store/environment/laboratorySlice';
+import { setShowingSetMaterialModal } from '@/store/environment/materialSlice';
 
 import { isTreeItem } from '@/store/environment/utils';
 import {
@@ -27,7 +27,7 @@ export default function MaterialModal({}: {}) {
     items,
     isShowingSetMaterialModal,
     isShowingSetMaterialModalFor,
-  } = useSelector((status: RootReducerProps) => status.laboratory);
+  } = useSelector((state: RootReducerProps) => state.material);
 
   const isBlankItem = !isTreeItem(isShowingSetMaterialModalFor);
 

@@ -1,7 +1,7 @@
 'use client';
 import SortableTree from '@/app/(dashboard)/environment/laboratory/[uuid]/materials/[...dirs]/TreeSortable/SortableTree';
 import { useAppDispatch } from '@/app/store';
-import { addMaterial } from '@/store/environment/laboratorySlice';
+import { addMaterial } from '@/store/environment/materialSlice';
 import { fetchMaterials } from '@/store/middleware';
 import { useEffect } from 'react';
 import ListHeader from './ListHeader';

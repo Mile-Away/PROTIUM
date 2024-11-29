@@ -1,5 +1,6 @@
 import { genClickMaterialDir } from '@/app/(dashboard)/environment/laboratory/[uuid]/materials/[...dirs]/TreeSortable/utilities';
 import ReSureModal from '@/components/notification/ReSureModal';
+import { MaterialStateProps } from '@/store/environment/materialSlice';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { Switch } from '@headlessui/react';
 import { CalendarIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
@@ -20,7 +21,7 @@ export default function MatHeader({
 }: {
   showReady?: boolean;
   uuid?: string;
-  type?: 'Plate' | 'Repository' | 'Container';
+  type?: MaterialStateProps['items'][0]['type'];
   dirs: UniqueIdentifier[];
 }) {
   const currentUrl = usePathname();
@@ -72,7 +73,7 @@ export default function MatHeader({
             ))}
           </ol>
         </nav>
-        <div className="mt-2 flex items-center  ">
+        <div className="mt-2 flex items-center">
           {type === 'Plate' ? (
             <InboxIcon className="mr-2 h-6 w-6 dark:text-white" />
           ) : type === 'Repository' ? (
@@ -80,7 +81,7 @@ export default function MatHeader({
           ) : type === 'Container' ? (
             <BeakerIcon className="mr-2 h-6 w-6 dark:text-white" />
           ) : null}
-          <h2 className=" text-xl font-bold leading-7 text-white sm:truncate sm:text-2xl sm:tracking-tight">
+          <h2 className="text-xl font-bold leading-7 text-white sm:truncate sm:text-2xl sm:tracking-tight">
             {directions[directions.length - 1]}
           </h2>
         </div>

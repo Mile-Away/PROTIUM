@@ -33,7 +33,7 @@ import { RootReducerProps } from '@/app/store';
 import {
   setGridItems,
   updatePosition,
-} from '@/store/environment/laboratorySlice';
+} from '@/store/environment/materialSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { GridContainer } from './GridContainer';
 
@@ -80,7 +80,7 @@ export function GridSortable({
   wrapperStyle = () => ({}),
 }: SortableProps) {
   const { activeItem, gridItems: items } = useSelector(
-    (state: RootReducerProps) => state.laboratory,
+    (state: RootReducerProps) => state.material,
   );
 
   const dispatch = useDispatch();

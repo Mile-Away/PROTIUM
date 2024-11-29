@@ -22,8 +22,8 @@ class JudgeEnvExistAPIView(APIView):
         calculation_env = CalculationEnv.objects.filter(environment=environment, is_active=True).first()
 
         data = {
-            "experiment_env": ExperimentEnvSerializer(experiment_env).data if experiment_env else None,
-            "calculation_env": CalculationEnvSerializer(calculation_env).data if calculation_env else None,
+            "laboratory": ExperimentEnvSerializer(experiment_env).data if experiment_env else None,
+            "calculation": CalculationEnvSerializer(calculation_env).data if calculation_env else None,
         }
 
         # Remove keys with None values

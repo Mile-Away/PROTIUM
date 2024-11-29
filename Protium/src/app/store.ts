@@ -1,19 +1,25 @@
 import { WorkflowStateProps } from '@/@types/workflow';
-import laboratorySlice, {
-  LaboratoryStateProps,
+import environmentReducer, {
+  EnvironmentStateProps,
 } from '@/store/environment/laboratorySlice';
+import materialReducer, {
+  MaterialStateProps,
+} from '@/store/environment/materialSlice';
 import workflowReducer from '@/store/workflow/workflowSlice';
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+
 export interface RootReducerProps {
   workflow: WorkflowStateProps;
-  laboratory: LaboratoryStateProps;
+  environment: EnvironmentStateProps;
+  material: MaterialStateProps;
 }
 
 const store = configureStore({
   reducer: {
     workflow: workflowReducer,
-    laboratory: laboratorySlice,
+    environment: environmentReducer,
+    material: materialReducer,
   },
 });
 
