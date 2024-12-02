@@ -62,6 +62,11 @@ printf "${BOLD}${CHAMPAGNE}>>> Downloading .env file...${RESET}\n"
 curl --progress-bar -O https://protium.space/downloads/example.env
 mv example.env .env
 
+# Update images
+echo "----------"
+printf "${BOLD}${CHAMPAGNE}>>> Pulling latest images...${RESET}\n"
+docker compose -f docker-compose-en.yml pull
+
 # Start services
 echo "----------"
 printf "${BOLD}${CHAMPAGNE}>>> Starting services with docker-compose...${RESET}\n"
