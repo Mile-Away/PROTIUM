@@ -9,7 +9,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - '5433:5432'
+      - '48195:5432'
 
   elasticsearch:
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
       - xpack.license.self_generated.type=trial
       - logger.level=ERROR
     ports:
-      - '9200:9200'
+      - '48196:9200'
     # Limiting the resources for the elasticsearch container
     deploy:
       resources:
@@ -46,7 +46,7 @@ services:
       - ./Backend:/app
     command: ['/app/entrypoint.sh']
     ports:
-      - '8000:8000'
+      - '48197:8000'
     depends_on:
       - elasticsearch
       - db
@@ -64,7 +64,7 @@ services:
     volumes:
       - ./Frontend:/app
     ports:
-      - '3000:3000'
+      - '32233:3000'
     depends_on:
       - backend
 
@@ -80,7 +80,7 @@ services:
     volumes:
       - ./Protium:/app
     ports:
-      - '3003:3003'
+      - '32234:3003'
     depends_on:
       - frontend
 
@@ -95,7 +95,7 @@ services:
     volumes:
       - ./DocFront:/app
     ports:
-      - '4000:4000'
+      - '32235:4000'
     depends_on:
       - frontend
 

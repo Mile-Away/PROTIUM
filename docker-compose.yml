@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - '5433:5432'
+      - '48195:5432'
 
   elasticsearch:
     image: elasticsearch:8.15.0
@@ -19,7 +19,7 @@ services:
       - xpack.security.http.ssl.enabled=false
       - xpack.license.self_generated.type=trial
     ports:
-      - '9200:9200'
+      - '48196:9200'
     # Limiting the resources for the elasticsearch container
     deploy:
       resources:
@@ -39,7 +39,7 @@ services:
       - ENV=production
     command: ['/app/entrypoint.sh']
     ports:
-      - '8000:8000'
+      - '48197:8000'
     depends_on:
       - elasticsearch
       - db
@@ -52,7 +52,7 @@ services:
     env_file:
       - .env
     ports:
-      - '3000:3000'
+      - '32233:3000'
     depends_on:
       - backend
 
@@ -62,7 +62,7 @@ services:
     env_file:
       - .env
     ports:
-      - '3003:3003'
+      - '32234:3003'
     depends_on:
       - frontend
 
@@ -72,7 +72,7 @@ services:
     env_file:
       - .env
     ports:
-      - '4000:4000'
+      - '32235:4000'
     depends_on:
       - frontend
 

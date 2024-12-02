@@ -21,10 +21,8 @@ import LangSwitch from '../../components/LangSwitch';
 import { ThemeSwitch } from '../../components/ThemeSwitch';
 import { dashboardNavi } from './dashboardNav';
 import SlideMenu from './SlideMenu';
+import clsx from 'clsx';
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
 
 const BoardNavbar = () => {
   const { t } = useTranslation('translation');
@@ -110,7 +108,7 @@ const BoardNavbar = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={classNames(
+                      className={clsx(
                         item.current
                           ? 'bg-neutral-50 text-indigo-600 dark:bg-neutral-700/50 dark:text-white'
                           : 'text-gray-700 hover:bg-neutral-50 hover:text-indigo-600 dark:text-gray-300 dark:hover:bg-neutral-800 dark:hover:text-white',
@@ -118,7 +116,7 @@ const BoardNavbar = () => {
                       )}
                     >
                       <item.icon
-                        className={classNames(
+                        className={clsx(
                           item.current
                             ? 'text-indigo-600 dark:text-white'
                             : 'text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-white',

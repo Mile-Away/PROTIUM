@@ -1,6 +1,6 @@
 'use client';
+import SideNavBar from '@/app/(dashboard)/SideNavbar';
 import BoardNavbar from '@/app/layout/BoardNavbar';
-import SideNavBar from '@/app/layout/SideNavbar';
 import { useStickyContext } from '@/context/StickyContext';
 import ProtectedRoute from '@/services/ProtectdRoute';
 import clsx from 'clsx';

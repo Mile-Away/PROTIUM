@@ -280,10 +280,12 @@ export default function EnvironmentModalButton({
       >
         <DialogBackdrop className="fixed inset-0 bg-black/70" />
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="flex min-h-full items-start justify-center p-4">
             <DialogPanel
               transition
-              className="data-[closed]:transform-[scale(95%)] w-full max-w-xl rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:opacity-0"
+              className="data-[closed]:transform-[scale(95%)] h-[95vh] w-full max-w-xl 
+              rounded-lg bg-white/5 p-6 backdrop-blur-2xl duration-300 overflow-scroll
+              ease-out data-[closed]:opacity-0"
             >
               <DialogTitle
                 as="h3"
@@ -297,18 +299,18 @@ export default function EnvironmentModalButton({
                   Connect from invite code.
                 </Link>
               </p>
-              <TabGroup as="div" className="w-full pt-8">
+              <TabGroup as="div" className="w-full pt-8 ">
                 <TabList className="flex gap-4">
                   {tabs.map((tab) => (
                     <Tab
                       key={tab.name}
-                      className="flex items-center  rounded-full px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+                      className="flex items-center rounded px-3 py-1 text-sm/6 font-semibold text-white focus:outline-none data-[hover]:bg-white/5 data-[selected]:bg-white/10 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
                     >
                       {tab.name}
                     </Tab>
                   ))}
                 </TabList>
-                <TabPanels className="mt-3 w-full rounded-xl bg-white/5 p-3">
+                <TabPanels className="mt-3 w-full rounded-lg bg-white/5 p-3">
                   {tabs.map((tab) => (
                     <TabPanel key={tab.name} className="">
                       <tab.panel close={close} />

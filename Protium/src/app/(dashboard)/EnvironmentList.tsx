@@ -16,14 +16,13 @@ import {
   ChevronDownIcon,
   CpuChipIcon,
 } from '@heroicons/react/24/outline';
-import { PlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import EnvironmentModalButton from '../(dashboard)/environment/CreateNew';
+import EnvironmentModalButton from './environment/CreateNew';
 
-export interface ExperimentEnvProps {
+export interface LaboratoryEnvProps {
   id: number;
   uuid: string;
   name: string;
@@ -41,14 +40,13 @@ export interface CalculationEnvProps {
 }
 
 export interface EnvironmentListProps {
-  experiment_env: ExperimentEnvProps;
+  experiment_env: LaboratoryEnvProps;
   calculation_env: CalculationEnvProps;
 }
 
 const EnvironmentList: React.FC = () => {
   const url = usePathname();
   // 判断这个用户是否已有 environment 配置
-
   const jwtAxios = createAxiosWithInterceptors();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -128,33 +126,17 @@ const EnvironmentList: React.FC = () => {
           </div>
           <div className="flex items-center justify-center">
             <PrimaryButton
-              onClick={() => {}}
               size="sm"
-              className="flex items-center gap-1 bg-transparent hover:bg-neutral-300/30 dark:hover:bg-neutral-700/30"
+              onClick={() => router.push('/environment/config')}
+              className={clsx(
+                'flex items-center gap-1 ',
+                url.includes('config')
+                  ? 'dark:bg-indigo-600'
+                  : 'bg-transparent hover:bg-neutral-300/30 dark:hover:bg-white/5',
+              )}
             >
-              <PlusIcon className="h-4 w-4 dark:text-white" />
-              <span className="sr-only">New</span>
+              <ArrowsUpDownIcon className="h-4 w-4 dark:text-white" />
             </PrimaryButton>
-            <PrimaryButton
-              size="sm"
-              className="flex items-center gap-1 bg-transparent hover:bg-neutral-300/30 dark:hover:bg-neutral-700/30"
-            >
-              <label
-                htmlFor="import-workflow"
-                className=" pointer-events-auto cursor-pointer"
-              >
-                <ArrowsUpDownIcon className="h-4 w-4 dark:text-white" />
-              </label>
-            </PrimaryButton>
-            <input
-              id="import-workflow"
-              name="import-workflow"
-              aria-label="import-workflow"
-              type="file"
-              accept="application/json"
-              onChange={() => {}}
-              style={{ display: 'none' }}
-            />
           </div>
         </div>
       </div>

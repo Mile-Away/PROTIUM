@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { dashboardNavi } from './dashboardNav';
+import { dashboardNavi } from '../layout/dashboardNav';
 import EnvironmentList from './EnvironmentList';
 import WorkflowList from './WorkflowList';
 
@@ -57,20 +57,20 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ isSticky, setIsSticky }) => {
   }, [url]);
 
   return (
-    <div className=' relative'>
+    <div className=" relative">
       <div
         className={classNames(
           isSticky
             ? 'bg-white dark:bg-neutral-900 lg:w-64'
             : 'w-0 bg-transparent',
 
-          'z-50 hidden transition-all duration-300 ease-in-out lg:fixed lg:inset-y-0 lg:flex lg:flex-col lg:overflow-hidden ',
+          'z-10 hidden transition-all duration-300 ease-in-out lg:fixed lg:inset-y-0 lg:flex lg:flex-col lg:overflow-hidden ',
         )}
       >
         <div
           className={clsx(
             'flex grow flex-col gap-y-5 overflow-y-auto px-2 pb-4',
-            "scrollbar-w-2",
+            'scrollbar-w-2',
             isSticky
               ? 'border-r border-gray-200 bg-white dark:border-neutral-700 dark:bg-neutral-800/50'
               : 'bg-transparent',
@@ -101,7 +101,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ isSticky, setIsSticky }) => {
 
       {!isSticky && (
         <div
-          className="z-50 fixed left-0 h-full w-2 -mr-2 cursor-e-resize bg-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-transparent dark:hover:from-indigo-400 dark:hover:to-transparent"
+          className="fixed left-0 z-50 -mr-2 h-full w-2 cursor-e-resize bg-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-transparent dark:hover:from-indigo-400 dark:hover:to-transparent"
           onClick={() => setIsSticky(true)}
         ></div>
       )}
