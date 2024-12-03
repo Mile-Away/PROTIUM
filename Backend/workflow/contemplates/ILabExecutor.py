@@ -4,22 +4,26 @@ from typing import Any, Dict
 
 import requests
 from django.conf import settings
+from environment.models import Environment, ExperimentEnv
+from workflow.models import WorkflowNode
 
 from .NodeExecutor import NodeExecutor
 
 
 class ILabExecutor(NodeExecutor, ABC):
 
-    def __init__(self, node):
+    def __init__(self, node: WorkflowNode):
         super().__init__(node)
         self.job_id = None
+        self.creator = node.workflow.creator
 
     # 定义向 ilab server 发送请求的方法
     async def send_request(
-        self, *, url: str = f"{settings.ILAB_HOST}/api/v1/job/add", device: str, data: Dict[str, Any] | None = None
+        self, *, url: str = "/api/v1/job/add", device: str, data: Dict[str, Any] | None = None
     ) -> requests.Response:
         try:
-            res = requests.post(f"{url}", json=data)
+            full_url = self.get_laboratory_host() + url
+            res = requests.post(f"{full_url}", json=data)
 
             print(">>>>>>>>>> res", res.json())
 
@@ -50,3 +54,10 @@ class ILabExecutor(NodeExecutor, ABC):
                     raise Exception(f"ILabGraspExecutor: Error from ILab: {message}")
 
         return data
+
+    def get_laboratory_host(self):
+        environ = Environment.objects.get(user=self.creator, is_active=True)
+        experiment_env = ExperimentEnv.objects.get(environment=environ, is_active=True)
+
+        ip_address = experiment_env.ip_address
+        return ip_address

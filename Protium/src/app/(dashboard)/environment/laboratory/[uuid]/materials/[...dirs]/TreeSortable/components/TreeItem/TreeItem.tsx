@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { genClickMaterialDir } from '../../utilities';
 import { Action, Remove } from '../components';
 import styles from './TreeItem.module.css';
+import { TreeItemProps } from '../../types';
 
 export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
   childCount?: number;
@@ -27,7 +28,7 @@ export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, 'id'> {
   indentationWidth: number;
   value: string;
   dirs?: UniqueIdentifier[];
-  type?: 'Repository' | 'Plate' | 'Container';
+  type?: TreeItemProps['type'];
   onCollapse?(): void;
   onRemove?(): void;
   wrapperRef?(node: HTMLLIElement): void;

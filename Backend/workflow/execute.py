@@ -1,5 +1,6 @@
 import asyncio
 
+from accounts.models import User
 from asgiref.sync import sync_to_async
 from dflow.python import upload_packages
 from workflow.models import Workflow, WorkflowNode, WorkflowNodeCompile
@@ -29,9 +30,9 @@ class WorkflowExecuter:
     2. 依次执行节点的 script
     """
 
-    def __init__(self, workflow_instance: Workflow):
+    def __init__(self, workflow_instance: Workflow, user: User | None = None):
         self.node_executor_registry = NodeExecutorRegistry()
-
+        self.user = user
         self.workflow_instance = workflow_instance
         self.node_dependencies: dict = {}
 

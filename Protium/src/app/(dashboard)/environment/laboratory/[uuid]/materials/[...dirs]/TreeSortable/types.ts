@@ -12,7 +12,7 @@ export interface TreeItemProps {
   children: TreeItemProps[];
   collapsed?: boolean;
 
-  type?: 'Repository' | 'Plate' | 'Container'| "Tip";
+  type?: 'Repository' | 'Plate' | 'Container' | 'Tip';
   // 每个类型都单独定义，维护一个注册表
   // 对于每个类型，比如说 Repo，Tip，他们可以有 data，jsonSchema，Comp，
   // 等到数量多的时候，抽象出来
@@ -27,8 +27,8 @@ export interface TreeItemProps {
     itemCount?: number;
   };
   status?: 'active' | 'inactive' | 'disabled' | 'idle';
-  data?: {}
-  jsonSchema?: {}
+  data?: {};
+  jsonSchema?: {};
   logs?: LogProps[];
 }
 
