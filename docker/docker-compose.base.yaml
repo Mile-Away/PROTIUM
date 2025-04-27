@@ -11,7 +11,7 @@ services:
       - "${ELASTICSEARCH_PORT}:9200"
       - "${MINIO_CONSOLE_PORT}:9001"
       - "${CASDOOR_PORT}:8000"
-      - "${WEB_PORT}:32234"
+      - "${WEB_PORT}:32233"
       - "${SERVICE_PORT}:48197"
       - "${MQTT_PORT}:1883"
       - "${MQTT_TLS_PORT}:8883"
@@ -142,6 +142,7 @@ services:
     image: registry.cn-shanghai.aliyuncs.com/scienceol/service:latest
     pull_policy: if_not_present
     container_name: sciol-service
+    network_mode: "service:network-service"
     restart: unless-stopped
     build:
       context: ../service
@@ -166,13 +167,12 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
-    ports:
-      - "48197:8000"
 
   web:
     image: registry.cn-shanghai.aliyuncs.com/scienceol/protium:latest
     pull_policy: if_not_present
     container_name: sciol-protium
+    network_mode: "service:network-service"
     restart: unless-stopped
     build:
       context: ../protium
@@ -183,8 +183,6 @@ services:
     depends_on:
       service:
         condition: service_healthy
-    ports:
-      - "32234:32234"
 
 volumes:
   sciol-data:
