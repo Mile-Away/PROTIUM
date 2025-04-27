@@ -1,0 +1,9 @@
+services:
+  service:
+    volumes:
+      - ../service:/app
+    env_file:
+      - .env.local
+  protium:
+    env_file:
+      - .env.local

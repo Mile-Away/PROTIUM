@@ -1,0 +1,160 @@
+name: Build and Push Multi-Platform Docker Images
+
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, synchronize, reopened]
+
+env:
+  SERVICE_IMAGE: registry.cn-shanghai.aliyuncs.com/scienceol/service:dev
+  PROTIUM_IMAGE: registry.cn-shanghai.aliyuncs.com/scienceol/protium:dev
+  RECEIVER: quehaohui@dp.tech
+
+jobs:
+  build-and-push:
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runs_on: ubuntu-latest
+          - arch: arm64
+            # 动态选择 runner 类型
+            runs_on: [self-hosted, ARM64]
+      fail-fast: false
+    runs-on: ${{ matrix.runs_on }}
+    name: Build for ${{ matrix.arch }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup build environment
+        id: build_setup
+        uses: ./.github/actions/build-setup
+        with:
+          fetch-depth: 0
+
+      - name: Build and push Docker images
+        id: docker_build
+        uses: ./.github/actions/docker-build-push
+        with:
+          architecture: ${{ matrix.arch }}
+          registry: registry.cn-shanghai.aliyuncs.com
+          username: ${{ secrets.ALIYUN_REGISTRY_USERNAME }}
+          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+          env_file: .github/config/test-env.yaml
+
+      - name: Verify Docker images
+        id: image_verify
+        uses: ./.github/actions/image-verification
+        with:
+          architecture: ${{ matrix.arch }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+          test_amd64: ${{ matrix.arch == 'amd64' }}
+
+      - name: Calculate build duration
+        if: always()
+        id: build_duration
+        shell: bash
+        run: |
+          # 确保 build_start 有值
+          BUILD_START="${{ steps.build_setup.outputs.build_start }}"
+          if [ -z "$BUILD_START" ]; then
+            echo "Warning: build_start is empty, using current time as fallback"
+            BUILD_START=$(date '+%Y-%m-%d %H:%M:%S')
+          fi
+
+          if [[ $(uname) == 'Darwin' ]]; then
+            BUILD_START_SEC=$(date -j -f "%Y-%m-%d %H:%M:%S" "$BUILD_START" +%s)
+          else
+            BUILD_START_SEC=$(date -d "$BUILD_START" +%s)
+          fi
+          BUILD_END=$(date '+%Y-%m-%d %H:%M:%S')
+          BUILD_END_SEC=$(date +%s)
+          DURATION_SEC=$((BUILD_END_SEC - BUILD_START_SEC))
+
+          # Format as hours:minutes:seconds
+          HOURS=$((DURATION_SEC / 3600))
+          MINUTES=$(((DURATION_SEC % 3600) / 60))
+          SECONDS=$((DURATION_SEC % 60))
+
+          DURATION="${HOURS}h ${MINUTES}m ${SECONDS}s"
+
+          echo "build_end=$BUILD_END" >> $GITHUB_ENV
+          echo "build_duration=$DURATION" >> $GITHUB_ENV
+
+      - name: Send build notification
+        if: always()
+        uses: ./.github/actions/email-notification
+        with:
+          status: ${{ job.status }}
+          smtp_server: smtp.feishu.cn
+          smtp_port: 465
+          smtp_user: ${{ secrets.SMTP_USER }}
+          smtp_pass: ${{ secrets.SMTP_PASS }}
+          recipient: ${{ env.RECEIVER }}
+          architecture: ${{ matrix.arch }}
+          pr_number: ${{ github.event.pull_request.number }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_url: ${{ github.event.pull_request.html_url }}
+          head_ref: ${{ github.head_ref }}
+          base_ref: ${{ github.base_ref }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+          build_start: ${{ steps.build_setup.outputs.build_start }}
+          build_end: ${{ env.build_end }}
+          build_duration: ${{ env.build_duration }}
+          commit_author: ${{ steps.build_setup.outputs.commit_author }}
+          commit_email: ${{ steps.build_setup.outputs.commit_email }}
+          commit_message: ${{ steps.build_setup.outputs.commit_message }}
+          commit_sha: ${{ steps.build_setup.outputs.commit_sha }}
+          commit_sha_short: ${{ steps.build_setup.outputs.commit_sha_short }}
+          commit_date: ${{ steps.build_setup.outputs.commit_date }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+
+  merge-manifests:
+    name: Merge multi-arch images
+    needs: build-and-push
+    runs-on: [self-hosted, ARM64]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup build environment
+        id: build_setup
+        uses: ./.github/actions/build-setup
+
+      - name: Merge manifests and send notifications
+        uses: ./.github/actions/manifest-merge
+        with:
+          registry: registry.cn-shanghai.aliyuncs.com
+          username: ${{ secrets.ALIYUN_REGISTRY_USERNAME }}
+          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+          pr_number: ${{ github.event.pull_request.number }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_url: ${{ github.event.pull_request.html_url }}
+          head_ref: ${{ github.head_ref }}
+          base_ref: ${{ github.base_ref }}
+          smtp_server: smtp.feishu.cn
+          smtp_port: 465
+          smtp_user: ${{ secrets.SMTP_USER }}
+          smtp_pass: ${{ secrets.SMTP_PASS }}
+          recipient: ${{ env.RECEIVER }}
+          commit_author: ${{ steps.build_setup.outputs.commit_author }}
+          commit_email: ${{ steps.build_setup.outputs.commit_email }}
+          commit_message: ${{ steps.build_setup.outputs.commit_message }}
+          commit_sha: ${{ steps.build_setup.outputs.commit_sha }}
+          commit_sha_short: ${{ steps.build_setup.outputs.commit_sha_short }}
+          commit_date: ${{ steps.build_setup.outputs.commit_date }}

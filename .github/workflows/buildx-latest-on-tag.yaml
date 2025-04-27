@@ -1,0 +1,223 @@
+name: Build and Push Latest Multi-Platform Docker Images
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Add permissions block to allow release creation
+permissions:
+  contents: write
+
+env:
+  SERVICE_IMAGE: registry.cn-shanghai.aliyuncs.com/scienceol/service:latest
+  PROTIUM_IMAGE: registry.cn-shanghai.aliyuncs.com/scienceol/protium:latest
+  RECEIVER: quehaohui@dp.tech
+
+jobs:
+  build-and-push:
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runs_on: ubuntu-latest
+          - arch: arm64
+            runs_on: [self-hosted, ARM64]
+      fail-fast: false
+    runs-on: ${{ matrix.runs_on }}
+    name: Build for ${{ matrix.arch }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate tag is on dev branch
+        run: |
+          # Fetch all branches and tags
+          git fetch --all
+
+          # Get the commit SHA that the tag points to
+          TAG_COMMIT=$(git rev-list -n 1 ${{ github.ref }})
+
+          # Check if this commit is in the history of the dev branch
+          if git merge-base --is-ancestor $TAG_COMMIT origin/dev; then
+            echo "✅ Tag ${{ github.ref_name }} is created from dev branch"
+          else
+            echo "::error::Tag ${{ github.ref_name }} is not created from dev branch! Only tags created from dev branch can build latest images."
+            exit 1
+          fi
+
+      - name: Setup build environment
+        id: build_setup
+        uses: ./.github/actions/build-setup
+        with:
+          fetch-depth: 0
+
+      - name: Build and push Docker images
+        id: docker_build
+        uses: ./.github/actions/docker-build-push
+        with:
+          architecture: ${{ matrix.arch }}
+          registry: registry.cn-shanghai.aliyuncs.com
+          username: ${{ secrets.ALIYUN_REGISTRY_USERNAME }}
+          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+          env_file: .github/config/prod-env.yaml
+
+      - name: Verify Docker images
+        id: image_verify
+        uses: ./.github/actions/image-verification
+        with:
+          architecture: ${{ matrix.arch }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+          test_amd64: ${{ matrix.arch == 'amd64' }}
+
+      - name: Calculate build duration
+        if: always()
+        id: build_duration
+        shell: bash
+        run: |
+          if [[ $(uname) == 'Darwin' ]]; then
+            BUILD_START_SEC=$(date -j -f "%Y-%m-%d %H:%M:%S" "${{ steps.build_setup.outputs.build_start }}" +%s)
+          else
+            BUILD_START_SEC=$(date -d "${{ steps.build_setup.outputs.build_start }}" +%s)
+          fi
+          BUILD_END=$(date '+%Y-%m-%d %H:%M:%S')
+          BUILD_END_SEC=$(date +%s)
+          DURATION_SEC=$((BUILD_END_SEC - BUILD_START_SEC))
+
+          # Format as hours:minutes:seconds
+          HOURS=$((DURATION_SEC / 3600))
+          MINUTES=$(((DURATION_SEC % 3600) / 60))
+          SECONDS=$((DURATION_SEC % 60))
+
+          DURATION="${HOURS}h ${MINUTES}m ${SECONDS}s"
+
+          echo "build_end=$BUILD_END" >> $GITHUB_ENV
+          echo "build_duration=$DURATION" >> $GITHUB_ENV
+
+      - name: Send build notification
+        if: always()
+        uses: ./.github/actions/email-notification
+        with:
+          status: ${{ job.status }}
+          smtp_server: smtp.feishu.cn
+          smtp_port: 465
+          smtp_user: ${{ secrets.SMTP_USER }}
+          smtp_pass: ${{ secrets.SMTP_PASS }}
+          recipient: ${{ env.RECEIVER }}
+          architecture: ${{ matrix.arch }}
+          pr_number: ''
+          pr_title: 'Building latest image from tag ${{ github.ref_name }}'
+          pr_url: 'https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}'
+          head_ref: '${{ github.ref_name }}'
+          base_ref: 'main'
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+          build_start: ${{ steps.build_setup.outputs.build_start }}
+          build_end: ${{ env.build_end }}
+          build_duration: ${{ env.build_duration }}
+          commit_author: ${{ steps.build_setup.outputs.commit_author }}
+          commit_email: ${{ steps.build_setup.outputs.commit_email }}
+          commit_message: ${{ steps.build_setup.outputs.commit_message }}
+          commit_sha: ${{ steps.build_setup.outputs.commit_sha }}
+          commit_sha_short: ${{ steps.build_setup.outputs.commit_sha_short }}
+          commit_date: ${{ steps.build_setup.outputs.commit_date }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+
+  merge-manifests:
+    name: Merge multi-arch images
+    needs: build-and-push
+    runs-on: [self-hosted, ARM64]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup build environment
+        id: build_setup
+        uses: ./.github/actions/build-setup
+
+      - name: Merge manifests and send notifications
+        uses: ./.github/actions/manifest-merge
+        with:
+          registry: registry.cn-shanghai.aliyuncs.com
+          username: ${{ secrets.ALIYUN_REGISTRY_USERNAME }}
+          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+          service_image: ${{ env.SERVICE_IMAGE }}
+          protium_image: ${{ env.PROTIUM_IMAGE }}
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+          pr_number: ''
+          pr_title: 'Building latest image from tag ${{ github.ref_name }}'
+          pr_url: 'https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}'
+          head_ref: '${{ github.ref_name }}'
+          base_ref: 'main'
+          smtp_server: smtp.feishu.cn
+          smtp_port: 465
+          smtp_user: ${{ secrets.SMTP_USER }}
+          smtp_pass: ${{ secrets.SMTP_PASS }}
+          recipient: ${{ env.RECEIVER }}
+          commit_author: ${{ steps.build_setup.outputs.commit_author }}
+          commit_email: ${{ steps.build_setup.outputs.commit_email }}
+          commit_message: ${{ steps.build_setup.outputs.commit_message }}
+          commit_sha: ${{ steps.build_setup.outputs.commit_sha }}
+          commit_sha_short: ${{ steps.build_setup.outputs.commit_sha_short }}
+          commit_date: ${{ steps.build_setup.outputs.commit_date }}
+
+  create-release:
+    name: Generate Release Notes
+    needs: merge-manifests
+    runs-on: [self-hosted, X64]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup build environment
+        id: build_setup
+        uses: ./.github/actions/build-setup
+
+      - name: Generate AI Release Notes
+        id: generate_notes
+        uses: ./.github/actions/generate-release-notes
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          azure_openai_endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          azure_openai_api_key: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          azure_openai_api_version: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+          azure_openai_deployment: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+          current_tag: ${{ github.ref_name }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            ${{ steps.generate_notes.outputs.release_notes }}
+
+            ### Container Images
+            - Service Image: `${{ env.SERVICE_IMAGE }}`
+            - PROTIUM Image: `${{ env.PROTIUM_IMAGE }}`
+
+            ### Build Information
+            - Built from commit: ${{ steps.build_setup.outputs.commit_sha_short }}
+            - Commit message: ${{ steps.build_setup.outputs.commit_message }}
+            - Commit author: ${{ steps.build_setup.outputs.commit_author }}
+            - Commit date: ${{ steps.build_setup.outputs.commit_date }}
+
+            ### Multi-architecture Support
+            - amd64: ✅
+            - arm64: ✅
+          draft: false
+          prerelease: false

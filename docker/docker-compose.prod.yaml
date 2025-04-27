@@ -1,0 +1,7 @@
+services:
+  service:
+    env_file:
+      - .env.prod
+  protium:
+    env_file:
+      - .env.prod

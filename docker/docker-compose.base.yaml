@@ -1,0 +1,199 @@
+name: protium-community
+version: "1.0"
+services:
+  network-service:
+    image: alpine
+    container_name: sciol-network
+    ports:
+      - "${POSTGRES_PORT}:5432"
+      - "${MINIO_PORT:-9000}:9000"
+      - "${REDIS_PORT}:6379"
+      - "${ELASTICSEARCH_PORT}:9200"
+      - "${MINIO_CONSOLE_PORT}:9001"
+      - "${CASDOOR_PORT}:8000"
+      - "${WEB_PORT}:32234"
+      - "${SERVICE_PORT}:48197"
+      - "${MQTT_PORT}:1883"
+      - "${MQTT_TLS_PORT}:8883"
+      - "${MQTT_TLS_WEBSOCKET_PORT}:9001"
+      - "${MQTT_WEBSOCKET_PORT}:9002"
+    command: tail -f /dev/null
+    networks:
+      - sciol-network
+
+  postgresql:
+    image: postgres:16.8-alpine3.20
+    pull_policy: if_not_present
+    container_name: sciol-db
+    network_mode: "service:network-service"
+    restart: always
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-protium}
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-please_change_me}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - sciol-data:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio
+    container_name: lobe-minio
+    network_mode: "service:network-service"
+    volumes:
+      - "./s3_data:/etc/minio/data"
+    environment:
+      - "MINIO_API_CORS_ALLOW_ORIGIN=*"
+    restart: always
+    entrypoint: >
+      /bin/sh -c "
+        minio server /etc/minio/data --address ':9000' --console-address ':9001' &
+        MINIO_PID=\$!
+        while ! curl -s http://localhost:9000/minio/health/live; do
+          echo 'Waiting for MinIO to start...'
+          sleep 1
+        done
+        sleep 5
+        mc alias set myminio http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}
+        echo 'Creating bucket ${MINIO_LOBE_BUCKET}'
+        mc mb myminio/${MINIO_LOBE_BUCKET}
+        wait \$MINIO_PID
+      "
+
+  redis:
+    image: redis:7.4.2-alpine
+    container_name: sciol-redis
+    network_mode: "service:network-service"
+    restart: always
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "48195:6379"
+
+  elasticsearch:
+    restart: unless-stopped
+    image: elasticsearch:8.17.5
+    container_name: sciol-elasticsearch
+    network_mode: "service:network-service"
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
+      - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD:-please_change_me}
+      - xpack.security.http.ssl.enabled=false
+      - xpack.license.self_generated.type=trial
+      - logger.level=ERROR
+    ports:
+      - "48196:9200"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --fail --silent --max-time 3 http://localhost:9200/",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "2G"
+        reservations:
+          cpus: "1.0"
+          memory: "1G"
+
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: sciol-mosquitto
+    restart: unless-stopped
+    network_mode: "service:network-service"
+    volumes:
+      - ../middleware/mosquitto/config:/mosquitto/config
+      - ../middleware/mosquitto/data:/mosquitto/data
+      - ../middleware/mosquitto/log:/mosquitto/log
+
+  casdoor:
+    image: casbin/casdoor
+    container_name: lobe-casdoor
+    entrypoint: /bin/sh -c './server --createDatabase=true'
+    network_mode: "service:network-service"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      RUNNING_IN_DOCKER: "true"
+      driverName: "postgres"
+      dataSourceName: "user=${DATABASE_USER:-postgres} password=${POSTGRES_PASSWORD} host=postgresql port=5432 sslmode=disable dbname=casdoor"
+      runmode: "dev"
+    volumes:
+      - ./middleware/casdoor/init_casdoor.json:/init_data.json
+
+  service:
+    image: registry.cn-shanghai.aliyuncs.com/scienceol/service:latest
+    pull_policy: if_not_present
+    container_name: sciol-service
+    restart: unless-stopped
+    build:
+      context: ../service
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      # elasticsearch:
+      #   condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --fail --silent --max-time 3 http://localhost:8000/api/health/",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    ports:
+      - "48197:8000"
+
+  web:
+    image: registry.cn-shanghai.aliyuncs.com/scienceol/protium:latest
+    pull_policy: if_not_present
+    container_name: sciol-protium
+    restart: unless-stopped
+    build:
+      context: ../protium
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      dockerfile: Dockerfile
+    depends_on:
+      service:
+        condition: service_healthy
+    ports:
+      - "32234:32234"
+
+volumes:
+  sciol-data:
+    driver: local
+  redis-data:
+    driver: local
+  s3_data:
+    driver: local
+
+networks:
+  sciol-network:
+    driver: bridge
