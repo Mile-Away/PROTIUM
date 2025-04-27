@@ -22,6 +22,35 @@ Desktop.ini
 .AppleDouble
 .LSOverride
 
+# ===== Go 项目 =====
+# 二进制文件
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# 测试二进制文件
+*.test
+
+# 覆盖率工具生成的文件
+*.out
+*.prof
+
+# Go 依赖相关
+/vendor/
+**/vendor/
+vendor/
+go.work
+
+# Go 调试文件
+__debug_bin*
+debug.test
+debug
+
+# Go 模块缓存
+go.sum.cached
+
 # ===== Python 项目 =====
 # Django 相关
 __pycache__/
