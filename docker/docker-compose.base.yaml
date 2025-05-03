@@ -41,7 +41,7 @@ services:
 
   minio:
     image: minio/minio
-    container_name: lobe-minio
+    container_name: sciol-minio
     network_mode: "service:network-service"
     volumes:
       - "./s3_data:/etc/minio/data"
@@ -80,10 +80,10 @@ services:
       - "48195:6379"
 
   elasticsearch:
-    restart: unless-stopped
     image: elasticsearch:8.17.5
     container_name: sciol-elasticsearch
     network_mode: "service:network-service"
+    restart: unless-stopped
     environment:
       - discovery.type=single-node
       - ELASTIC_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
@@ -124,7 +124,7 @@ services:
 
   casdoor:
     image: casbin/casdoor
-    container_name: lobe-casdoor
+    container_name: sciol-casdoor
     entrypoint: /bin/sh -c './server --createDatabase=true'
     network_mode: "service:network-service"
     depends_on:
